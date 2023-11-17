@@ -1,0 +1,40 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: #242424;
+}
+
+img {
+  width: 100%;
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #242424;
+  font-family: Jost, Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.header-wrapper {
+  background: url("../img/header-background.png") center;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 85px;
+  padding: 0 15px;
+}

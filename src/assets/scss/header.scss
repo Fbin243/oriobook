@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+  .logo {
+    max-width: 152px;
+  }
+  .cart {
+    transition: all 0.3s ease;
+    &:hover {
+      color: #eb5e38;
+      transform: translateY(-4px);
+    }
+    span {
+      font-weight: 500;
+    }
+    .cart-icon {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+  }
+}

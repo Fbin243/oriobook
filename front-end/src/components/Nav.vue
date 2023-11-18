@@ -14,7 +14,7 @@
         <a href="#" class="nav-link"><span>Authors</span></a>
       </li>
       <li class="nav-item sub-nav-container">
-        <a href="#" class="nav-link sub-nav-container">
+        <a href="#" class="nav-link">
           <span class="d-flex align-items-center">
             More
             <i class="fa-regular fa-angle-down down-icon"></i>
@@ -58,5 +58,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/scss/nav.scss";
+@import "../styles/nav.scss";
 </style>

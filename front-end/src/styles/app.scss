@@ -15,6 +15,11 @@ a:link {
   color: #242424;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+}
+
 img {
   width: 100%;
 }
@@ -29,8 +34,8 @@ img {
 }
 
 .header-wrapper {
-  background: url("../img/header-background.png") center;
-  min-height: 100vh;
+  background: url("./assets/img/header-background.png") center;
+  min-height: 1180px;
 }
 
 .container {

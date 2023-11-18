@@ -1,0 +1,120 @@
+.hero {
+  margin-top: 60px;
+}
+
+.sub-heading {
+  margin-bottom: 15px;
+}
+
+.heading {
+  font-size: 48px;
+  font-family: Lora, serif;
+  background: url("../assets/img/hero-underline.png") 45% 45% no-repeat;
+}
+
+// Search form
+.search-container {
+  margin: 50px auto;
+  max-width: 960px;
+}
+
+.select-menu {
+  position: relative;
+  width: 400px;
+  color: #242424;
+  font-size: 12px;
+  &:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1.4px;
+    height: 50%;
+    background: #efefef;
+    transform: translateY(-50%);
+  }
+  .options {
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+    display: none;
+    left: 40px;
+    top: 100%;
+    right: 40px;
+    max-height: 300px;
+    overflow-y: auto;
+    .option {
+      display: flex;
+      padding: 10px 20px;
+      align-items: center;
+      background: #fff;
+      text-transform: capitalize;
+      font-size: 15px;
+      &:hover {
+        cursor: pointer;
+        .option-text {
+          color: #eb5e38;
+        }
+      }
+      border-bottom: 1px solid #efefef;
+    }
+  }
+}
+
+.select-menu.active .options {
+  display: block;
+}
+
+.select-btn {
+  display: flex;
+  height: 70px;
+  background: #fff;
+  padding: 0 40px;
+  font-weight: 400;
+  align-items: center;
+  cursor: pointer;
+
+  i {
+    font-size: 14px;
+    transition: 0.3s;
+  }
+
+  span {
+    letter-spacing: 2px;
+    margin-left: 8px;
+  }
+
+  &:hover {
+    span,
+    i:not(:last-child) {
+      color: #eb5e38;
+    }
+  }
+}
+
+.select-menu.active .select-btn i:last-child {
+  transform: rotate(-180deg);
+}
+
+.search-btn {
+  color: #fff;
+  background-color: #242424;
+  padding: 0 22px;
+  height: 70px;
+  margin-left: 8px;
+  transition: all 0.3s;
+  i {
+    font-size: 16px;
+    margin-right: 10px;
+    transform: translateY(2px);
+  }
+  span {
+    letter-spacing: 1.5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 70px;
+  }
+  &:hover {
+    background-color: #eb5e38;
+  }
+}

@@ -71,6 +71,22 @@
       }
     }
     .sub-nav-container {
+      &:hover {
+        & > .nav-link {
+          color: #eb5e38;
+          .up-icon {
+            display: block;
+          }
+          .down-icon {
+            display: none;
+          }
+        }
+        span::before {
+          visibility: visible;
+          left: 0;
+          width: 100%;
+        }
+      }
       position: relative;
       .sub-nav {
         background-color: #fff;

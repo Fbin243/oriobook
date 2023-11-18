@@ -1,28 +1,21 @@
 <template>
-  <section class="header-wrapper">
-    <section class="container">
-      <Nav />
-      <Header />
-      <Hero />
-    </section>
-  </section>
+  <Nav />
+  <Header />
+  <router-view />
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import Nav from "./components/Nav.vue";
-import Hero from "./components/Hero.vue";
-
+import Nav from "@/components/Nav.vue";
+import Header from "@/components/Header.vue";
 export default {
   name: "App",
   components: {
-    Header,
     Nav,
-    Hero,
+    Header,
   },
 };
 </script>
 
 <style lang="scss">
-@import "./styles/app.scss";
+@import "@/styles/app.scss";
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <header class="header">
-    <div class="logo">
+  <header class="header container">
+    <router-link to="/" class="logo">
       <img src="../assets/img/logo.png" alt="logo" />
-    </div>
+    </router-link>
     <div class="cart">
       <i class="fa-sharp fa-regular fa-basket-shopping-simple cart-icon"></i>
       <span>Cart</span>
@@ -17,5 +17,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/header.scss";
+@import "@/styles/header.scss";
 </style>

@@ -1,5 +1,7 @@
 .hero {
-  margin-top: 60px;
+  background: url("@/assets/img/header-background.png") center;
+  min-height: 1180px;
+  padding-top: 220px;
 }
 
 .sub-heading {
@@ -9,7 +11,7 @@
 .heading {
   font-size: 48px;
   font-family: Lora, serif;
-  background: url("../assets/img/hero-underline.png") 45% 45% no-repeat;
+  background: url("@/assets/img/hero-underline.png") 45% 45% no-repeat;
 }
 
 // Search form
@@ -75,7 +77,7 @@
   cursor: pointer;
 
   i {
-    font-size: 14px;
+    font-size: 16px;
     transition: 0.3s;
   }
 

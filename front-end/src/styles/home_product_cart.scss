@@ -1,0 +1,33 @@
+.product-card{
+  font-family: Lora, serif;
+  background-color: var(--beige-color);
+  border-radius: 8px;
+  margin-top: 16px;
+  .image-container{
+    display: flex;
+    justify-content: center;
+    img{
+      border-radius: 8px;
+      cursor: pointer;
+      width: 95%;
+      height: 350px;
+      object-fit: cover;
+      margin: 8px 0;
+    }
+  }
+  
+  .product-info{
+    padding: 8px;
+    h3{
+      font-size: 20px;
+      padding: 4px;
+      margin-bottom: 0;
+    }
+
+    p{
+      font-size: 16px;
+      padding: 4px;
+      margin-bottom: 0;
+    }
+  }
+}

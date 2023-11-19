@@ -6,7 +6,8 @@
   .logo {
     max-width: 152px;
   }
-  .cart {
+  .cart-btn,
+  .search {
     transition: all 0.3s ease;
     &:hover {
       color: #eb5e38;
@@ -15,9 +16,27 @@
     span {
       font-weight: 500;
     }
-    .cart-icon {
+    i {
       font-size: 20px;
       margin-right: 8px;
+    }
+  }
+  // Number badge for cart
+  .cart-btn {
+    position: relative;
+    #lblCartCount {
+      font-size: 10px;
+      background: #eb5e38;
+      color: #fff;
+      text-align: center;
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      line-height: 15px;
+      position: absolute;
+      bottom: -5%;
+      left: -5%;
     }
   }
 }

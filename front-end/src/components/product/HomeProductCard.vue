@@ -1,7 +1,10 @@
 <template>
   <div class="product-card">
     <div class="image-container">
-      <img src="https://placekitten.com/600/200" alt="Image 1" class="img-1" />
+      <img src="https://picsum.photos/200/300" alt="Image 1" class="img-1" />
+      <div class="add-to-cart">
+        <i class="fa-solid fa-cart-plus"></i>
+      </div>
     </div>
     <div class="product-info">
       <h3>Product Name</h3>
@@ -23,6 +26,8 @@ import { ref } from "vue";
 export default {
   setup() {
     const imgHover = ref(true);
+
+
 
     return {
       imgHover,

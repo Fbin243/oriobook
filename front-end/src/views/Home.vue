@@ -5,7 +5,7 @@
 
 <script>
 import Hero from "@/components/Hero.vue";
-import HomeProduct from '@/components/product/HomeProductSection.vue';
+import HomeProduct from '@/components/home/HomeProductSection.vue';
 
 export default {
   name: "Home",

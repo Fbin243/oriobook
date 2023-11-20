@@ -1,49 +1,5 @@
-<template>
-  <div class="home-product-section">
-    <div class="type-filter">
-      <h4 class="best-seller underline-animation" @click="bestSellerClick">Best sellers</h4>
-      <h4 class="feature-products underline-animation" @click="featureClick">Feature products</h4>
-    </div>
-  </div>
-  <div class="row gx-2 row-products">
-    <div class="col m-20" v-for="item in number" :key="item">
-      <HomeProductCard/>
-    </div>
-  </div>
-</template>
-
-<script>
-import {ref} from 'vue'
-import HomeProductCard from './HomeProductCard.vue';
-
-export default {
-  components: {
-    HomeProductCard,
-  },
-  setup(){
-    const number = ref(5)
-
-    const bestSellerClick = () => {
-      number.value = 5
-    }
-
-    const featureClick = () => {
-      number.value = 9
-    }
-
-    return{
-      number,
-      bestSellerClick,
-      featureClick,
-    }
-  }
-};
-</script>
-
-<style scoped>
-
 .home-product-section{
-  padding-top: 30px;
+  padding: 50px 0;
 }
 
 .type-filter {
@@ -99,7 +55,6 @@ export default {
 }
 
 .row-products{
-  padding: 0 18px;
-  margin: 0 85px;
+  // padding: 0 18px;
+  // margin: 0 85px;
 }
-</style>

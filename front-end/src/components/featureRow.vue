@@ -9,7 +9,7 @@
                 <div class="reset">No, we just say it for fun, we dont have any policy that help you return what you bought :></div>
             </div>
             <div class="box">
-                <i class="icon fas fa-journal-whills"></i><br><br>6 Million Books Availabley<br><br>
+                <i class="icon fas fa-journal-whills"></i><br><br>6 Million Books Available<br><br>
                 <div class="reset">Nah, we are not a library, only a few books are available here</div>
             </div>
             <div class="box">
@@ -26,6 +26,6 @@
   </script>
   
   <style lang="scss" scoped>
-  @import "../assets/scss/featureRow.scss";
+  @import "../styles/featureRow.scss";
   </style>
   

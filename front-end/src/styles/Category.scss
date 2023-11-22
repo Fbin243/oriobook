@@ -25,6 +25,27 @@
     margin-bottom: 20px;
 }
 
+.big-card a,
+.small-card a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    height: 100%;
+}
+
+.big-card:hover .card-content {
+    transform: translateX(10px);
+}
+
+.card-content {
+    transition: transform 0.3s ease;
+}
+
+.small-card:hover .card-content {
+    transform: translateX(10px);
+}
+
 
 @media (max-width: 768px) {
     .grid-container {

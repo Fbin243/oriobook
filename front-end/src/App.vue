@@ -2,6 +2,7 @@
   <Nav />
   <Header />
   <Cart />
+
   <router-view />
   <featureRow />
   <Category />

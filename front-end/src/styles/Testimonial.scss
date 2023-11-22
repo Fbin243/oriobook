@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.testimonial-container {
+    width: 80%;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stars {
+    color: #ffd700;
+    font-size: 56px;
+}
+
+.carousel-inner {
+    text-align: center;
+    width: 100%;
+}
+
+.testimonial p {
+    margin-bottom: 0;
+}

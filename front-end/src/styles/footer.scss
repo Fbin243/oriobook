@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box {
+    box-sizing: border-box;
+    padding: 20px;
+
+}
+
+.box1 {
+    width: 35%;
+}
+
+.box2 {
+    width: 25%;
+}
+
+.box3,
+.box4 {
+    width: 20%;
+}
+.icon {
+    font-size: 24px; /* Set initial size */
+    transition: font-size 0.3s, color 0.3s; /* Add smooth transition effect */
+}
+
+.icon:hover {
+    color: red; /* Change color on hover */
+    font-size: 28px; /* Increase size on hover */
+}
+
+.icon:active {
+    color: darkred; /* Change color when clicked */
+}

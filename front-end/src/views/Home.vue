@@ -6,6 +6,7 @@
   <HomeProduct />
   <HomeBanner />
   <Testimonial />
+  <emailSupscription />
 </template>
 
 <script>
@@ -16,6 +17,7 @@ import HomeBanner from "@/components/home/HomeBanner.vue";
 import featureRow from "@/components/featureRow.vue";
 import Category from "@/components/Category.vue";
 import Testimonial from "@/components/Testimonial.vue";
+import emailSupscription from "@/components/emailSupscription.vue";
 
 export default {
   name: "Home",
@@ -28,6 +30,7 @@ export default {
     HomeBanner,
     featureRow,
     Testimonial,
+    emailSupscription,
   },
 };
 </script>

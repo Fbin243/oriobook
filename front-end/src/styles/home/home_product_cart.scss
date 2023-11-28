@@ -1,59 +1,64 @@
-.product-card{
+.product-card {
   font-family: Lora, serif;
   border: 1px solid grey;
   border-radius: 8px;
   cursor: pointer;
-  .image-container{
+  .image-container {
     position: relative;
     display: flex;
     justify-content: center;
     background-color: var(--beige-color);
     height: 380px;
     padding: 40px;
+    border-radius: 8px 8px 0 0;
     // overflow: hidden;
 
-    &:hover .add-to-cart{
-      animation: fadeIn .5s ease-in-out;
+    &:hover .add-to-cart {
+      animation: fadeIn 0.5s ease-in-out;
       visibility: visible;
     }
 
-    &:not(:hover) .add-to-cart{
-      animation: fadeOut .5s ease-in-out;
+    &:not(:hover) .add-to-cart {
+      animation: fadeOut 0.5s ease-in-out;
       visibility: hidden;
     }
 
-    img{
+    img {
       object-fit: cover;
       border-radius: 4px;
       box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
     }
 
-    .add-to-cart{
+    .add-to-cart {
+      border-radius: 4px;
       visibility: hidden;
       position: absolute;
       top: 70%;
       right: 42%;
       z-index: 9;
       padding: 0;
-      -webkit-transition: all .3s ease-in-out;
-      transition: all .3s ease-in-out;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
       background-color: var(--beige-color);
 
-      i{
+      i {
         padding: 16px;
       }
     }
   }
-  
-  .product-info{
+
+  .product-info {
     padding: 8px;
-    h3{
+    h3 {
       font-size: 20px;
       padding: 4px;
       margin-bottom: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    p{
+    p {
       font-size: 16px;
       padding: 4px;
       margin-bottom: 0;
@@ -73,13 +78,12 @@
 
   @keyframes fadeOut {
     0% {
-        opacity: 1;
-        transform: translateY(0%);
+      opacity: 1;
+      transform: translateY(0%);
     }
     100% {
-        opacity: 0;
-        transform: translateY(100%);
+      opacity: 0;
+      transform: translateY(100%);
     }
+  }
 }
-}
-

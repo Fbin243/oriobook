@@ -1,0 +1,44 @@
+.woocommerce-ordering {
+  display: flex;
+  justify-content: end;
+
+  justify-content: end;
+  .dropdown-toggle {
+    align-items: center;
+    background-color: #eb5e37;
+    color: #363636;
+    display: inline-flex;
+    font-size: 15px;
+    grid-area: auto;
+    justify-content: space-between;
+    line-height: 40px;
+    padding: 0px 15px;
+    text-align: right;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 1%;
+    padding: 8px;
+    font-size: 16px;
+    box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.3);
+
+    li{
+      a{
+        color: #242424;
+
+        &:active{
+          color: blue;
+        }
+      }
+    }
+  }
+
+  .dropdown-menu.show{
+    display: block !important;
+  }
+}

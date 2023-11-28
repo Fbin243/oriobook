@@ -1,5 +1,5 @@
 <template>
-  <div class="shop-product">
+  <div class="shop-page">
     <div class="img-cover">
       <h1 class="title-heading">Shop</h1>
     </div>

@@ -11,6 +11,8 @@
     "@vuelidate/validators": "^2.0.4",
     "bingmaps": "^2.0.3",
     "core-js": "^3.8.3",
+    "jquery": "^3.7.1",
+    "nouislider": "^15.7.1",
     "pg-promise": "^11.5.4",
     "vue": "^3.2.13",
     "vue-router": "^4.2.5"

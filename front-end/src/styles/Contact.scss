@@ -1,0 +1,28 @@
+#map {
+    height: 500px;
+    width: 100%;
+}
+
+
+.container {
+    text-align: left;
+    width: 40%;
+    position: absolute;
+    right: 0px;
+    top:350px;
+    margin-right: 20px; /* Adjust this margin based on your design */
+}
+
+.btn-hover-orange:hover {
+    background-color: rgb(255, 66, 42);
+    width:150px;
+    color: black; /* Optional: Set text color to black on hover */
+  }
+
+  .btn-hover-orange {
+    width:150px;
+  }
+
+h4 {
+    margin: 0; /* Remove default margin on the h4 element */
+}

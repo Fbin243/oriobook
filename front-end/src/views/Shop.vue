@@ -6,7 +6,7 @@
     <div class="product-section container">
       <div class="row">
         <div class="col-3">
-          Nhan
+          <SliderShop />
         </div>
         <ShopProduct/>
       </div>
@@ -16,10 +16,13 @@
 
 <script>
 import ShopProduct from '@/components/product/ShopProduct.vue';
+import SliderShop from '@/components/SilderShop.vue';
+
 
 export default {
   components: {
     ShopProduct,
+    SliderShop,
   }
 }
 </script>

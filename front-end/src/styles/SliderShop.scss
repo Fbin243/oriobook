@@ -1,0 +1,53 @@
+.container {
+    position: relative;
+    margin-left: 20px;
+    /* Add other styling for your container if needed */
+}
+
+.fa-chevron-up,
+.fa-chevron-down {
+    position: absolute;
+    top: 17px;
+    right: 55px;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    /* Add other styling for your icon if needed */
+}
+
+.additional-checkboxes {
+    display: none;
+    margin-top: 10px;
+}
+
+.additional-checkboxes {
+    display: none;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.9s ease-in-out;
+}
+
+.additional-checkboxes.active {
+    display: block;
+    opacity: 1;
+}
+.form-group{
+    padding-top: 5px;
+}
+
+
+.slider {
+    width: 50%;
+   
+}
+.noUi-handle {
+    border-radius: 100%;
+    border: 1px solid black ;
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+    border-radius: 50%;
+    border: 1px solid rgb(136, 136, 136) ;
+
+}

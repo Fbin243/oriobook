@@ -11,6 +11,7 @@ import Login from "@/views/Login";
 import AccountDetails from "@/views/AccountDetails";
 import AuthorList from "@/views/AuthorList";
 import Author from "@/views/AuthorDetails";
+import Contact from "../views/Contact.vue";
 
 const routes = [
   {
@@ -88,6 +89,9 @@ const routes = [
   {
     path: "/:pathMatch(.*)*",
     redirect: "/error",
+    path: "/contact",
+    name: "Contact",
+    component: Contact,
   },
 ];
 

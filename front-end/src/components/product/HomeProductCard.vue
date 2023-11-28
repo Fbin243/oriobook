@@ -1,13 +1,13 @@
 <template>
   <div class="product-card">
-    <div class="image-container">
-      <img src="https://picsum.photos/200/300" alt="Image 1" class="img-1" />
+    <a class="image-container" href="/product-details">
+      <img src="../../assets//img/products/product-106.jpg" alt="Image 1" class="img-1" />
       <div class="add-to-cart">
         <i class="fa-solid fa-cart-plus"></i>
       </div>
-    </div>
+    </a>
     <div class="product-info">
-      <h3>Product Name</h3>
+      <h3>Product Name </h3>
       <p>$19.99</p>
     </div>
     <div class="overlay d-none">
@@ -24,6 +24,7 @@
 import { ref } from "vue";
 
 export default {
+  name: 'HomeProductCard',
   setup() {
     const imgHover = ref(true);
 
@@ -37,5 +38,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/home_product_cart.scss";
+@import "@/styles/home/home_product_cart.scss";
 </style>

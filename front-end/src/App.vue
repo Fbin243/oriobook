@@ -9,6 +9,7 @@
 import Nav from "@/components/Nav.vue";
 import Header from "@/components/Header.vue";
 import Cart from "./components/Cart.vue";
+
 export default {
   name: "App",
   components: {

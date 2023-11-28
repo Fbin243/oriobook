@@ -1,0 +1,66 @@
+.container {
+  margin: 0 auto;
+}
+
+.home-product-section {
+  padding: 50px 0;
+
+  .type-filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    h4:nth-child(2) {
+      margin-left: 20px;
+    }
+
+    .underline-animation {
+      font-size: 36px;
+      font-family: Lora, serif;
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
+      color: var(--light-black-color);
+      
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px; /* Độ dày của đường gạch chân */
+        bottom: 0;
+        left: 0;
+        visibility: hidden;
+        transform: scale(0);
+        transition: all 0.3s ease-in-out;
+        background-color: var(--light-black-color);
+      }
+
+      &:hover::before {
+        visibility: visible;
+        transform: scale(1);
+      }
+    }
+
+    .underline-animation.active {
+      color: var(--black-color);
+
+      &::before {
+        transform: unset;
+        visibility: visible;
+        background-color: var(--black-color);
+      }
+
+      &:hover::before {
+        transform: unset;
+        visibility: visible;
+        
+      }
+    }
+  }
+}
+
+.row-products {
+  // padding: 0 18px;
+  // margin: 0 85px;
+}

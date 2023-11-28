@@ -1,7 +1,7 @@
 <template>
   <div class="home-product-section container">
     <div class="type-filter">
-      <h4 class="best-seller underline-animation" @click="bestSellerClick">Best sellers</h4>
+      <h4 class="best-seller underline-animation active" @click="bestSellerClick">Best sellers</h4>
       <h4 class="feature-products underline-animation" @click="featureClick">Feature products</h4>
     </div>
     <div class="row gx-2 gy-3 row-products">
@@ -17,6 +17,7 @@ import {ref} from 'vue'
 import HomeProductCard from '../product/HomeProductCard.vue';
 
 export default {
+  name: 'HomeProductSection',
   components: {
     HomeProductCard,
   },
@@ -41,5 +42,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/home_product_section.scss";
+@import "@/styles/home/home_product_section.scss";
 </style>

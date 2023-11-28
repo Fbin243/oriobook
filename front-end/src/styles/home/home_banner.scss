@@ -1,0 +1,77 @@
+
+.home-banner {
+  .container {
+    margin: 0 auto;
+  }
+  
+  height: 640px;
+  background-image: url("https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/07/back-2.jpg");
+  padding: 190px 0 174px;
+
+  .content {
+    padding: 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      color: #242424;
+      grid-area: auto;
+      letter-spacing: 1.5px;
+      line-height: 27.2px;
+      margin: 0px 0px 15px;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+
+    .main-title {
+      color: #242424;
+      font-family: Lora;
+      grid-area: auto;
+      line-height: 58px;
+      text-align: center;
+      font-size: 48px;
+    }
+    .sub-title {
+      color: #242424;
+      letter-spacing: 1.5px;
+      line-height: 27.2px;
+      margin: 0px 0px 60px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button {
+      z-index: 1;
+      position: relative;
+      color: white;
+      padding: 16px 0;
+      outline: none;
+      background-color: #242424;
+      transition: all 0.25s ease-in-out;
+      width: 200px;
+
+      &::before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        inset: 0;
+        background-color: #ff3e00;
+        transform-origin: center right;
+        transform: scaleX(0);
+        transition: transform 0.25s ease-in-out;
+      }
+  
+      &:hover {
+        cursor: pointer;
+        color: #fff;
+      }
+  
+      &:hover::before {
+        transform-origin: center left;
+        transform: scaleY(1);
+      }
+    }
+  }
+}

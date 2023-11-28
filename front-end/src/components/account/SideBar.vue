@@ -1,14 +1,24 @@
 <template>
-  <div class="product-details container">
-    <div class="row">
-      <div class="col-12 title">Related Products</div>
-
-      <div class="row">
-        <div class="col-3 mt-3" v-for="index in 4" :key="index">
-          
-        </div>
-      </div>
-    </div>
+  <div class="col-3">
+    <nav class="navigation">
+      <ul>
+        <li class="navigation-link shop-permis">
+          <a href="/">Dashboard</a>
+        </li>
+        <li class="navigation-link">
+          <a href="/">Account details</a>
+        </li>
+        <li class="navigation-link">
+          <a href="/">Orders</a>
+        </li>
+        <li class="navigation-link shop-permis">
+          <a href="/">Products</a>
+        </li>
+        <li class="navigation-link">
+          <a href="/">Log out</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -17,8 +27,7 @@ import { ref } from "vue";
 
 export default {
   name: "SideBar",
-  components:{
-  },
+  components: {},
   setup() {
     return {};
   },
@@ -26,5 +35,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/sidebar.scss";
+@import "@/styles/account/sidebar.scss";
 </style>

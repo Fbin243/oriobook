@@ -4,6 +4,7 @@ import Products from "../views/Products.vue";
 import Shop from "../views/Shop.vue"
 import ProductDetails from "../views/ProductDetails.vue"
 import Account from "../views/Account.vue"
+import Payment from "../views/Payment.vue"
 
 const routes = [
   {
@@ -33,6 +34,12 @@ const routes = [
     path: "/account",
     name: "Account",
     component: Account,
+  },
+
+  {
+    path: "/payment",
+    name: "Payment",
+    component: Payment,
   },
 ];
 

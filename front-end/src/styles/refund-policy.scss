@@ -1,0 +1,24 @@
+.refund-policy {
+  .title-banner {
+    background-image: url("https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/08/bg-breadcrumb.jpg");
+    height: 200px;
+    background-position: center center;
+    background-size: cover;
+    font-family: Lora, serif;
+    font-size: 35px;
+    line-height: 200px;
+  }
+  .content {
+    font-size: 15px;
+    padding: 0 100px;
+    .title {
+      margin-top: 60px;
+      font-size: 26px;
+      font-family: Lora, serif;
+    }
+    ul {
+      list-style: unset;
+      padding-left: 50px;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.faq {
+  padding: 0 350px;
+  font-size: 15px;
+
+  .faq-title {
+    font-family: Lora, serif;
+    margin-bottom: 60px;
+  }
+  .accordion-item {
+    .accordion-header button {
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 500;
+      outline: none;
+    }
+    border: none;
+    border-bottom: 1px solid #e8e8e8;
+    .accordion-button:focus {
+      box-shadow: unset;
+    }
+    .accordion-button:not(.collapsed) {
+      background-color: #f48668;
+      color: #242424;
+      box-shadow: none;
+    }
+  }
+}

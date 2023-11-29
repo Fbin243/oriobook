@@ -11,13 +11,14 @@
 
 /* Style for each box */
 .box {
+    font-family: Lora, serif;   
     width: 440px;
     height: 200px;
     color: #000000;
     text-align: center;
     line-height: 20px;
-    font-size: 26px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 100;
     padding: 30px;
 }
 .box:hover {
@@ -25,9 +26,9 @@
 }
 
 .reset {
-   
+    color: #696969;
     line-height: 20px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 100;
 }
 

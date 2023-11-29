@@ -1,23 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
-import Products from "../views/Products.vue";
-import Shop from "../views/Shop.vue";
-import ProductDetails from "../views/ProductDetails.vue";
-import Account from "../views/Account.vue";
-import FAQ from "../views/FAQ.vue";
-import RefundPolicy from "../views/RefundPolicy.vue";
-import Payment from "../views/Payment.vue";
+import Home from "@/views/Home.vue";
+import Shop from "@/views/Shop.vue";
+import ProductDetails from "@/views/ProductDetails.vue";
+import Account from "@/views/Account.vue";
+import FAQ from "@/views/FAQ.vue";
+import RefundPolicy from "@/views/RefundPolicy.vue";
+import Payment from "@/views/Payment.vue";
+import Error from "@/views/Error";
+import Login from "@/views/Login";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
-  },
-  {
-    path: "/products",
-    name: "Products",
-    component: Products,
   },
 
   {
@@ -57,6 +53,20 @@ const routes = [
     path: "/payment",
     name: "Payment",
     component: Payment,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/error",
+    name: "Error",
+    component: Error,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/error",
   },
 ];
 

@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Products from "../views/Products.vue";
-import Shop from "../views/Shop.vue"
-import ProductDetails from "../views/ProductDetails.vue"
-import Account from "../views/Account.vue"
+import Shop from "../views/Shop.vue";
+import ProductDetails from "../views/ProductDetails.vue";
+import Account from "../views/Account.vue";
+import FAQ from "../views/FAQ.vue";
+import RefundPolicy from "../views/RefundPolicy.vue";
 
 const routes = [
   {
@@ -33,6 +35,22 @@ const routes = [
     path: "/account",
     name: "Account",
     component: Account,
+  },
+
+  {
+    path: "/faq",
+    name: "FAQ",
+    component: FAQ,
+  },
+  {
+    path: "/faq",
+    name: "FAQ",
+    component: FAQ,
+  },
+  {
+    path: "/refund-policy",
+    name: "RefundPolicy",
+    component: RefundPolicy,
   },
 ];
 

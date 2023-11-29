@@ -1,8 +1,12 @@
 .header {
+  &.at-home {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   display: flex;
   justify-content: space-between;
   padding: 93px 0 30px;
-  position: absolute;
   .logo {
     max-width: 152px;
   }

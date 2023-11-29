@@ -1,18 +1,16 @@
 <template>
-  <div class="col-9">
-    <table
-      class="order-table table-bordered"
-    >
+  <div class="col-7 order-section">
+    <table class="order-table table-bordered">
       <thead>
         <tr>
-          <th class="product-thumbnail-col" width="60%">Product</th>
+          <th class="product-thumbnail-col" width="45%">Product</th>
           <th class="product-quantity-col" width="20%">Quantity</th>
-          <th class="product-subtotal-col" width="10%">Subtotal</th>
+          <th class="product-subtotal-col" width="25%">Total</th>
           <th class="product-remove-col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr class="woocommerce-cart-form__cart-item cart_item">
+        <tr class="cart_item" v-for="index in 4" :key="index">
           <td class="product-thumbnail">
             <div class="product-cart-info">
               <a
@@ -29,8 +27,7 @@
                 >
                 <p class="price">
                   <span class="woocommerce-Price-amount amount">
-                    250.00<span class="currency">$</span
-                    ></span
+                    250.00<span class="currency">$</span></span
                   >
                 </p>
               </div>
@@ -62,8 +59,8 @@
               <a
                 href="https://wpbingosite.com/wordpress/oriobook/cart/?remove_item=a89cf525e1d9f04d16ce31165e139a4b&amp;_wpnonce=588a55899f"
                 class="remove"
-                ><i class="fa-regular fa-trash-can"></i></a
-              >
+                ><i class="fa-regular fa-trash-can"></i
+              ></a>
             </div>
           </td>
         </tr>
@@ -78,12 +75,13 @@ import { ref } from "vue";
 export default {
   name: "OrderSection",
   components: {},
-  setup() {
+  props: [],
+  setup(props, { emit }) {
     return {};
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/order/order_section.scss";
+@import "@/styles/order/payment.scss";
 </style>

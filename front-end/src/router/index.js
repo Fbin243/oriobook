@@ -52,6 +52,11 @@ const routes = [
     name: "RefundPolicy",
     component: RefundPolicy,
   },
+  {
+    path: "/payment",
+    name: "Payment",
+    component: Payment,
+  },
 ];
 
 const router = createRouter({

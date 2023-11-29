@@ -1,0 +1,119 @@
+
+.container {
+  margin: 0 auto;
+}
+
+.payment-page{
+  padding: 200px 0 0;
+  .content {
+    margin-top: 16px;
+    margin-bottom: 32px;
+  
+    
+  }
+}
+
+.order-table {
+  width: 100%;
+  th {
+    color: #242424;
+    display: table-cell;
+    font-weight: 500;
+    grid-area: auto;
+    line-height: 27.2px;
+    padding: 15px;
+    text-align: left;
+  }
+
+  th:not(:first-child),
+  td:not(:first-child) {
+    text-align: center;
+  }
+
+  .product-quantity {
+    display: flex;
+    align-items: center;
+    height: 230px;
+  }
+
+  .product-subtotal {
+    padding-bottom: 28px;
+  }
+
+  td {
+    color: #242424;
+    display: table-cell;
+    font-size: 16px;
+    grid-area: auto;
+    line-height: 25.5px;
+    padding: 15px;
+    text-align: left;
+
+    .product-cart-info {
+      color: #242424;
+      display: flex;
+      font-size: 16px;
+      grid-area: auto;
+      line-height: 25.5px;
+      text-align: left;
+
+      img {
+        color: #242424;
+        display: inline;
+        font-size: 16px;
+        grid-area: auto;
+        line-height: 25.5px;
+        text-align: left;
+        height: 200px;
+        width: 150px;
+        aspect-ratio: auto 500/700;
+      }
+
+      .product-name {
+        color: #242424;
+        font-size: 16px;
+        grid-area: auto;
+        line-height: 25.5px;
+        margin: 0px 0px 0px 15px;
+        text-align: left;
+      }
+    }
+
+    .quantity {
+      display: flex;
+      margin: 0 auto;
+      .minus,
+      .plus,
+      .number {
+        align-items: flex-start;
+        background-color: #ffffff;
+        color: #eb5e37;
+        font-family: Jost;
+        font-size: 16px;
+        grid-area: auto;
+        // line-height: 18px;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 8px;
+        border: 1px solid var(--gray-dark, #242424);
+      }
+
+      .number {
+        color: #242424 !important;
+      }
+
+      .border-none{
+        border: none;
+      }
+    }
+  }
+
+  .product-remove {
+    .remove {
+      color: #eb5e37;
+      // padding-bottom: 150px;
+      font-family: Jost;
+    }
+  }
+}

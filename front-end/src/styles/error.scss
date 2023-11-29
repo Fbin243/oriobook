@@ -1,0 +1,59 @@
+.page-404 {
+  position: relative;
+  text-align: center;
+}
+.page-404 .title-error {
+  font-size: 300px;
+  line-height: 1;
+  color: var(--gray-dark, #242424);
+}
+
+.page-404 .content-page-404 {
+  padding: 100px 0 60px;
+}
+
+.page-404 .sub-title {
+  font-size: 50px;
+  color: var(--gray-dark, #242424);
+  font-weight: 500;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.page-404 .sub-title:before {
+  position: absolute;
+  content: "";
+  width: 140px;
+  height: 2px;
+  bottom: 0;
+  left: calc(50% - 70px);
+  background: #ccc;
+}
+
+.page-404 .sub-error {
+  max-width: 325px;
+  margin: auto;
+  font-size: 15px;
+}
+
+.page-404 .content-page-404 a {
+  margin-top: 30px;
+  padding: 12px 40px;
+  line-height: calc(var(--font-size-body, 15px) + 2px);
+  color: #fff;
+  font-size: var(--font-size-body, 15px);
+  background: var(--button-color, #242424);
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  z-index: 1;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}

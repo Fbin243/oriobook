@@ -6,6 +6,7 @@ import ProductDetails from "../views/ProductDetails.vue";
 import Account from "../views/Account.vue";
 import FAQ from "../views/FAQ.vue";
 import RefundPolicy from "../views/RefundPolicy.vue";
+import Payment from "../views/Payment.vue";
 
 const routes = [
   {

@@ -1,5 +1,10 @@
 <template>
-  <header class="header container">
+  <header
+    class="header container"
+    :class="{
+      'at-home': $route.name == 'Home' || $route.name == 'Shop',
+    }"
+  >
     <router-link to="/" class="logo">
       <img src="@/assets/img/logo.png" alt="logo" />
     </router-link>

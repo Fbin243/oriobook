@@ -1,0 +1,54 @@
+.container{
+    padding-left: 20px; position: relative;
+    font-family: Jost, sans-serif;
+}
+a {
+    transition: font-size 0.3s, color 0.3s; /* Add smooth transition effect */
+    color: black;
+}
+
+a:hover {
+    color: rgb(255, 130, 14); /* Change color on hover */
+}
+
+a:active {
+    color: darkred; /* Change color when clicked */
+}
+.btn-hover-orange:hover {
+    background-color: rgb(255, 60, 0);
+    color: black; /* Optional: Set text color to black on hover */
+    border-radius: 0px;
+    width: 200px;
+  }
+
+  .btn-hover-orange {
+    transition: font-size 0.3s, color 0.5s; /* Add smooth transition effect */
+    width:150px;
+    border-radius: 0px;
+    height:50px;
+    width: 200px;
+  }
+  @keyframes wave {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(5);
+        opacity: 0;
+    }
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+}
+
+i {
+    display: block;
+    animation: wave 1s ease-out infinite; /* Add infinite iteration to keep the wave constant */
+}
+

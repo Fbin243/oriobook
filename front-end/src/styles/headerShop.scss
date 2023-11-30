@@ -1,0 +1,41 @@
+.container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 1300px; /* Fixed width for showing five boxes at a time */
+  }
+
+  .box-wrapper {
+    display: inline-block;
+    transition: transform 0.5s ease; /* Smooth transition for sliding effect */
+  }
+
+  .box {
+    width: 250px;
+    height: 250px;
+    margin-right: 10px; /* Adjust this value for the space between boxes */
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+  }
+
+  .controls {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .words{
+    text-align: center;
+    font-family: Jost, sans-serif;
+    font-size: 18px;
+    color: #242424;
+  
+  }
+  a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s, text-decoration 0.3s; /* Smooth transition for color and text-decoration changes */
+  }
+  
+  a:hover {
+    color: rgb(255, 102, 0);
+    text-decoration: underline;
+  }
+  

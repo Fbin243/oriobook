@@ -12,6 +12,7 @@ import AccountDetails from "@/views/AccountDetails";
 import AuthorList from "@/views/AuthorList";
 import Author from "@/views/AuthorDetails";
 import Contact from "../views/Contact.vue";
+import Aboutus from "@/views/Aboutus.vue";
 
 const routes = [
   {
@@ -80,6 +81,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/about",
+    name: "aboutus",
+    component: Aboutus,
   },
   {
     path: "/contact",

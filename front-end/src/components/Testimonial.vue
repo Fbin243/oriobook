@@ -54,24 +54,11 @@
       <li
         data-target="#testimonialCarousel"
         data-slide-to="0"
-        style="background-color: black"
         class="active"
       ></li>
-      <li
-        data-target="#testimonialCarousel"
-        data-slide-to="1"
-        style="background-color: black"
-      ></li>
-      <li
-        data-target="#testimonialCarousel"
-        data-slide-to="2"
-        style="background-color: black"
-      ></li>
-      <li
-        data-target="#testimonialCarousel"
-        data-slide-to="3"
-        style="background-color: black"
-      ></li>
+      <li data-target="#testimonialCarousel" data-slide-to="1"></li>
+      <li data-target="#testimonialCarousel" data-slide-to="2"></li>
+      <li data-target="#testimonialCarousel" data-slide-to="3"></li>
       <!-- Add more indicators as needed -->
     </ol>
   </div>

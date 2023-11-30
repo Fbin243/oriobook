@@ -31,3 +31,31 @@ body {
 .testimonial p {
     margin-bottom: 0;
 }
+
+/* Add this style block to your existing <style> block in the head of your HTML */
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 30px;
+    height: 5px;
+    margin: 0 5px;
+    text-indent: -999px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #c0c0c0;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-indicators .active {
+    background-color: #888888; /* Color for active indicator */
+}

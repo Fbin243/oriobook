@@ -40,7 +40,7 @@ img {
     margin-top: 20px;
 }
 .form-control {
-    width: 450px; /* Adjust the width as needed */
+    width: 380px; /* Adjust the width as needed */
     height:65px;
     outline: none; /* Remove outline on focus */
     border: 1px solid #ced4da; /* Optional: Set a border color */
@@ -59,4 +59,30 @@ img {
 
 .inner-right {
     margin-left: -84px; /* Adjust to compensate for any spacing between inline-block elements */
+}
+
+.inner-right {
+    display: flex;
+    align-items: center;
+}
+
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+
+.form-group {
+    padding-left: 30px; /* Adjust the spacing between the input and button as needed */
+}
+
+.form-control {
+    width: 400px; /* Adjust the width of the input field as needed */
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
 }

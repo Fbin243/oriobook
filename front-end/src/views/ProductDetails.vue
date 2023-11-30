@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-
+    <tabProduct />
     <div class="row mt-5">
       <div class="col-12 title">Related Products</div>
 
@@ -88,11 +88,14 @@
 <script>
 import { ref } from "vue";
 import HomeProductCard from "@/components/product/HomeProductCard.vue";
+import tabProduct from "@/components/tabProduct.vue";
+
 
 export default {
   name: "ProductDetails",
   components: {
     HomeProductCard,
+    tabProduct,
   },
   setup() {
     return {};

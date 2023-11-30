@@ -1,0 +1,59 @@
+.container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    font-family: Lora, serif;   
+    width: 100%;
+    color: #242424;
+    font-weight: 300;
+}
+.word{
+    font-family: Jost, sans-serif;   
+    color: #000000;
+    font-size: 15px;
+    line-height: 35px;
+    font-weight: 400;
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-between; /* Adjust this based on your preference */
+}
+
+.image-container img {
+    width: 31%; /* Adjust the width as needed */
+    max-width: 100%; /* Ensure images don't exceed their original size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.team{
+    background-color: #f2ede3;
+    margin-top: 200px;
+    padding-top: 80px;
+}
+
+.image-container2 {
+    display: flex;
+    justify-content: space-between; /* Adjust this based on your preference */
+}
+
+
+.pic{
+    width: 23%; /* Adjust the width as needed */
+    max-width: 100%; /* Ensure images don't exceed their original size */
+    height: 550px; /* Maintain aspect ratio */
+}
+
+.mem{
+    user-select: none;
+    font-size: 22px;
+    padding-top: 15px;
+}
+
+.pla{
+    user-select: none;
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+
+/* Style for each box */

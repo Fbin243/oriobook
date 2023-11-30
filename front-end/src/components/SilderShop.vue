@@ -190,8 +190,8 @@
       <label class="form-check-label" for="checkbox4">2023</label>
     </div>
   </form>
-  <br />
-  <h6>Author:</h6>
+
+  <h6>Brands:</h6>
   <form style="padding-left: 20px">
     <div class="form-group form-check">
       <input

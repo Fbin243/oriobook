@@ -1,30 +1,38 @@
 <template>
-  <div class="shop-page">
+  <div class="shop-product">
     <div class="img-cover">
       <h1 class="title-heading">Shop</h1>
     </div>
-    <div class="product-section container">
+    <div
+      class="product-section container"
+      style="padding-top: 300px; margin-bottom: 200px"
+    >
       <div class="row">
         <div class="col-3">
           <SliderShop />
         </div>
-        <ShopProduct/>
+        <ShopProduct />
       </div>
     </div>
+
+    <footers />
   </div>
 </template>
 
 <script>
-import ShopProduct from '@/components/product/ShopProduct.vue';
-import SliderShop from '@/components/SilderShop.vue';
-
+import ShopProduct from "@/components/product/ShopProduct.vue";
+import SliderShop from "@/components/SilderShop.vue";
+import headerShop from "@/components/headerShop.vue";
+import footers from "@/components/footer.vue";
 
 export default {
   components: {
     ShopProduct,
     SliderShop,
-  }
-}
+    headerShop,
+    footers,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

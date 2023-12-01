@@ -13,6 +13,7 @@ import AuthorList from "@/views/AuthorList";
 import Author from "@/views/AuthorDetails";
 import Contact from "../views/Contact.vue";
 import Aboutus from "@/views/Aboutus.vue";
+import Checkout from "@/views/Checkout.vue";
 
 const routes = [
   {
@@ -91,6 +92,11 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
+  },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: Checkout,
   },
   {
     path: "/error",

@@ -1,10 +1,10 @@
 <template>
   <Hero />
+  <featureRow />
+  <Categogy />
   <Deal_TopRated />
   <HomeProduct />
   <HomeBanner />
-  <featureRow />
-  <Categogy />
   <Testimonial />
 </template>
 

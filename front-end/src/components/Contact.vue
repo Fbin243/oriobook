@@ -60,8 +60,6 @@
 </template>
 
 <script>
-import "jquery";
-
 export default {
   name: "Contact",
   methods: {

@@ -1,5 +1,10 @@
 <template>
-  <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
+  <div
+    id="testimonialCarousel"
+    class="carousel slide"
+    data-ride="carousel"
+    style="margin-top: 100px"
+  >
     <div class="carousel-inner">
       <div class="carousel-item active">
         <div class="testimonial">

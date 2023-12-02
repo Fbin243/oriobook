@@ -1,0 +1,141 @@
+.img-cover {
+  background-image: url("https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/08/bg-breadcrumb.jpg");
+  height: 250px;
+  width: 100%;
+  .title-heading {
+    color: #242424;
+    font-size: 35px;
+    grid-area: auto;
+    line-height: 32.3px;
+    // margin: 200px 0;
+    padding: 100px 15px 0;
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+  }
+}
+
+.bwp-author-heading {
+  display: flex;
+  margin: 50px 15px;
+  border: 1px solid var(--gray-dark-10, rgba(36, 36, 36, 0.1));
+  padding: 20px;
+}
+
+.images {
+  overflow: hidden;
+  position: relative;
+
+  img {
+    height: 450px;
+    width: 450px;
+  }
+}
+
+.author-content {
+  width: 100%;
+  padding: 25px 0 0 35px;
+}
+
+.author-title h2 {
+  color: #242424;
+  font-size: 40px;
+  margin: 0;
+  margin-bottom: 30px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.author-description {
+  color: var(--gray-dark, #242424);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.author-info {
+  padding: 0;
+  font-size: var(--font-size-body, 15px);
+
+  li {
+    list-style: none;
+    padding: 5px 0;
+    color: var(--gray-dark, #242424);
+
+    label {
+      min-width: 25%;
+      margin: 0;
+      color: var(--gray-dark, #242424);
+      font-weight: 500;
+    }
+  }
+}
+
+.social-link {
+  margin-top: 35px;
+  padding: 0;
+}
+
+.social-link li {
+  margin: 0 5px;
+  display: inline-block;
+}
+
+.social-link li a {
+  font-size: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e5e5e5;
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+
+  i {
+    font-size: var(--font-size-body, 15px);
+    color: var(--gray-dark, #242424);
+    line-height: 40px;
+  }
+
+  &:hover.facebook {
+    background: #3b5999;
+  }
+
+  &:hover.twitter {
+    background: #55acee;
+  }
+
+  &:hover.google {
+    background: #eb5e37;
+  }
+
+  &:hover.instagram {
+    background: linear-gradient(
+      45deg,
+      #f09433,
+      #e6683c 25%,
+      #dc2743 50%,
+      #cc2366 75%,
+      #bc1888
+    );
+  }
+
+  &:hover i {
+    color: white;
+  }
+}
+
+.fa {
+  font-family: FontAwesome;
+  font-weight: inherit;
+
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

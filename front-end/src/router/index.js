@@ -8,6 +8,9 @@ import RefundPolicy from "@/views/RefundPolicy.vue";
 import Payment from "@/views/Payment.vue";
 import Error from "@/views/Error";
 import Login from "@/views/Login";
+import AccountDetails from "@/views/AccountDetails";
+import AuthorList from "@/views/AuthorList";
+import Author from "@/views/AuthorDetails";
 
 const routes = [
   {
@@ -32,6 +35,24 @@ const routes = [
     path: "/account",
     name: "Account",
     component: Account,
+  },
+
+  {
+    path: "/account-details",
+    name: "AccountDetails",
+    component: AccountDetails,
+  },
+
+  {
+    path: "/authors",
+    name: "Authors",
+    component: AuthorList,
+  },
+
+  {
+    path: "/author",
+    name: "Author",
+    component: Author,
   },
 
   {

@@ -6,7 +6,7 @@
           <a href="/">Dashboard</a>
         </li>
         <li class="navigation-link">
-          <a href="/">Account details</a>
+          <a href="/account-details">Account details</a>
         </li>
         <li class="navigation-link">
           <a href="/">Orders</a>

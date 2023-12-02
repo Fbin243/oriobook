@@ -12,6 +12,7 @@
   }
   .cart-btn,
   .search {
+    display: flex;
     transition: all 0.3s ease;
     &:hover {
       color: #eb5e38;
@@ -25,6 +26,18 @@
       margin-right: 8px;
     }
   }
+
+  .search-input {
+    display: none;
+    margin-right: 10px;
+    display: none;
+    align-items: center;
+    min-width: 250px;
+    i {
+      margin-right: 10px;
+    }
+  }
+
   // Number badge for cart
   .cart-btn {
     position: relative;

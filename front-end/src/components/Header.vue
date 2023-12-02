@@ -13,11 +13,12 @@
         class="search me-3 align-items-center"
         role="button"
         v-if="$route.name != 'Home'"
+        @click="handleSearchForm"
       >
         <i class="fa-regular fa-magnifying-glass"></i>
         <span>Search</span>
       </div>
-      <form class="search-input" role="search">
+      <form class="search-input" role="search" v-if="$route.name != 'Home'">
         <i
           class="fa-sharp fa-regular fa-xmark search-close-btn"
           role="button"
@@ -41,28 +42,27 @@
 <script>
 export default {
   name: "Header",
-  methods: {
-    handleSearchForm() {
-      $(".search").click(function () {
+  methods: {},
+  setup() {
+    const handleSearchForm = () => {
+      $(".search").css({
+        display: "none",
+      });
+      $(".search-input").css({
+        display: "flex",
+      });
+      $(".search-close-btn").click(function () {
         $(".search").css({
-          display: "none",
+          display: "unset",
         });
         $(".search-input").css({
-          display: "flex",
-        });
-        $(".search-close-btn").click(function () {
-          $(".search").css({
-            display: "unset",
-          });
-          $(".search-input").css({
-            display: "none",
-          });
+          display: "none",
         });
       });
-    },
-  },
-  mounted() {
-    this.handleSearchForm();
+    };
+    return {
+      handleSearchForm,
+    };
   },
 };
 </script>

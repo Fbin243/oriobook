@@ -1,14 +1,13 @@
 <template>
   <Hero />
   <featureRow />
-  <Categogy />
+  <Category />
   <Deal_TopRated />
   <HomeProduct />
   <HomeBanner />
   <Testimonial />
   <emailSupscription />
   <footers />
-  <HomeBanner />
 </template>
 
 <script>

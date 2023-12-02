@@ -102,7 +102,7 @@ export default {
     async function Save() {
       const result = await v$.value.$validate();
       if (result) {
-        alert(`Hello!`);
+        alert(`Account details changed successfully.`);
       }
     }
 

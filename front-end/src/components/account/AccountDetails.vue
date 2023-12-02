@@ -90,9 +90,12 @@
 import { reactive, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "AccountDetails",
+
   setup() {
     const formData = reactive({
       account_first_name: "",
@@ -111,7 +114,10 @@ export default {
     async function SaveData() {
       const result = await v$.value.$validate();
       if (result) {
-        alert(`Account details changed successfully.`);
+        // alert(`Account details changed successfully.`);
+        toast.success("Wow Success!", {
+          autoClose: 2000,
+        });
       }
     }
 

@@ -2,7 +2,7 @@
   <div class="left-col">
     <div class="left-col-content">
       <div class="content-heading">
-        <h1>Deals Of The Week</h1>
+        <h1>The New Collection Of Books</h1>
       </div>
 
       <div class="list-product">

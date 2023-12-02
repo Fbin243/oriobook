@@ -80,6 +80,8 @@
 import { reactive, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, sameAs } from "@vuelidate/validators";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "AccountDetails_Pass",
@@ -102,7 +104,10 @@ export default {
     async function Save() {
       const result = await v$.value.$validate();
       if (result) {
-        alert(`Account details changed successfully.`);
+        // alert(`Account details changed successfully.`);
+        toast.success("Wow Success!", {
+          autoClose: 2000,
+        });
       }
     }
 

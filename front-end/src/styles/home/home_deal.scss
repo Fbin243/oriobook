@@ -1,0 +1,181 @@
+// LEFT COLUMN
+
+.left-col {
+  width: 75%;
+  padding: 0 15px;
+}
+
+.content-heading {
+  margin-bottom: 45px;
+}
+
+h1 {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.list-product {
+  border: 2px solid #eb5e37;
+  border-radius: 15px;
+}
+
+.content-product-list {
+  display: flex;
+  padding: 40px 30px;
+  width: 100%;
+}
+
+.item-product {
+  display: flex;
+}
+
+.items {
+  display: flex;
+  margin-bottom: 40px;
+  padding: 0 15px;
+}
+
+.products-thumb {
+  width: 249px;
+  flex: 0 0 249px;
+  margin: 0;
+  padding: 40px;
+  margin-bottom: 14px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  background: #f0f0eb;
+  padding: 40px;
+}
+
+.product-lable {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  font-weight: 400;
+  text-transform: capitalize;
+  display: inline-block;
+  text-align: center;
+  z-index: 5;
+}
+
+.product-thumb-hover {
+  position: relative;
+  z-index: 1;
+  top: 0;
+}
+
+.hot,
+.onsale {
+  text-align: center !important;
+  color: #fafaf7;
+  background: var(--theme-color, #eb5e37);
+  font-size: 12px;
+  padding: 0 7px;
+  line-height: 25px;
+  letter-spacing: 1.5px;
+  min-width: 50px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.onsale {
+  font-size: 13px;
+  background: #2fa9a6;
+}
+
+img {
+  height: 15em;
+}
+
+.products-content {
+  padding-left: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.item-author {
+  color: gray;
+  font-size: 16px;
+  text-transform: uppercase;
+
+  &:hover {
+    color: orange;
+  }
+}
+
+.product-title {
+  color: black;
+  font-size: 17.5px;
+  font-family: "Times New Roman", Times, serif;
+
+  &:hover {
+    color: orange;
+  }
+}
+
+.available-box {
+  margin-top: 25px;
+}
+
+.hurry {
+  margin-bottom: 7.5px;
+}
+
+.product-button {
+  font-family: Lora, serif;
+  cursor: pointer;
+
+  &:hover .add-to-cart {
+    animation: fadeIn 0.5s ease-in-out;
+    visibility: visible;
+  }
+
+  &:not(:hover) .add-to-cart {
+    animation: fadeOut 0.5s ease-in-out;
+    visibility: hidden;
+  }
+
+  .add-to-cart {
+    border-radius: 4px;
+    visibility: hidden;
+    position: absolute;
+    top: 70%;
+    right: 40%;
+    z-index: 9;
+    padding: 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--beige-color);
+
+    display: flex;
+    justify-content: center;
+
+    i {
+      padding: 16px;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+}

@@ -15,8 +15,6 @@
         <ShopProduct />
       </div>
     </div>
-
-    <footers />
   </div>
 </template>
 
@@ -24,14 +22,12 @@
 import ShopProduct from "@/components/product/ShopProduct.vue";
 import SliderShop from "@/components/SilderShop.vue";
 import headerShop from "@/components/headerShop.vue";
-import footers from "@/components/footer.vue";
 
 export default {
   components: {
     ShopProduct,
     SliderShop,
     headerShop,
-    footers,
   },
 };
 </script>

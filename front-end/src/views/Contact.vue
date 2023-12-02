@@ -1,27 +1,22 @@
 <template>
-    <div class="shop-page" style = "margin-bottom: 500px;">
-      <div class="img-cover">
-        <h1 class="title-heading">Contact</h1>
-        
-      </div>
-     <Contact />
+  <div class="shop-page" style="margin-bottom: 500px">
+    <div class="img-cover">
+      <h1 class="title-heading">Contact</h1>
     </div>
-    <footers />
-  </template>
-  
-  <script>
-  import Contact from '@/components/Contact.vue';
-  import footers from "@/components/footer.vue";
+    <Contact />
+  </div>
+</template>
 
-  
-  export default {
-    components: {
-        Contact,
-        footers,
-    }
-  }
-  </script>
-  
-  <style lang="scss" scoped>
-  @import "@/styles/shop/shop.scss";
-  </style>
+<script>
+import Contact from "@/components/Contact.vue";
+
+export default {
+  components: {
+    Contact,
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/styles/shop/shop.scss";
+</style>

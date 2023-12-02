@@ -21,7 +21,6 @@ import Category from "@/components/Category.vue";
 import Testimonial from "@/components/Testimonial.vue";
 import emailSupscription from "@/components/emailSupscription.vue";
 import footers from "@/components/footer.vue";
-import HomeBanner from "@/components/home/HomeBanner.vue";
 
 export default {
   name: "Home",
@@ -36,7 +35,6 @@ export default {
     Testimonial,
     emailSupscription,
     footers,
-    HomeBanner,
   },
 };
 </script>

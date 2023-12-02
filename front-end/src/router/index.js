@@ -82,6 +82,11 @@ const routes = [
     component: Login,
   },
   {
+    path: "/contact",
+    name: "Contact",
+    component: Contact,
+  },
+  {
     path: "/error",
     name: "Error",
     component: Error,
@@ -89,9 +94,6 @@ const routes = [
   {
     path: "/:pathMatch(.*)*",
     redirect: "/error",
-    path: "/contact",
-    name: "Contact",
-    component: Contact,
   },
 ];
 

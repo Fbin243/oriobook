@@ -3,12 +3,14 @@
   <Header />
   <Cart />
   <router-view />
+  <Footer />
 </template>
 
 <script>
 import Nav from "@/components/Nav.vue";
 import Header from "@/components/Header.vue";
 import Cart from "@/components/Cart.vue";
+import Footer from "@/components/Footer";
 
 export default {
   name: "App",
@@ -16,6 +18,7 @@ export default {
     Nav,
     Header,
     Cart,
+    Footer,
   },
 };
 </script>

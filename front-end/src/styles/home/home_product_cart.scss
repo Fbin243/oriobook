@@ -1,7 +1,7 @@
 .product-card {
   font-family: Lora, serif;
-  border: 1px solid grey;
-  border-radius: 8px;
+  // border: 1px solid grey;
+  // border-radius: 8px;
   cursor: pointer;
   .image-container {
     position: relative;
@@ -10,7 +10,7 @@
     background-color: var(--beige-color);
     height: 380px;
     padding: 40px;
-    border-radius: 8px 8px 0 0;
+    // border-radius: 8px 8px 0 0;
     // overflow: hidden;
 
     &:hover .add-to-cart {
@@ -48,19 +48,34 @@
   }
 
   .product-info {
-    padding: 8px;
-    h3 {
-      font-size: 20px;
-      padding: 4px;
-      margin-bottom: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    // padding: 8px;
+    margin-top: 8px;
+
+    .author-name {
+      color: #242424;
+      display: block;
+      font-family: Jost;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-align: left;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .product-name {
+      color: #242424;
+      display: block;
+      font-family: Lora;
+      grid-area: auto;
+      // line-height: 19.2px;
+      font-size: 16px;
+      text-align: left;
+      text-decoration: none;
+      color: #242424;
     }
 
     p {
-      font-size: 16px;
-      padding: 4px;
+      font-size: 14px;
       margin-bottom: 0;
     }
   }

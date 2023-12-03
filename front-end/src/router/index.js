@@ -2,10 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Shop from "@/views/Shop.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
-import Account from "@/views/Account.vue";
+import AccountOrder from "@/views/AccountOrder.vue";
 import FAQ from "@/views/FAQ.vue";
 import RefundPolicy from "@/views/RefundPolicy.vue";
-import Payment from "@/views/Payment.vue";
 import Error from "@/views/Error";
 import Login from "@/views/Login";
 import AccountDetails from "@/views/AccountDetails";
@@ -14,6 +13,7 @@ import Author from "@/views/AuthorDetails";
 import Contact from "../views/Contact.vue";
 import Aboutus from "@/views/Aboutus.vue";
 import Checkout from "@/views/Checkout.vue";
+import OrderAccount from "../components/order/OrderAccount.vue"
 
 const routes = [
   {
@@ -35,9 +35,9 @@ const routes = [
   },
 
   {
-    path: "/account",
-    name: "Account",
-    component: Account,
+    path: "/account-order",
+    name: "AccountOrder",
+    component: AccountOrder,
   },
 
   {
@@ -72,11 +72,6 @@ const routes = [
     path: "/refund-policy",
     name: "RefundPolicy",
     component: RefundPolicy,
-  },
-  {
-    path: "/payment",
-    name: "Payment",
-    component: Payment,
   },
   {
     path: "/login",

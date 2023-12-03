@@ -8,3 +8,8 @@
   flex: 0 0 20%;
   max-width: 20%;
 }
+
+.modal-open{
+  overflow:unset !important;
+  padding-right: unset !important;
+}

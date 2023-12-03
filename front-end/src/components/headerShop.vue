@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    
     <div class="box-wrapper" ref="boxWrapper">
       <div class="box">
         <div><img src="../assets/img/childbookslide.jpg">

@@ -2,7 +2,7 @@
   <div class="accountdetails-page container">
     <div class="row content">
       <SideBar />
-      <div class="woocommerce-MyAccount-content">
+      <div class="woocommerce-MyAccount-content col-9">
         <AccountDetails />
         <AccountDetails_Pass />
       </div>

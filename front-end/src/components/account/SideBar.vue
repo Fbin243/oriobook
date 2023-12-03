@@ -9,7 +9,7 @@
           <a href="/account-details">Account details</a>
         </li>
         <li class="navigation-link">
-          <a href="/">Orders</a>
+          <a href="/account-order">Orders</a>
         </li>
         <li class="navigation-link shop-permis">
           <a href="/">Products</a>

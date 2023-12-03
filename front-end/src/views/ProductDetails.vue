@@ -73,13 +73,11 @@
       </div>
     </div>
     <tabProduct />
-    <div class="row mt-5">
+    <div class="row mt-5 gx-2">
       <div class="col-12 title">Related Products</div>
 
-      <div class="row">
-        <div class="col-3 mt-3" v-for="index in 4" :key="index">
+      <div class="col-3 mt-3 m-20" v-for="index in 5" :key="index">
           <HomeProductCard />
-        </div>
       </div>
     </div>
   </div>

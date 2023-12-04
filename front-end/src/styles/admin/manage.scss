@@ -8,7 +8,7 @@
   .manage-product-content {
     padding: 2rem;
     margin: 2rem 0;
-    border: 0.1rem solid #ccc;
+    border: 0.1rem solid var(--border-color);
     font-size: 18px;
   }
 
@@ -18,7 +18,7 @@
     height: 60px;
     padding-left: 4rem;
     color: #aaa;
-    border: 0.1rem solid #ccc;
+    border: 0.1rem solid var(--border-color);
     border-right: none;
   }
 
@@ -41,7 +41,7 @@
   }
 
   .col-4:last-child .manage-product-select {
-    border-right: 0.1rem solid #ccc;
+    border-right: 0.1rem solid var(--border-color);
   }
 
   .manage-product-search-bar {
@@ -91,7 +91,7 @@
       transition: all 0.3s;
     }
     &:hover {
-      background-color: #eb5e38;
+      background-color: var(--primary-color);
     }
   }
 }

@@ -4,6 +4,24 @@
   box-sizing: border-box;
 }
 
+:root {
+  --black-color: #242424;
+  --light-black-color: #242424cc;
+  --beige-color: #f0f0eb;
+  --primary-color: #eb5e38;
+  --border-color: #ccc;
+}
+
+.m-20 {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.modal-open {
+  overflow: unset !important;
+  padding-right: unset !important;
+}
+
 ul {
   list-style: none;
   margin: 0;

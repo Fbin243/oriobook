@@ -4,7 +4,7 @@
     <section class="manage-product col-9">
       <div class="d-flex align-items-center">
         <p class="manage-product-breadcrumb">Products</p>
-        <a class="btn text-uppercase ms-auto" href="/edit" role="button"
+        <a class="btn text-uppercase ms-auto" href="/admin/edit" role="button"
           >Add product</a
         >
       </div>

@@ -3,15 +3,15 @@
         <img src="../assets/img/back-9.jpg" style="width: 60%; position: relative; z-index: 21;">
      
         <div
-            style="width: 50%; background-color: #f2ede3; position: absolute; right: 30px; top: 50px; height: 650px; z-index: 2;">
+            style="width: 50%; background-color: #f2ede3; position: absolute; right: 0px; top: 50px; height: 650px; z-index: 2;">
             <div style="position: absolute; top: 10%; left: 35%; padding: 20px;">
                 <div style="font-size: 15px;color: #242424;">#1 BEST SELLING</div>
-                <div style="font-family: Lora,serif;font-size: 50px;color: #242424;"><a href="">The <br>Picture <br>Of<br>
+                <div style="font-family: Lora,serif;font-size: 40px;color: #242424;"><a href="">The Picture <br>Of
                         Dorian<br> Gray</a></div>
-                <div style="font-size: 15px;color: #242424;">BY :MARIA-PIA GO</div>
-                <div style="font-family: Jost,sans-serif;font-size: 30px;color: #242424;">48.00$</div>
+                <div style="font-size: 12px;color: #242424;font-family: jost, sans-serif;color: #24242480;">BY :MARIA-PIA GO</div>
+                <br><div style="font-family: Jost,sans-serif;font-size: 35px;color: #242424;">48.00$</div>
                 <br>
-                <button type="submit" class="btn btn-dark btn-hover-orange">SHOP NOW</button>
+                <button type="submit" class="btn btn-dark btn-hover-orange" style="border: none;">SHOP NOW</button>
                 
 
             </div>

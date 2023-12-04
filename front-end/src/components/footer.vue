@@ -1,57 +1,51 @@
 <template>
+    <div style="display: flex;margin-left: auto;margin-right: auto;color:#cfcfcf">_______________________________________________________________________________________________________________________________________________________________________________________________</div>
+    <br><br>
     <div class="container">
         <div class="box box1">
-            <strong style="font-size: 28px;">Customer Services</strong>
-            <br><br><br>
-            <div style="font-size: 19px;">Got Question? Call us 24/7</div>
-            <br>
-            <a href="tel:(+84)943018664" style="text-decoration: none"><strong style="font-size: 38px;color: rgb(255, 102, 0);">(+84) 94 301 8664</strong></a>
-            <br><br><br>
+            <strong style="font-size: 22px;font-family: Lora, serif;">Customer Services</strong>
+            <br><br>
+            <div style="font-size: 15px;color: rgb(110, 110, 110);font-family: Jost, sans-serif;">Got Question? Call us 24/7</div>
+            
+            <a href="tel:(+84)943018664" style="text-decoration: none"><strong style="font-size: 28px;font-family: Jost, sans-serif;color: rgb(255, 102, 0);">(+84) 94 301 8664</strong></a>
+            <br><br>
 
-            <div style="font-weight: 100;color: rgb(110, 110, 110);">268 St, South New York/NY 98944, United States</div><br>
-            <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">ntbinh21@clc.fitus.edu.vn</div>
+            <div style="font-weight: 100;color: rgb(110, 110, 110);font-family: Jost, sans-serif;font-size: 15px;">268 St, South New York/NY 98944, United States</div>
+            <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);font-family: Jost, sans-serif;font-size: 15px;">ntbinh21@clc.fitus.edu.vn</div>
             </a>
         </div>
         <div class="box box2"> 
-            <strong style="font-size: 28px;">Publisher</strong>
-            <br><br><br>
+            <strong style="font-size: 22px;font-family: Lora, serif;">Publisher</strong>
+            <br><br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Norstedt's history</div>
             </a>
-            <br>
+    
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Norstedt's Publishing Group</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Norstedt's Agency</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">The book club</div>
             </a> 
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Environment and sustainability</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Work with us</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Book Fairs</div>
             </a>
         </div>
         <div class="box box3">
-            <strong style="font-size: 28px;">Information</strong>
-            <br><br><br>
+            <strong style="font-size: 22px;font-family: Lora, serif;">Information</strong>
+            <br><br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">About us</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Our Services</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Latest News</div>
             </a>
-            <br>
             <a href="mailto:ntbinh21@clc.fitus.edu.vn   " style="text-decoration: none"><div style="font-weight: 100;color: rgb(110, 110, 110);">Best Sellers</div>
             </a></div>
-        <div class="box box4"><strong style="font-size: 28px;">Social Media</strong>
-            <br><br><br>
+        <div class="box box4"><strong style="font-size: 22px;font-family: Lora, serif;">Social Media</strong>
+            <br><br>
             <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-facebook icon"></i>
             </a>ㅤ
@@ -67,6 +61,10 @@
             <br><br>
             <img src="../assets/img/money.jpg" style="margin-left: -30px;">
         </div>
+      
+    </div>
+    <div style="text-align: center;font-size: 15px;color: rgb(110, 110, 110);font-family: Jost, sans-serif;margin-top: 190px;padding-bottom: 50px;">
+        Copyright © 2023 Oriobook | Powered by Wpbingo
     </div>
 
    </template>

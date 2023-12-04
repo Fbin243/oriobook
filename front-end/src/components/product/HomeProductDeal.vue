@@ -5,7 +5,6 @@
         <div class="products-thumb">
           <div class="product-lable">
             <div class="hot">Hot</div>
-            <div class="onsale">28%</div>
           </div>
           <div class="product-thumb-hover">
             <a
@@ -46,15 +45,6 @@
             >
           </h3>
           <span class="price">
-            <del aria-hidden="true">
-              <span class="woocommerce-Price-amount amount">
-                <bdi>
-                  90.00<span class="woocommerce-Price-currencySymbol"
-                    >&#36;</span
-                  >
-                </bdi>
-              </span>
-            </del>
             <span class="woocommerce-Price-amount amount">
               <bdi>
                 65.00<span class="woocommerce-Price-currencySymbol">&#36;</span>

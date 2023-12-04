@@ -1,5 +1,5 @@
 <template>
-  <div class="accountdetails-page container">
+  <div class="accountdetails-page">
     <div class="row content">
       <SideBar />
       <div class="woocommerce-MyAccount-content col-9">

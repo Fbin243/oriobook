@@ -5,17 +5,11 @@
         class="nav nav-underline d-flex justify-content-center title-heading"
         style="padding-bottom: 150px"
       >
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Cart</a>
-        </li>
-        ㅤ
+  
         <li class="nav-item">
           <a class="nav-link active" href="#">Checkout</a>
         </li>
-        ㅤ
-        <li class="nav-item">
-          <a class="nav-link" href="#">Order Tracking</a>
-        </li>
+        
       </ul>
     </div>
     <checkout />

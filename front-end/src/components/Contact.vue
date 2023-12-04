@@ -1,11 +1,10 @@
 <template>
-  <div id="map" style="width: 50%; margin: 30px"></div>
-  <div class="container">
+  <div id="map" style="width: 50%; margin: 30px;margin-top: 80px;"></div>
+  <div class="container" style="margin-right: 100px;">
     <h4>Need more information?</h4>
     <br />
     <div>
-      <i class="fa-solid fa-location-dot"></i> 49 Boughtman Street Huntidale,
-      Victoria(VIC),<br />
+      <i class="fa-solid fa-location-dot"></i> 3 Nguyen Van Cu, District 5, HoChiMinh City,<br />
       3166 (03) 9238 8831
     </div>
     <br />
@@ -17,10 +16,10 @@
     <h4>Open hours:</h4>
     Monday to Friday 8am to 5pm,<br />
     Australian Eastern Standard Time.<br /><br />
-    <h4>Contact us:</h4>
+    <h4 style="font-family: jost, sans-serif;font-size: 24px;">Contact us:</h4><br>
     <form action="#" method="post">
       <div class="form-group">
-        <label for="name">Name:</label>
+        <label for="name" style="font-family: jost, sans-serif;font-size: 15px;">Name:</label>
         <input
           type="text"
           class="form-control"
@@ -28,7 +27,7 @@
           name="name"
           required
         />
-      </div>
+      </div><br>  
 
       <div class="form-group">
         <label for="email">Email:</label>
@@ -40,7 +39,7 @@
           required
         />
       </div>
-
+<br>
       <div class="form-group">
         <label for="message">Message:</label>
         <textarea
@@ -51,7 +50,7 @@
           required
         ></textarea>
       </div>
-
+      <br>
       <button type="submit" class="btn btn-dark btn-hover-orange">
         Submit
       </button>

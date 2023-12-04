@@ -1,14 +1,28 @@
 <template>
-  <div class="grid-container">
+  <div
+    class="grid-container"
+    style="width: 1500px; margin-left: auto; margin-right: auto"
+  >
     <!-- First Column -->
     <div class="big-card">
       <div class="card-content">
         <a href="#">
           <img
             src="../assets/img/romance.jpg"
-            style="width: 80%; padding-top: 100px"
+            style="width: 70%; padding-top: 100px"
           />
-          <h2>Romanace</h2></a
+          <h2
+            style="
+              padding-top: 50px;
+              text-align: left;
+              color: #242424;
+              font-family: Jost, sans-serif;
+              font-size: 22px;
+              font-weight: 400;
+            "
+          >
+            Romance
+          </h2></a
         >
       </div>
     </div>
@@ -26,7 +40,17 @@
               padding-left: 20px;
             "
           />
-          <h2 style="text-align: left; padding-left: 50px; padding-top: 0px">
+          <h2
+            style="
+              text-align: left;
+              padding-left: 50px;
+              padding-bottom: 30px;
+              color: #242424;
+              font-family: Jost, sans-serif;
+              font-size: 22px;
+              font-weight: 400;
+            "
+          >
             Fiction
           </h2></a
         >
@@ -39,15 +63,19 @@
           <div style="text-align: right">
             <img
               src="../assets/img/family.jpg"
-              style="width: 55%; padding-top: 50px; padding-right: 50px"
+              style="width: 50%; padding-top: 20px; padding-right: 50px"
             />
           </div>
           <h2
             style="
               text-align: left;
               padding-left: 50px;
-              padding-bottom: 50px;
-              margin-top: -50px;
+              padding-bottom: 0px;
+              margin-top: -30px;
+              color: #242424;
+              font-family: Jost, sans-serif;
+              font-size: 22px;
+              font-weight: 400;
             "
           >
             Family
@@ -64,15 +92,19 @@
           <div style="text-align: right">
             <img
               src="../assets/img/comedy.jpg"
-              style="width: 55%; padding-top: 50px; padding-right: 50px"
+              style="width: 50%; padding-top: 20px; padding-right: 50px"
             />
           </div>
           <h2
             style="
               text-align: left;
               padding-left: 50px;
-              padding-bottom: 50px;
-              margin-top: -50px;
+              padding-bottom: 00px;
+              margin-top: -5px;
+              color: #242424;
+              font-family: Jost, sans-serif;
+              font-size: 22px;
+              font-weight: 400;
             "
           >
             Comedy
@@ -87,7 +119,12 @@
           <div style="text-align: right">
             <img
               src="../assets/img/history.jpg"
-              style="width: 55%; padding-top: 50px; padding-right: 50px"
+              style="
+                width: 50%;
+                padding-top: 20px;
+                padding-right: 50px;
+                padding-bottom: 10px;
+              "
             />
           </div>
           <h2
@@ -95,7 +132,11 @@
               text-align: left;
               padding-left: 50px;
               padding-bottom: 50px;
-              margin-top: -50px;
+              margin-top: -30px;
+              color: #242424;
+              font-family: Jost, sans-serif;
+              font-size: 22px;
+              font-weight: 400;
             "
           >
             History

@@ -11,7 +11,7 @@
       <label class="form-check-label" for="checkbox1">Chilldren's books</label>
     </div>
 
-    <div class="form-group form-check container" style="margin-left: -0px">
+    <div class="form-group form-check" >
       <input
         type="checkbox"
         class="form-check-input"
@@ -60,7 +60,7 @@
       <label class="form-check-label" for="checkbox3">Family Story</label>
     </div>
 
-    <div class="form-group form-check container" style="margin-left: -0px">
+    <div class="form-group form-check " style="margin-left: -0px">
       <input
         type="checkbox"
         class="form-check-input"

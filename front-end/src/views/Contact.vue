@@ -1,7 +1,7 @@
 <template>
   <div class="shop-page" style="margin-bottom: 500px">
-    <div class="img-cover">
-      <h1 class="title-heading">Contact</h1>
+    <div class="img-cover" style="height:250px">
+      <h1 class="title-heading "><div style="margin-top: -50px;">Contact</div></h1>
     </div>
     <Contact />
   </div>

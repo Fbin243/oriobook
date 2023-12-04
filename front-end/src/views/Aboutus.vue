@@ -7,7 +7,7 @@
       <vidOffer />
       <ourHisAndTeam />
       <Testimonial />
-      <br /><br />
+      <br /><br /><br /><br />
       <emailSupscription />
     </div>
   </div>

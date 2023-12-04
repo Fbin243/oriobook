@@ -61,3 +61,19 @@ img {
   margin: 0 auto;
   padding: 0;
 }
+
+:root{
+  --black-color: #242424;
+  --light-black-color: #242424cc;
+  --beige-color: #F0F0EB;
+}
+
+.m-20{
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.modal-open{
+  overflow:unset !important;
+  padding-right: unset !important;
+}

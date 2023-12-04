@@ -1,131 +1,148 @@
 <template>
-  <section class="login container">
-    <div class="row">
-      <div class="col-6">
-        <img src="@/assets/img/login.jpeg" alt="Login image" />
-      </div>
-      <div class="col-6">
-        <div class="container-form">
-          <h2 class="text-title-heading">My Account</h2>
-          <div class="box-form-login">
-            <div class="title-form">Login</div>
-            <div class="box-content">
-              <div class="form-login">
-                <form method="post" class="login">
-                  <div class="username">
-                    <input
-                      type="text"
-                      class="input-text"
-                      placeholder="Username or email address*"
-                      name="username"
-                      id="username"
-                    />
-                  </div>
-                  <div class="password">
-                    <input
-                      class="input-text"
-                      type="password"
-                      placeholder="Password*"
-                      name="password"
-                      id="password"
-                    />
-                  </div>
-                  <div class="rememberme-lost">
-                    <div class="rememberme">
-                      <input
-                        name="rememberme"
-                        type="checkbox"
-                        id="rememberme"
-                        value="forever"
-                      />
-                      <label for="rememberme" class="inline">Remember me</label>
+  <div class="admin-order-page container">
+    <div class="row content">
+      <Sidebar></Sidebar>
+      <div class="col-9 order-section">
+        <table class="order-table table-bordered">
+          <thead>
+            <tr>
+              <th scope='col' class='#' width='5%'>#</th>
+              <th scope='col' class='customer-name'>Customer name</th>
+              <th scope='col' class='email' width='25%'>Email</th>
+              <th scope='col' class='phone-number' width='15%'>Phone number</th>
+              <th scope='col' class='status' width='12%'>Status</th>
+              <th scope='col' class='details' width='5%'>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cart_item" v-for="index in 10" :key="index">
+              <td>{{ index }}</td>
+              <td class="customer-name">
+                Nguyen Van A
+              </td>
+
+              <td class="email" >
+                nguyenvana@gmail.com
+              </td>
+              <td class="phone-number" >
+                08128321932
+              </td>
+
+              <td class="status" >
+                <span class="badge bg-primary text-uppercase">Pending</span>
+              </td>
+
+              <td class="details" >
+                <!-- <i class="fa-thin fa-ellipsis-stroke"></i> -->
+                <div class="evaluate-btn">
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <table
+                          class="order-table table-bordered"
+                        >
+                          <thead>
+                            <tr>
+                              <th class="product-thumbnail-col" width="50%">Product</th>
+                              <th class="product-category-col" width="15%">Category</th>
+                              <th class="product-quantity-col" width="20%">Quantity</th>
+                              <th class="product-subtotal-col">Subtotal</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="cart_item"
+                            v-for="index in 4"
+                            :key="index"
+                            >
+                              <td class="product-thumbnail">
+                                <div class="product-cart-info">
+                                  <a
+                                    href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
+                                    ><img
+                                      src="https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2018/10/product-31.jpg"
+                                      class="product-img"
+                                      alt=""
+                                  /></a>
+                                  <div class="product-name">
+                                    <a
+                                      href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
+                                      >Zmats Kempe</a
+                                    >
+                                    <p class="price mb-0">
+                                      <span class="woocommerce-Price-amount amount">
+                                        250.00<span class="currency">$</span
+                                        ></span
+                                      >
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td class="product-category" data-title="Category">
+                                <div class="quantity">
+                                  
+                                  <p class="type mb-2">Book</p>
+
+                                </div>
+                              </td>
+                    
+                              <td class="product-quantity" data-title="Quantity">
+                                <div class="quantity">
+                                  
+                                  <p class="number mb-2">3</p>
+
+                                </div>
+                              </td>
+
+                              <td class="product-subtotal" data-title="Subtotal">
+                                <span class="woocommerce-Price-amount amount mb-2"
+                                  ><bdi
+                                    >750.00<span class="woocommerce-Price-currencySymbol"
+                                      >$</span
+                                    ></bdi
+                                  ></span
+                                >
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <div class="order-btn-section">
+                          <button class='btn btn-success btn-accept' data-status="" data-id="{{this._id}}">
+                            ACCEPT
+                          </button>
+                          <button class='btn btn-danger btn-delete' data-status="" data-id="{{this._id}}">
+                            REJECT
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="lost-password">
-                      <a
-                        href="https://wpbingosite.com/wordpress/oriobook/my-account/lost-password/"
-                        >Lost your password?</a
-                      >
-                    </div>
                   </div>
-                  <div class="button-login">
-                    <input
-                      type="hidden"
-                      id="woocommerce-login-nonce"
-                      name="woocommerce-login-nonce"
-                      value="839411776f"
-                    /><input
-                      type="hidden"
-                      name="_wp_http_referer"
-                      value="/wordpress/oriobook/my-account/"
-                    />
-                    <input
-                      type="submit"
-                      class="button"
-                      name="login"
-                      value="Login"
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="box-form-login">
-            <div class="title-form register">Register</div>
-            <div class="box-content">
-              <div class="form-register">
-                <form method="post" class="register">
-                  <div class="email">
-                    <input
-                      type="email"
-                      class="input-text"
-                      name="email"
-                      placeholder="Email address*"
-                      id="reg_email"
-                      value=""
-                    />
-                  </div>
-                  <div class="password">
-                    <input
-                      type="password"
-                      class="input-text"
-                      placeholder="Password*"
-                      name="password"
-                      id="reg_password"
-                    />
-                  </div>
-                  <div class="woocommerce-privacy-policy-text"></div>
-                  <div class="button-register">
-                    <input
-                      type="hidden"
-                      id="woocommerce-register-nonce"
-                      name="woocommerce-register-nonce"
-                      value="11ac8075a2"
-                    /><input
-                      type="hidden"
-                      name="_wp_http_referer"
-                      value="/wordpress/oriobook/my-account/"
-                    />
-                    <input
-                      type="submit"
-                      class="button"
-                      name="register"
-                      value="Register"
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+
+                  <button type="button" class="btn btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fa-thin fa-ellipsis-stroke"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
+import Sidebar from "@/components/account/SideBar";
 export default {
-  name: "Manage",
+  name: "Order",
+  components: {
+    Sidebar,
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "@/styles/admin/order.scss";
+</style>

@@ -10,7 +10,8 @@ ul {
   padding: 0;
 }
 
-a:link {
+a:link,
+a:visited {
   text-decoration: none;
   color: #242424;
 }

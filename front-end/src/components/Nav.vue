@@ -27,7 +27,7 @@
         </router-link>
         <ul class="sub-nav">
           <li class="nav-item">
-            <router-link to="/about" class="nav-link">About Us</router-link>
+            <router-link to="/aboutus" class="nav-link">About Us</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/contact" class="nav-link">Contact</router-link>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-3">
+  <div class="col-3" :class="{ 'pe-3': $route.name == 'Manage' }">
     <nav class="navigation">
       <ul>
         <li class="navigation-link shop-permis">

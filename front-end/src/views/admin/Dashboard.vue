@@ -1,131 +1,137 @@
 <template>
-  <section class="login container">
-    <div class="row">
-      <div class="col-6">
-        <img src="@/assets/img/login.jpeg" alt="Login image" />
-      </div>
-      <div class="col-6">
-        <div class="container-form">
-          <h2 class="text-title-heading">My Account</h2>
-          <div class="box-form-login">
-            <div class="title-form">Login</div>
-            <div class="box-content">
-              <div class="form-login">
-                <form method="post" class="login">
-                  <div class="username">
-                    <input
-                      type="text"
-                      class="input-text"
-                      placeholder="Username or email address*"
-                      name="username"
-                      id="username"
-                    />
-                  </div>
-                  <div class="password">
-                    <input
-                      class="input-text"
-                      type="password"
-                      placeholder="Password*"
-                      name="password"
-                      id="password"
-                    />
-                  </div>
-                  <div class="rememberme-lost">
-                    <div class="rememberme">
-                      <input
-                        name="rememberme"
-                        type="checkbox"
-                        id="rememberme"
-                        value="forever"
-                      />
-                      <label for="rememberme" class="inline">Remember me</label>
-                    </div>
-                    <div class="lost-password">
-                      <a
-                        href="https://wpbingosite.com/wordpress/oriobook/my-account/lost-password/"
-                        >Lost your password?</a
-                      >
-                    </div>
-                  </div>
-                  <div class="button-login">
-                    <input
-                      type="hidden"
-                      id="woocommerce-login-nonce"
-                      name="woocommerce-login-nonce"
-                      value="839411776f"
-                    /><input
-                      type="hidden"
-                      name="_wp_http_referer"
-                      value="/wordpress/oriobook/my-account/"
-                    />
-                    <input
-                      type="submit"
-                      class="button"
-                      name="login"
-                      value="Login"
-                    />
-                  </div>
-                </form>
-              </div>
+  <section class="sales-page container">
+    <section class="row">
+      <Sidebar></Sidebar>
+      <section class="dashboard col-9">
+        <p class="dashboard-breadcrumb">Dashboard</p>
+        <section class="dashboard-general col-8 mx-auto">
+          <ul class="dashboard-general-list row gx-0 mb-5">
+            <li
+              class="dashboard-general-item col d-flex flex-column align-items-center"
+            >
+              <p class="dashboard-general-title d-flex align-items-center">
+                <i class="fa-solid fa-money-bill-wave text-center"></i>
+                <span>Total Income</span>
+              </p>
+              <p class="dashboard-general-content fw-bold">12000000</p>
+            </li>
+            <li
+              class="dashboard-general-item col d-flex flex-column align-items-center"
+            >
+              <p class="dashboard-general-title d-flex align-items-center">
+                <i class="fa-solid fa-truck text-center"></i>
+                <span>Total Orders</span>
+              </p>
+              <p class="dashboard-general-content fw-bold">34</p>
+            </li>
+            <li
+              class="dashboard-general-item col d-flex flex-column align-items-center"
+            >
+              <p class="dashboard-general-title d-flex align-items-center">
+                <i class="fa-solid fa-box-open text-center"></i>
+                <span>Total Stock</span>
+              </p>
+              <p class="dashboard-general-content fw-bold">5534</p>
+            </li>
+          </ul>
+          <ul class="dashboard-general-list row gx-0 mb-5">
+            <li
+              class="dashboard-general-item col d-flex flex-column align-items-center"
+            >
+              <p class="dashboard-general-title d-flex align-items-center">
+                <i class="fa-solid fa-comments text-center"></i>
+                <span>Total Reviews</span>
+              </p>
+              <p class="dashboard-general-content fw-bold">123234</p>
+            </li>
+            <li
+              class="dashboard-general-item col d-flex flex-column align-items-center"
+            >
+              <p class="dashboard-general-title d-flex align-items-center">
+                <i class="fa-sharp fa-solid fa-badge-check text-center"></i>
+                <span>Successful Orders</span>
+              </p>
+              <p class="dashboard-general-content fw-bold">23</p>
+            </li>
+            <li
+              class="dashboard-general-item col d-flex flex-column align-items-center"
+            >
+              <p class="dashboard-general-title d-flex align-items-center">
+                <i class="fa-solid fa-star text-center"></i>
+                <span>Average Rating</span>
+              </p>
+              <p class="dashboard-general-content fw-bold">4.5</p>
+            </li>
+          </ul>
+
+          <section
+            class="d-flex align-items-center margin-top: 3rem; margin-left: 2rem;"
+          >
+            <div
+              class="pie animate no-round"
+              style="--p: 40; font-size: 3rem; margin: 0 2rem"
+            >
+              40%
             </div>
-          </div>
-          <div class="box-form-login">
-            <div class="title-form register">Register</div>
-            <div class="box-content">
-              <div class="form-register">
-                <form method="post" class="register">
-                  <div class="email">
-                    <input
-                      type="email"
-                      class="input-text"
-                      name="email"
-                      placeholder="Email address*"
-                      id="reg_email"
-                      value=""
-                    />
-                  </div>
-                  <div class="password">
-                    <input
-                      type="password"
-                      class="input-text"
-                      placeholder="Password*"
-                      name="password"
-                      id="reg_password"
-                    />
-                  </div>
-                  <div class="woocommerce-privacy-policy-text"></div>
-                  <div class="button-register">
-                    <input
-                      type="hidden"
-                      id="woocommerce-register-nonce"
-                      name="woocommerce-register-nonce"
-                      value="11ac8075a2"
-                    /><input
-                      type="hidden"
-                      name="_wp_http_referer"
-                      value="/wordpress/oriobook/my-account/"
-                    />
-                    <input
-                      type="submit"
-                      class="button"
-                      name="register"
-                      value="Register"
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+            <section id="skills" class="toad-fullscreen">
+              <article class="skills">
+                <div class="t-6">
+                  <p>
+                    40 Romance<span></span
+                    ><span class="skills" style="width: 20%"></span>
+                  </p>
+                </div>
+                <div class="t-6">
+                  <p>
+                    30 Fiction<span></span
+                    ><span class="skills" style="width: 40%"></span>
+                  </p>
+                </div>
+
+                <div class="t-6">
+                  <p>
+                    30 Family Story<span></span
+                    ><span class="skills" style="width: 20%"></span>
+                  </p>
+                </div>
+                <div class="t-6">
+                  <p>
+                    30 Comedy<span></span
+                    ><span class="skills" style="width: 30%"></span>
+                  </p>
+                </div>
+                <div class="t-6">
+                  <p>
+                    30 History<span></span
+                    ><span class="skills" style="width: 20%"></span>
+                  </p>
+                </div>
+                <div class="t-6">
+                  <p>
+                    30 Others<span></span
+                    ><span class="skills" style="width: 50%"></span>
+                  </p>
+                </div>
+              </article>
+            </section>
+          </section>
+        </section>
+      </section>
+    </section>
   </section>
 </template>
 
 <script>
+import Sidebar from "@/components/account/SideBar";
 export default {
-  name: "Manage",
+  name: "Dashboard",
+  components: {
+    Sidebar,
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "@/styles/admin/dashboard.scss";
+</style>

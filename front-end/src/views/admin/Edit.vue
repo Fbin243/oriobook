@@ -1,17 +1,14 @@
 <template>
-  <section class="row container">
-    <aside class="sidebar col-2"></aside>
-    <section class="edit-product col-10">
+  <section class="row container gx-0">
+    <Sidebar></Sidebar>
+    <section class="edit-product col-9">
       <div class="d-flex align-items-center">
-        <a
-          class="edit-product-breadcrumb"
-          href="http://localhost:3000/manage-product"
-        >
+        <router-link class="edit-product-breadcrumb" to="/admin/manage">
           <div class="d-flex align-items-center">
             <i class="fa-regular fa-caret-left me-2"></i>
             <span>Products</span>
           </div>
-        </a>
+        </router-link>
         <a class="btn text-uppercase ms-auto" href="#" role="button">Save</a>
       </div>
       <section class="edit-product-forms row gx-0">
@@ -44,10 +41,12 @@
           <div class="product-category">
             <label class="product-category-label">Category</label>
             <select class="edit-product-select">
-              <option value="document" selected>Document</option>
-              <option value="uniform">Uniform</option>
-              <option value="calculator">Calculator</option>
-              <option value="other">Other</option>
+              <option value="Romance" selected>Romance</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Family-story">Family Story</option>
+              <option value="Comedy">Comedy</option>
+              <option value="History">History</option>
+              <option value="Other">Other</option>
             </select>
           </div>
           <button class="product-image">Click to Add an Image</button>
@@ -58,8 +57,12 @@
 </template>
 
 <script>
+import Sidebar from "@/components/account/SideBar";
 export default {
   name: "Edit",
+  components: {
+    Sidebar,
+  },
 };
 </script>
 

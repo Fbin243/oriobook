@@ -1,0 +1,98 @@
+.edit-product {
+  background-color: #fff;
+  .edit-product-breadcrumb {
+    font-size: 30px;
+    line-height: 3.6rem;
+  }
+  .edit-product-form {
+    & + .edit-product-form {
+      margin-left: 2rem;
+      height: fit-content;
+    }
+    .manage-product-content {
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 0.1rem solidvar(--border-color);
+      font-size: 18px;
+    }
+    .edit-product-form-item label {
+      margin-bottom: 5px;
+    }
+  }
+  .edit-product-form-item {
+    margin-bottom: 20px;
+    input,
+    textarea {
+      border: 0.1rem solid var(--border-color);
+      width: 100%;
+      padding-left: 1rem;
+    }
+    input {
+      height: 50px;
+    }
+    textarea {
+      padding-top: 1rem;
+    }
+  }
+  .product-category {
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(50% + 10px);
+      right: 20px;
+      border: 0.6rem solid transparent;
+      border-color: #aaa transparent transparent transparent;
+    }
+    &::after {
+      border-top-color: var(--primary-color);
+    }
+    .product-category-label {
+      position: relative;
+      margin-bottom: 5px;
+      &::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        color: var(--primary-color);
+        position: absolute;
+        top: 50%;
+        right: -20px;
+        transform: translateY(-50%);
+        border-radius: 50%;
+      }
+    }
+    .edit-product-select {
+      width: 100%;
+      height: 50px;
+      padding-left: 20px;
+      color: #aaa;
+      border: 0.1rem solid var(--border-color);
+      border-right: 0.1rem solid var(--border-color);
+      appearance: none;
+    }
+  }
+  .product-image {
+    margin-top: 52px;
+    border: 0.1rem dashed var(--border-color);
+    width: 100%;
+    font-size: 2rem;
+    background-color: #eee;
+    min-height: 300px;
+  }
+
+  a.btn {
+    &:link,
+    &:visited {
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 0.5rem;
+      background-color: orange;
+      padding: 0.5rem 2rem;
+      transition: all 0.3s;
+    }
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+}

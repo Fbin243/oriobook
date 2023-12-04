@@ -1,131 +1,68 @@
 <template>
-  <section class="login container">
-    <div class="row">
-      <div class="col-6">
-        <img src="@/assets/img/login.jpeg" alt="Login image" />
+  <section class="row container">
+    <aside class="sidebar col-2"></aside>
+    <section class="edit-product col-10">
+      <div class="d-flex align-items-center">
+        <a
+          class="edit-product-breadcrumb"
+          href="http://localhost:3000/manage-product"
+        >
+          <div class="d-flex align-items-center">
+            <i class="fa-regular fa-caret-left me-2"></i>
+            <span>Products</span>
+          </div>
+        </a>
+        <a class="btn text-uppercase ms-auto" href="#" role="button">Save</a>
       </div>
-      <div class="col-6">
-        <div class="container-form">
-          <h2 class="text-title-heading">My Account</h2>
-          <div class="box-form-login">
-            <div class="title-form">Login</div>
-            <div class="box-content">
-              <div class="form-login">
-                <form method="post" class="login">
-                  <div class="username">
-                    <input
-                      type="text"
-                      class="input-text"
-                      placeholder="Username or email address*"
-                      name="username"
-                      id="username"
-                    />
-                  </div>
-                  <div class="password">
-                    <input
-                      class="input-text"
-                      type="password"
-                      placeholder="Password*"
-                      name="password"
-                      id="password"
-                    />
-                  </div>
-                  <div class="rememberme-lost">
-                    <div class="rememberme">
-                      <input
-                        name="rememberme"
-                        type="checkbox"
-                        id="rememberme"
-                        value="forever"
-                      />
-                      <label for="rememberme" class="inline">Remember me</label>
-                    </div>
-                    <div class="lost-password">
-                      <a
-                        href="https://wpbingosite.com/wordpress/oriobook/my-account/lost-password/"
-                        >Lost your password?</a
-                      >
-                    </div>
-                  </div>
-                  <div class="button-login">
-                    <input
-                      type="hidden"
-                      id="woocommerce-login-nonce"
-                      name="woocommerce-login-nonce"
-                      value="839411776f"
-                    /><input
-                      type="hidden"
-                      name="_wp_http_referer"
-                      value="/wordpress/oriobook/my-account/"
-                    />
-                    <input
-                      type="submit"
-                      class="button"
-                      name="login"
-                      value="Login"
-                    />
-                  </div>
-                </form>
-              </div>
+      <section class="edit-product-forms row gx-0">
+        <ul class="edit-product-form col-7">
+          <li class="edit-product-form-item">
+            <label for="product-name">Name</label>
+            <input id="product-name" type="text" />
+          </li>
+          <li class="edit-product-form-item">
+            <label for="product-description">Description</label>
+            <textarea
+              name=""
+              id="product-description"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </li>
+          <li class="edit-product-form-item row">
+            <div class="col">
+              <label for="product-price">Price</label>
+              <input id="product-price" type="number" />
             </div>
-          </div>
-          <div class="box-form-login">
-            <div class="title-form register">Register</div>
-            <div class="box-content">
-              <div class="form-register">
-                <form method="post" class="register">
-                  <div class="email">
-                    <input
-                      type="email"
-                      class="input-text"
-                      name="email"
-                      placeholder="Email address*"
-                      id="reg_email"
-                      value=""
-                    />
-                  </div>
-                  <div class="password">
-                    <input
-                      type="password"
-                      class="input-text"
-                      placeholder="Password*"
-                      name="password"
-                      id="reg_password"
-                    />
-                  </div>
-                  <div class="woocommerce-privacy-policy-text"></div>
-                  <div class="button-register">
-                    <input
-                      type="hidden"
-                      id="woocommerce-register-nonce"
-                      name="woocommerce-register-nonce"
-                      value="11ac8075a2"
-                    /><input
-                      type="hidden"
-                      name="_wp_http_referer"
-                      value="/wordpress/oriobook/my-account/"
-                    />
-                    <input
-                      type="submit"
-                      class="button"
-                      name="register"
-                      value="Register"
-                    />
-                  </div>
-                </form>
-              </div>
+            <div class="col">
+              <label for="product-stock">Stock</label>
+              <input id="product-stock" type="number" />
             </div>
+          </li>
+        </ul>
+        <div class="edit-product-form col">
+          <div class="product-category">
+            <label class="product-category-label">Category</label>
+            <select class="edit-product-select">
+              <option value="document" selected>Document</option>
+              <option value="uniform">Uniform</option>
+              <option value="calculator">Calculator</option>
+              <option value="other">Other</option>
+            </select>
           </div>
+          <button class="product-image">Click to Add an Image</button>
         </div>
-      </div>
-    </div>
+      </section>
+    </section>
   </section>
 </template>
 
 <script>
 export default {
-  name: "Manage",
+  name: "Edit",
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "@/styles/admin/edit.scss";
+</style>

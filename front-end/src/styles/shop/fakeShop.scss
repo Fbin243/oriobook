@@ -1,0 +1,26 @@
+.container {
+  margin: 0 auto;
+}
+.shop-page{
+  .img-cover {
+    background-image: url("https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/08/bg-breadcrumb.jpg");
+    height: 300px;
+    .title-heading {
+      color: #242424;
+      font-size: 35px;
+      grid-area: auto;
+      line-height: 32.3px;
+      // margin: 200px 0;
+      padding: 180px 15px 0;
+      text-align: center;
+      font-family: Lora;
+    }
+  }
+
+  .product-section {
+    margin-top: 16px;
+    margin-bottom: 32px;
+
+    
+  }
+}

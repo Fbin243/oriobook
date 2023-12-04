@@ -38,3 +38,19 @@ img {
   max-width: 1410px;
   margin: 0 auto;
 }
+
+:root{
+  --black-color: #242424;
+  --light-black-color: #242424cc;
+  --beige-color: #F0F0EB;
+}
+
+.m-20{
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.modal-open{
+  overflow:unset !important;
+  padding-right: unset !important;
+}

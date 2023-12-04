@@ -1,88 +1,85 @@
-
 .container {
-    text-align: center;
-    margin-top: 100px;
-    width: 98%;
-    margin-left: auto;
-    margin-right: auto;
+  text-align: center;
+  margin-top: 100px;
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-
 img {
-    display: block;
-    height: 400px;
-    border-radius: 10px;
-    margin: 0 auto; /* Center the image horizontally */
+  display: block;
+  height: 400px;
+  border-radius: 10px;
+  margin: 0 auto; /* Center the image horizontally */
 }
 
 .centered-div {
-    display: flex;
-    position: relative;
-    margin-top: -280px;
-    text-align: center;
-    justify-content: center;
+  display: flex;
+  position: relative;
+  margin-top: -280px;
+  text-align: center;
+  justify-content: center;
 }
 
-.inner-left{
-    padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
-    padding-right: 100px; /* Remove any default margin */
-    font-weight: 100;
+.inner-left {
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  padding-right: 100px; /* Remove any default margin */
+  font-weight: 100;
 }
 .inner-right {
-    padding: 20px;
-    border-radius: 10px;
-    display: inline-block;
-    margin-right: 00px;
-    margin-bottom: 200px; /* Remove any default margin */
-    margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-right: 00px;
+  margin-bottom: 200px; /* Remove any default margin */
+  margin-top: 20px;
 }
 .form-control {
-    width: 380px; /* Adjust the width as needed */
-    height:65px;
-    outline: none; /* Remove outline on focus */
-    border: 1px solid #ced4da; /* Optional: Set a border color */
+  width: 380px; /* Adjust the width as needed */
+  height: 60px;
+  outline: none; /* Remove outline on focus */
+  border: 1px solid #ced4da; /* Optional: Set a border color */
+  border-radius: unset;
 }
 
 .form-control:focus {
-    outline: none; /* Remove outline on focus */
-    border: 1px solid #ced4da; /* Optional: Set a border color on focus */
+  outline: none; /* Remove outline on focus */
+  border: 1px solid #ced4da; /* Optional: Set a border color on focus */
 }
-.button{
-    background-color: orangered;
-    width: 180px; /* Adjust the width as needed */
-    height:60px;
-}
-
-
-.inner-right {
-    margin-left: -84px; /* Adjust to compensate for any spacing between inline-block elements */
+.button {
+  background-color: orangered;
+  width: 180px; /* Adjust the width as needed */
+  height: 60px;
 }
 
 .inner-right {
-    display: flex;
-    align-items: center;
+  margin-left: -84px; /* Adjust to compensate for any spacing between inline-block elements */
+}
+
+.inner-right {
+  display: flex;
+  align-items: center;
 }
 
 .form-inline {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .form-group {
-    padding-left: 30px; /* Adjust the spacing between the input and button as needed */
+  padding-left: 30px; /* Adjust the spacing between the input and button as needed */
 }
 
 .form-control {
-    width: 400px; /* Adjust the width of the input field as needed */
+  width: 400px; /* Adjust the width of the input field as needed */
 }
 
 .button {
-    background-color: #EB5E37;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
+  background-color: #eb5e37;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
 }

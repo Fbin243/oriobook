@@ -13,7 +13,7 @@ import Author from "@/views/AuthorDetails";
 import Contact from "../views/Contact.vue";
 import Aboutus from "@/views/Aboutus.vue";
 import Checkout from "@/views/Checkout.vue";
-import OrderAccount from "../components/order/OrderAccount.vue"
+import OrderAccount from "../components/order/OrderAccount.vue";
 
 const routes = [
   {
@@ -45,23 +45,10 @@ const routes = [
     name: "AccountDetails",
     component: AccountDetails,
   },
-
   {
     path: "/authors",
     name: "Authors",
     component: AuthorList,
-  },
-
-  {
-    path: "/author",
-    name: "Author",
-    component: Author,
-  },
-
-  {
-    path: "/faq",
-    name: "FAQ",
-    component: FAQ,
   },
   {
     path: "/faq",

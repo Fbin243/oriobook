@@ -1,17 +1,11 @@
 <template>
   <div class="product-card">
-    <router-link
-      class="image-container"
-      :to="{
-        name: 'ProductDetails',
-        params: { id: product._id },
-      }"
-    >
+    <a class="image-container" :href="'/products/' + product._id">
       <img :src="product.image" :alt="product.name" class="img-1" />
       <div class="add-to-cart">
         <i class="fa-solid fa-cart-plus"></i>
       </div>
-    </router-link>
+    </a>
     <div class="product-info">
       <a class="author-name" href="#">{{ product.id_author.name }} </a>
       <a class="product-name" href="#">{{ product.name }}</a>

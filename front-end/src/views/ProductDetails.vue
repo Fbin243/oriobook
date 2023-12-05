@@ -5,7 +5,9 @@
       <span class="delimiter"></span>
       <a href="/products">Shop</a>
       <span class="delimiter"></span>
-      <a href="/romance">Romance</a>
+      <a :href="'/products?category=' + product.category">
+        {{ product.category }}
+      </a>
       <span class="delimiter"></span>
       {{ product.name }}
     </div>
@@ -120,6 +122,7 @@ export default {
         console.error("Lỗi khi gọi API:", error);
       }
     });
+
     return {
       product,
       nameAuthor,

@@ -1,15 +1,73 @@
+.order-section{
+  .type-filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    h4:not(:first-child) {
+      margin-left: 20px;
+    }
+
+    .underline-animation {
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-family: Lora, serif;
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
+      color: var(--light-black-color);
+      
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px; /* Độ dày của đường gạch chân */
+        bottom: 0;
+        left: 0;
+        visibility: hidden;
+        transform: scale(0);
+        transition: all 0.3s ease-in-out;
+        background-color: var(--light-black-color);
+      }
+
+      &:hover::before {
+        visibility: visible;
+        transform: scale(1);
+      }
+    }
+
+    .underline-animation.active {
+      color: var(--black-color);
+
+      &::before {
+        transform: unset;
+        visibility: visible;
+        background-color: var(--black-color);
+      }
+
+      &:hover::before {
+        transform: unset;
+        visibility: visible;
+        
+      }
+    }
+  }
+}
 
 .order-section{
   padding-right: 0 !important;
+  width: 74% !important;
 
   .each-order:not(:first-child){
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
-  .order-section{
-    border-top: 1px solid var(--gray-dark, #24242489);
-    border-left: 1px solid var(--gray-dark, #242424);
-    border-right: 1px solid var(--gray-dark, #242424);
+  .title-order-section{
+    border-top: 1px solid #24242498;
+    border-left: 1px solid #242424;
+    border-right: 1px solid #242424;
     display: flex;
     justify-content: space-between;
     padding: 4px 12px;
@@ -45,7 +103,7 @@
     .product-quantity {
       display: flex;
       align-items: center;
-      height: 230px;
+      height: 150px;
       border: none;
     }
   
@@ -75,8 +133,8 @@
           grid-area: auto;
           // line-height: 25.5px;
           text-align: left;
-          height: 200px;
-          width: 150px;
+          height: 120px;
+          width: 100px;
           aspect-ratio: auto 500/700;
         }
   
@@ -266,4 +324,8 @@ input:checked ~ label {
 
 #error-rating{
   padding-top: 55px;
+}
+
+.no-show{
+  display: none;
 }

@@ -1,7 +1,12 @@
 <template>
   <div class="col-9 order-section">
-    <div class="each-order" v-for="index in 2" :key="index">
-      <div class="order-section">
+    <div class="type-filter">
+      <h4 class="pending text-primary underline-animation" :class="{'active': toggle_1}" @click="pendingClick">Pending</h4>
+      <h4 class="accept text-success underline-animation" :class="{'active': toggle_2}" @click="acceptClick">Accept</h4>
+      <h4 class="reject text-danger underline-animation" :class="{'active': toggle_3}" @click="rejectClick">Reject</h4>
+    </div>
+    <div class="each-order" v-for="index in number" :key="index">
+      <div class="title-order-section">
         <p class="order-code">Order code:</p>
         <p class="total">Total price: </p>
       </div>
@@ -42,7 +47,7 @@
                   </p>
                 </div>
 
-                <div class="evaluate-btn">
+                <div class="evaluate-btn" :class="{'no-show': !toggle_2}">
                   <!-- Modal -->
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -117,6 +122,10 @@ export default {
   },
   props: [],
   setup(props, {emit}) {
+    const number = ref(2)
+    const toggle_1 = ref(true)
+    const toggle_2 = ref(false)
+    const toggle_3 = ref(false)
 
     const feedBack = () => {
 
@@ -138,15 +147,42 @@ export default {
       $("#simpleModal").modal('show');
 
       // alert(x);
-      console.log(comment);
-      console.log(rating_Count);
+      // console.log(comment);
+      // console.log(rating_Count);
       document.getElementById('comment_text').innerHTML = comment;
       document.getElementById('star_count').innerHTML = rating_Count;
     }
 
+    const pendingClick = () => {
+      number.value = 2
+      toggle_1.value = true
+      toggle_2.value = false
+      toggle_3.value = false
+    }
+
+    const acceptClick = () => {
+      number.value = 3
+      toggle_1.value = false
+      toggle_2.value = true
+      toggle_3.value = false
+    }
+
+    const rejectClick = () => {
+      number.value = 1
+      toggle_1.value = false
+      toggle_2.value = false
+      toggle_3.value = true
+    }
+
     return {
       feedBack,
-      
+      number,
+      pendingClick,
+      acceptClick,
+      rejectClick,
+      toggle_1,
+      toggle_2,
+      toggle_3,
     };
   },
 };

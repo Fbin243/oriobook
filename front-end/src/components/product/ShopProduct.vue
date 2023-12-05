@@ -1,9 +1,9 @@
 <template>
-  <div class="shop-product" :class="author_page ? 'col-12' : 'col-9'">
+  <div class="shop-product" :class="$route.name == 'Author' ? 'col-12' : 'col-9'">
     <div class="row gx-2">
       <div
         class="col-12 woocommerce-ordering pwb-dropdown dropdown show"
-        :class="{ 'no-show': author_page }"
+        :class="{ 'no-show': $route.name == 'Author' }"
       >
         <span
           class="pwb-dropdown-toggle dropdown-toggle"
@@ -49,7 +49,7 @@
       </div>
       <div
         class="mt-3"
-        :class="author_page ? 'm-20' : 'col-3'"
+        :class="$route.name == 'Author' ? 'm-20' : 'col-3'"
         v-for="index in 9"
         :key="index"
       >
@@ -68,22 +68,18 @@ export default {
   components: {
     HomeProductCard,
   },
-  props: ["author_page"],
   setup(props) {
     const toggleMenu = ref(false);
-    const author_page = ref(props.author_page);
 
     const clickDropdown = () => {
       console.log("click");
       toggleMenu.value = !toggleMenu.value;
     };
 
-    console.log(author_page.value);
 
     return {
       clickDropdown,
       toggleMenu,
-      author_page,
     };
   },
 };

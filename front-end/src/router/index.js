@@ -71,6 +71,11 @@ const routes = [
     component: AccountDetails,
   },
   {
+    path: "/author",
+    name: "Author",
+    component: Author,
+  },
+  {
     path: "/authors",
     name: "Authors",
     component: AuthorList,

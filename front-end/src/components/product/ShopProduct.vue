@@ -33,7 +33,9 @@
             >
           </li>
           <li data-value="date">
-            <a href="?show-subcategories=hide&amp;orderby=date">Sort by latest</a>
+            <a href="?show-subcategories=hide&amp;orderby=date"
+              >Sort by latest</a
+            >
           </li>
           <li data-value="price">
             <a href="?show-subcategories=hide&amp;orderby=price"
@@ -50,17 +52,18 @@
       <div
         class="mt-3"
         :class="author_page ? 'm-20' : 'col-3'"
-        v-for="index in 9"
-        :key="index"
+        v-for="product in products"
+        :key="product._id"
       >
-        <HomeProductCard />
+        <HomeProductCard :product="product" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 import HomeProductCard from "./HomeProductCard.vue";
 
 export default {
@@ -70,20 +73,26 @@ export default {
   },
   props: ["author_page"],
   setup(props) {
+    let products = ref({});
     const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
-
     const clickDropdown = () => {
-      console.log("click");
       toggleMenu.value = !toggleMenu.value;
     };
 
-    console.log(author_page.value);
-
+    onMounted(async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/product/shop");
+        products.value = response.data; // Gán dữ liệu từ API vào biến products
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    });
     return {
       clickDropdown,
       toggleMenu,
       author_page,
+      products,
     };
   },
 };

@@ -5,7 +5,9 @@
         <router-link to="/" class="nav-link"><span>Home</span></router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/shop" class="nav-link"><span>Shop</span></router-link>
+        <router-link to="/products" class="nav-link"
+          ><span>Shop</span></router-link
+        >
       </li>
       <li class="nav-item">
         <router-link to="/authors" class="nav-link"

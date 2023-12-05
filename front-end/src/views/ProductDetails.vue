@@ -3,25 +3,25 @@
     <div class="breadcrumb" itemprop="breadcrumb">
       <a href="/">Home</a>
       <span class="delimiter"></span>
-      <a href="/shop">Shop</a>
+      <a href="/products">Shop</a>
       <span class="delimiter"></span>
-      <a href="/shop">Romance</a>
+      <a href="/romance">Romance</a>
       <span class="delimiter"></span>
-      I Don’t Forget Anyone
+      {{ product.name }}
     </div>
 
     <div class="product-content row">
       <div class="product-img col-6">
-        <img src="@/assets/img/products/product-76.jpg" alt="" />
+        <img :src="product.image" :alt="product.name" />
       </div>
       <div class="product-info col-6">
-        <div class="product-title">I Don’t Forget Anyone</div>
-        <div class="product-price">100.00$</div>
-        <p class="product-desc">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur.
+        <div class="product-title">{{ product.name }}</div>
+        <div class="product-price">${{ product.price }}</div>
+        <p class="product-desc d-flex justify-content-between">
+          <span>Author: {{ nameAuthor }}</span>
+          <span>Category: {{ product.category }}</span>
         </p>
-        <div class="d-flex">
+        <div class="d-flex pt-5">
           <div class="product-quantity row gx-0 me-2">
             <button class="col">
               <i class="fa-light fa-minus"></i>
@@ -72,22 +72,27 @@
         </div>
       </div>
     </div>
-    <tabProduct />
+    <tabProduct :product="product" />
     <div class="row mt-5 gx-2">
       <div class="col-12 title">Related Products</div>
 
-      <div class="col-3 mt-3 m-20" v-for="index in 5" :key="index">
-          <HomeProductCard />
+      <div
+        class="col-3 mt-3 m-20"
+        v-for="relatedProduct in relatedProducts"
+        :key="relatedProduct._id"
+      >
+        <HomeProductCard :product="relatedProduct" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 import HomeProductCard from "@/components/product/HomeProductCard.vue";
 import tabProduct from "@/components/tabProduct.vue";
-
+import { useRoute } from "vue-router";
 
 export default {
   name: "ProductDetails",
@@ -96,7 +101,30 @@ export default {
     tabProduct,
   },
   setup() {
-    return {};
+    const route = useRoute();
+    const id = ref(route.params.id);
+    const product = ref({});
+    const relatedProducts = ref({});
+    const nameAuthor = ref("");
+    onMounted(async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/product/detail/${id.value}`
+        );
+        product.value = response.data.product;
+        relatedProducts.value = response.data.relatedProducts;
+        console.log(response.data);
+        nameAuthor.value = product.value.id_author.name;
+        // console.log(product.value);
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    });
+    return {
+      product,
+      nameAuthor,
+      relatedProducts,
+    };
   },
 };
 </script>

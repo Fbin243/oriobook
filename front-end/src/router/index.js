@@ -43,21 +43,26 @@ const routes = [
         component: Contact,
       },
       {
-        path: "/refund-policy",
+        path: "refund-policy",
         name: "RefundPolicy",
         component: RefundPolicy,
       },
     ],
   },
   {
-    path: "/shop",
-    name: "Shop",
-    component: Shop,
-  },
-  {
-    path: "/product-details",
-    name: "ProductDetails",
-    component: ProductDetails,
+    path: "/products",
+    children: [
+      {
+        path: "",
+        name: "Shop",
+        component: Shop,
+      },
+      {
+        path: ":id",
+        name: "ProductDetails",
+        component: ProductDetails,
+      },
+    ],
   },
 
   {

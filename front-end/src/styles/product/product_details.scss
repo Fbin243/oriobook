@@ -40,11 +40,12 @@
         margin-bottom: 10px;
       }
       .product-price {
-        font-size: 17px;
+        font-size: 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid #e5e5e5;
         font-weight: 500;
         margin-bottom: 20px;
+        color: var(--primary-color);
       }
       .product-quantity {
         font-size: 14px;
@@ -60,7 +61,7 @@
         }
       }
       .product-desc {
-        font-size: 15px;
+        font-size: 18px;
         margin-bottom: 50px;
       }
       .product-add-cart-btn,

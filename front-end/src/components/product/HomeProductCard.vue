@@ -1,15 +1,21 @@
 <template>
   <div class="product-card">
-    <a class="image-container" href="/product-details">
-      <img src="../../assets//img/products/product-106.jpg" alt="Image 1" class="img-1" />
+    <router-link
+      class="image-container"
+      :to="{
+        name: 'ProductDetails',
+        params: { id: product._id },
+      }"
+    >
+      <img :src="product.image" :alt="product.name" class="img-1" />
       <div class="add-to-cart">
         <i class="fa-solid fa-cart-plus"></i>
       </div>
-    </a>
+    </router-link>
     <div class="product-info">
-      <a class="author-name" href="#">GUNVOR HOFMO </a>
-      <a class="product-name" href="#">Product Name </a>
-      <p>$19.99</p>
+      <a class="author-name" href="#">{{ product.id_author.name }} </a>
+      <a class="product-name" href="#">{{ product.name }}</a>
+      <p>${{ product.price.toFixed(2) }}</p>
     </div>
     <div class="overlay d-none">
       <div class="overlay-icons">
@@ -25,12 +31,10 @@
 import { ref } from "vue";
 
 export default {
-  name: 'HomeProductCard',
+  name: "HomeProductCard",
+  props: ["product"],
   setup() {
     const imgHover = ref(true);
-
-
-
     return {
       imgHover,
     };

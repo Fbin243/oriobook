@@ -32,7 +32,7 @@ const authorSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: true,
-    enum: ["male", "female"],
+    enum: ["Male", "Female"],
   },
   published_book: {
     type: Number,
@@ -40,4 +40,4 @@ const authorSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("product", productSchema);
+module.exports = mongoose.model("author", authorSchema);

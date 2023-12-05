@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 module.exports = {
   connect: () => {
-    dotenv.config({ path: "./config.env" });
+    dotenv.config({ path: "./.env" });
     const DB = process.env.DATABASE.replace(
       "<PASSWORD>",
       process.env.DATABASE_PASSWORD

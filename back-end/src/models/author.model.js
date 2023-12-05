@@ -9,14 +9,17 @@ const authorSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
+    trim: true,
   },
   description: {
     type: String,
     required: true,
+    trim: true,
   },
   style: {
     type: String,
     required: true,
+    trim: true,
   },
   address: {
     type: String,

@@ -39,6 +39,44 @@
     <div class="clear"></div>
 
     <p class="woocommerce-form-row">
+      <label for="account_address"
+        >Address&nbsp;<span class="required">*</span></label
+      >
+      <input
+        type="text"
+        id="account_address"
+        autocomplete="given-name"
+        v-model="formData.account_address"
+      />
+      <span
+        v-for="error in v$.account_address.$errors"
+        :key="error.$uid"
+        style="color: red"
+      >
+        {{ error.$message }}
+      </span>
+    </p>
+    <p class="woocommerce-form-row">
+      <label for="account_phone"
+        >Phone number&nbsp;<span class="required">*</span></label
+      >
+      <input
+        type="tel"
+        id="account_phone"
+        autocomplete="family-name"
+        v-model="formData.account_phone"
+      />
+      <span
+        v-for="error in v$.account_phone.$errors"
+        :key="error.$uid"
+        style="color: red"
+      >
+        {{ error.$message }}
+      </span>
+    </p>
+    <div class="clear"></div>
+
+    <p class="woocommerce-form-row">
       <label for="account_display_name"
         >Display name&nbsp;<span class="required">*</span></label
       >
@@ -89,7 +127,7 @@
 <script>
 import { reactive, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
+import { required, minLength, maxLength, numeric } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
@@ -100,12 +138,21 @@ export default {
     const formData = reactive({
       account_first_name: "",
       account_last_name: "",
+      account_address: "",
+      account_phone: "",
     });
 
     const rules = computed(() => {
       return {
         account_first_name: { required, minLength: minLength(3) },
         account_last_name: { required, minLength: minLength(3) },
+        account_address: { required, minLength: minLength(5) },
+        account_phone: {
+          required,
+          minLength: minLength(10),
+          maxLength: maxLength(10),
+          numeric,
+        },
       };
     });
 

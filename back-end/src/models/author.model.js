@@ -1,0 +1,40 @@
+const mongoose = require("mongoose");
+
+const authorSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  style: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  date_of_birth: {
+    type: Date,
+  },
+  gender: {
+    type: String,
+    required: true,
+    enum: ["male", "female"],
+  },
+  published_book: {
+    type: Number,
+    required: true,
+  },
+});
+
+module.exports = mongoose.model("product", productSchema);

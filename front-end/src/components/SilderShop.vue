@@ -18,7 +18,7 @@
         id="checkbox2"
         name="checkbox2"
       />
-      <label class="form-check-label" for="checkbox2">Comedy</label>
+      <label class="form-check-label" for="checkbox1">Comedy</label>
       <!-- <i
         class="fas fa-chevron-down"
         id="chevronIcon"

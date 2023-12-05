@@ -8,11 +8,6 @@
         <router-link to="/shop" class="nav-link"><span>Shop</span></router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/products" class="nav-link"
-          ><span>Products</span></router-link
-        >
-      </li>
-      <li class="nav-item">
         <router-link to="/authors" class="nav-link"
           ><span>Authors</span></router-link
         >

@@ -2,13 +2,18 @@ const mongoose = require("mongoose");
 const product = require("./product.model");
 
 const accountSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true },
+  firstName: { type: String, required: true, trim: true },
+  lastName: { type: String, required: true, trim: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  password: { type: String, required: true, trim: true },
   isAdmin: Boolean,
-  phone: { type: String, required: true },
-  address: { type: String, default: "" },
+  phone: { type: String, required: true, trim: true },
+  address: { type: String, default: "", trim: true },
   cart: [
     {
       _id: {

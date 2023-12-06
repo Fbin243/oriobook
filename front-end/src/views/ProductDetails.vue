@@ -22,6 +22,7 @@
         <p class="product-desc d-flex justify-content-between">
           <span>Author: {{ nameAuthor }}</span>
           <span>Category: {{ product.category }}</span>
+          <span>Stock: {{ product.stock }}</span>
         </p>
         <div class="d-flex pt-5">
           <div class="product-quantity row gx-0 me-2">

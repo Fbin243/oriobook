@@ -73,7 +73,7 @@ export default {
   },
   props: ["author_page"],
   setup(props) {
-    let products = ref({});
+    const products = ref({});
     const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
     const clickDropdown = () => {

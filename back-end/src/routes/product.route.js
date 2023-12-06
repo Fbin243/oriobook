@@ -6,6 +6,8 @@ router.get("/best-seller", productController.getBestSeller);
 router.get("/top-rated", productController.getTopRatedBook);
 router.get("/shop", productController.getShop);
 router.get("/detail/:id", productController.getDetail);
-router.get("/dashboard", productController.getDashboard);
+// **************** ADMIN **********************
+router.get("/manage", productController.getManage);
+router.get("/edit/:id", productController.getEdit);
 
 module.exports = router;

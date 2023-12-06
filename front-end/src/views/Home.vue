@@ -39,7 +39,6 @@ export default {
     const topRatedProducts = ref([]);
     onMounted(async () => {
       try {
-        console.log("On mounted");
         let response = await axios.get(
           "http://localhost:3000/product/best-seller"
         );

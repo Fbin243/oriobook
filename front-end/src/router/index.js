@@ -107,8 +107,18 @@ const routes = [
       },
       {
         path: "edit",
-        name: "Edit",
-        component: Edit,
+        children: [
+          {
+            path: "",
+            name: "EditForCreate",
+            component: Edit,
+          },
+          {
+            path: ":id",
+            name: "EditForUpdate",
+            component: Edit,
+          },
+        ],
       },
       {
         path: "order",

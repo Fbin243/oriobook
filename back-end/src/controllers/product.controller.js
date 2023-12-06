@@ -48,7 +48,6 @@ class productController {
   getShop = async (req, res, next) => {
     try {
       const products = await Product.find({}).populate("id_author");
-      console.log(products);
       res.status(200).json(products);
     } catch (error) {
       next(error);
@@ -64,17 +63,28 @@ class productController {
         category: product.category,
         _id: { $ne: product._id },
       });
-      // console.log(product.relatedProducts, "relate");
-      console.log(product);
       res.status(200).json({ product, relatedProducts });
     } catch (error) {
       next(error);
     }
   };
+  // *************** ADMIN *********************
   // [GET] product/dashboard
-  getDashboard = async (req, res, next) => {
+  getManage = async (req, res, next) => {
     try {
-      res.send("OK");
+      const products = await Product.find({});
+      res.status(200).json(products);
+    } catch (error) {
+      next(error);
+    }
+  };
+  // [GET] product/edit
+  getEdit = async (req, res, next) => {
+    try {
+      const product = await Product.findOne({ _id: req.params.id }).populate(
+        "id_author"
+      );
+      res.status(200).json(product);
     } catch (error) {
       next(error);
     }

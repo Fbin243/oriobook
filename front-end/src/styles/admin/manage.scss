@@ -7,7 +7,7 @@
   .manage-product-content {
     padding: 2rem;
     margin: 2rem 0;
-    border: 0.1rem solid var(--border-color);
+    border: 1px solid var(--border-color);
     font-size: 18px;
   }
 
@@ -17,7 +17,7 @@
     height: 60px;
     padding-left: 50px;
     color: #aaa;
-    border: 0.1rem solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-right: none;
   }
 
@@ -40,7 +40,7 @@
   }
 
   .col-4:last-child .manage-product-select {
-    border-right: 0.1rem solid var(--border-color);
+    border-right: 1px solid var(--border-color);
   }
 
   .manage-product-search-bar {

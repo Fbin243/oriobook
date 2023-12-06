@@ -20,7 +20,7 @@
             </li>
             <li class="edit-product-form-item mb-3">
               <label for="product-description">Description</label>
-              <textarea name="" id="product-description" cols="30" rows="10">{{
+              <textarea name="" id="product-description" cols="30" rows="20">{{
                 product.description
               }}</textarea>
             </li>
@@ -44,33 +44,50 @@
             </li>
           </ul>
           <div class="edit-product-form col">
-            <div class="product-category mb-3">
-              <label class="product-category-label">Category</label>
-              <select class="edit-product-select">
-                <option
-                  v-for="category in categories"
-                  :key="category"
-                  :value="category"
-                  :selected="isSelected(category, product.category)"
-                >
-                  {{ category }}
-                </option>
-              </select>
+            <div class="d-flex align-items-center">
+              <div class="product-category me-4">
+                <label class="product-category-label">Category</label>
+                <select class="edit-product-select">
+                  <option
+                    v-for="category in categories"
+                    :key="category"
+                    :value="category"
+                    :selected="isSelected(category, product.category)"
+                  >
+                    {{ category }}
+                  </option>
+                </select>
+              </div>
+              <div class="product-category">
+                <label class="product-category-label">Author</label>
+                <select class="edit-product-select">
+                  <option
+                    v-for="author in authors"
+                    :key="author"
+                    :value="author"
+                    :selected="isSelected(author, authorName)"
+                  >
+                    {{ author }}
+                  </option>
+                </select>
+              </div>
             </div>
-            <div class="product-category">
-              <label class="product-category-label">Author</label>
-              <select class="edit-product-select">
-                <option
-                  v-for="author in authors"
-                  :key="author"
-                  :value="author"
-                  :selected="isSelected(author, authorName)"
-                >
-                  {{ author }}
-                </option>
-              </select>
-            </div>
-            <button class="product-image mt-4">Click to Add an Image</button>
+            <form
+              action="/upload"
+              method="post"
+              enctype="multipart/form-data"
+              class="mt-2"
+            >
+              <div class="mb-2">
+                <input
+                  type="file"
+                  name="imgs"
+                  class="form-control"
+                  id="formFile"
+                />
+              </div>
+              <button type="submit" class="btn">UPLOAD</button>
+            </form>
           </div>
         </section>
       </section>
@@ -119,6 +136,17 @@ export default {
     const isSelected = (option, productOption) => {
       return option == productOption;
     };
+
+    $(() => {
+      $("#formFile").fileinput({
+        theme: "fa6 ",
+        showUpload: false,
+        previewFileType: "any",
+      });
+    });
+
+    // $(".file-preview-image").attr("src", "https://i.imgur.com/h9cDD9d.jpg");
+
     if (route.name == "EditForUpdate") {
       console.log("OK");
       onMounted(async () => {
@@ -126,10 +154,19 @@ export default {
           `http://localhost:3000/product/edit/${id.value}`
         );
         product.value = response.data;
-        console.log(response.data);
         authorName.value = product.value.id_author.name;
+        // Hiển thị hình ảnh preview
+        $(() => {
+          $(".file-drop-zone-title").css({
+            padding: "0px",
+          });
+          $(".file-drop-zone-title").html(`
+            <img src="${product.value.image}"/>
+          `);
+        });
       });
     }
+
     return {
       product,
       categories,

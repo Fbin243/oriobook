@@ -9,7 +9,7 @@
   --light-black-color: #242424cc;
   --beige-color: #f0f0eb;
   --primary-color: #eb5e38;
-  --border-color: #ccc;
+  --border-color: #bbb;
 }
 
 .m-20 {
@@ -62,18 +62,47 @@ img {
   padding: 0;
 }
 
-:root{
+:root {
   --black-color: #242424;
   --light-black-color: #242424cc;
-  --beige-color: #F0F0EB;
+  --beige-color: #f0f0eb;
 }
 
-.m-20{
+.m-20 {
   flex: 0 0 20%;
   max-width: 20%;
 }
 
-.modal-open{
-  overflow:unset !important;
+.modal-open {
+  overflow: unset !important;
   padding-right: unset !important;
+}
+
+.file-preview {
+  border-radius: 0;
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 50px;
+  .fileinput-remove {
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.file-caption-name {
+  border-radius: 0;
+}
+
+.btn-file {
+  border-radius: 0;
+  background-color: orange;
+  color: #242424;
+  &:hover {
+    background-color: var(--primary-color);
+  }
+  border: 1px solid orange;
 }

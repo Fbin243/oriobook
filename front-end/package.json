@@ -11,6 +11,7 @@
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.6.2",
     "bingmaps": "^2.0.3",
+    "bootstrap-fileinput": "^5.5.2",
     "core-js": "^3.8.3",
     "jquery": "^3.7.1",
     "mitt": "^3.0.1",

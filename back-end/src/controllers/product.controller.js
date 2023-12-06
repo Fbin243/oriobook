@@ -1,4 +1,6 @@
+const Author = require("../models/author.model");
 const Product = require("../models/product.model");
+const { upload, uploadToImgur } = require("../middlewares/upload-file");
 class productController {
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
@@ -85,6 +87,36 @@ class productController {
         "id_author"
       );
       res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  };
+  // [POST] product/edit/save
+  addProduct = async (req, res, next) => {
+    try {
+      upload(req, res, async (err) => {
+        if (err) {
+          return res.status(400).send({ message: err.message });
+        }
+        // Tìm id_author ứng với author_name
+        const author = await Author.findOne({ name: req.body.author_name });
+        console.log(req.body);
+        delete req.body.author_name;
+        console.log(req.file);
+        // console.log(typeof req.body.image);
+        if (req.file) {
+          // Upload the file to Imgur
+          const imgurLink = await uploadToImgur(req.file.buffer);
+          // Do something with the Imgur link (e.g., save it to a database)
+          console.log(imgurLink);
+          req.body.image = imgurLink;
+        } else req.body.image = "https://i.imgur.com/D8pnlgT.jpg";
+        req.body.id_author = author._id;
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        res.status(200).json({ msg: "Added Product" });
+        // return res.status(200).send({ imgurLink });
+      });
     } catch (error) {
       next(error);
     }

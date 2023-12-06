@@ -9,5 +9,6 @@ router.get("/detail/:id", productController.getDetail);
 // **************** ADMIN **********************
 router.get("/manage", productController.getManage);
 router.get("/edit/:id", productController.getEdit);
+router.post("/edit/save", productController.addProduct);
 
 module.exports = router;

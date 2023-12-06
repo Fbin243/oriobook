@@ -10,19 +10,40 @@
               <span>Products</span>
             </div>
           </router-link>
-          <a class="btn text-uppercase ms-auto" href="#" role="button">Save</a>
+          <a
+            type="submit"
+            class="btn text-uppercase ms-auto js-save-btn"
+            href="#"
+            @click="addProduct"
+            >Save</a
+          >
         </div>
-        <section class="edit-product-forms row gx-0">
+        <form
+          :action="'/product/edit/save/' + product._id"
+          method="POST"
+          class="edit-product-forms row gx-0"
+          id="edit-form"
+          enctype="multipart/form-data"
+        >
           <ul class="edit-product-form col-7">
             <li class="edit-product-form-item mb-3">
               <label for="product-name">Name</label>
-              <input id="product-name" type="text" :value="product.name" />
+              <input
+                id="product-name"
+                type="text"
+                :value="product.name"
+                name="name"
+              />
             </li>
             <li class="edit-product-form-item mb-3">
               <label for="product-description">Description</label>
-              <textarea name="" id="product-description" cols="30" rows="20">{{
-                product.description
-              }}</textarea>
+              <textarea
+                name="description"
+                id="product-description"
+                cols="30"
+                rows="20"
+                >{{ product.description }}</textarea
+              >
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
@@ -31,6 +52,7 @@
                   id="product-price"
                   type="number"
                   :value="product.price"
+                  name="price"
                 />
               </div>
               <div class="col">
@@ -39,6 +61,7 @@
                   id="product-stock"
                   type="number"
                   :value="product.stock"
+                  name="stock"
                 />
               </div>
             </li>
@@ -47,7 +70,7 @@
             <div class="d-flex align-items-center">
               <div class="product-category me-4">
                 <label class="product-category-label">Category</label>
-                <select class="edit-product-select">
+                <select class="edit-product-select" name="category">
                   <option
                     v-for="category in categories"
                     :key="category"
@@ -60,7 +83,7 @@
               </div>
               <div class="product-category">
                 <label class="product-category-label">Author</label>
-                <select class="edit-product-select">
+                <select class="edit-product-select" name="author_name">
                   <option
                     v-for="author in authors"
                     :key="author"
@@ -72,24 +95,16 @@
                 </select>
               </div>
             </div>
-            <form
-              action="/upload"
-              method="post"
-              enctype="multipart/form-data"
-              class="mt-2"
-            >
-              <div class="mb-2">
-                <input
-                  type="file"
-                  name="imgs"
-                  class="form-control"
-                  id="formFile"
-                />
-              </div>
-              <button type="submit" class="btn">UPLOAD</button>
-            </form>
+            <div class="mb-2">
+              <input
+                type="file"
+                name="image"
+                class="form-control"
+                id="formFile"
+              />
+            </div>
           </div>
-        </section>
+        </form>
       </section>
     </section>
   </section>
@@ -99,7 +114,7 @@
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 export default {
   name: "Edit",
   components: {
@@ -107,8 +122,10 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const id = ref(route.params.id);
     const product = ref({
+      _id: "",
       name: "",
       price: "",
       description: "",
@@ -126,15 +143,36 @@ export default {
     const authors = [
       "Liz Cheney",
       "Jeff Kinney",
-      "Author 3",
+      "Keigo Higashino",
       "Arthur Conan Doyle",
       "Julia Quinn",
-      "Author 6",
+      "Daniel Gerhard Brown ",
       "Other",
     ];
     const authorName = ref("");
     const isSelected = (option, productOption) => {
       return option == productOption;
+    };
+    const addProduct = async () => {
+      // router.push("/admin/manage");
+      console.log(document.getElementById("edit-form"));
+      const formData = new FormData(document.getElementById("edit-form"));
+      const values = {};
+      formData.forEach((value, key) => {
+        values[key] = value;
+      });
+      console.log(values);
+      try {
+        const response = await axios.post(`/product/edit/save`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(response.data);
+        router.push("/admin/manage");
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     };
 
     $(() => {
@@ -144,26 +182,32 @@ export default {
         previewFileType: "any",
       });
     });
-
-    // $(".file-preview-image").attr("src", "https://i.imgur.com/h9cDD9d.jpg");
-
     if (route.name == "EditForUpdate") {
-      console.log("OK");
       onMounted(async () => {
-        const response = await axios.get(
-          `http://localhost:3000/product/edit/${id.value}`
-        );
-        product.value = response.data;
-        authorName.value = product.value.id_author.name;
-        // Hiển thị hình ảnh preview
-        $(() => {
-          $(".file-drop-zone-title").css({
-            padding: "0px",
-          });
-          $(".file-drop-zone-title").html(`
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/product/edit/${id.value}`
+          );
+          if (response.status == 200) {
+            product.value = response.data;
+            authorName.value = product.value.id_author.name;
+            // Hiển thị hình ảnh preview
+            $(() => {
+              $(".file-drop-zone-title").css({
+                padding: "0px",
+              });
+              $(".file-drop-zone-title").html(`
             <img src="${product.value.image}"/>
           `);
-        });
+            });
+          } else
+            throw {
+              code: 400,
+              errMsg: "Bad request",
+            };
+        } catch (error) {
+          // Chuyển trang lỗi
+        }
       });
     }
 
@@ -173,6 +217,7 @@ export default {
       isSelected,
       authors,
       authorName,
+      addProduct,
     };
   },
 };

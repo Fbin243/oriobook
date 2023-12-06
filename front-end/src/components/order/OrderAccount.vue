@@ -5,10 +5,10 @@
       <h4 class="accept text-success underline-animation" :class="{'active': toggle_2}" @click="acceptClick">Accept</h4>
       <h4 class="reject text-danger underline-animation" :class="{'active': toggle_3}" @click="rejectClick">Reject</h4>
     </div>
-    <div class="each-order" v-for="index in number" :key="index">
+    <div class="each-order" v-for="(order, index) in orderData" :key="index">
       <div class="title-order-section">
-        <p class="order-code">Order code:</p>
-        <p class="total">Total price: </p>
+        <p class="order-code">Order code: {{ order._id }}</p>
+        <p class="total">Total price: ${{ order.total_price }}</p>
       </div>
       <table
         class="order-table table-bordered"
@@ -22,26 +22,26 @@
         </thead>
         <tbody>
           <tr class="cart_item"
-          v-for="index in 4"
-          :key="index"
+          v-for="(item, i_item) in order.detail"
+          :key="i_item"
           >
             <td class="product-thumbnail">
               <div class="product-cart-info">
                 <a
                   href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                   ><img
-                    src="https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2018/10/product-31.jpg"
+                    :src="item.id_product.image"
                     class="product-img"
                     alt=""
                 /></a>
                 <div class="product-name">
                   <a
                     href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                    >Zmats Kempe</a
+                    >{{item.id_product.name}}</a
                   >
                   <p class="price">
                     <span class="woocommerce-Price-amount amount">
-                      250.00<span class="currency">$</span
+                      {{item.id_product.price}}<span class="currency">$</span
                       ></span
                     >
                   </p>
@@ -92,16 +92,14 @@
             <td class="product-quantity" data-title="Quantity">
               <div class="quantity">
                 
-                <p class="number">1</p>
+                <p class="number">{{item.quantity}}</p>
 
               </div>
             </td>
             <td class="product-subtotal" data-title="Subtotal">
               <span class="woocommerce-Price-amount amount"
                 ><bdi
-                  >250.00<span class="woocommerce-Price-currencySymbol"
-                    >$</span
-                  ></bdi
+                  >${{ item.id_product.price * item.quantity }}</bdi
                 ></span
               >
             </td>
@@ -113,7 +111,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from 'axios';
 
 export default {
   name: "OrderAccount",
@@ -126,6 +125,7 @@ export default {
     const toggle_1 = ref(true)
     const toggle_2 = ref(false)
     const toggle_3 = ref(false)
+    const orderData = ref([])
 
     const feedBack = () => {
 
@@ -153,11 +153,27 @@ export default {
       document.getElementById('star_count').innerHTML = rating_Count;
     }
 
+    const fetchData = async (link) => {
+      try {
+        const response = await axios.get(`http://localhost:3000/${link}`);
+        orderData.value = response.data;
+        console.log(orderData.value);
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchData('order/pending');
+    });
+
     const pendingClick = () => {
       number.value = 2
       toggle_1.value = true
       toggle_2.value = false
       toggle_3.value = false
+      console.log('da vo');
+      fetchData('order/pending')
     }
 
     const acceptClick = () => {
@@ -183,6 +199,7 @@ export default {
       toggle_1,
       toggle_2,
       toggle_3,
+      orderData,
     };
   },
 };

@@ -45,7 +45,7 @@
           Reviews
         </p>
         <br />
-        <p
+        <!-- <p
           style="
             font-family: Jost, sans-serif;
             font-size: 15px;
@@ -53,7 +53,39 @@
           "
         >
           There is no review yet
-        </p>
+        </p> -->
+        <div class="testimonial-box-container">
+        
+        <div class="testimonial-box">
+            <!--top------------------------->
+            <div class="box-top">
+                <!--profile----->
+                <div class="profile">
+                    <!--img---->
+                    <div class="profile-img">
+                        <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                    </div>
+                    <!--name-and-username-->
+                    <div class="name-user">
+                        <strong>Noah Wood</strong>
+                        <span>@noahwood</span>
+                    </div>
+                </div>
+                <!--reviews------>
+                <div class="reviews">
+                  &#9733;
+                  &#9733;
+                  &#9733;
+                  &#9733;
+                  &#9734;<!--Empty star-->
+                </div>
+            </div>
+            <!--Comments---------------------------------------->
+            <div class="client-comment">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
+            </div>
+        </div>
+        </div>
         <!-- <button type="button" class="btn" style="font-size: 15px;">Write a review</button> -->
       </div>
     </div>
@@ -69,4 +101,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/tabProduct.scss";
+@import "../styles/reviewProduct.scss";
 </style>

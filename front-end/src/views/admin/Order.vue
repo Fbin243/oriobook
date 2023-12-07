@@ -3,6 +3,7 @@
     <div class="row content">
       <Sidebar></Sidebar>
       <div class="col-9 order-section">
+        <p class="title">Orders</p>
         <table class="order-table table-bordered">
           <thead>
             <tr>

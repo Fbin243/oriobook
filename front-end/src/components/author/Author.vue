@@ -61,7 +61,7 @@
         </div>
       </div>
       
-      <ShopProduct :author_page="true"/>
+      <ShopProduct/>
     </div>
   </div>
 </template>

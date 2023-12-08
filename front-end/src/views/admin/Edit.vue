@@ -20,9 +20,7 @@
             </li>
             <li class="edit-product-form-item mb-3">
               <label for="product-description">Description</label>
-              <textarea name="" id="product-description" cols="30" rows="20">{{
-                product.description
-              }}</textarea>
+              <textarea name="" id="product-description" cols="30" rows="20">{{product.description}}</textarea>
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">

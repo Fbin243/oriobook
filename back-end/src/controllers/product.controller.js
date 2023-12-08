@@ -1,4 +1,6 @@
 const Product = require("../models/product.model");
+const Order = require("../models/order.model");
+const { mongooseToObject } = require("../utils/mongoose");
 class productController {
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
@@ -85,6 +87,46 @@ class productController {
         "id_author"
       );
       res.status(200).json(product);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //[POST] /handle-review/:id
+  handleReview = async (req, res, next) => {
+    try {
+      let id_account = '6572ae4ecbdcc4811d90a8e4'
+      let idProduct = req.params.id
+
+      let content = req.body.comment
+      let rating = parseInt(req.body.rating)
+      let idOrder = req.body.idOrder
+      let orderIndex = req.body.orderIndex
+
+      const review = {
+        id_account,
+        rating,
+        content,
+        date: new Date(),
+      };
+
+      // console.log(, req.body.orderIndex);
+
+      const updatedProduct = await Product.findOneAndUpdate(
+        { "_id": idProduct },
+        { $push: { "reviews": review } },
+        { new: true }
+      );
+
+      const updatedOrder = await Order.findOneAndUpdate(
+        { "_id": idOrder },
+        { $set: { [`detail.${orderIndex}.isReviewed`]: true } },
+        { new: true }
+      );
+
+      // console.log(updatedOrder);
+
+      res.status(200).json({ msg: 'success' });
     } catch (error) {
       next(error);
     }

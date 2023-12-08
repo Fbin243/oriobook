@@ -4,9 +4,7 @@
       <h1 class="title-heading">Shop</h1>
       <headerShop />
     </div>
-    <div
-      class="product-section container"
-    >
+    <div class="product-section container">
       <div class="row">
         <div class="col-3">
           <SliderShop />

@@ -58,9 +58,9 @@ class productController {
   // [GET] product/detail/:id
   getDetail = async (req, res, next) => {
     try {
-      const product = await Product.findOne({ _id: req.params.id }).populate(
-        "id_author"
-      );
+      const product = await Product.findOne({ _id: req.params.id })
+        .populate("id_author")
+        .populate("reviews.id_account");
       const relatedProducts = await Product.find({
         category: product.category,
         _id: { $ne: product._id },

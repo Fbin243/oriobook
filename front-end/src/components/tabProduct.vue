@@ -54,48 +54,55 @@
         >
           There is no review yet
         </p> -->
-        <div class="testimonial-box-container">
-        
-        <div class="testimonial-box">
-            <!--top------------------------->
-            <div class="box-top">
+        <template v-for="review in product.reviews">
+          <div class="testimonial-box-container">
+            <div class="testimonial-box">
+              <!--top------------------------->
+              <div class="box-top">
                 <!--profile----->
                 <div class="profile">
-                    <!--img---->
-                    <div class="profile-img">
-                        <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
-                    </div>
-                    <!--name-and-username-->
-                    <div class="name-user">
-                        <strong>Noah Wood</strong>
-                        <span>@noahwood</span>
-                    </div>
+                  <!--img---->
+                  <div class="profile-img">
+                    <img src="https://i.imgur.com/g6xsj36.jpg" />
+                  </div>
+                  <!--name-and-username-->
+                  <div class="name-user">
+                    <strong>Noah Wood</strong>
+                    <span>{{ convertDateFormat(review.date) }}</span>
+                  </div>
                 </div>
                 <!--reviews------>
                 <div class="reviews">
-                  &#9733;
-                  &#9733;
-                  &#9733;
-                  &#9733;
-                  &#9734;<!--Empty star-->
+                  <span v-for="index in review.rating">&#9733;</span>
+                  <span v-for="index in 5 - review.rating"
+                    >&#9734;<!--Empty star--></span
+                  >
                 </div>
+              </div>
+              <!--Comments---------------------------------------->
+              <div class="client-comment">
+                <p>
+                  {{ review.content }}
+                </p>
+              </div>
             </div>
-            <!--Comments---------------------------------------->
-            <div class="client-comment">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
-            </div>
-        </div>
-        </div>
-        <!-- <button type="button" class="btn" style="font-size: 15px;">Write a review</button> -->
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { convertDateFormat } from "@/helpers/helpers";
 export default {
   name: "tabProduct",
   props: ["product"],
+  setup() {
+    return {
+      convertDateFormat: convertDateFormat,
+    };
+  },
 };
 </script>
 

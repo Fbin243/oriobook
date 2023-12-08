@@ -1,6 +1,8 @@
 const Product = require("../models/product.model");
 const Order = require("../models/order.model");
-const { mongooseToObject } = require("../utils/mongoose");
+const Account = require("../models/account.model");
+
+const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 class productController {
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
@@ -70,6 +72,38 @@ class productController {
       next(error);
     }
   };
+
+  // [GET] product/checkout
+  getCheckout = async (req, res, next) => {
+    try {
+      // ID_USER
+      let id_account = '6572ae4ecbdcc4811d90a8e4'
+
+      let account = await Account.findOne({_id: id_account}).populate({
+        path: 'cart.id_product',
+        model: Product,
+      });
+
+      let totalSum = account.cart.reduce((sum, item) => {
+        let price = item.id_product.price;
+        let quantity = item.quantity;
+
+        item.subtotal = roundNumber(price * quantity, 2)
+        let total = roundNumber(sum + item.subtotal, 2)
+        return total;
+      }, 0);
+      
+      account = mongooseToObject(account)
+      account.total_price = totalSum
+
+      // console.log(account);
+
+      res.status(200).json(account);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   // *************** ADMIN *********************
   // [GET] product/dashboard
   getManage = async (req, res, next) => {

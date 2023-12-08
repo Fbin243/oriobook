@@ -39,9 +39,9 @@ class orderController {
   };
 
   // *************** ADMIN *********************
+  // [GET] order/manage-order
   getManageOrders = async (req, res, next) => {
     try {
-      // ID_USER
       let orders = await Order.find({})
       .populate({
         path: 'id_account',
@@ -65,9 +65,6 @@ class orderController {
     try {
       let orderId = req.params.id
       let action = req.body.action
-      // let boolHolder = false
-
-      console.log(action);
 
       let order = await Order.findOne({_id: orderId})
       .populate({
@@ -81,7 +78,7 @@ class orderController {
 
       let boolHolder = order.detail.every(item => {
         let bool = item.quantity <= item.id_product.stock
-        console.log(item.quantity, item.id_product.stock, bool);
+        // console.log(item.quantity, item.id_product.stock, bool);
         return item.quantity <= item.id_product.stock
       })
 
@@ -104,7 +101,7 @@ class orderController {
             // Update the product with the new stock value
             await Product.findByIdAndUpdate(productId, { $set: { stock: newStock } });
       
-            console.log(`Product ${productId} stock updated to ${newStock}`);
+            // console.log(`Product ${productId} stock updated to ${newStock}`);
           }
         } catch (error) {
           console.error('Error updating product stock:', error);

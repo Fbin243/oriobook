@@ -113,8 +113,18 @@ class productController {
   // [GET] product/dashboard
   getManage = async (req, res, next) => {
     try {
-      const products = await Product.find({});
-      res.status(200).json(products);
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 4
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const products = await Product.find({})
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
     }

@@ -106,3 +106,24 @@ img {
   }
   border: 1px solid orange;
 }
+
+// pagination
+.page-link {
+  border: none;
+}
+.active > .page-link,
+.page-link.active {
+  background-color: orange;
+  border-color: #ccc;
+  &:focus {
+    outline: none;
+  }
+}
+
+.page-link:not(.active):hover {
+  color: var(--primary-color);
+}
+
+.page-link:focus {
+  box-shadow: none;
+}

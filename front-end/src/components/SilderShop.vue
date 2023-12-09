@@ -11,19 +11,19 @@
       <label class="form-check-label" for="checkbox1">Chilldren's books</label>
     </div>
 
-    <div class="form-group form-check container" style="margin-left: -0px">
+    <div class="form-group form-check" >
       <input
         type="checkbox"
         class="form-check-input"
         id="checkbox2"
         name="checkbox2"
       />
-      <label class="form-check-label" for="checkbox2">Comedy</label>
-      <i
+      <label class="form-check-label" for="checkbox1">Comedy</label>
+      <!-- <i
         class="fas fa-chevron-down"
         id="chevronIcon"
         @click="toggleAdditionalCheckboxes('additionalCheckboxes2')"
-      ></i>
+      ></i> -->
       <div class="additional-checkboxes" id="additionalCheckboxes2">
         <!-- Two additional checkboxes go here -->
         <div class="form-check">
@@ -60,7 +60,7 @@
       <label class="form-check-label" for="checkbox3">Family Story</label>
     </div>
 
-    <div class="form-group form-check container" style="margin-left: -0px">
+    <div class="form-group form-check " style="margin-left: -0px">
       <input
         type="checkbox"
         class="form-check-input"
@@ -68,11 +68,11 @@
         name="checkbox4"
       />
       <label class="form-check-label" for="checkbox2">Fiction</label>
-      <i
+      <!-- <i
         class="fas fa-chevron-down"
         id="chevronIcon2"
         @click="toggleAdditionalCheckboxes2('additionalCheckboxes4')"
-      ></i>
+      ></i> -->
       <div class="additional-checkboxes" id="additionalCheckboxes4">
         <!-- Two additional checkboxes go here -->
         <div class="form-check">
@@ -142,56 +142,11 @@
     </div>
   </form>
   <br />
-  <div class="slider-container" style="padding-left: 20px">
-    <h6>Prices:</h6>
-    <div id="price-slider" class="slider"></div>
-  </div>
-  <br /><br /><br /><br />
 
-  <h6>Years:</h6>
-  <form style="padding-left: 20px">
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox1"
-        name="checkbox1"
-      />
-      <label class="form-check-label" for="checkbox1">2020</label>
-    </div>
 
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox2"
-        name="checkbox2"
-      />
-      <label class="form-check-label" for="checkbox2">2021</label>
-    </div>
+  
 
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox3"
-        name="checkbox3"
-      />
-      <label class="form-check-label" for="checkbox3">2022</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox4"
-        name="checkbox4"
-      />
-      <label class="form-check-label" for="checkbox4">2023</label>
-    </div>
-  </form>
-
-  <h6>Brands:</h6>
+  <h6>Author:</h6>
   <form style="padding-left: 20px">
     <div class="form-group form-check">
       <input
@@ -255,68 +210,6 @@
   </form>
 
   <br />
-  <h6>Brands:</h6>
-  <form style="padding-left: 20px">
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox1"
-        name="checkbox1"
-      />
-      <label class="form-check-label" for="checkbox1">Caranila</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox2"
-        name="checkbox2"
-      />
-      <label class="form-check-label" for="checkbox2">Home Book</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox3"
-        name="checkbox3"
-      />
-      <label class="form-check-label" for="checkbox3">Karate</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox4"
-        name="checkbox4"
-      />
-      <label class="form-check-label" for="checkbox4">Moosa</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox5"
-        name="checkbox5"
-      />
-      <label class="form-check-label" for="checkbox5">Pocket</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox6"
-        name="checkbox6"
-      />
-      <label class="form-check-label" for="checkbox6">Premium Book</label>
-    </div>
-  </form>
 </template>
 
 <script>

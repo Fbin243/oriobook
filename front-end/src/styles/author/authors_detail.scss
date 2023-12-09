@@ -1,3 +1,7 @@
+.author-details-section{
+  margin-bottom: 64px;
+}
+
 .img-cover {
   background-image: url("https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/08/bg-breadcrumb.jpg");
   height: 250px;
@@ -16,9 +20,14 @@
 
 .bwp-author-heading {
   display: flex;
-  margin: 50px 15px;
+  // margin: 50px 15px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  // margin-left: 12px;
+  // margin-right: 12px;
   border: 1px solid var(--gray-dark-10, rgba(36, 36, 36, 0.1));
-  padding: 20px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .images {
@@ -138,4 +147,9 @@ p {
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.shop-product{
+  padding-left: 2px;
+  padding-right: 2px;
 }

@@ -2,7 +2,7 @@
   <div class="account-page container">
     <div class="row content">
       <SideBar/>
-      <OrderSection :section="account"/>
+      <OrderSection/>
     </div>
   </div>
 </template>
@@ -29,5 +29,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/account/account.scss";
+@import "@/styles/account/account_order.scss";
 </style>

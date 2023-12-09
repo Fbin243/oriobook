@@ -7,7 +7,8 @@
       </div>
     </a>
     <div class="product-info">
-      <h3>Product Name </h3>
+      <a class="author-name" href="#">GUNVOR HOFMO </a>
+      <a class="product-name" href="#">Product Name </a>
       <p>$19.99</p>
     </div>
     <div class="overlay d-none">

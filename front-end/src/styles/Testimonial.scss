@@ -1,61 +1,65 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
 }
 
 .testimonial-container {
-    width: 80%;
-    text-align: center;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial {
+  min-height: 200px;
 }
 
 .stars {
-    color: #ffd700;
-    font-size: 56px;
+  color: #ff6600;
+  font-size: 26px;
 }
 
 .carousel-inner {
-    text-align: center;
-    width: 100%;
+  text-align: center;
+  width: 100%;
 }
 
 .testimonial p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* Add this style block to your existing <style> block in the head of your HTML */
 
 .carousel-indicators {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .carousel-indicators li {
-    display: inline-block;
-    width: 30px;
-    height: 5px;
-    margin: 0 5px;
-    text-indent: -999px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    background-color: #c0c0c0;
-    transition: background-color 0.3s ease;
+  display: inline-block;
+  width: 30px;
+  height: 5px;
+  margin: 0 5px;
+  text-indent: -999px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background-color: #c0c0c0;
+  transition: background-color 0.3s ease;
 }
 
 .carousel-indicators .active {
-    background-color: #888888; /* Color for active indicator */
+  background-color: #888888; /* Color for active indicator */
 }

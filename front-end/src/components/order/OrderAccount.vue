@@ -1,7 +1,10 @@
 <template>
   <div class="col-9 order-section">
     <div class="each-order" v-for="index in 2" :key="index">
-      <p class="order-code">Order code:</p>
+      <div class="order-section">
+        <p class="order-code">Order code:</p>
+        <p class="total">Total price: </p>
+      </div>
       <table
         class="order-table table-bordered"
       >
@@ -9,7 +12,7 @@
           <tr>
             <th class="product-thumbnail-col" width="60%">Product</th>
             <th class="product-quantity-col" width="20%">Quantity</th>
-            <th class="product-subtotal-col" width="10%">Total</th>
+            <th class="product-subtotal-col" width="10%">Price</th>
           </tr>
         </thead>
         <tbody>
@@ -23,7 +26,7 @@
                   href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                   ><img
                     src="https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2018/10/product-31.jpg"
-                    class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+                    class="product-img"
                     alt=""
                 /></a>
                 <div class="product-name">
@@ -37,6 +40,46 @@
                       ></span
                     >
                   </p>
+                </div>
+
+                <div class="evaluate-btn">
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                      <section class="section">
+                        <div class="star-rating-bx">
+                            <h2 class="text-center">Feedback</h2>
+                            <div class="star-widget">
+                              <form method="GET" name="feedback" action="#" @submit="feedBack">
+                                <input type="radio" name="star" id="rate-5" value="5">
+                                <label for="rate-5" class="fa-solid fa-star" style="margin-right: 62px;"></label>
+                                <input type="radio" name="star" id="rate-4" value="4">
+                                <label for="rate-4" class="fa-solid fa-star"></label>
+                                <input type="radio" name="star" id="rate-3" value="3">
+                                <label for="rate-3" class="fa-solid fa-star"></label>
+                                <input type="radio" name="star" id="rate-2" value="2">
+                                <label for="rate-2" class="fa-solid fa-star"></label>
+                                <input type="radio" name="star" id="rate-1" value="1">
+                                <label for="rate-1" class="fa-solid fa-star"></label>
+                                <!-- <p class="rating-desc"></p> -->
+                              </form>
+                              <div class="textarea">
+                                <p id="error-rating"></p>
+                                  <textarea cols="30" id="comment" placeholder="Describe your comment"></textarea>
+                                  <p id="error-comment"></p>
+                              </div>
+                              <div class="btn">
+                                <button type="submit" class="btn">Submit</button>
+                              </div>
+                            </div>
+                        </div>
+                    </section>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button>
                 </div>
               </div>
             </td>
@@ -68,14 +111,42 @@
 import { ref } from "vue";
 
 export default {
-  name: "OrderSection",
+  name: "OrderAccount",
   components: {
     
   },
   props: [],
   setup(props, {emit}) {
 
+    const feedBack = () => {
+
+      if (document.getElementById('comment').value === '') {
+          document.getElementById('error-comment').innerHTML = "* Please enter comment";
+      } else {
+          document.getElementById('error-comment').innerHTML = "";
+      }
+
+      if ($("input[type=radio]:checked").val() === 'undefined') {
+          document.getElementById('error-rating').innerHTML = "* Please choose any star";
+          alert('Please choose any star');
+      } else {
+          document.getElementById('error-rating').innerHTML = "";
+      }
+
+      var rating_Count = document.querySelector("input[name=star]:checked").value;
+      var comment = document.getElementById('comment').value; 
+      $("#simpleModal").modal('show');
+
+      // alert(x);
+      console.log(comment);
+      console.log(rating_Count);
+      document.getElementById('comment_text').innerHTML = comment;
+      document.getElementById('star_count').innerHTML = rating_Count;
+    }
+
     return {
+      feedBack,
+      
     };
   },
 };

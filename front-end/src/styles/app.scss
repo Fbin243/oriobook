@@ -4,13 +4,36 @@
   box-sizing: border-box;
 }
 
+:root {
+  --black-color: #242424;
+  --light-black-color: #242424cc;
+  --beige-color: #f0f0eb;
+  --primary-color: #eb5e38;
+  --border-color: #ccc;
+}
+
+.m-20 {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.modal-open {
+  overflow: unset !important;
+  padding-right: unset !important;
+}
+
+body {
+  overflow-x: hidden;
+}
+
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-a:link {
+a:link,
+a:visited {
   text-decoration: none;
   color: #242424;
 }
@@ -36,4 +59,21 @@ img {
 .container {
   max-width: 1410px;
   margin: 0 auto;
+  padding: 0;
+}
+
+:root{
+  --black-color: #242424;
+  --light-black-color: #242424cc;
+  --beige-color: #F0F0EB;
+}
+
+.m-20{
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.modal-open{
+  overflow:unset !important;
+  padding-right: unset !important;
 }

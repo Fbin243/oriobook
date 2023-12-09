@@ -16,7 +16,7 @@ const accountSchema = new mongoose.Schema({
   address: { type: String, default: "", trim: true },
   cart: [
     {
-      _id: {
+      id_product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "product",
       },

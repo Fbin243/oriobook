@@ -8,11 +8,6 @@
         <router-link to="/shop" class="nav-link"><span>Shop</span></router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/products" class="nav-link"
-          ><span>Products</span></router-link
-        >
-      </li>
-      <li class="nav-item">
         <router-link to="/authors" class="nav-link"
           ><span>Authors</span></router-link
         >
@@ -27,7 +22,7 @@
         </router-link>
         <ul class="sub-nav">
           <li class="nav-item">
-            <router-link to="/about" class="nav-link">About Us</router-link>
+            <router-link to="/aboutus" class="nav-link">About Us</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/contact" class="nav-link">Contact</router-link>
@@ -46,7 +41,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/account" class="nav-link"
+        <router-link to="/account-details" class="nav-link"
           ><i class="fa-regular fa-user me-2"></i>
           <span>Account</span>
         </router-link>

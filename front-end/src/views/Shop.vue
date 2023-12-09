@@ -6,7 +6,6 @@
     </div>
     <div
       class="product-section container"
-      style="padding-top: 300px; margin-bottom: 200px"
     >
       <div class="row">
         <div class="col-3">

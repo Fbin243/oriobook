@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    
     <div class="box-wrapper" ref="boxWrapper">
       <div class="box">
         <div><img src="../assets/img/childbookslide.jpg">
@@ -39,8 +40,8 @@
       <!-- Repeat the pattern for more boxes -->
     </div>
 
-    <div class="controls" style="position: absolute;left:1px;top:330px" @click="prev">❮</div>
-    <div class="controls" style="position: absolute;right:1px;top:330px" @click="next">❯</div>
+    <div class="controls" style="position: absolute;left:170px;top:410px;background-color: #eb5e37;color:white;border-radius: 50%;width: 35px;text-align: center;" @click="prev">❮</div>
+    <div class="controls" style="position: absolute;right:180px;top:410px;background-color: #eb5e37;color:white;border-radius: 50%;width: 35px;text-align: center;" @click="next">❯</div>
   </div>
 </template>
 

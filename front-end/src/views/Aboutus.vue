@@ -7,7 +7,7 @@
       <vidOffer />
       <ourHisAndTeam />
       <Testimonial />
-      <br /><br />
+      <br /><br /><br /><br />
       <emailSupscription />
     </div>
   </div>
@@ -34,5 +34,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/shop/shop.scss";
+@import "@/styles/shop/fakeShop.scss";
 </style>

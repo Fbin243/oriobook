@@ -153,8 +153,17 @@ export default {
       formData.forEach((value, key) => {
         values[key] = value;
       });
+
       try {
         const idProduct = product.value._id ? product.value._id : "";
+        // Hiển thị hiệu ứng loading
+        $(".edit-product-forms").html(`
+          <div class="w-100 text-center mt-5">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        `);
         const response = await axios.post(
           `/product/edit/save/${idProduct}`,
           formData,
@@ -164,7 +173,6 @@ export default {
             },
           }
         );
-        console.log(response.data);
         router.push("/admin/manage");
       } catch (error) {
         console.error("Error submitting form:", error);

@@ -180,6 +180,16 @@ class productController {
     }
   };
 
+  // [POST] product/delete/:id
+  deleteProduct = async (req, res, next) => {
+    try {
+      await Product.deleteOne({ _id: req.params.id });
+      res.status(200).json({ msg: "Deleted Product" });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   //[POST] /handle-review/:id
   handleReview = async (req, res, next) => {
     try {

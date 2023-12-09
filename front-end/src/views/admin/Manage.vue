@@ -60,7 +60,7 @@
                 <input
                   class="manage-product-checkbox col-1"
                   type="checkbox"
-                  value=""
+                  :value="product._id"
                 />
                 <a
                   :href="'/admin/edit/' + product._id"
@@ -106,66 +106,89 @@
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import { useRoute, useRouter } from "vue-router";
 export default {
   name: "Manage",
   components: {
     Sidebar,
   },
   setup() {
+    const router = useRouter();
     const init = function () {
-      const numberOfItems = 5;
-      const manageProductScreen = document.querySelector(".manage-product");
-      const manageProductContent = document.querySelector(
-        ".manage-product-content"
-      );
-      const deleteBtn = document.querySelector(
-        ".manage-product .js-delete-btn"
-      );
-
-      if (numberOfItems === 0) {
-        manageProductContent.classList.add("d-none");
-        deleteBtn.classList.add("d-none");
-        manageProductScreen.insertAdjacentHTML(
-          "beforeend",
-          `<p class="text-center" style="font-size: 2rem; margin-top: 2rem;">You haven't add any products! </p>`
+      $(() => {
+        const numberOfItems = 5;
+        const manageProductScreen = document.querySelector(".manage-product");
+        const manageProductContent = document.querySelector(
+          ".manage-product-content"
         );
-      } else {
-        const mainCheckbox = document.querySelector(
-          ".manage-product-titles .manage-product-checkbox"
-        );
-        const checkboxes = document.querySelectorAll(
-          ".manage-product-item .manage-product-checkbox"
-        );
-        const searchInputManageProduct = document.querySelector(
-          ".manage-product .search-input"
+        const deleteBtn = document.querySelector(
+          ".manage-product .js-delete-btn"
         );
 
-        mainCheckbox.addEventListener("click", () => {
-          if (mainCheckbox.checked)
-            checkboxes.forEach((checkbox) => {
-              checkbox.checked = true;
-            });
-          else
-            checkboxes.forEach((checkbox) => {
-              checkbox.checked = false;
-            });
-        });
+        if (numberOfItems === 0) {
+          manageProductContent.classList.add("d-none");
+          deleteBtn.classList.add("d-none");
+          manageProductScreen.insertAdjacentHTML(
+            "beforeend",
+            `<p class="text-center" style="font-size: 2rem; margin-top: 2rem;">You haven't add any products! </p>`
+          );
+        } else {
+          const mainCheckbox = document.querySelector(
+            ".manage-product-titles .manage-product-checkbox"
+          );
+          const checkboxes = document.querySelectorAll(
+            ".manage-product-item .manage-product-checkbox"
+          );
+          const searchInputManageProduct = document.querySelector(
+            ".manage-product .search-input"
+          );
 
-        deleteBtn.addEventListener("click", () => {
-          checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) checkbox.parentElement.remove();
-            mainCheckbox.checked = false;
+          mainCheckbox.addEventListener("click", () => {
+            if (mainCheckbox.checked)
+              checkboxes.forEach((checkbox) => {
+                checkbox.checked = true;
+              });
+            else
+              checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+              });
           });
-        });
 
-        searchInputManageProduct.addEventListener("focus", function () {
-          searchInputManageProduct.placeholder = "";
-        });
+          deleteBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Remove item khỏi giao diện
+            checkboxes.forEach(async (checkbox) => {
+              if (checkbox.checked) {
+                const id_product = $(checkbox).val();
+                // Remove item khỏi DB
+                $(".manage-product-list").html(`
+                  <div class="w-100 text-center mt-5">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                `);
+                const response = await axios.delete(
+                  `http://localhost:3000/product/delete/${id_product}`
+                );
+                checkbox.parentElement.remove();
+                // console.log(window.location);
+                window.location.reload();
+                // router.(window.location.pathname + "?page=2");
+              }
+              mainCheckbox.checked = false;
+            });
+          });
 
-        searchInputManageProduct.addEventListener("blur", function () {
-          searchInputManageProduct.placeholder = "Search for product";
-        });
-      }
+          searchInputManageProduct.addEventListener("focus", function () {
+            searchInputManageProduct.placeholder = "";
+          });
+
+          searchInputManageProduct.addEventListener("blur", function () {
+            searchInputManageProduct.placeholder = "Search for product";
+          });
+        }
+      });
     };
     const products = ref([]);
     onMounted(async () => {

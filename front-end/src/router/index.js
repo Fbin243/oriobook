@@ -77,8 +77,18 @@ const routes = [
   },
   {
     path: "/authors",
-    name: "Authors",
-    component: AuthorList,
+    children: [
+      {
+        path: "",
+        name: "Authors",
+        component: AuthorList,
+      },
+      {
+        path: ":id",
+        name: "AuthorDetails",
+        component: Author,
+      },
+    ],
   },
   {
     path: "/login",

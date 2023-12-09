@@ -95,7 +95,7 @@
 
 <script>
 import { convertDateFormat } from "@/helpers/helpers";
-export default {
+export default { 
   name: "tabProduct",
   props: ["product"],
   setup() {

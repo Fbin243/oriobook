@@ -1,21 +1,20 @@
 <template>
   <div class="container">
-    <div class="row" v-for="item in number" :key="item">
+    <div class="row" v-for="item in author" :key="item">
       <div class="item">
         <div class="image-position-top">
           <div class="item-image">
-            <a href="/author"
+            <a  :href="'/authors/' + item._id"
               ><img
                 decoding="async"
-                src="https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/07/Author-5.jpg"
-                alt="Bo Eriksson"
+                :src="item.image" :alt="item.name"
             /></a>
           </div>
           <div class="content">
             <h2 class="item-title">
-              <a href="/author"><span>Bo Eriksson</span></a>
+              <a  :href="'/authors/' + item._id"><span>{{ item.name }}</span></a>
             </h2>
-            <div class="item-count">3<span> Published Book</span></div>
+            <div class="item-count">{{ item.published_book }}<span> Published Book</span></div>
           </div>
         </div>
       </div>
@@ -28,11 +27,10 @@ import { ref } from "vue";
 
 export default {
   name: "Authors",
-  setup() {
-    const number = ref(6);
+  props: ["author"],
 
+  setup() {
     return {
-      number,
     };
   },
 };

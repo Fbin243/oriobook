@@ -5,37 +5,32 @@
         <div class="author-image">
           <div class="images">
             <img
-              src="https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2023/07/Author-5.jpg"
-              alt="Bo Eriksson"
-            />
+            :src="author.image" :alt="author.name"
+/>
+
           </div>
         </div>
     
         <div class="author-content">
           <div class="author-title">
-            <h2><span>Bo Eriksson</span></h2>
+            <h2><span>{{ author.name }}</span></h2>
           </div>
           <div class="author-description">
             <div class="term-description">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur.
+               {{author.description}}
               </p>
             </div>
           </div>
           <div class="author-infomation">
             <ul class="author-info">
-              <li><label>Style:</label> Art, Fiction</li>
+              <li><label>Style:</label>   {{author.style}}</li>
               <li>
-                <label>Address:</label> 1998 Wall Street 707, Washington DC, USA
+                <label>Address:</label>  {{author.address}}
               </li>
-              <li><label>Year of Birth:</label> 12-11-1978</li>
-              <li><label>Gender:</label>Female</li>
-              <li><label>Published Book:</label>3</li>
+              <li><label>Year of Birth:</label>   {{ convertDateFormat(author.date_of_birth) }}</li>
+              <li><label>Gender:</label>  {{author.gender}}</li>
+              <li><label>Published Book:</label>  {{author.published_book}}</li>
             </ul>
           </div>
           <ul class="social-link">
@@ -69,14 +64,19 @@
 <script>
 import { ref } from "vue";
 import ShopProduct from "../product/ShopProduct.vue";
+import { convertDateFormat } from "@/helpers/helpers";
+
 
 export default {
   name: "Author",
   components: {
     ShopProduct,
   },
+  props: ["author"],
   setup() {
-    return {};
+    return {
+      convertDateFormat: convertDateFormat,
+    };
   },
 };
 </script>

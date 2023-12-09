@@ -7,6 +7,9 @@
   <HomeBanner />
   <Testimonial />
   <emailSupscription />
+  <div class="back-top">
+    <i class="fa-solid fa-arrow-up" @click="scrollToTop"></i>
+  </div>
 </template>
 
 <script>
@@ -21,6 +24,7 @@ import emailSupscription from "@/components/emailSupscription.vue";
 
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { scrollToTop } from "@/helpers/helperFunctions";
 export default {
   name: "Home",
   components: {
@@ -37,6 +41,19 @@ export default {
   setup() {
     const bestSeller = ref([]);
     const topRatedProducts = ref([]);
+    const displayBackToTop = () => {
+      window.addEventListener("scroll", () => {
+        console.log(document.documentElement.scrollTop);
+        if (
+          document.documentElement.scrollTop > 2000 ||
+          document.body.scrollTop > 2000
+        ) {
+          $(".back-top").addClass("button-show");
+        } else {
+          $(".back-top").removeClass("button-show");
+        }
+      });
+    };
     onMounted(async () => {
       try {
         let response = await axios.get(
@@ -45,6 +62,7 @@ export default {
         bestSeller.value = response.data;
         response = await axios.get("http://localhost:3000/product/top-rated");
         topRatedProducts.value = response.data;
+        displayBackToTop();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -52,6 +70,7 @@ export default {
     return {
       bestSeller,
       topRatedProducts,
+      scrollToTop,
     };
   },
 };

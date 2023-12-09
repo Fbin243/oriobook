@@ -92,6 +92,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import HomeProductCard from "./HomeProductCard.vue";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import { scrollToTop } from "@/helpers/helperFunctions";
 
 export default {
   name: "ShopProduct",
@@ -104,7 +105,7 @@ export default {
     const totalPages = ref(0);
     let page = 1;
     const curPage = ref(page);
-    const perPage = 12;
+    const perPage = 8;
     const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
     const clickDropdown = () => {
@@ -113,14 +114,15 @@ export default {
 
     const requestPage = async () => {
       try {
-        // displayLoading(".manage-product-list", -32, -32);
+        scrollToTop(656);
+        displayLoading(".js-product-wrapper", -32);
         const response = await axios.get(
           `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;
         totalPages.value = response.data.totalPages;
-        // removeLoading();
+        removeLoading();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }

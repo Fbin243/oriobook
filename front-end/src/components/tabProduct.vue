@@ -55,8 +55,8 @@
           There is no review yet
           {{ product.reviews.length }}
         </p> -->
-        <template v-for="review in product.reviews">
-          <div class="testimonial-box-container">
+        <div class="testimonial-box-container">
+          <template v-for="review in product.reviews">
             <div class="testimonial-box">
               <!--top------------------------->
               <div class="box-top">
@@ -87,8 +87,8 @@
                 </p>
               </div>
             </div>
-          </div>
-        </template>
+          </template>
+        </div>
       </div>
     </div>
   </div>

@@ -13,6 +13,15 @@ function convertDateFormat(inputDate) {
   return formattedDate;
 }
 
+function scrollToTop(top = 0) {
+  // Scroll to the top of the page
+  window.scrollTo({
+    top: top,
+    behavior: "smooth", // You can use 'auto' instead of 'smooth' for instant scrolling
+  });
+}
+
 module.exports = {
   convertDateFormat,
+  scrollToTop,
 };

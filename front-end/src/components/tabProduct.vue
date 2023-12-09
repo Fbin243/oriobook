@@ -41,10 +41,10 @@
       </div>
       <div id="content2" class="tab-pane fade">
         <!-- Your content for the 'Link' goes here -->
-        <p style="font-family: Lora, serif; font-size: 25px; color: #242424">
+        <!-- <p style="font-family: Lora, serif; font-size: 25px; color: #242424">
           Reviews
         </p>
-        <br />
+        <br /> -->
         <!-- <p
           style="
             font-family: Jost, sans-serif;
@@ -53,6 +53,7 @@
           "
         >
           There is no review yet
+          {{ product.reviews.length }}
         </p> -->
         <template v-for="review in product.reviews">
           <div class="testimonial-box-container">

@@ -116,7 +116,7 @@ export default {
         );
         product.value = response.data.product;
         relatedProducts.value = response.data.relatedProducts;
-        console.log(response.data);
+        // console.log(response.data);
         nameAuthor.value = product.value.id_author.name;
         // console.log(product.value);
       } catch (error) {

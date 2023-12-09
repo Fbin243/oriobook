@@ -27,7 +27,7 @@
                 <option selected>All categories</option>
                 <option value="Romance">Romance</option>
                 <option value="Fiction">Fiction</option>
-                <option value="Family-story">Family Story</option>
+                <option value="Family-story">Family</option>
                 <option value="Comedy">Comedy</option>
                 <option value="History">History</option>
                 <option value="other">Other</option>

@@ -14,17 +14,11 @@
             type="submit"
             class="btn text-uppercase ms-auto js-save-btn"
             href="#"
-            @click="addProduct"
+            @click="addOrUpdateProduct"
             >Save</a
           >
         </div>
-        <form
-          :action="'/product/edit/save/' + product._id"
-          method="POST"
-          class="edit-product-forms row gx-0"
-          id="edit-form"
-          enctype="multipart/form-data"
-        >
+        <form class="edit-product-forms row gx-0" id="edit-form">
           <ul class="edit-product-form col-7">
             <li class="edit-product-form-item mb-3">
               <label for="product-name">Name</label>
@@ -135,7 +129,7 @@ export default {
     const categories = [
       "Romance",
       "Fiction",
-      "Family Story",
+      "Family",
       "Comedy",
       "History",
       "Other",
@@ -153,21 +147,23 @@ export default {
     const isSelected = (option, productOption) => {
       return option == productOption;
     };
-    const addProduct = async () => {
-      // router.push("/admin/manage");
-      console.log(document.getElementById("edit-form"));
+    const addOrUpdateProduct = async () => {
       const formData = new FormData(document.getElementById("edit-form"));
       const values = {};
       formData.forEach((value, key) => {
         values[key] = value;
       });
-      console.log(values);
       try {
-        const response = await axios.post(`/product/edit/save`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const idProduct = product.value._id ? product.value._id : "";
+        const response = await axios.post(
+          `/product/edit/save/${idProduct}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
         console.log(response.data);
         router.push("/admin/manage");
       } catch (error) {
@@ -217,7 +213,7 @@ export default {
       isSelected,
       authors,
       authorName,
-      addProduct,
+      addOrUpdateProduct,
     };
   },
 };

@@ -56,8 +56,19 @@ class productController {
   // [GET] product/shop
   getShop = async (req, res, next) => {
     try {
-      const products = await Product.find({}).populate("id_author");
-      res.status(200).json(products);
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 12
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const products = await Product.find({})
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
     }
@@ -189,7 +200,6 @@ class productController {
       next(error);
     }
   };
-
   // [POST] product/delete/:id
   deleteProduct = async (req, res, next) => {
     try {
@@ -199,7 +209,6 @@ class productController {
       next(err);
     }
   };
-
   //[POST] /handle-review/:id
   handleReview = async (req, res, next) => {
     try {

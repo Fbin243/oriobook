@@ -3,8 +3,8 @@
   justify-content: flex-end;
   .dropdown-toggle {
     align-items: center;
-    background-color: #eb5e37;
     color: #363636;
+    box-shadow: inset 0 0 2px 0 #242424;
     display: inline-flex;
     font-size: 15px;
     grid-area: auto;
@@ -14,6 +14,14 @@
     text-align: right;
     text-transform: capitalize;
     cursor: pointer;
+    &::after {
+      margin-left: 20px;
+    }
+    &:hover {
+      background-color: var(--primary-color);
+      border: none;
+      color: #fff;
+    }
   }
 
   .dropdown-menu {
@@ -24,7 +32,7 @@
     padding: 8px;
     font-size: 16px;
     box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.3);
-
+    border-radius: unset;
     li {
       a {
         color: #242424;
@@ -41,6 +49,6 @@
   }
 }
 
-.no-show{
+.no-show {
   display: none;
 }

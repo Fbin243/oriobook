@@ -62,7 +62,7 @@
             </template>
           </ul>
         </section>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mt-2">
           <a class="btn text-uppercase js-delete-btn" href="#" role="button"
             >Delete</a
           >
@@ -105,36 +105,53 @@ import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 export default {
   name: "Manage",
   components: {
     Sidebar,
   },
   setup() {
-    const router = useRouter();
     const products = ref([]);
-    const totalPages = ref([]);
+    const totalPages = ref(0);
     let page = 1;
     const curPage = ref(page);
     const perPage = 4;
 
-    const displayLoading = () => {
-      $(".manage-product-list").html(`
-        <div class="w-100 text-center mt-5">
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      `);
+    const requestPage = async () => {
+      try {
+        displayLoading(".manage-product-list", -32, -32);
+        const response = await axios.get(
+          `http://localhost:3000/product/manage?page=${page}&perPage=${perPage}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+        removeLoading();
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    const requestPage = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/product/manage?page=${page}&perPage=${perPage}`
-      );
-      curPage.value = page;
-      products.value = response.data.products;
-      totalPages.value = response.data.totalPages;
+    const paginationControl = () => {
+      $(".js-number-link").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        requestPage();
+      });
+
+      $(".js-prev-link").click(async function (e) {
+        e.preventDefault();
+        page = page > 0 ? page - 1 : page;
+        requestPage();
+      });
+
+      $(".js-next-link").click(async function (e) {
+        e.preventDefault();
+        console.log(totalPages.value);
+        page = page < totalPages.value ? page + 1 : page;
+        requestPage();
+      });
     };
 
     const init = function () {
@@ -178,45 +195,31 @@ export default {
             checkboxes.forEach(async (checkbox) => {
               if (checkbox.checked) {
                 const id_product = $(checkbox).val();
-                displayLoading();
+                displayLoading(".manage-product-list", -32, -32);
                 const response = await axios.delete(
                   `http://localhost:3000/product/delete/${id_product}`
                 );
                 checkbox.parentElement.remove();
                 // console.log(window.location);
-                window.location.reload();
                 // router.(window.location.pathname + "?page=2");
+                removeLoading();
+                window.location.reload();
               }
               mainCheckbox.checked = false;
             });
           });
 
-          $(".js-number-link").click(async function (e) {
-            e.preventDefault();
-            page = parseInt($(this).text());
-            requestPage();
-          });
-
-          $(".js-prev-link").click(async function (e) {
-            e.preventDefault();
-            page = page > 0 ? page - 1 : page;
-            requestPage();
-          });
-
-          $(".js-next-link").click(async function (e) {
-            e.preventDefault();
-            console.log(totalPages.value);
-            page = page < totalPages.value ? page + 1 : page;
-            requestPage();
-          });
+          paginationControl();
         }
       });
     };
     onMounted(async () => {
-      const response = await axios.get("http://localhost:3000/product/manage");
-      products.value = response.data.products;
-      totalPages.value = response.data.totalPages;
-      init();
+      try {
+        await requestPage();
+        init();
+      } catch (error) {
+        console.error(error);
+      }
     });
     return {
       products,

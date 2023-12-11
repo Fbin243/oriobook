@@ -1,7 +1,5 @@
-const path = require("path");
 const multer = require("multer");
 const axios = require("axios");
-
 const imageFilter = function (req, file, cb) {
   // Accept images only
   if (
@@ -12,7 +10,6 @@ const imageFilter = function (req, file, cb) {
   }
   cb(null, true);
 };
-
 const uploadToImgur = async (fileBuffer) => {
   try {
     const response = await axios.post(
@@ -25,21 +22,18 @@ const uploadToImgur = async (fileBuffer) => {
         },
       }
     );
-
     return response.data.data.link;
   } catch (error) {
     console.error("Error uploading to Imgur:", error);
     throw error;
   }
 };
-
 const storage = multer.memoryStorage();
 // 'image' is the name of our file input field in the HTML form
 let upload = multer({
   storage: storage,
   fileFilter: imageFilter,
 }).single("image");
-
 module.exports = {
   upload,
   uploadToImgur,

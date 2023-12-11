@@ -106,6 +106,8 @@
             class="form-control"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-default"
+            :value="accountData.firstName"
+            disabled
           />
           <br />
           <h6 style="font-weight: 400; font-size: 17px">Last name *</h6>
@@ -114,77 +116,41 @@
             class="form-control"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-default"
+            :value="accountData.lastName"
+            disabled
           />
           <br />
-          <h6 style="font-weight: 400; font-size: 17px">
-            Company name (optional)
-          </h6>
+          
+          <h6 style="font-weight: 400; font-size: 17px">Address *</h6>
           <input
             type="text"
             class="form-control"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-default"
+            :value="accountData.address"
+            disabled
           />
           <br />
-          <h6 style="font-weight: 400; font-size: 17px">Country / Region *</h6>
-
-          <div class="input-group mb-3">
-            <select class="form-select" id="inputGroupSelect02">
-              <option selected>VietNam</option>
-              <option value="1">USA</option>
-              <option value="2">UK</option>
-              <option value="3">China</option>
-              <option value="3">ThaiLand</option>
-              <option value="3">South Korea</option>
-              <option value="3">North Korea</option>
-            </select>
-          </div>
-          <br />
-          <h6 style="font-weight: 400; font-size: 17px">Street address *</h6>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default"
-          />
-          <br />
-          <h6 style="font-weight: 400; font-size: 17px">
-            Postcode / ZIP (optional)
-          </h6>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default"
-          />
-          <br />
-          <h6 style="font-weight: 400; font-size: 17px">Town / City *</h6>
-          <input
-            type="text"
-            class="form-control"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default"
-          />
-          <br />
+          
           <h6 style="font-weight: 400; font-size: 17px">Phone *</h6>
           <input
             type="text"
             class="form-control"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-default"
+            :value="accountData.phone"
+            disabled
           />
           <br />
-          <h6 style="font-weight: 400; font-size: 17px">Email address *</h6>
+          <h6 style="font-weight: 400; font-size: 17px">Email *</h6>
           <input
             type="text"
             class="form-control"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-default"
+            :value="accountData.email"
+            disabled
           />
-          <br />
-          <h4 style="font-weight: 400; font-size: 23px">
-            Ship to a different address?
-          </h4>
           <br />
           <h6 style="font-weight: 400; font-size: 17px">
             Order notes (optional)
@@ -193,7 +159,7 @@
             class="form-control"
             aria-label="With textarea"
             placeholder="Note about your delivery (eg. free,..)"
-            style="padding-top: 15px"
+            style="padding-top: 15px; outline: none;"
           ></textarea>
         </div>
       </div>
@@ -219,26 +185,18 @@
         <div style="user-select: none">
           __________________________________________
         </div>
-        <div style="position: relative; margin-top: 40px">
-          <img
-            src="../assets/img/products/product-106.jpg"
-            style="width: 30%"
-          />
-          <div style="position: absolute; top: 0; left: 160px">
-            Andromeda - 2023<br />
-            110.00$<br />
-            <div style="font-weight: 500">QTY : 2</div>
-          </div>
-        </div>
-        <div style="position: relative; margin-top: 40px">
-          <img
-            src="../assets/img/products/product-108.jpg"
-            style="width: 30%"
-          />
-          <div style="position: absolute; top: 0; left: 160px">
-            Andromeda - 2023<br />
-            110.00$<br />
-            <div style="font-weight: 500">QTY : 2</div>
+
+        <div class="product-section">
+          <div v-for="(item, index) in accountData.cart" :key="index" style="position: relative; margin-top: 40px">
+            <img
+              :src="item.id_product.image"
+              style="width: 30%"
+            />
+            <div style="position: absolute; top: 0; left: 160px">
+              {{item.id_product.name}}<br />
+              <p style="font-weight: 500" class="mb-0 mt-2">${{ item.id_product.price }}</p>
+              <div style="font-weight: 500">Quantity: {{ item.quantity }}</div>
+            </div>
           </div>
         </div>
         <div style="user-select: none; color: rgb(119, 119, 119)">
@@ -248,7 +206,7 @@
         <div style="position: relative; width: 270px">
           <div>Subtotal</div>
           <div style="position: absolute; font-weight: 700; top: 0; right: 0">
-            210.00$
+            ${{ accountData.total_price }}
           </div>
         </div>
         <br />
@@ -355,24 +313,54 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import axios from 'axios';
+
 export default {
   name: "checkout",
-  methods: {
-    toggleCoupon() {
+  setup(){
+    const accountData = ref({})
+
+    const toggleCoupon = () => {
       var content = document.getElementById("coupon-content");
       content.style.display =
         content.style.display === "block" ? "none" : "block";
-    },
-    applyCoupon() {
+    };
+
+    const applyCoupon = () => {
       // Add your coupon application logic here
       console.log("Coupon applied!");
-    },
-    toggleContent(contentId) {
+    };
+
+    const toggleContent = (contentId) => {
       var content = document.getElementById(contentId);
       content.style.display =
         content.style.display === "block" ? "none" : "block";
-    },
-  },
+    };
+
+    const fetchData = async (link) => {
+      try {
+        const response = await axios.get(`http://localhost:3000/product/checkout`);
+        accountData.value = response.data;
+        // console.log(accountData.value);
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    };
+
+    onMounted(() => {
+      fetchData();
+    });
+
+    // You can return data or methods that you want to expose to the template
+    return {
+      toggleCoupon,
+      applyCoupon,
+      toggleContent,
+      accountData,
+    };
+  }
 };
 </script>
 

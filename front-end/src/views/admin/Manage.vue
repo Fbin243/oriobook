@@ -10,49 +10,17 @@
           >
         </div>
         <section class="manage-product-content">
-          <div class="manage-product-controll row gx-0 mb-5">
-            <div class="col-4 manage-product-search-bar">
-              <label for="search-input-id" class="search-label">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-              </label>
-              <input
-                type="email"
-                class="search-input"
-                id="search-input-id"
-                placeholder="Search for product"
-              />
-            </div>
-            <div class="col-4 manage-product-select-container">
-              <select class="manage-product-select">
-                <option selected>All categories</option>
-                <option value="Romance">Romance</option>
-                <option value="Fiction">Fiction</option>
-                <option value="Family-story">Family Story</option>
-                <option value="Comedy">Comedy</option>
-                <option value="History">History</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="col-4 manage-product-select-container">
-              <select class="manage-product-select">
-                <option selected>Sort by</option>
-                <option value="Name">Name</option>
-                <option value="Category">Category</option>
-                <option value="Price">Price</option>
-              </select>
-            </div>
-          </div>
           <ul class="manage-product-titles row gx-0">
             <input
               class="manage-product-checkbox col-1"
               type="checkbox"
               value=""
             />
-            <p class="manage-product-title text-center col-1">Image</p>
-            <p class="manage-product-title text-center col">Name</p>
-            <p class="manage-product-title text-center col-2">Category</p>
-            <p class="manage-product-title text-center col-2">Stock</p>
-            <p class="manage-product-title text-center col-2">Price</p>
+            <p class="manage-product-title text-center mb-0 col-1">Image</p>
+            <p class="manage-product-title text-center mb-0 col">Name</p>
+            <p class="manage-product-title text-center mb-0 col-2">Category</p>
+            <p class="manage-product-title text-center mb-0 col-2">Stock</p>
+            <p class="manage-product-title text-center mb-0 col-2">Price</p>
           </ul>
           <ul class="manage-product-list">
             <template v-for="product in products">
@@ -60,7 +28,7 @@
                 <input
                   class="manage-product-checkbox col-1"
                   type="checkbox"
-                  value=""
+                  :value="product._id"
                 />
                 <a
                   :href="'/admin/edit/' + product._id"
@@ -94,9 +62,39 @@
             </template>
           </ul>
         </section>
-        <a class="btn text-uppercase js-delete-btn" href="#" role="button"
-          >Delete</a
-        >
+        <div class="d-flex justify-content-between mt-2">
+          <a class="btn text-uppercase js-delete-btn" href="#" role="button"
+            >Delete</a
+          >
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <a
+                  class="page-link js-prev-link"
+                  href="#"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li v-for="page in totalPages" class="page-item">
+                <a
+                  class="page-link js-number-link"
+                  :class="{ active: page == curPage }"
+                  href="#"
+                  >{{ page }}</a
+                >
+              </li>
+              <li class="page-item">
+                <a class="page-link js-next-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </section>
     </section>
   </div>
@@ -106,75 +104,127 @@
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import { useRoute, useRouter } from "vue-router";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 export default {
   name: "Manage",
   components: {
     Sidebar,
   },
   setup() {
-    const init = function () {
-      const numberOfItems = 5;
-      const manageProductScreen = document.querySelector(".manage-product");
-      const manageProductContent = document.querySelector(
-        ".manage-product-content"
-      );
-      const deleteBtn = document.querySelector(
-        ".manage-product .js-delete-btn"
-      );
+    const products = ref([]);
+    const totalPages = ref(0);
+    let page = 1;
+    const curPage = ref(page);
+    const perPage = 4;
 
-      if (numberOfItems === 0) {
-        manageProductContent.classList.add("d-none");
-        deleteBtn.classList.add("d-none");
-        manageProductScreen.insertAdjacentHTML(
-          "beforeend",
-          `<p class="text-center" style="font-size: 2rem; margin-top: 2rem;">You haven't add any products! </p>`
+    const requestPage = async () => {
+      try {
+        displayLoading(".manage-product-list", -32, -32);
+        const response = await axios.get(
+          `http://localhost:3000/product/manage?page=${page}&perPage=${perPage}`
         );
-      } else {
-        const mainCheckbox = document.querySelector(
-          ".manage-product-titles .manage-product-checkbox"
-        );
-        const checkboxes = document.querySelectorAll(
-          ".manage-product-item .manage-product-checkbox"
-        );
-        const searchInputManageProduct = document.querySelector(
-          ".manage-product .search-input"
-        );
-
-        mainCheckbox.addEventListener("click", () => {
-          if (mainCheckbox.checked)
-            checkboxes.forEach((checkbox) => {
-              checkbox.checked = true;
-            });
-          else
-            checkboxes.forEach((checkbox) => {
-              checkbox.checked = false;
-            });
-        });
-
-        deleteBtn.addEventListener("click", () => {
-          checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) checkbox.parentElement.remove();
-            mainCheckbox.checked = false;
-          });
-        });
-
-        searchInputManageProduct.addEventListener("focus", function () {
-          searchInputManageProduct.placeholder = "";
-        });
-
-        searchInputManageProduct.addEventListener("blur", function () {
-          searchInputManageProduct.placeholder = "Search for product";
-        });
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+        removeLoading();
+      } catch (error) {
+        console.error(error);
       }
     };
-    const products = ref([]);
+
+    const paginationControl = () => {
+      $(".js-number-link").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        requestPage();
+      });
+
+      $(".js-prev-link").click(async function (e) {
+        e.preventDefault();
+        page = page > 0 ? page - 1 : page;
+        requestPage();
+      });
+
+      $(".js-next-link").click(async function (e) {
+        e.preventDefault();
+        console.log(totalPages.value);
+        page = page < totalPages.value ? page + 1 : page;
+        requestPage();
+      });
+    };
+
+    const init = function () {
+      $(() => {
+        const deleteBtn = document.querySelector(
+          ".manage-product .js-delete-btn"
+        );
+
+        if (totalPages === 0) {
+          manageProductContent.classList.add("d-none");
+          deleteBtn.classList.add("d-none");
+          manageProductScreen.insertAdjacentHTML(
+            "beforeend",
+            `<p class="text-center" style="font-size: 2rem; margin-top: 2rem;">You haven't add any products! </p>`
+          );
+        } else {
+          const mainCheckbox = document.querySelector(
+            ".manage-product-titles .manage-product-checkbox"
+          );
+          const checkboxes = document.querySelectorAll(
+            ".manage-product-item .manage-product-checkbox"
+          );
+          const searchInputManageProduct = document.querySelector(
+            ".manage-product .search-input"
+          );
+
+          mainCheckbox.addEventListener("click", () => {
+            if (mainCheckbox.checked)
+              checkboxes.forEach((checkbox) => {
+                checkbox.checked = true;
+              });
+            else
+              checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+              });
+          });
+
+          deleteBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Remove item khỏi giao diện
+            checkboxes.forEach(async (checkbox) => {
+              if (checkbox.checked) {
+                const id_product = $(checkbox).val();
+                displayLoading(".manage-product-list", -32, -32);
+                const response = await axios.delete(
+                  `http://localhost:3000/product/delete/${id_product}`
+                );
+                checkbox.parentElement.remove();
+                // console.log(window.location);
+                // router.(window.location.pathname + "?page=2");
+                removeLoading();
+                window.location.reload();
+              }
+              mainCheckbox.checked = false;
+            });
+          });
+
+          paginationControl();
+        }
+      });
+    };
     onMounted(async () => {
-      const response = await axios.get("http://localhost:3000/product/manage");
-      products.value = response.data;
-      init();
+      try {
+        await requestPage();
+        init();
+      } catch (error) {
+        console.error(error);
+      }
     });
     return {
       products,
+      totalPages,
+      curPage,
     };
   },
 };

@@ -91,11 +91,12 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import axios from "axios";
 import HomeProductCard from "@/components/product/HomeProductCard.vue";
 import tabProduct from "@/components/tabProduct.vue";
 import { useRoute } from "vue-router";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 
 export default {
   name: "ProductDetails",
@@ -109,16 +110,20 @@ export default {
     const product = ref({});
     const relatedProducts = ref({});
     const nameAuthor = ref("");
+
     onMounted(async () => {
       try {
+        displayLoading(".product-details");
         const response = await axios.get(
           `http://localhost:3000/product/detail/${id.value}`
         );
+        removeLoading();
         product.value = response.data.product;
         relatedProducts.value = response.data.relatedProducts;
-        console.log(response.data);
+        // console.log(response.data);
         nameAuthor.value = product.value.id_author.name;
         // console.log(product.value);
+        // window.location.reload();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }

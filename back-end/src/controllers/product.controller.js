@@ -1,6 +1,13 @@
 const Author = require("../models/author.model");
 const Product = require("../models/product.model");
 const { upload, uploadToImgur } = require("../middlewares/upload-file");
+const { client } = require("../middlewares/imgur");
+const path = require("path");
+const fs = require("fs");
+const Order = require("../models/order.model");
+const Account = require("../models/account.model");
+
+const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 class productController {
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
@@ -49,8 +56,19 @@ class productController {
   // [GET] product/shop
   getShop = async (req, res, next) => {
     try {
-      const products = await Product.find({}).populate("id_author");
-      res.status(200).json(products);
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const products = await Product.find({})
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
     }
@@ -70,12 +88,54 @@ class productController {
       next(error);
     }
   };
+
+  // [GET] product/checkout
+  getCheckout = async (req, res, next) => {
+    try {
+      // ID_USER
+      let id_account = "6572ae4ecbdcc4811d90a8e4";
+
+      let account = await Account.findOne({ _id: id_account }).populate({
+        path: "cart.id_product",
+        model: Product,
+      });
+
+      let totalSum = account.cart.reduce((sum, item) => {
+        let price = item.id_product.price;
+        let quantity = item.quantity;
+
+        item.subtotal = roundNumber(price * quantity, 2);
+        let total = roundNumber(sum + item.subtotal, 2);
+        return total;
+      }, 0);
+
+      account = mongooseToObject(account);
+      account.total_price = totalSum;
+
+      // console.log(account);
+
+      res.status(200).json(account);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   // *************** ADMIN *********************
   // [GET] product/dashboard
   getManage = async (req, res, next) => {
     try {
-      const products = await Product.find({});
-      res.status(200).json(products);
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 4
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const products = await Product.find({})
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
     }
@@ -100,23 +160,90 @@ class productController {
         }
         // Tìm id_author ứng với author_name
         const author = await Author.findOne({ name: req.body.author_name });
-        console.log(req.body);
         delete req.body.author_name;
-        console.log(req.file);
-        // console.log(typeof req.body.image);
+        req.body.id_author = author._id;
         if (req.file) {
           // Upload the file to Imgur
           const imgurLink = await uploadToImgur(req.file.buffer);
           // Do something with the Imgur link (e.g., save it to a database)
-          console.log(imgurLink);
           req.body.image = imgurLink;
         } else req.body.image = "https://i.imgur.com/D8pnlgT.jpg";
-        req.body.id_author = author._id;
         const newProduct = new Product(req.body);
         await newProduct.save();
         res.status(200).json({ msg: "Added Product" });
         // return res.status(200).send({ imgurLink });
       });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // [POST] product/edit/save
+  updateProduct = async (req, res, next) => {
+    try {
+      upload(req, res, async (err) => {
+        if (err) {
+          return res.status(400).send({ message: err.message });
+        }
+        // Tìm id_author ứng với author_name
+        const author = await Author.findOne({ name: req.body.author_name });
+        delete req.body.author_name;
+        req.body.id_author = author._id;
+        // Update link ảnh nếu có
+        if (req.file) {
+          const imgurLink = await uploadToImgur(req.file.buffer);
+          req.body.image = imgurLink;
+        }
+        await Product.updateOne({ _id: req.params.id }, req.body);
+        res.status(200).json({ msg: "Updated Product" });
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // [POST] product/delete/:id
+  deleteProduct = async (req, res, next) => {
+    try {
+      await Product.deleteOne({ _id: req.params.id });
+      res.status(200).json({ msg: "Deleted Product" });
+    } catch (err) {
+      next(err);
+    }
+  };
+  //[POST] /handle-review/:id
+  handleReview = async (req, res, next) => {
+    try {
+      let id_account = "6572ae4ecbdcc4811d90a8e4";
+      let idProduct = req.params.id;
+
+      let content = req.body.comment;
+      let rating = parseInt(req.body.rating);
+      let idOrder = req.body.idOrder;
+      let orderIndex = req.body.orderIndex;
+
+      const review = {
+        id_account,
+        rating,
+        content,
+        date: new Date(),
+      };
+
+      // console.log(, req.body.orderIndex);
+
+      const updatedProduct = await Product.findOneAndUpdate(
+        { _id: idProduct },
+        { $push: { reviews: review } },
+        { new: true }
+      );
+
+      const updatedOrder = await Order.findOneAndUpdate(
+        { _id: idOrder },
+        { $set: { [`detail.${orderIndex}.isReviewed`]: true } },
+        { new: true }
+      );
+
+      // console.log(updatedOrder);
+
+      res.status(200).json({ msg: "success" });
     } catch (error) {
       next(error);
     }

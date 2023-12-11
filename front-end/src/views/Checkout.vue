@@ -1,9 +1,9 @@
 <template>
   <div class="shop-page" style="margin-bottom: 100px">
-    <div class="img-cover centered-nav">
+    <div class="img-cover centered-nav" style="height: 100px !important;">
       <ul
         class="nav nav-underline d-flex justify-content-center title-heading"
-        style="padding-bottom: 150px"
+        style="padding: unset; line-height: unset;"
       >
   
         <li class="nav-item">

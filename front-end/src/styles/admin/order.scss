@@ -6,9 +6,15 @@
   margin-bottom: 48px;
 }
 
+#tbody-scroll{
+  // overflow-y: scroll;
+  // height: 550px;
+}
+
 .order-section {
   padding-right: 0 !important;
   width: 74%;
+  min-height: 655px;
 
   .title {
     color: #242424;
@@ -21,6 +27,7 @@
   .order-table {
     // width: 100%;
     border-collapse: collapse;
+    // overflow-y: scroll;
     th {
       color: #242424;
       display: table-cell;
@@ -43,77 +50,13 @@
     .status span {
       padding: 7px;
       cursor: pointer;
+      width: 100px;
     }
 
     .details i {
       cursor: pointer;
       padding: 4px 16px;
     }
-
-    // .product-quantity {
-    //   display: flex;
-    //   align-items: center;
-    //   height: 230px;
-    //   border: none;
-    // }
-
-    // .product-subtotal {
-    //   padding-bottom: 28px;
-    // }
-
-    // td {
-    //   color: #242424;
-    //   display: table-cell;
-    //   font-size: 16px;
-    //   line-height: 25.5px;
-    //   padding: 15px;
-    //   text-align: left;
-
-    //   .product-cart-info {
-    //     color: #242424;
-    //     display: flex;
-    //     font-size: 16px;
-    //     line-height: 25.5px;
-    //     text-align: left;
-
-    //     .product-img {
-    //       color: #242424;
-    //       display: inline;
-    //       font-size: 16px;
-    //       grid-area: auto;
-    //       // line-height: 25.5px;
-    //       text-align: left;
-    //       height: 200px;
-    //       width: 150px;
-    //       aspect-ratio: auto 500/700;
-    //     }
-
-    //     .product-name {
-    //       color: #242424;
-    //       font-size: 16px;
-    //       grid-area: auto;
-    //       // line-height: 25.5px;
-    //       margin: 0px 0px 0px 15px;
-    //       text-align: left;
-    //     }
-    //   }
-
-    //   .quantity {
-    //     display: flex;
-    //     margin: 0 auto;
-    //     .number {
-    //       align-items: flex-start;
-    //       background-color: #ffffff;
-    //       color: #242424;
-    //       font-family: Jost;
-    //       font-size: 16px;
-    //       width: 40px;
-    //       height: 40px;
-    //       text-align: center;
-    //       padding: 8px;
-    //     }
-    //   }
-    // }
   }
 }
 
@@ -131,7 +74,7 @@
   }
 
   .order-table {
-    width: 935px;
+    width: 915px;
     margin: 16px;
   }
 
@@ -149,7 +92,7 @@
 
   .order-btn-section {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     padding: 12px 16px 16px;
 
     button {
@@ -174,6 +117,9 @@
   display: flex;
   justify-content: flex-end;
   .modal-content {
+    overflow-y: scroll;
+    max-height: 710px;
+
     .img-rv {
       width: 65px;
       height: 65px;

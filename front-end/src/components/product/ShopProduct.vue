@@ -1,8 +1,8 @@
 <template>
   <div class="shop-product" :class="author_page ? 'col-12' : 'col-9'">
-    <div class="row gx-2">
+    <div class="row gx-0">
       <div
-        class="col-12 woocommerce-ordering pwb-dropdown dropdown show"
+        class="col-12 woocommerce-ordering pwb-dropdown dropdown show px-3"
         :class="{ 'no-show': author_page }"
       >
         <span
@@ -49,15 +49,41 @@
           </li>
         </ul>
       </div>
-      <div
-        class="mt-3"
-        :class="author_page ? 'm-20' : 'col-3'"
-        v-for="product in products"
-        :key="product._id"
-      >
-        <HomeProductCard :product="product" />
+      <div class="row gx-3 px-0 js-product-wrapper">
+        <div
+          class="mt-3"
+          :class="author_page ? 'm-20' : 'col-3'"
+          v-for="product in products"
+          :key="product._id"
+        >
+          <HomeProductCard :product="product" />
+        </div>
       </div>
     </div>
+    <nav aria-label="Page navigation example" class="mt-3">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link js-prev-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li v-for="page in totalPages" class="page-item">
+          <a
+            class="page-link js-number-link"
+            :class="{ active: page == curPage }"
+            href="#"
+            >{{ page }}</a
+          >
+        </li>
+        <li class="page-item">
+          <a class="page-link js-next-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -65,6 +91,8 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import HomeProductCard from "./HomeProductCard.vue";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import { scrollToTop } from "@/helpers/helperFunctions";
 
 export default {
   name: "ShopProduct",
@@ -73,17 +101,58 @@ export default {
   },
   props: ["author_page"],
   setup(props) {
-    const products = ref({});
+    const products = ref([]);
+    const totalPages = ref(0);
+    let page = 1;
+    const curPage = ref(page);
+    const perPage = 8;
     const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
     const clickDropdown = () => {
       toggleMenu.value = !toggleMenu.value;
     };
 
+    const requestPage = async () => {
+      try {
+        scrollToTop(656);
+        displayLoading(".js-product-wrapper", -32);
+        const response = await axios.get(
+          `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+        removeLoading();
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    };
+
+    const paginationControl = () => {
+      $(".js-number-link").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        requestPage();
+      });
+
+      $(".js-prev-link").click(async function (e) {
+        e.preventDefault();
+        page = page > 0 ? page - 1 : page;
+        requestPage();
+      });
+
+      $(".js-next-link").click(async function (e) {
+        e.preventDefault();
+        console.log(totalPages.value);
+        page = page < totalPages.value ? page + 1 : page;
+        requestPage();
+      });
+    };
+
     onMounted(async () => {
       try {
-        const response = await axios.get("http://localhost:3000/product/shop");
-        products.value = response.data; // Gán dữ liệu từ API vào biến products
+        await requestPage();
+        paginationControl();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -93,6 +162,8 @@ export default {
       toggleMenu,
       author_page,
       products,
+      totalPages,
+      curPage,
     };
   },
 };

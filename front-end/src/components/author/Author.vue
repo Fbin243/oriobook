@@ -64,7 +64,7 @@
 <script>
 import { ref } from "vue";
 import ShopProduct from "../product/ShopProduct.vue";
-import { convertDateFormat } from "@/helpers/helpers";
+import { convertDateFormat } from "@/helpers/helperFunctions";
 
 
 export default {

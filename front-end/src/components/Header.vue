@@ -1,35 +1,20 @@
 <template>
-  <header
-    class="header container"
-    :class="{
-      'at-home': $route.name == 'Home' || $route.name == 'Shop',
-    }"
-  >
+  <header class="header container" :class="{
+    'at-home': $route.name == 'Home' || $route.name == 'Shop',
+  }">
     <router-link to="/" class="logo">
       <img src="@/assets/img/logo.png" alt="logo" />
     </router-link>
     <div class="d-flex align-items-center">
-      <div
-        class="search me-3 align-items-center"
-        role="button"
-        v-if="$route.name != 'Home'"
-        @click="handleSearchForm"
-      >
+      <div class="search me-3 align-items-center" role="button" v-if="$route.name != 'Home'" @click="handleSearchForm">
         <i class="fa-regular fa-magnifying-glass"></i>
         <span>Search</span>
       </div>
-      <form class="search-input" role="search" v-if="$route.name != 'Home'">
-        <i
-          class="fa-sharp fa-regular fa-xmark search-close-btn"
-          role="button"
-        ></i>
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </form>
+      <form class="search-input" role="search" v-if="$route.name !== 'Home'" @submit.prevent="submitSearch">
+    <i class="fa-sharp fa-regular fa-xmark search-close-btn" role="button"></i>
+    <input v-model="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+    <button type="submit">Search</button>
+  </form>
       <div class="cart-btn" role="button">
         <i class="fa-sharp fa-regular fa-basket-shopping-simple"></i>
         <span id="lblCartCount"> 0 </span>
@@ -42,7 +27,16 @@
 <script>
 export default {
   name: "Header",
-  methods: {},
+  methods: {
+    submitSearch() {
+      console.log('Search query:', this.searchQuery); 
+      // Add your logic to handle the search query (e.g., redirect to search results page)
+      this.$router.push({ name: 'Shop', query: { search: this.searchQuery } }).then(() => {
+    // Reload the current route
+    this.$router.go();
+  });
+    }
+  },
   setup() {
     const handleSearchForm = () => {
       $(".search").css({

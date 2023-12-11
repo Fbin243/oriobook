@@ -1,53 +1,22 @@
 <template>
   <div class="shop-product" :class="author_page ? 'col-12' : 'col-9'">
     <div class="row gx-0">
+      <!-- <h2>Search Query: {{ $route.query.search }}</h2> -->
       <div
         class="col-12 woocommerce-ordering pwb-dropdown dropdown show px-3"
         :class="{ 'no-show': author_page }"
       >
-        <span
-          class="pwb-dropdown-toggle dropdown-toggle"
-          data-toggle="dropdown"
-          aria-expanded="true"
-          @click="clickDropdown"
-          >Default sorting</span
-        >
-        <ul
-          class="pwb-dropdown-menu dropdown-menu"
-          :class="[{ show: toggleMenu }]"
-          x-placement="bottom-start"
-        >
-          <li data-value="menu_order" class="active">
-            <a href="?show-subcategories=hide&amp;orderby=menu_order"
-              >Default sorting</a
-            >
-          </li>
-          <li data-value="popularity">
-            <a href="?show-subcategories=hide&amp;orderby=popularity"
-              >Sort by popularity</a
-            >
-          </li>
-          <li data-value="rating">
-            <a href="?show-subcategories=hide&amp;orderby=rating"
-              >Sort by average rating</a
-            >
-          </li>
-          <li data-value="date">
-            <a href="?show-subcategories=hide&amp;orderby=date"
-              >Sort by latest</a
-            >
-          </li>
-          <li data-value="price">
-            <a href="?show-subcategories=hide&amp;orderby=price"
-              >Sort by price: low to high</a
-            >
-          </li>
-          <li data-value="price-desc">
-            <a href="?show-subcategories=hide&amp;orderby=price-desc"
-              >Sort by price: high to low</a
-            >
-          </li>
-        </ul>
+      <span class="pwb-dropdown-toggle dropdown-toggle" data-toggle="dropdown" aria-expanded="true" @click="clickDropdown">
+      {{ selectedSorting.label }}
+    </span>
+    <ul class="pwb-dropdown-menu dropdown-menu" :class="[{ show: toggleMenu }]" x-placement="bottom-start">
+      <li v-for="option in sortingOptions" :key="option.value" :data-value="option.value" :class="{ active: selectedSorting.value === option.value }">
+        <a href="#  " @click="selectSorting(option)">
+          {{ option.label }}
+        </a>
+      </li>
+    </ul>
+
       </div>
       <div class="row gx-3 px-0 js-product-wrapper">
         <div
@@ -89,6 +58,8 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { useRoute } from 'vue-router';
+
 import axios from "axios";
 import HomeProductCard from "./HomeProductCard.vue";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
@@ -106,22 +77,61 @@ export default {
     let page = 1;
     const curPage = ref(page);
     const perPage = 8;
-    const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
+    const toggleMenu = ref(false);
+    const selectedSorting = ref({ value: 'menu_order', label: 'Default sorting' });
+    const route = useRoute();
+    const searchQuery = route.query.search;
+
+    const sortingOptions = [
+      { value: 'menu_order', label: 'Default sorting' },
+      { value: 'popularity', label: 'Sort by popularity' },
+      { value: 'rating', label: 'Sort by average rating' },
+      { value: 'date', label: 'Sort by latest' },
+      { value: 'price', label: 'Sort by price: low to high' },
+      { value: 'price-desc', label: 'Sort by price: high to low' },
+    ];
+
     const clickDropdown = () => {
       toggleMenu.value = !toggleMenu.value;
     };
 
+    const selectSorting = async(option) => {
+      selectedSorting.value = option;
+      toggleMenu.value = false;
+      console.log('Selected Sorting:', selectedSorting.value);
+      // Do something with the selected sorting value
+      const response = await axios.get(
+        
+          `http://localhost:3000/product/shopSort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+    };
+   
+    
+    
     const requestPage = async () => {
       try {
+       
         scrollToTop(656);
         displayLoading(".js-product-wrapper", -32);
+        if(searchQuery == '' || !searchQuery){
         const response = await axios.get(
           `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;
         totalPages.value = response.data.totalPages;
+        }else{
+          const response = await axios.get(
+          `http://localhost:3000/product/shopSerach?page=${page}&perPage=${perPage}&search=${searchQuery}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+        }
         removeLoading();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
@@ -135,7 +145,7 @@ export default {
         requestPage();
       });
 
-      $(".js-prev-link").click(async function (e) {
+      $(".js-prev-link").click(async function (e) { 
         e.preventDefault();
         page = page > 0 ? page - 1 : page;
         requestPage();
@@ -158,14 +168,18 @@ export default {
       }
     });
     return {
-      clickDropdown,
       toggleMenu,
+      selectedSorting,
+      sortingOptions,
+      clickDropdown,
+      selectSorting,
       author_page,
       products,
       totalPages,
       curPage,
     };
   },
+
 };
 </script>
 

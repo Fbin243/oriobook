@@ -5,6 +5,10 @@ const router = express.Router();
 router.get("/best-seller", productController.getBestSeller);
 router.get("/top-rated", productController.getTopRatedBook);
 router.get("/shop", productController.getShop);
+router.get("/shopSerach", productController.getShopBetter);
+router.get("/shopSort", productController.getShopBetterSort);
+
+
 router.get("/detail/:id", productController.getDetail);
 router.get("/checkout", productController.getCheckout);
 router.post("/handle-review/:id", productController.handleReview);

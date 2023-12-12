@@ -1,214 +1,38 @@
 <template>
   <h6>Categories:</h6>
-  <form style="padding-left: 20px">
-    <div class="form-group form-check">
+  <form style="padding-left: 20px" @submit.prevent="handleSubmit">
+    <h6>Categories:</h6>
+    <div class="form-group form-check" v-for="category in categories" :key="category.id">
       <input
-        type="checkbox"
+        type="radio"
         class="form-check-input"
-        id="checkbox1"
-        name="checkbox1"
+        :id="'category-' + category.id"
+        name="category"
+        v-model="selectedCategory"
+        :value="category.id"
       />
-      <label class="form-check-label" for="checkbox1">Chilldren's books</label>
+      <label class="form-check-label" :for="'category-' + category.id">{{ category.name }}</label>
     </div>
 
-    <div class="form-group form-check" >
+    <br />
+
+    <h6>Author:</h6>
+    <div class="form-group form-check" v-for="author in authors" :key="author.id">
       <input
-        type="checkbox"
+        type="radio"
         class="form-check-input"
-        id="checkbox2"
-        name="checkbox2"
+        :id="'author-' + author.id"
+        name="author"
+        v-model="selectedAuthor"
+        :value="author.id"
       />
-      <label class="form-check-label" for="checkbox1">Comedy</label>
-      <!-- <i
-        class="fas fa-chevron-down"
-        id="chevronIcon"
-        @click="toggleAdditionalCheckboxes('additionalCheckboxes2')"
-      ></i> -->
-      <div class="additional-checkboxes" id="additionalCheckboxes2">
-        <!-- Two additional checkboxes go here -->
-        <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="additionalCheckbox21"
-            name="additionalCheckbox21"
-          />
-          <label class="form-check-label" for="additionalCheckbox21"
-            >Adventures</label
-          >
-        </div>
-        <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="additionalCheckbox22"
-            name="additionalCheckbox22"
-          />
-          <label class="form-check-label" for="additionalCheckbox22"
-            >Biographies</label
-          >
-        </div>
-      </div>
-    </div>
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox3"
-        name="checkbox3"
-      />
-      <label class="form-check-label" for="checkbox3">Family Story</label>
+      <label class="form-check-label" :for="'author-' + author.id">{{ author.name }}</label>
     </div>
 
-    <div class="form-group form-check " style="margin-left: -0px">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox4"
-        name="checkbox4"
-      />
-      <label class="form-check-label" for="checkbox2">Fiction</label>
-      <!-- <i
-        class="fas fa-chevron-down"
-        id="chevronIcon2"
-        @click="toggleAdditionalCheckboxes2('additionalCheckboxes4')"
-      ></i> -->
-      <div class="additional-checkboxes" id="additionalCheckboxes4">
-        <!-- Two additional checkboxes go here -->
-        <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="additionalCheckbox41"
-            name="additionalCheckbox21"
-          />
-          <label class="form-check-label" for="additionalCheckbox21"
-            >Arts & Photography</label
-          >
-        </div>
-        <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="additionalCheckbox42"
-            name="additionalCheckbox22"
-          />
-          <label class="form-check-label" for="additionalCheckbox22"
-            >Classics</label
-          >
-        </div>
-        <div class="form-check">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="additionalCheckbox43"
-            name="additionalCheckbox22"
-          />
-          <label class="form-check-label" for="additionalCheckbox22"
-            >Horror</label
-          >
-        </div>
-      </div>
-    </div>
+    <br />
 
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox5"
-        name="checkbox5"
-      />
-      <label class="form-check-label" for="checkbox5">History</label>
-    </div>
 
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox6"
-        name="checkbox6"
-      />
-      <label class="form-check-label" for="checkbox6">Modern Fiction</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox7"
-        name="checkbox7"
-      />
-      <label class="form-check-label" for="checkbox7">Romance</label>
-    </div>
   </form>
-  <br />
-
-
-  
-
-  <h6>Author:</h6>
-  <form style="padding-left: 20px">
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox1"
-        name="checkbox1"
-      />
-      <label class="form-check-label" for="checkbox1">Bo Eriksson</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox2"
-        name="checkbox2"
-      />
-      <label class="form-check-label" for="checkbox2">Dan Gordon</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox3"
-        name="checkbox3"
-      />
-      <label class="form-check-label" for="checkbox3">Gunvor Hofmo</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox4"
-        name="checkbox4"
-      />
-      <label class="form-check-label" for="checkbox4">Maria-Pia Go</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox5"
-        name="checkbox5"
-      />
-      <label class="form-check-label" for="checkbox5">Nadya Toloko</label>
-    </div>
-
-    <div class="form-group form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="checkbox6"
-        name="checkbox6"
-      />
-      <label class="form-check-label" for="checkbox6">Per Ahlin</label>
-    </div>
-  </form>
-
   <br />
 </template>
 
@@ -218,6 +42,30 @@ export default {
   data() {
     return {
       title: "Product Slider",
+      selectedCategory: null,
+      selectedAuthor: null,
+      selectedCategoryName: "",
+      selectedAuthorName: "",
+      categories: [
+        { id: 1, name: "Chilldren's books" },
+        { id: 2, name: "Comedy" },
+        { id: 3, name: "Family Story" },
+        { id: 4, name: "Fiction" },
+        { id: 5, name: "History" },
+        { id: 6, name: "Modern Fiction" },
+        { id: 7, name: "Romance" },
+
+        // Add other category options as needed
+      ],
+      authors: [
+        { id: 1, name: "Liz Cheney" },
+        { id: 2, name: "Arthur Conan Doyle" },
+        { id: 3, name: "Jeff Kinney" },
+        { id: 4, name: "Julia Quinn" },
+        { id: 5, name: "Keigo Higashino" },
+        { id: 6, name: "Daniel Gerhard Brown" },
+        // Add other author options as needed
+      ],
     };
   },
   methods: {
@@ -232,7 +80,25 @@ export default {
         }
       }
     },
-
+    
+    
+    handleSubmit() {
+      this.$router.push({
+        name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+        query: {
+          category: this.selectedCategory,
+          author: this.selectedAuthor
+        }
+      });
+    },
+    getCategoryName(id) {
+      const category = this.categories.find((c) => c.id === id);
+      return category ? category.name : "";
+    },
+    getAuthorName(id) {
+      const author = this.authors.find((a) => a.id === id);
+      return author ? author.name : "";
+    },
     toggleAdditionalCheckboxes2(id) {
       var additionalCheckboxes = document.getElementById(id);
       if (additionalCheckboxes) {
@@ -244,6 +110,42 @@ export default {
         }
       }
     },
+  },
+  watch: {
+  selectedCategory: function (newValue, oldValue) {
+    console.log("Selected Category changed from", this.getCategoryName(oldValue), "to", this.getCategoryName(newValue));
+    console.log("Selected Author:", this.getAuthorName(this.selectedAuthor));
+    this.$router.push({
+    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+    query: {
+      category: this.getCategoryName(newValue),
+      author: this.getAuthorName(this.selectedAuthor)
+    }
+  }).then(() => {
+    // Reload the current route
+    this.$router.go();
+  });
+  },
+  selectedAuthor: function (newValue, oldValue) {
+    console.log("Selected Author changed from", this.getAuthorName(oldValue), "to", this.getAuthorName(newValue));
+    console.log("Selected Category:", this.getCategoryName(this.selectedCategory));
+    this.$router.push({
+    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+    query: {
+      category: this.getCategoryName(this.selectedCategory),
+      author: this.getAuthorName(newValue)
+    }
+  }).then(() => {
+    // Reload the current route
+    this.$router.go();
+  });
+  },
+},
+  mounted() {
+    // Set initial names
+    this.selectedCategoryName = this.getCategoryName(this.selectedCategory);
+    console.log(this.selectedCategoryName);
+    this.selectedAuthorName = this.getAuthorName(this.selectedAuthor);
   },
 };
 </script>

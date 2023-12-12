@@ -17,19 +17,19 @@
         </div>
         <ul class="options">
           <li class="option">
-            <span class="option-text">Github</span>
+            <span class="option-text">Romance</span>
           </li>
           <li class="option">
-            <span class="option-text">Instagram</span>
+            <span class="option-text">Fiction</span>
           </li>
           <li class="option">
-            <span class="option-text">Linkedin</span>
+            <span class="option-text">Family story</span>
           </li>
           <li class="option">
-            <span class="option-text">Facebook</span>
+            <span class="option-text">Comedy</span>
           </li>
           <li class="option">
-            <span class="option-text">Twitter</span>
+            <span class="option-text">History</span>
           </li>
         </ul>
       </div>
@@ -41,26 +41,26 @@
         </div>
         <ul class="options">
           <li class="option">
-            <span class="option-text">Github</span>
+            <span class="option-text">Liz Cheney</span>
           </li>
           <li class="option">
-            <span class="option-text">Instagram</span>
+            <span class="option-text">Jeff Kinney</span>
           </li>
           <li class="option">
-            <span class="option-text">Linkedin</span>
+            <span class="option-text">Keigo Higashino</span>
           </li>
           <li class="option">
-            <span class="option-text">Facebook</span>
+            <span class="option-text">Daniel Gerhard Brown</span>
           </li>
           <li class="option">
-            <span class="option-text">Twitter</span>
+            <span class="option-text">Julia Quinn</span>
           </li>
         </ul>
       </div>
-      <button class="search-btn">
-        <i class="fa-regular fa-magnifying-glass"></i>
-        <span class="text-uppercase">find book</span>
-      </button>
+      <button class="search-btn" @click="submitSearch">
+    <i class="fa-regular fa-magnifying-glass"></i>
+    <span class="text-uppercase">find book</span>
+  </button>
     </div>
   </div>
 </template>
@@ -90,6 +90,25 @@ export default {
         });
       });
     },
+
+    submitSearch() {
+  // Gather selected options
+  const selectedCategory = document.querySelector(".select-menu:nth-child(1) .sBtn-text").innerText;
+  const selectedAuthor = document.querySelector(".select-menu:nth-child(2) .sBtn-text").innerText;
+
+  // Example: Log the selected options (you can replace this with your desired action)
+  console.log("Selected Category:", selectedCategory);
+  console.log("Selected Author:", selectedAuthor);
+
+  // Navigate to the "product" page with selected values as query parameters
+  this.$router.push({
+    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+    query: {
+      category: selectedCategory,
+      author: selectedAuthor
+    }
+  });
+}
   },
 };
 </script>

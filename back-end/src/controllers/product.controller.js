@@ -8,6 +8,10 @@ const Order = require("../models/order.model");
 const Account = require("../models/account.model");
 
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
+async function findAuthorIdByName(authorName) {
+  const author = await Author.findOne({ name: { $regex: new RegExp(authorName, 'i') } });
+  return author ? author._id : null;
+}
 class productController {
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
@@ -73,6 +77,61 @@ class productController {
       next(error);
     }
   };
+
+  
+  
+
+  getShopBetterFilter = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage) ? 8 : Math.max(1, parseInt(req.query.perPage));
+  
+      // Extract category and author from query parameters
+      let category = req.query.category;
+      let author = req.query.author;
+
+      if(category == "All Category"){category = ''}
+      if(category == "Family Story"){category = 'Family story'}
+      if(author == "Book Author"){author = ''}
+      console.log(category)
+      console.log(author)
+      // Build the query based on case-insensitive category and author conditions
+      const query = {};
+if (category || author) {
+
+
+  if (category) {
+    query.category = { $regex: new RegExp(category, 'i') };
+  }
+  
+  if (author) {
+    const authorId = await findAuthorIdByName(author);
+
+    query['id_author'] = authorId;
+  }
+}
+
+// Find the total number of matching products
+const totalProducts = await Product.countDocuments(query);
+
+// Calculate total pages
+const totalPages = Math.ceil(totalProducts / perPage);
+
+// Fetch products based on the query
+const products = await Product.find(query)
+  .populate("id_author")
+  .skip((page - 1) * perPage)
+  .limit(perPage);
+
+res.status(200).json({ products, totalPages });
+
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+
+
   getShopBetter = async (req, res, next) => {
     try {
       const page = isNaN(req.query.page)
@@ -81,14 +140,15 @@ class productController {
       const perPage = isNaN(req.query.perPage)
         ? 8
         : Math.max(1, parseInt(req.query.perPage));
-      const totalProducts = await Product.countDocuments({});
+      
       const search = req.query.search;
       console.log(search);
       const filter = search
         ? { name: { $regex: new RegExp(search, "i") } }
         : {};
 
-      const totalPages = Math.ceil(totalProducts / perPage);
+      const totalProducts = await Product.countDocuments({filter});//cập nhật số trang
+      const totalPages = Math.ceil(totalProducts+1 / perPage);  
       const products = await Product.find(filter)
 
         .populate("id_author")

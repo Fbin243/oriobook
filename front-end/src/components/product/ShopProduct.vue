@@ -81,7 +81,25 @@ export default {
     const toggleMenu = ref(false);
     const selectedSorting = ref({ value: 'menu_order', label: 'Default sorting' });
     const route = useRoute();
+    let selectedCategory;
+    let selectedAuthor;
+   
     const searchQuery = route.query.search;
+    if(route.query.category || route.query.author){
+    const selectedCategoryy = route.query.category
+  .split(' ')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  .join(' ');
+  console.log("fake: ",route.query.author);
+  const selectedAuthorr = route.query.author
+  .split(' ')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  .join(' ');
+  selectedCategory = selectedCategoryy;
+  selectedAuthor = selectedAuthorr;
+  console.log("fake: ",selectedAuthor);
+    }
+  
 
     const sortingOptions = [
       { value: 'menu_order', label: 'Default sorting' },
@@ -117,7 +135,16 @@ export default {
        
         scrollToTop(656);
         displayLoading(".js-product-wrapper", -32);
-        if(searchQuery == '' || !searchQuery){
+        if(selectedCategory || selectedAuthor){
+          const response = await axios.get(
+          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+        }
+
+        else if(searchQuery == '' || !searchQuery){
         const response = await axios.get(
           `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
         );

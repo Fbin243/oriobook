@@ -7,6 +7,8 @@ router.get("/top-rated", productController.getTopRatedBook);
 router.get("/shop", productController.getShop);
 router.get("/shopSerach", productController.getShopBetter);
 router.get("/shopSort", productController.getShopBetterSort);
+router.get("/shopSeek", productController.getShopBetterFilter);
+
 
 
 router.get("/detail/:id", productController.getDetail);

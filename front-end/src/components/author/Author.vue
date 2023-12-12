@@ -5,7 +5,7 @@
         <div class="author-image">
           <div class="images">
             <img
-            :src="author.image" :alt="author.name"
+            :src="author.image" :alt="author.name" style="height: auto;"
 />
 
           </div>

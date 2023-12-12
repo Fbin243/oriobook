@@ -2,7 +2,7 @@
   <section class="deals">
     <div class="container">
       <DealsOfTheWeek />
-      <TopRatedAuthor  :author="author"/>
+      <TopRatedAuthor :author="author" />
     </div>
   </section>
 </template>
@@ -23,16 +23,11 @@ export default {
     const route = useRoute();
     const id = ref(route.params.id);
     const author = ref({});
-    
+
     onMounted(async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/author/list`
-        );
-        // console.log(response.data); 
+        const response = await axios.get(`http://localhost:3000/author/list`);
         author.value = response.data;
-        console.log(author.value);
-        
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -40,7 +35,6 @@ export default {
 
     return {
       author,
-
     };
   },
 };

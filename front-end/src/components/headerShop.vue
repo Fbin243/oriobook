@@ -59,14 +59,12 @@ export default {
     next() {
       this.currentIndex = (this.currentIndex + 1) % (this.totalBoxes - this.boxesToShow + 1);
       this.updateTransform();
-      console.log(this.currentIndex);
 
     },
     prev() {
       this.currentIndex = (this.currentIndex - 1 ) % (this.totalBoxes - this.boxesToShow + 1);
       if (this.currentIndex < 0)this.currentIndex = 2;
       this.updateTransform();
-      console.log(this.currentIndex);
 
     },
     updateTransform() {

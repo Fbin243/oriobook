@@ -1,7 +1,6 @@
 const express = require("express");
 const authorController = require("../controllers/author.controller");
-const router = express.Router(); 
-console.log("ruun");
+const router = express.Router();
 router.get("/detail/:id", authorController.getDetail);
 router.get("/list", authorController.getAuthorList);
 

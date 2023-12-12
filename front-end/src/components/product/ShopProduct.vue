@@ -10,42 +10,23 @@
           data-toggle="dropdown"
           aria-expanded="true"
           @click="clickDropdown"
-          >Default sorting</span
         >
+          {{ selectedSorting.label }}
+        </span>
         <ul
           class="pwb-dropdown-menu dropdown-menu"
           :class="[{ show: toggleMenu }]"
           x-placement="bottom-start"
         >
-          <li data-value="menu_order" class="active">
-            <a href="?show-subcategories=hide&amp;orderby=menu_order"
-              >Default sorting</a
-            >
-          </li>
-          <li data-value="popularity">
-            <a href="?show-subcategories=hide&amp;orderby=popularity"
-              >Sort by popularity</a
-            >
-          </li>
-          <li data-value="rating">
-            <a href="?show-subcategories=hide&amp;orderby=rating"
-              >Sort by average rating</a
-            >
-          </li>
-          <li data-value="date">
-            <a href="?show-subcategories=hide&amp;orderby=date"
-              >Sort by latest</a
-            >
-          </li>
-          <li data-value="price">
-            <a href="?show-subcategories=hide&amp;orderby=price"
-              >Sort by price: low to high</a
-            >
-          </li>
-          <li data-value="price-desc">
-            <a href="?show-subcategories=hide&amp;orderby=price-desc"
-              >Sort by price: high to low</a
-            >
+          <li
+            v-for="option in sortingOptions"
+            :key="option.value"
+            :data-value="option.value"
+            :class="{ active: selectedSorting.value === option.value }"
+          >
+            <a role="button" @click="selectSorting(option)">
+              {{ option.label }}
+            </a>
           </li>
         </ul>
       </div>
@@ -61,7 +42,7 @@
       </div>
     </div>
     <nav aria-label="Page navigation example" class="mt-3">
-      <ul class="pagination">
+      <ul class="pagination justify-content-end me-3">
         <li class="page-item">
           <a class="page-link js-prev-link" href="#" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
@@ -89,6 +70,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import axios from "axios";
 import HomeProductCard from "./HomeProductCard.vue";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
@@ -108,6 +90,39 @@ export default {
     const perPage = 8;
     const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
+
+    const selectedSorting = ref({
+      value: "menu_order",
+      label: "Default sorting",
+    });
+    const route = useRoute();
+    const searchQuery = route.query.search;
+    const sortingOptions = [
+      { value: "menu_order", label: "Default sorting" },
+      { value: "popularity", label: "Sort by popularity" },
+      { value: "rating", label: "Sort by average rating" },
+      { value: "date", label: "Sort by latest" },
+      { value: "price", label: "Sort by price: low to high" },
+      { value: "price-desc", label: "Sort by price: high to low" },
+    ];
+
+    const selectSorting = async (option) => {
+      try {
+        selectedSorting.value = option;
+        toggleMenu.value = false;
+        console.log("Selected Sorting:", selectedSorting.value);
+        // Do something with the selected sorting value
+        const response = await axios.get(
+          `http://localhost:3000/product/sort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     const clickDropdown = () => {
       toggleMenu.value = !toggleMenu.value;
     };
@@ -116,12 +131,21 @@ export default {
       try {
         scrollToTop(656);
         displayLoading(".js-product-wrapper", -32);
-        const response = await axios.get(
-          `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
-        );
-        curPage.value = page;
-        products.value = response.data.products;
-        totalPages.value = response.data.totalPages;
+        if (searchQuery == "" || !searchQuery) {
+          const response = await axios.get(
+            `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
+          );
+          curPage.value = page;
+          products.value = response.data.products;
+          totalPages.value = response.data.totalPages;
+        } else {
+          const response = await axios.get(
+            `http://localhost:3000/product/search?page=${page}&perPage=${perPage}&search=${searchQuery}`
+          );
+          curPage.value = page;
+          products.value = response.data.products;
+          totalPages.value = response.data.totalPages;
+        }
         removeLoading();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
@@ -160,6 +184,10 @@ export default {
     return {
       clickDropdown,
       toggleMenu,
+      selectedSorting,
+      sortingOptions,
+      clickDropdown,
+      selectSorting,
       author_page,
       products,
       totalPages,

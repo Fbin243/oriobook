@@ -18,17 +18,24 @@
         <i class="fa-regular fa-magnifying-glass"></i>
         <span>Search</span>
       </div>
-      <form class="search-input" role="search" v-if="$route.name != 'Home'">
+      <form
+        class="search-input"
+        role="search"
+        v-if="$route.name !== 'Home'"
+        @submit.prevent="submitSearch"
+      >
         <i
           class="fa-sharp fa-regular fa-xmark search-close-btn"
           role="button"
         ></i>
         <input
+          v-model="searchQuery"
           class="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
         />
+        <button type="submit">Search</button>
       </form>
       <div class="cart-btn" role="button">
         <i class="fa-sharp fa-regular fa-basket-shopping-simple"></i>
@@ -42,7 +49,17 @@
 <script>
 export default {
   name: "Header",
-  methods: {},
+  methods: {
+    submitSearch() {
+      // Add your logic to handle the search query (e.g., redirect to search results page)
+      this.$router
+        .push({ name: "Shop", query: { search: this.searchQuery } })
+        .then(() => {
+          // Reload the current route
+          this.$router.go();
+        });
+    },
+  },
   setup() {
     const handleSearchForm = () => {
       $(".search").css({

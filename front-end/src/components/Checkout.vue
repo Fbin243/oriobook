@@ -343,7 +343,6 @@ export default {
       try {
         const response = await axios.get(`http://localhost:3000/product/checkout`);
         accountData.value = response.data;
-        // console.log(accountData.value);
       } catch (error) {
         console.error("Error calling API:", error);
       }

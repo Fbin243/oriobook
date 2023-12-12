@@ -1,18 +1,34 @@
 <template>
   <div class="col-9 order-section">
     <div class="type-filter">
-      <h4 class="pending text-primary underline-animation" :class="{'active': toggle_1}" @click="pendingClick">Pending</h4>
-      <h4 class="accept text-success underline-animation" :class="{'active': toggle_2}" @click="successfulClick">Successful</h4>
-      <h4 class="reject text-danger underline-animation" :class="{'active': toggle_3}" @click="cancelledClick">Cancelled</h4>
+      <h4
+        class="pending text-primary underline-animation"
+        :class="{ active: toggle_1 }"
+        @click="pendingClick"
+      >
+        Pending
+      </h4>
+      <h4
+        class="accept text-success underline-animation"
+        :class="{ active: toggle_2 }"
+        @click="successfulClick"
+      >
+        Successful
+      </h4>
+      <h4
+        class="reject text-danger underline-animation"
+        :class="{ active: toggle_3 }"
+        @click="cancelledClick"
+      >
+        Cancelled
+      </h4>
     </div>
     <div class="each-order" v-for="(order, index) in orderData" :key="index">
       <div class="title-order-section">
         <p class="order-code">Order code: {{ order._id }}</p>
         <p class="total">Total price: ${{ order.total_price }}</p>
       </div>
-      <table
-        class="order-table table-bordered"
-      >
+      <table class="order-table table-bordered">
         <thead>
           <tr>
             <th class="product-thumbnail-col" width="60%">Product</th>
@@ -21,53 +37,52 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="cart_item"
-          v-for="(item, i_item) in order.detail"
-          :key="i_item"
+          <tr
+            class="cart_item"
+            v-for="(item, i_item) in order.detail"
+            :key="i_item"
           >
             <td class="product-thumbnail">
               <div class="product-cart-info">
                 <a
                   href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                  ><img
-                    :src="item.id_product.image"
-                    class="product-img"
-                    alt=""
+                  ><img :src="item.id_product.image" class="product-img" alt=""
                 /></a>
                 <div class="product-name">
                   <a
                     href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                    >{{item.id_product.name}}</a
+                    >{{ item.id_product.name }}</a
                   >
                   <p class="price">
                     <span class="woocommerce-Price-amount amount">
-                      {{item.id_product.price}}<span class="currency">$</span
-                      ></span
+                      {{ item.id_product.price
+                      }}<span class="currency">$</span></span
                     >
                   </p>
                 </div>
 
-                <div class="evaluate-btn" :class="{'no-show': !toggle_2}">
-                  
-
+                <div class="evaluate-btn" :class="{ 'no-show': !toggle_2 }">
                   <!-- <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button> -->
-                  <button type="button" class="btn btn-primary btn-submit" @click="clickModal(item.id_product._id, order._id, i_item)" :disabled="item.isReviewed">{{item.isReviewed ? 'Evaluated' : 'Evaluate'}}</button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-submit"
+                    @click="clickModal(item.id_product._id, order._id, i_item)"
+                    :disabled="item.isReviewed"
+                  >
+                    {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
+                  </button>
                 </div>
               </div>
             </td>
-  
+
             <td class="product-quantity" data-title="Quantity">
               <div class="quantity">
-                
-                <p class="number">{{item.quantity}}</p>
-
+                <p class="number">{{ item.quantity }}</p>
               </div>
             </td>
             <td class="product-subtotal" data-title="Subtotal">
               <span class="woocommerce-Price-amount amount"
-                ><bdi
-                  >${{ item.subtotal }}</bdi
-                ></span
+                ><bdi>${{ item.subtotal }}</bdi></span
               >
             </td>
           </tr>
@@ -76,167 +91,177 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-        <section class="section">
-          <div class="star-rating-bx">
+          <section class="section">
+            <div class="star-rating-bx">
               <h2 class="text-center">Feedback</h2>
               <div class="star-widget">
                 <form @submit.prevent="feedBack()">
-                  <input type="radio" name="star" id="rate-5" value="5">
-                  <label for="rate-5" class="fa-solid fa-star" style="margin-right: 62px;"></label>
-                  <input type="radio" name="star" id="rate-4" value="4">
+                  <input type="radio" name="star" id="rate-5" value="5" />
+                  <label
+                    for="rate-5"
+                    class="fa-solid fa-star"
+                    style="margin-right: 62px"
+                  ></label>
+                  <input type="radio" name="star" id="rate-4" value="4" />
                   <label for="rate-4" class="fa-solid fa-star"></label>
-                  <input type="radio" name="star" id="rate-3" value="3">
+                  <input type="radio" name="star" id="rate-3" value="3" />
                   <label for="rate-3" class="fa-solid fa-star"></label>
-                  <input type="radio" name="star" id="rate-2" value="2">
+                  <input type="radio" name="star" id="rate-2" value="2" />
                   <label for="rate-2" class="fa-solid fa-star"></label>
-                  <input type="radio" name="star" id="rate-1" value="1">
+                  <input type="radio" name="star" id="rate-1" value="1" />
                   <label for="rate-1" class="fa-solid fa-star"></label>
                   <!-- <p class="rating-desc"></p> -->
-                
-                <div class="textarea">
-                  <p id="error-rating"></p>
-                  <textarea cols="30" id="comment" placeholder="Describe your comment" style="width: 100%;"></textarea>
-                  <p id="error-comment"></p>
-                </div>
-                <div class="btn">
-                  <button type="submit" class="btn">Submit</button>
-                </div>
-              </form>
+
+                  <div class="textarea">
+                    <p id="error-rating"></p>
+                    <textarea
+                      cols="30"
+                      id="comment"
+                      placeholder="Describe your comment"
+                      style="width: 100%"
+                    ></textarea>
+                    <p id="error-comment"></p>
+                  </div>
+                  <div class="btn">
+                    <button type="submit" class="btn">Submit</button>
+                  </div>
+                </form>
               </div>
-              
-          </div>
-        </section>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "OrderAccount",
-  components: {
-    
-  },
+  components: {},
   props: [],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const router = useRouter();
 
-    const idProduct = ref('')
-    const idOrder = ref('')
-    const orderIndex = ref(null)
+    const idProduct = ref("");
+    const idOrder = ref("");
+    const orderIndex = ref(null);
 
-    const toggle_1 = ref(true)
-    const toggle_2 = ref(false)
-    const toggle_3 = ref(false)
-    const orderData = ref([])
+    const toggle_1 = ref(true);
+    const toggle_2 = ref(false);
+    const toggle_3 = ref(false);
+    const orderData = ref([]);
 
     // $(document).ready(function () {
     //   $("#exampleModal").modal('show');
     // });
 
     const clickModal = (_idProduct, _idOrder, _orderIndex) => {
-      idProduct.value = _idProduct
-      idOrder.value = _idOrder
-      orderIndex.value = _orderIndex
-      $("#exampleModal").modal('show');
-    }
+      idProduct.value = _idProduct;
+      idOrder.value = _idOrder;
+      orderIndex.value = _orderIndex;
+      $("#exampleModal").modal("show");
+    };
 
     const feedBack = async () => {
       try {
-        let error = false
+        let error = false;
 
         if (!$("input[name=star]:checked").val()) {
-          document.getElementById('error-rating').innerHTML = "* Please choose any star";
-          error = true
+          document.getElementById("error-rating").innerHTML =
+            "* Please choose any star";
+          error = true;
         } else {
-          document.getElementById('error-rating').innerHTML = "";
+          document.getElementById("error-rating").innerHTML = "";
         }
 
-        if (document.getElementById('comment').value === '') {
-          document.getElementById('error-comment').innerHTML = "* Please enter comment";
-          error = true
+        if (document.getElementById("comment").value === "") {
+          document.getElementById("error-comment").innerHTML =
+            "* Please enter comment";
+          error = true;
         } else {
-            document.getElementById('error-comment').innerHTML = "";
+          document.getElementById("error-comment").innerHTML = "";
         }
 
-        if(error) return;
+        if (error) return;
 
-        let comment = document.getElementById('comment').value;
-        let rating = document.querySelector("input[name=star]:checked").value; 
+        let comment = document.getElementById("comment").value;
+        let rating = document.querySelector("input[name=star]:checked").value;
 
         let data = {
           idOrder: idOrder.value,
           orderIndex: orderIndex.value,
           comment,
           rating,
-        }
+        };
 
-        console.log(data);
-
-        const response = await axios.post(`http://localhost:3000/product/handle-review/${idProduct.value}`, data);
+        const response = await axios.post(
+          `http://localhost:3000/product/handle-review/${idProduct.value}`,
+          data
+        );
         let res = response.data;
-        if(res.msg === 'success'){
-          hideModal()
-          successfulClick()
+        if (res.msg === "success") {
+          hideModal();
+          successfulClick();
         }
-        // console.log(res.updatedOrder);
-        
-
       } catch (error) {
         console.error("Error calling API:", error);
       }
-    }
+    };
 
     const hideModal = () => {
-      $("input[name=star]:checked").prop('checked', false);
+      $("input[name=star]:checked").prop("checked", false);
       // $("#comment").text('')
-      document.getElementById('comment').value = ''
-      $("#exampleModal").modal('hide');
-    }
+      document.getElementById("comment").value = "";
+      $("#exampleModal").modal("hide");
+    };
 
     const fetchData = async (link) => {
       try {
         const response = await axios.get(`http://localhost:3000/${link}`);
         orderData.value = response.data;
-        // console.log(orderData.value);
       } catch (error) {
         console.error("Error calling API:", error);
       }
     };
 
     onMounted(() => {
-      fetchData('order/pending');
+      fetchData("order/pending");
     });
 
     const pendingClick = () => {
-      toggle_1.value = true
-      toggle_2.value = false
-      toggle_3.value = false
-      console.log('da vo');
-      fetchData('order/pending')
-    }
+      toggle_1.value = true;
+      toggle_2.value = false;
+      toggle_3.value = false;
+      fetchData("order/pending");
+    };
 
     const successfulClick = () => {
-      toggle_1.value = false
-      toggle_2.value = true
-      toggle_3.value = false
-      fetchData('order/successful')
-    }
+      toggle_1.value = false;
+      toggle_2.value = true;
+      toggle_3.value = false;
+      fetchData("order/successful");
+    };
 
     const cancelledClick = () => {
-      toggle_1.value = false
-      toggle_2.value = false
-      toggle_3.value = true
-      fetchData('order/cancelled')
-    }
+      toggle_1.value = false;
+      toggle_2.value = false;
+      toggle_3.value = true;
+      fetchData("order/cancelled");
+    };
 
     return {
       feedBack,

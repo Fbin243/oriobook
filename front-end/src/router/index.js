@@ -7,9 +7,8 @@ import FAQ from "@/views/FAQ.vue";
 import RefundPolicy from "@/views/RefundPolicy.vue";
 import Error from "@/views/Error";
 import Login from "@/views/Login";
-import AccountDetails from "@/views/AccountDetails";
 import AuthorList from "@/views/AuthorList";
-import Author from "@/views/AuthorDetails";
+import AuthorDetails from "@/views/AuthorDetails";
 import Contact from "../views/Contact.vue";
 import Aboutus from "@/views/Aboutus.vue";
 import Checkout from "@/views/Checkout.vue";
@@ -71,11 +70,6 @@ const routes = [
     component: AccountOrder,
   },
   {
-    path: "/account-details",
-    name: "AccountDetails",
-    component: AccountDetails,
-  },
-  {
     path: "/authors",
     children: [
       {
@@ -86,7 +80,7 @@ const routes = [
       {
         path: ":id",
         name: "AuthorDetails",
-        component: Author,
+        component: AuthorDetails,
       },
     ],
   },

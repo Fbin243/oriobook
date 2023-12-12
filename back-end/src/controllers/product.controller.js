@@ -112,9 +112,172 @@ class productController {
       account = mongooseToObject(account);
       account.total_price = totalSum;
 
-      // console.log(account);
-
       res.status(200).json(account);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  searchProduct = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const search = req.query.search;
+      const filter = search
+        ? { name: { $regex: new RegExp(search, "i") } }
+        : {};
+
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const products = await Product.find(filter)
+
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ products, totalPages });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  sortProduct = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const sort = req.query.sort;
+      let search;
+      if (req.query.search) {
+        search = req.query.search;
+        if (search == "undefined") {
+          search = "";
+        }
+      }
+
+      const filter = search
+        ? { name: { $regex: new RegExp(search, "i") } }
+        : {};
+      if (sort == "price") {
+        // Sorting option for price in ascending order (low to high)
+        const sortOption = { price: 1 };
+        // Fetch the products with search and sorting options
+        const products = await Product.find(filter)
+          .populate("id_author")
+          .sort(sortOption)
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+        res.status(200).json({ products, totalPages });
+      }
+
+      if (sort == "price-desc") {
+        // Sorting option for price in ascending order (low to high)
+        const sortOption = { price: -1 };
+        // Fetch the products with search and sorting options
+        const products = await Product.find(filter)
+          .populate("id_author")
+          .sort(sortOption)
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+        res.status(200).json({ products, totalPages });
+      }
+
+      if (sort === "date") {
+        // Sorting option for date in descending order (latest to oldest)
+        const sortOption = { date: -1 };
+
+        // Fetch the products with search and sorting options
+        const products = await Product.find(filter)
+          .populate("id_author")
+          .sort(sortOption)
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+
+        res.status(200).json({ products, totalPages });
+      }
+
+      if (sort === "popularity") {
+        // Aggregation pipeline to add a new field "numReviews" representing the length of the "reviews" array
+        const aggregationPipeline = [
+          {
+            $match: filter, // Your existing match filter
+          },
+          {
+            $addFields: {
+              numReviews: { $size: "$reviews" },
+            },
+          },
+          {
+            $sort: { numReviews: -1 }, // Sort by the length of the "reviews" array in descending order
+          },
+          {
+            $skip: (page - 1) * perPage,
+          },
+          {
+            $limit: perPage,
+          },
+        ];
+
+        // Execute the aggregation pipeline
+        const products = await Product.aggregate(aggregationPipeline).exec();
+
+        // Fetch the total number of products for pagination
+        const totalProducts = await Product.countDocuments(filter);
+
+        res
+          .status(200)
+          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
+      }
+
+      if (sort === "rating") {
+        // Aggregation pipeline to add a new field "averageRating" representing the average rating from the "reviews" array
+        const aggregationPipeline = [
+          {
+            $match: filter, // Your existing match filter
+          },
+          {
+            $addFields: {
+              averageRating: { $avg: "$reviews.rating" },
+            },
+          },
+          {
+            $sort: { averageRating: -1 }, // Sort by the average rating in descending order
+          },
+          {
+            $skip: (page - 1) * perPage,
+          },
+          {
+            $limit: perPage,
+          },
+        ];
+
+        // Execute the aggregation pipeline
+        const products = await Product.aggregate(aggregationPipeline).exec();
+
+        // Fetch the total number of products for pagination
+        const totalProducts = await Product.countDocuments(filter);
+
+        res
+          .status(200)
+          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
+      }
+
+      if (sort === "menu_order") {
+        const products = await Product.find(filter)
+
+          .populate("id_author")
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+        res.status(200).json({ products, totalPages });
+      }
     } catch (error) {
       next(error);
     }
@@ -227,8 +390,6 @@ class productController {
         date: new Date(),
       };
 
-      // console.log(, req.body.orderIndex);
-
       const updatedProduct = await Product.findOneAndUpdate(
         { _id: idProduct },
         { $push: { reviews: review } },
@@ -240,8 +401,6 @@ class productController {
         { $set: { [`detail.${orderIndex}.isReviewed`]: true } },
         { new: true }
       );
-
-      // console.log(updatedOrder);
 
       res.status(200).json({ msg: "success" });
     } catch (error) {

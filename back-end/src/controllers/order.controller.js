@@ -15,13 +15,25 @@ class orderController {
       let path = req.path;
       let pathConvert = path.charAt(1).toUpperCase() + path.slice(2); // /successfull -> Successful
 
-      let pendingOrder = await Order.find({
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 2
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Order.countDocuments({
         id_account,
         status: pathConvert,
-      }).populate({
-        path: "detail.id_product",
-        model: Product,
       });
+      const totalPages = Math.ceil(totalProducts / perPage);
+      console.log(totalPages, totalProducts, pathConvert);
+      let pendingOrder = await Order.find({ id_account, status: pathConvert })
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .populate({
+          path: "detail.id_product",
+          model: Product,
+        });
 
       pendingOrder = mutipleMongooseToObject(pendingOrder);
 
@@ -38,7 +50,7 @@ class orderController {
         item.total_price = totalSum;
       });
 
-      res.status(200).json(pendingOrder);
+      res.status(200).json({ pendingOrder, totalPages });
     } catch (error) {
       next(error);
     }
@@ -48,7 +60,17 @@ class orderController {
   // [GET] order/manage-order
   getManageOrders = async (req, res, next) => {
     try {
-      let orders = await Order.find({})
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 10
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Order.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const orders = await Order.find({})
+        .skip((page - 1) * perPage)
+        .limit(perPage)
         .populate({
           path: "id_account",
           model: Account,
@@ -57,10 +79,7 @@ class orderController {
           path: "detail.id_product",
           model: Product,
         });
-
-      orders = mutipleMongooseToObject(orders);
-
-      res.status(200).json(orders);
+      res.status(200).json({ orders, totalPages });
     } catch (error) {
       next(error);
     }

@@ -16,6 +16,7 @@ import Dashboard from "@/views/admin/Dashboard";
 import Manage from "@/views/admin/Manage";
 import Edit from "@/views/admin/Edit";
 import Order from "@/views/admin/Order";
+import AccountDetails from "@/views/AccountDetails";
 
 const routes = [
   {
@@ -88,6 +89,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/account-details",
+    name: "AccountDetails",
+    component: AccountDetails,
   },
   {
     path: "/checkout",

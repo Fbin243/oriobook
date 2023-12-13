@@ -8,7 +8,9 @@
     </a>
     <div class="product-info">
       <a class="author-name" href="#">{{ product.id_author.name }} </a>
-      <a class="product-name" href="#">{{ product.name }}</a>
+      <div class="product-name-box">
+        <a class="product-name" href="#">{{ product.name }}</a>
+      </div>
       <p>${{ product.price.toFixed(2) }}</p>
     </div>
     <div class="overlay d-none">

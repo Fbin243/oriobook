@@ -26,7 +26,7 @@ class orderController {
         status: pathConvert,
       });
       const totalPages = Math.ceil(totalProducts / perPage);
-      console.log(totalPages, totalProducts, pathConvert);
+      // console.log(totalPages, totalProducts, pathConvert);
       let pendingOrder = await Order.find({ id_account, status: pathConvert })
         .skip((page - 1) * perPage)
         .limit(perPage)
@@ -39,7 +39,7 @@ class orderController {
 
       pendingOrder.forEach((item) => {
         let totalSum = item.detail.reduce((sum, item) => {
-          let price = item.id_product.price;
+          let price = item.id_product ? item.id_product.price : 0;
           let quantity = item.quantity;
 
           item.subtotal = roundNumber(price * quantity, 2);

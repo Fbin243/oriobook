@@ -46,18 +46,21 @@
               <div class="product-cart-info">
                 <a
                   href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                  ><img :src="item.id_product.image" class="product-img" alt=""
+                  ><img
+                    :src="item.id_product ? item.id_product.image : ''"
+                    class="product-img"
+                    alt=""
                 /></a>
                 <div class="product-name">
                   <a
                     href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                    >{{ item.id_product.name }}</a
+                    >{{ item.id_product ? item.id_product.name : "" }}</a
                   >
                   <p class="price">
                     <span class="woocommerce-Price-amount amount">
-                      {{ item.id_product.price
-                      }}<span class="currency">$</span></span
-                    >
+                      {{ item.id_product ? item.id_product.price : ""
+                      }}<span class="currency">$</span>
+                    </span>
                   </p>
                 </div>
 
@@ -229,19 +232,6 @@ export default {
       $("#exampleModal").modal("hide");
     };
 
-    const fetchData = async (link) => {
-      try {
-        const response = await axios.get(`http://localhost:3000/${link}`);
-        orderData.value = response.data;
-      } catch (error) {
-        console.error("Error calling API:", error);
-      }
-    };
-
-    onMounted(() => {
-      fetchData("order/pending");
-    });
-
     const pendingClick = () => {
       toggle_1.value = true;
       toggle_2.value = false;
@@ -262,6 +252,57 @@ export default {
       toggle_3.value = true;
       fetchData("order/cancelled");
     };
+
+    const requestPage = async (path) => {
+      const response = await axios.get(
+        `http://localhost:3000/${path}?page=${page}&perPage=${perPage}`
+      );
+
+      curPage.value = page;
+      orderData.value = response.data.pendingOrder;
+      totalPages.value = response.data.totalPages;
+
+      // console.log(response.data);
+
+      // orderData.value = []
+      // console.log(response.data.pendingOrder, response.data.totalPages);
+    };
+
+    const init = function () {
+      $(() => {
+        if (totalPages.value) {
+          $(".js-number-link").click(async function (e) {
+            e.preventDefault();
+            console.log("da vo 1", page);
+            page = parseInt($(this).text());
+            await requestPage(pathRef.value);
+          });
+
+          $(".js-prev-link").click(async function (e) {
+            e.preventDefault();
+            console.log("da vo 2", page);
+            page = page > 0 ? page - 1 : page;
+            await requestPage(pathRef.value);
+          });
+
+          $(".js-next-link").click(async function (e) {
+            e.preventDefault();
+            console.log("da vo 3", page);
+            page = page < totalPages.value ? page + 1 : page;
+            await requestPage(pathRef.value);
+          });
+        }
+      });
+    };
+
+    onMounted(async () => {
+      try {
+        await requestPage("order/pending");
+        init();
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    });
 
     return {
       feedBack,

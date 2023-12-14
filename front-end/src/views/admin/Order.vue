@@ -207,14 +207,14 @@
         </div>
 
         <!-- Notify -->
-        <div class="notify-box" :class="{ 'no-show': orderData.length }">
+        <div class="notify-box" :class="{ 'd-none': orderData.length }">
           <p class="text-center" style="font-size: 20px; margin-top: 2rem">
             There are no orders!
           </p>
         </div>
 
         <!-- Pagination -->
-        <div class="col-12 mt-2" :class="{ 'no-show': !orderData.length }">
+        <div class="col-12 mt-2" :class="{ 'd-none': !orderData.length }">
           <nav aria-label="Page navigation example">
             <ul class="pagination d-flex justify-content-end">
               <li class="page-item">
@@ -293,10 +293,6 @@ export default {
       let p = Math.pow(10, decimalPlaces);
       return Math.round(num * p) / p;
     };
-
-    onMounted(() => {
-      fetchData();
-    });
 
     const handleOrder = async (_orderId, _action) => {
       let data = {

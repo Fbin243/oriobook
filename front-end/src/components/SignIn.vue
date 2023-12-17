@@ -77,7 +77,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import axios from "axios";
+import axios from "../config/axios";
 import { useRouter } from "vue-router";
 
 export default {
@@ -110,7 +110,8 @@ export default {
           }
         );
 
-        console.log(response.data);
+        console.log(response.data.accessToken);
+        localStorage.setItem("token", response.data.accessToken);
 
         if (response.data == "email error") {
           toast.error("Your email is not in use yet.", {
@@ -123,7 +124,7 @@ export default {
             position: "top-center",
           });
         } else {
-          router.push("/account-details");
+          window.location.href = "http://localhost:8080/account-details";
         }
       }
     }

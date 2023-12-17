@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../config/axios";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { ref } from "vue";

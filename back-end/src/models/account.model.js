@@ -11,7 +11,7 @@ const accountSchema = new mongoose.Schema({
     trim: true,
   },
   password: { type: String, required: true, trim: true },
-  isAdmin: Boolean,
+  isAdmin: { type: Boolean, default: false },
   phone: { type: String, default: "Default", trim: true },
   address: { type: String, default: "Default", trim: true },
   cart: [

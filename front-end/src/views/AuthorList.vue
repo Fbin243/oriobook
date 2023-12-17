@@ -4,14 +4,15 @@
       <h1 class="title-heading">List Athors</h1>
     </div>
 
-    <Authors  :author="author" />
+    <Authors :author="author" />
   </div>
 </template>
 
 <script>
 import Authors from "@/components/author/Authors.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "../config/axios";
+
 import { useRoute } from "vue-router";
 
 export default {
@@ -22,16 +23,13 @@ export default {
     const route = useRoute();
     const id = ref(route.params.id);
     const author = ref({});
-    
+
     onMounted(async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/author/list`
-        );
-        // console.log(response.data); 
+        const response = await axios.get(`http://localhost:3000/author/list`);
+        // console.log(response.data);
         author.value = response.data;
         console.log(author.value);
-        
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -39,7 +37,6 @@ export default {
 
     return {
       author,
-
     };
   },
 };

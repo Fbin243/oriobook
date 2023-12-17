@@ -60,7 +60,8 @@ import { reactive, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 import "vue3-toastify/dist/index.css";
-import axios from "axios";
+import axios from "../config/axios";
+
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 
@@ -94,9 +95,9 @@ export default {
             ...formData,
           }
         );
-
+        console.log(response.data.accessToken);
+        localStorage.setItem("token", response.data.accessToken);
         if (response.data.status == true) {
-          console.log(response.data);
           router.push("/account-details");
         } else {
           toast.error("Your email has been used.", {

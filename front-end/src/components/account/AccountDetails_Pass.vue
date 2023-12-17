@@ -83,7 +83,7 @@ import { required, minLength, sameAs } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios from "../../config/axios";
 
 export default {
   name: "AccountDetails_Pass",

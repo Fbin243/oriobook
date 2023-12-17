@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../config/axios";
+
 import { ref, onMounted } from "vue";
 
 export default {

@@ -112,7 +112,7 @@ import { required, minLength, maxLength, numeric } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import { useRouter } from "vue-router";
 import "vue3-toastify/dist/index.css";
-import axios from "axios";
+import axios from "../../config/axios";
 
 export default {
   name: "AccountDetails",

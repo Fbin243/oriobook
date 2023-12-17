@@ -43,10 +43,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/login" class="nav-link"
-          ><i class="fa-regular fa-user me-2"></i>
-          <span>Account</span>
-        </router-link>
+        <button @click="Click"><span>Account</span></button>
       </li>
     </ul>
   </nav>
@@ -55,6 +52,25 @@
 <script>
 export default {
   name: "Nav",
+
+  setup() {
+    let Token;
+
+    function Click() {
+      Token = localStorage.getItem("token");
+      console.log(Token);
+      if (Token) {
+        window.location.href = "http://localhost:8080/account-details";
+      } else {
+        window.location.href = "http://localhost:8080/login";
+      }
+    }
+
+    return {
+      Click,
+      Token,
+    };
+  },
 };
 </script>
 

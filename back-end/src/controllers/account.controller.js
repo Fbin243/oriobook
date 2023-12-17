@@ -1,5 +1,6 @@
 const account = require("../models/account.model");
 const product = require("../models/product.model");
+const authMethod = require("../methods/auth.methods");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -23,7 +24,22 @@ class accountController {
         newAcc.password = hash;
 
         await newAcc.save();
-        return res.send({ status: true });
+
+        const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
+        const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+        const dataForAccessToken = {
+          email: newAcc.email,
+          isAdmin: false,
+        };
+
+        const accessToken = await authMethod.generateToken(
+          dataForAccessToken,
+          accessTokenSecret,
+          accessTokenLife
+        );
+
+        return res.send({ status: true, accessToken });
       });
     } catch (error) {
       next(error);
@@ -38,15 +54,32 @@ class accountController {
       if (Acc == null) {
         return res.send("email error");
       } else {
-        bcrypt.compare(req.body.password, Acc.password, function (err, result) {
-          if (err) {
-            return next(err);
+        bcrypt.compare(
+          req.body.password,
+          Acc.password,
+          async function (err, result) {
+            if (err) {
+              return next(err);
+            }
+            if (!result) {
+              return res.send("password error");
+            }
+            const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
+            const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+            const dataForAccessToken = {
+              email: Acc.email,
+              isAdmin: Acc.isAdmin,
+            };
+
+            const accessToken = await authMethod.generateToken(
+              dataForAccessToken,
+              accessTokenSecret,
+              accessTokenLife
+            );
+            return res.send({ status: true, accessToken });
           }
-          if (!result) {
-            return res.send("password error");
-          }
-          return res.send({ status: true });
-        });
+        );
       }
     } catch (error) {
       next(error);
@@ -55,7 +88,7 @@ class accountController {
 
   getAccountDetail = async (req, res, next) => {
     try {
-      const Acc = await account.findOne({ email: "123@gmail.com" });
+      const Acc = await account.findOne({ email: req.headers.email });
       return res.send(Acc);
     } catch (error) {
       next(error);
@@ -65,7 +98,7 @@ class accountController {
   updateAccountDetail = async (req, res, next) => {
     try {
       await account.updateOne(
-        { email: "123@gmail.com" },
+        { email: req.headers.email },
         {
           $set: {
             firstName: req.body.account_first_name,
@@ -83,7 +116,7 @@ class accountController {
 
   updateAccountPassword = async (req, res, next) => {
     try {
-      const Acc = await account.findOne({ email: "123@gmail.com" });
+      const Acc = await account.findOne({ email: req.headers.email });
       let Pw = "";
       bcrypt.hash(req.body.password_1, saltRounds, async (err, hash) => {
         if (err) {
@@ -103,7 +136,7 @@ class accountController {
               console.log("Compera true");
               console.log(Pw);
               await account.updateOne(
-                { email: "123@gmail.com" },
+                { email: req.headers.email },
                 {
                   $set: {
                     password: Pw,
@@ -122,7 +155,7 @@ class accountController {
 
   getCart = async (req, res, next) => {
     try {
-      const Acc = await account.findOne({ email: "123@gmail.com" });
+      const Acc = await account.findOne({ email: req.headers.email });
       const promises = Acc.cart.map((_cart) => {
         const { id_product } = _cart;
         return product.findOne({ _id: id_product.toString() });
@@ -149,7 +182,7 @@ class accountController {
 
   addToCart = async (req, res, next) => {
     console.log(req.params.id);
-    const Acc = await account.findOne({ email: "123@gmail.com" });
+    const Acc = await account.findOne({ email: req.headers.email });
     let newcart = Acc.cart;
     const pro = await newcart.find((obj) =>
       obj.id_product.toString().includes(req.params.id)
@@ -173,7 +206,7 @@ class accountController {
 
     try {
       await account.updateOne(
-        { email: "123@gmail.com" },
+        { email: req.headers.email },
         {
           $set: {
             cart: newcart,
@@ -188,7 +221,7 @@ class accountController {
 
   removeFromCart = async (req, res, next) => {
     console.log(req.params.id);
-    const Acc = await account.findOne({ email: "123@gmail.com" });
+    const Acc = await account.findOne({ email: req.headers.email });
     let newcart = Acc.cart;
     const pro = await newcart.find((obj) =>
       obj.id_product.toString().includes(req.params.id)
@@ -202,7 +235,7 @@ class accountController {
 
     try {
       await account.updateOne(
-        { email: "123@gmail.com" },
+        { email: req.headers.email },
         {
           $set: {
             cart: newcart,

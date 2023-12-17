@@ -1,3 +1,5 @@
+import VueJwtDecode from "vue-jwt-decode";
+
 function convertDateFormat(inputDate) {
   // Create a Date object from the input string
   const dateObj = new Date(inputDate);
@@ -21,7 +23,18 @@ function scrollToTop(top = 0) {
   });
 }
 
-module.exports = {
+async function getTokenInfo() {
+  const secretKey = process.env.VUE_APP_ACCESS_TOKEN_SECRET;
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return null;
+  }
+  const verified = await VueJwtDecode.decode(token);
+  const { payload = {} } = verified || {};
+  return payload;
+}
+export default {
   convertDateFormat,
   scrollToTop,
+  getTokenInfo,
 };

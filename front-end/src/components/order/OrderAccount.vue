@@ -1,5 +1,5 @@
 <template>
-  <div class="col-9 order-section">
+  <div class="col-9 order-section" style="min-height: 660px">
     <div class="type-filter">
       <h4
         class="pending text-primary underline-animation"
@@ -93,6 +93,48 @@
       </table>
     </div>
 
+    <!-- Notify -->
+    <div class="notify-box" :class="{ 'no-show': orderData.length }">
+      <p class="text-center" style="font-size: 20px; margin-top: 2rem">
+        There are no orders!
+      </p>
+    </div>
+
+    <!-- :class="{ 'no-show': orderData.length }" -->
+
+    <!-- Pagination -->
+    <!-- :class="{ 'no-show': !orderData.length }" -->
+    <div class="col-12 mt-2" :class="{ 'no-show': !orderData.length }">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination d-flex justify-content-end">
+          <li class="page-item">
+            <a class="page-link js-prev-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li
+            v-for="(page, index) in totalPages"
+            class="page-item"
+            :key="index"
+          >
+            <a
+              class="page-link js-number-link"
+              :class="{ active: page == curPage }"
+              href="#"
+              >{{ page }}</a
+            >
+          </li>
+          <li class="page-item">
+            <a class="page-link js-next-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
     <!-- Modal -->
     <div
       class="modal fade"
@@ -148,7 +190,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 
@@ -167,6 +209,12 @@ export default {
     const toggle_2 = ref(false);
     const toggle_3 = ref(false);
     const orderData = ref([]);
+
+    const totalPages = ref(null);
+    let page = 1;
+    const curPage = ref(page);
+    let perPage = 2;
+    let pathRef = ref("");
 
     // $(document).ready(function () {
     //   $("#exampleModal").modal('show');
@@ -211,6 +259,8 @@ export default {
           rating,
         };
 
+        // console.log(data);
+
         const response = await axios.post(
           `http://localhost:3000/product/handle-review/${idProduct.value}`,
           data
@@ -220,6 +270,7 @@ export default {
           hideModal();
           successfulClick();
         }
+        // console.log(res.updatedOrder);
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -232,25 +283,55 @@ export default {
       $("#exampleModal").modal("hide");
     };
 
-    const pendingClick = () => {
+    // const fetchData = async (link) => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:3000/${link}`);
+    //     orderData.value = response.data;
+    //     // console.log(orderData.value);
+    //   } catch (error) {
+    //     console.error("Error calling API:", error);
+    //   }
+    // };
+
+    // onMounted(() => {
+    //   fetchData('order/pending');
+    // });
+
+    const pendingClick = async () => {
       toggle_1.value = true;
       toggle_2.value = false;
       toggle_3.value = false;
-      fetchData("order/pending");
+      // console.log("da vo");
+      // fetchData('order/pending')
+      pathRef.value = "order/pending";
+      page = 1;
+      curPage.value = page;
+      await requestPage(pathRef.value);
+      init();
     };
 
-    const successfulClick = () => {
+    const successfulClick = async () => {
       toggle_1.value = false;
       toggle_2.value = true;
       toggle_3.value = false;
-      fetchData("order/successful");
+      // fetchData('order/successful')
+      pathRef.value = "order/successful";
+      page = 1;
+      curPage.value = page;
+      await requestPage(pathRef.value);
+      init();
     };
 
-    const cancelledClick = () => {
+    const cancelledClick = async () => {
       toggle_1.value = false;
       toggle_2.value = false;
       toggle_3.value = true;
-      fetchData("order/cancelled");
+      // fetchData('order/cancelled')
+      pathRef.value = "order/cancelled";
+      page = 1;
+      curPage.value = page;
+      await requestPage(pathRef.value);
+      init();
     };
 
     const requestPage = async (path) => {
@@ -314,6 +395,9 @@ export default {
       toggle_3,
       orderData,
       clickModal,
+
+      totalPages,
+      curPage,
     };
   },
 };

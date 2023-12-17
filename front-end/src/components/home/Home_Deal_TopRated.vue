@@ -24,6 +24,7 @@ export default {
     const id = ref(route.params.id);
     const author = ref({});
     
+    
     onMounted(async () => {
       try {
         const response = await axios.get(

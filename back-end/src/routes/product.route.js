@@ -8,10 +8,13 @@ router.get("/shop", productController.getShop);
 router.get("/shopSerach", productController.getShopBetter);
 router.get("/shopSort", productController.getShopBetterSort);
 router.get("/shopSeek", productController.getShopBetterFilter);
+router.get("/hot", productController.getNewest);
+
 
 
 
 router.get("/detail/:id", productController.getDetail);
+router.get("/productAuthor/:id", productController.productAuthor);
 router.get("/checkout", productController.getCheckout);
 router.post("/handle-review/:id", productController.handleReview);
 

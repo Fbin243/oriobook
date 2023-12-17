@@ -78,6 +78,27 @@ class productController {
     }
   };
 
+
+    // [GET] product/hot
+    getNewest = async (req, res, next) => {
+      try {
+             
+          // Sorting option for date in descending order (latest to oldest)
+          const sortOption = { date: -1 };
+  
+          // Fetch the products with search and sorting options
+          const products = await Product.find()
+            .populate("id_author")
+            .sort(sortOption)
+            .limit(4);
+
+          res.status(200).json({ products });
+        
+      } catch (error) {
+        next(error);
+      }
+    };
+
   
   
 
@@ -315,6 +336,31 @@ res.status(200).json({ products, totalPages });
       next(error);
     }
   };
+// [GET] product/productAuthor/:id
+productAuthor = async (req, res, next) => {
+  try {
+    console.log("Running");
+    const products = await Product.find({ id_author: req.params.id })
+      .populate("id_author")
+      .populate("reviews.id_account");
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: "No products found for this author ID." });
+    }
+
+    const author = products[0].id_author; // Assuming all products have the same author
+
+    const relatedProducts = await Product.find({
+      category: products[0].category, // Assuming all products have the same category
+      id_author: { $ne: req.params.id },
+    });
+
+    res.status(200).json({ products, author, relatedProducts });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
   // [GET] product/checkout
   getCheckout = async (req, res, next) => {

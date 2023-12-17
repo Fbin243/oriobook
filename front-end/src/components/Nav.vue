@@ -43,7 +43,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/account-details" class="nav-link"
+        <router-link to="/login" class="nav-link"
           ><i class="fa-regular fa-user me-2"></i>
           <span>Account</span>
         </router-link>

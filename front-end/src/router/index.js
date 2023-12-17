@@ -47,6 +47,11 @@ const routes = [
         name: "RefundPolicy",
         component: RefundPolicy,
       },
+      {
+        path: "login",
+        name: "Login",
+        component: Login,
+      },
     ],
   },
   {
@@ -89,11 +94,6 @@ const routes = [
         component: Author,
       },
     ],
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
   },
   {
     path: "/checkout",

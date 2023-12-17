@@ -13,13 +13,13 @@
           autocomplete="off"
           v-model="formData.password_current"
         />
-        <!-- <span
+        <span
           v-for="error in v$.password_current.$errors"
           :key="error.$uid"
           style="color: red"
         >
           {{ error.$message }}
-        </span> -->
+        </span>
       </p>
 
       <p class="woocommerce-form-row">
@@ -82,18 +82,23 @@ import useVuelidate from "@vuelidate/core";
 import { required, minLength, sameAs } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import { useRouter } from "vue-router";
+import axios from "axios";
 
 export default {
   name: "AccountDetails_Pass",
   setup() {
+    const router = useRouter();
+
     const formData = reactive({
-      // password_current: "",
+      password_current: "",
       password_1: "",
       password_2: "",
     });
 
     const rules = computed(() => {
       return {
+        password_current: { required },
         password_1: { required, minLength: minLength(5) },
         password_2: { required, sameAs: sameAs(formData.password_1) },
       };
@@ -105,9 +110,24 @@ export default {
       const result = await v$.value.$validate();
       if (result) {
         // alert(`Account details changed successfully.`);
-        toast.success("Wow Success!", {
-          autoClose: 2000,
-        });
+        const response = await axios.post(
+          `http://localhost:3000/account/updateAccountPassword`,
+          {
+            ...formData,
+          }
+        );
+
+        if (response.data.status == true) {
+          toast.success("Wow Success!", {
+            autoClose: 2000,
+          });
+          router.push("/account-details");
+        } else if (response.data == "password error") {
+          toast.error("Your password is wrong.", {
+            autoClose: 2000,
+            position: "top-center",
+          });
+        }
       }
     }
 

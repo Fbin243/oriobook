@@ -77,25 +77,6 @@
     <div class="clear"></div>
 
     <p class="woocommerce-form-row">
-      <label for="account_display_name"
-        >Display name&nbsp;<span class="required">*</span></label
-      >
-      <input
-        type="text"
-        id="account_display_name"
-        value="phanlybaohanh"
-        disabled
-      />
-      <span
-        ><em
-          >This will be how your name will be displayed in the account section
-          and in reviews</em
-        ></span
-      >
-    </p>
-    <div class="clear"></div>
-
-    <p class="woocommerce-form-row">
       <label for="account_email"
         >Email address&nbsp;<span class="required">*</span></label
       >
@@ -103,7 +84,7 @@
         type="email"
         id="account_email"
         autocomplete="email"
-        value="phanlybaohanh@gmail.com"
+        v-model="formData.account_email"
         disabled
       />
     </p>
@@ -125,21 +106,41 @@
 </template>
 
 <script>
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, maxLength, numeric } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
+import { useRouter } from "vue-router";
 import "vue3-toastify/dist/index.css";
+import axios from "axios";
 
 export default {
   name: "AccountDetails",
 
   setup() {
+    const router = useRouter();
+
     const formData = reactive({
       account_first_name: "",
       account_last_name: "",
       account_address: "",
       account_phone: "",
+      account_email: "",
+    });
+
+    onMounted(async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/account/getAccountDetail`
+        );
+        formData.account_first_name = response.data.firstName;
+        formData.account_last_name = response.data.lastName;
+        formData.account_address = response.data.address;
+        formData.account_phone = response.data.phone;
+        formData.account_email = response.data.email;
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
     });
 
     const rules = computed(() => {
@@ -147,6 +148,7 @@ export default {
         account_first_name: { required, minLength: minLength(3) },
         account_last_name: { required, minLength: minLength(3) },
         account_address: { required, minLength: minLength(5) },
+        account_email: { required },
         account_phone: {
           required,
           minLength: minLength(10),
@@ -162,9 +164,19 @@ export default {
       const result = await v$.value.$validate();
       if (result) {
         // alert(`Account details changed successfully.`);
-        toast.success("Wow Success!", {
-          autoClose: 2000,
-        });
+        const response = await axios.post(
+          `http://localhost:3000/account/updateAccountDetail`,
+          {
+            ...formData,
+          }
+        );
+
+        if (response.data.status == true) {
+          toast.success("Wow Success!", {
+            autoClose: 2000,
+          });
+          router.push("/account-details");
+        }
       }
     }
 

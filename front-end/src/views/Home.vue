@@ -23,7 +23,8 @@ import Testimonial from "@/components/Testimonial.vue";
 import emailSupscription from "@/components/emailSupscription.vue";
 
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "../config/axios";
+
 import { scrollToTop } from "@/helpers/helperFunctions";
 export default {
   name: "Home",

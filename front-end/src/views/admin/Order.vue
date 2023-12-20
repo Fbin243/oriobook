@@ -256,7 +256,8 @@
 <script>
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import axios from "../../config/axios";
+
 import Sidebar from "@/components/account/SideBar";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 

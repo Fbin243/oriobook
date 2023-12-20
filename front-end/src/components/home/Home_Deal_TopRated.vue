@@ -11,7 +11,8 @@
 import DealsOfTheWeek from "@/components/home/DealsOfTheWeek.vue";
 import TopRatedAuthor from "@/components/home/TopRatedAuthor.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "../../config/axios";
+
 import { useRoute } from "vue-router";
 
 export default {

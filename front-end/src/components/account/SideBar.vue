@@ -29,7 +29,7 @@
             <router-link to="/admin/order">Manage orders</router-link>
           </li>
         </template>
-        <li class="navigation-link">
+        <li class="navigation-link" @click="LogOut">
           <router-link to="/">Log out</router-link>
         </li>
       </ul>
@@ -38,18 +38,29 @@
 </template>
 
 <script>
+import helpers from "../../helpers/helperFunctions";
 import { ref } from "vue";
-
 export default {
   name: "SideBar",
-  data() {
-    return {
-      admin: true,
-    };
-  },
+
   components: {},
   setup() {
-    return {};
+    let admin = ref(false);
+
+    async function LogOut() {
+      localStorage.removeItem("token");
+      window.location.href = "http://localhost:8080/";
+    }
+
+    async function checkAdmin() {
+      const { isAdmin = false } = await helpers.getTokenInfo();
+      admin.value = isAdmin;
+      console.log(isAdmin);
+    }
+    return { LogOut, checkAdmin, admin };
+  },
+  async mounted() {
+    await this.checkAdmin();
   },
 };
 </script>

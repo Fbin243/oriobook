@@ -37,16 +37,20 @@
         />
         <button type="submit">Search</button>
       </form>
-      <div class="cart-btn" role="button">
+      <button class="cart-btn">
         <i class="fa-sharp fa-regular fa-basket-shopping-simple"></i>
-        <span id="lblCartCount"> 0 </span>
+        <span id="lblCartCount"> {{ cart.length }} </span>
         <span>Cart</span>
-      </div>
+      </button>
     </div>
   </header>
 </template>
 
 <script>
+import axios from "../config/axios";
+
+import { ref, onMounted } from "vue";
+
 export default {
   name: "Header",
   methods: {
@@ -61,6 +65,8 @@ export default {
     },
   },
   setup() {
+    const cart = ref([]);
+
     const handleSearchForm = () => {
       $(".search").css({
         display: "none",
@@ -77,8 +83,23 @@ export default {
         });
       });
     };
+
+    onMounted(async () => {
+      try {
+        console.log("cart");
+        const response = await axios.get(
+          `http://localhost:3000/account/getCart`
+        );
+        cart.value = response.data;
+        console.log(response.data);
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
+    });
+
     return {
       handleSearchForm,
+      cart,
     };
   },
   mounted() {

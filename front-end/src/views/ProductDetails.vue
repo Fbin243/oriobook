@@ -92,7 +92,8 @@
 
 <script>
 import { ref, onMounted, onBeforeMount } from "vue";
-import axios from "axios";
+import axios from "../config/axios";
+
 import HomeProductCard from "@/components/product/HomeProductCard.vue";
 import tabProduct from "@/components/tabProduct.vue";
 import { useRoute } from "vue-router";

@@ -47,6 +47,11 @@ const routes = [
         name: "RefundPolicy",
         component: RefundPolicy,
       },
+      {
+        path: "login",
+        name: "Login",
+        component: Login,
+      },
     ],
   },
   {

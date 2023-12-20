@@ -73,6 +73,8 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
+// import axios from "../../config/axios";
+
 import HomeProductCard from "./HomeProductCard.vue";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 import { scrollToTop } from "@/helpers/helperFunctions";
@@ -165,7 +167,7 @@ export default {
           totalPages.value = response.data.totalPages;
         } else {
           const response = await axios.get(
-            `http://localhost:3000/product/shopSerach?page=${page}&perPage=${perPage}&search=${searchQuery}`
+            `http://localhost:3000/product/shopSearch?page=${page}&perPage=${perPage}&search=${searchQuery}`
           );
           curPage.value = page;
           products.value = response.data.products;

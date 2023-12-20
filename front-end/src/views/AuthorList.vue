@@ -11,7 +11,8 @@
 <script>
 import Authors from "@/components/author/Authors.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "../config/axios";
+
 import { useRoute } from "vue-router";
 
 export default {

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const product = require("./product.model");
 
 const accountSchema = new mongoose.Schema({
-  firstName: { type: String, required: true, trim: true },
-  lastName: { type: String, required: true, trim: true },
+  firstName: { type: String, default: "Default", trim: true },
+  lastName: { type: String, default: "Default", trim: true },
   email: {
     type: String,
     required: true,
@@ -11,9 +11,9 @@ const accountSchema = new mongoose.Schema({
     trim: true,
   },
   password: { type: String, required: true, trim: true },
-  isAdmin: Boolean,
-  phone: { type: String, required: true, trim: true },
-  address: { type: String, default: "", trim: true },
+  isAdmin: { type: Boolean, default: false },
+  phone: { type: String, default: "Default", trim: true },
+  address: { type: String, default: "Default", trim: true },
   cart: [
     {
       id_product: {

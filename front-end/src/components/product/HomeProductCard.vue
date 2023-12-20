@@ -1,11 +1,13 @@
 <template>
   <div class="product-card">
-    <a class="image-container" :href="'/products/' + product._id">
-      <img :src="product.image" :alt="product.name" class="img-1" />
-      <div class="add-to-cart">
+    <div class="image-container">
+      <a :href="'/products/' + product._id" class="img-1">
+        <img :src="product.image" :alt="product.name" class="img-1" />
+      </a>
+      <button class="add-to-cart" @click="AddProduct(product._id)">
         <i class="fa-solid fa-cart-plus"></i>
-      </div>
-    </a>
+      </button>
+    </div>
     <div class="product-info">
       <a class="author-name" href="#">{{ product.id_author.name }} </a>
       <div class="product-name-box">
@@ -25,13 +27,33 @@
 
 <script>
 import { ref } from "vue";
+import axios from "../../config/axios";
+
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "HomeProductCard",
   props: ["product"],
   setup() {
     const imgHover = ref(true);
+
+    async function AddProduct(id) {
+      console.log(id);
+      const response = await axios.post(
+        `http://localhost:3000/account/addToCart/${id}`
+      );
+
+      if (response.data.status == true) {
+        toast.success("Wow Success!", {
+          autoClose: 2000,
+        });
+        window.location.reload();
+      }
+    }
+
     return {
+      AddProduct,
       imgHover,
     };
   },

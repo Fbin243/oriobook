@@ -1,6 +1,6 @@
 <template>
   <div class="item-product">
-    <div class="items" v-for="item in number" :key="item">
+    <div class="items" v-for="item in group" :key="item">
       <div class="product-button">
         <div class="products-thumb">
           <div class="product-lable">
@@ -8,14 +8,13 @@
           </div>
           <div class="product-thumb-hover">
             <a
-              href="https://wpbingosite.com/wordpress/oriobook/shop/emotionally-intelligent/"
-              class="woocommerce-LoopProduct-link"
+            :href="'/products/' + item._id"              
+            class="woocommerce-LoopProduct-link"
             >
               <img
                 loading="lazy"
-                src="https://wpbingosite.com/wordpress/oriobook/wp-content/uploads/2019/04/product-1.jpg"
+                :src="item.image" :alt="item.name"                
                 class="fade-in lazyload wp-post-image"
-                alt=""
                 decoding="async"
               />
             </a>
@@ -31,23 +30,25 @@
           <div class="list-author">
             <span>
               <a
-                href="https://wpbingosite.com/wordpress/oriobook/product_author/dan-gordon/"
+              :href="'/authors/' + item.id_author._id"
                 class="item-author"
-                >Dan Gordon</a
+                >{{ item.id_author.name }}</a
               >
             </span>
           </div>
           <h3>
             <a
-              href="https://wpbingosite.com/wordpress/oriobook/shop/emotionally-intelligent/"
+            :href="'/products/' + item._id"
               class="product-title"
-              >Emotionally Intelligent</a
+              >{{ item.name.length > 20 ? item.name.substring(0, 20) + '...' : item.name }}
+
+</a
             >
           </h3>
           <span class="price">
             <span class="woocommerce-Price-amount amount">
               <bdi>
-                65.00<span class="woocommerce-Price-currencySymbol">&#36;</span>
+                {{ item.price }}<span class="woocommerce-Price-currencySymbol">&#36;</span>
               </bdi>
             </span>
           </span>
@@ -65,6 +66,7 @@ import { ref } from "vue";
 
 export default {
   name: "HomeProductDeal",
+  props: ["group"],
   setup() {
     const number = ref(2);
 

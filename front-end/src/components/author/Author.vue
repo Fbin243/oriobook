@@ -59,23 +59,52 @@
           </ul>
         </div>
       </div>
+
+      <div class="row gx-2 gy-3 row-products">
+        <div class="col m-20" v-for="product in products" :key="product">
+          <HomeProductCard :product="product" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
 import ShopProduct from "../product/ShopProduct.vue";
 import { convertDateFormat } from "@/helpers/helperFunctions";
+import HomeProductCard from "../product/HomeProductCard.vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRoute } from "vue-router";
 
 export default {
   name: "Author",
   components: {
     ShopProduct,
+    HomeProductCard,
   },
   props: ["author"],
   setup() {
+    const route = useRoute();
+
+    const products = ref([]);
+    const id = ref(route.params.id);
+
+    onMounted(async () => {
+      try {
+        console.log(id.value);
+        const response = await axios.get(
+          `http://localhost:3000/product/productAuthor/${id.value}`
+        );
+        products.value = response.data.products; // Access 'products' property
+        console.log(products);
+        // Ensure products is an array
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    });
     return {
+      products,
       convertDateFormat: convertDateFormat,
     };
   },

@@ -81,6 +81,16 @@ export default {
       handleSearchForm,
     };
   },
+  mounted() {
+    // Check if the search parameter exists in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get("search");
+
+    // Set searchQuery based on the URL parameter
+    if (searchParam) {
+      this.searchQuery = searchParam;
+    }
+  },
 };
 </script>
 

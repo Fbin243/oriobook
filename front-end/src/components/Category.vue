@@ -6,7 +6,7 @@
     <!-- First Column -->
     <div class="big-card">
       <div class="card-content">
-        <a href="#">
+        <a href="/products?category=Romance&author=">
           <img
             src="../assets/img/romance.jpg"
             style="width: 70%; padding-top: 100px"
@@ -30,7 +30,7 @@
     <!-- Second Column -->
     <div class="small-card">
       <div class="card-content">
-        <a href="#">
+        <a href="/products?category=Fiction&author=">
           <img
             src="../assets/img/fiction.jpg"
             style="
@@ -59,7 +59,7 @@
 
     <div class="small-card">
       <div class="card-content">
-        <a href="#">
+        <a href="/products?category=Family&author=">
           <div style="text-align: right">
             <img
               src="../assets/img/family.jpg"
@@ -88,7 +88,7 @@
 
     <div class="small-card">
       <div class="card-content">
-        <a href="#">
+        <a href="/products?category=Comedy&author=">
           <div style="text-align: right">
             <img
               src="../assets/img/comedy.jpg"
@@ -115,7 +115,7 @@
 
     <div class="small-card">
       <div class="card-content">
-        <a href="#">
+        <a href="/products?category=History&author=">
           <div style="text-align: right">
             <img
               src="../assets/img/history.jpg"

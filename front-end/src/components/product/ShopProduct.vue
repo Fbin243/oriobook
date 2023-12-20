@@ -1,6 +1,7 @@
 <template>
   <div class="shop-product" :class="author_page ? 'col-12' : 'col-9'">
     <div class="row gx-0">
+      <!-- <h2>Search Query: {{ $route.query.search }}</h2> -->
       <div
         class="col-12 woocommerce-ordering pwb-dropdown dropdown show px-3"
         :class="{ 'no-show': author_page }"
@@ -88,15 +89,36 @@ export default {
     let page = 1;
     const curPage = ref(page);
     const perPage = 8;
-    const toggleMenu = ref(false);
     const author_page = ref(props.author_page);
-
+    const toggleMenu = ref(false);
     const selectedSorting = ref({
       value: "menu_order",
       label: "Default sorting",
     });
     const route = useRoute();
+    let selectedCategory;
+    let selectedAuthor;
+
     const searchQuery = route.query.search;
+    if (route.query.category || route.query.author) {
+      const selectedCategoryy = route.query.category
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+      console.log("fake: ", route.query.author);
+      const selectedAuthorr = route.query.author
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+      selectedCategory = selectedCategoryy;
+      selectedAuthor = selectedAuthorr;
+      console.log("fake: ", selectedAuthor);
+    }
+
     const sortingOptions = [
       { value: "menu_order", label: "Default sorting" },
       { value: "popularity", label: "Sort by popularity" },
@@ -106,32 +128,35 @@ export default {
       { value: "price-desc", label: "Sort by price: high to low" },
     ];
 
-    const selectSorting = async (option) => {
-      try {
-        selectedSorting.value = option;
-        toggleMenu.value = false;
-        console.log("Selected Sorting:", selectedSorting.value);
-        // Do something with the selected sorting value
-        const response = await axios.get(
-          `http://localhost:3000/product/sort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
-        );
-        curPage.value = page;
-        products.value = response.data.products;
-        totalPages.value = response.data.totalPages;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     const clickDropdown = () => {
       toggleMenu.value = !toggleMenu.value;
+    };
+
+    const selectSorting = async (option) => {
+      selectedSorting.value = option;
+      toggleMenu.value = false;
+      console.log("Selected Sorting:", selectedSorting.value);
+      // Do something with the selected sorting value
+      const response = await axios.get(
+        `http://localhost:3000/product/shopSort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
+      );
+      curPage.value = page;
+      products.value = response.data.products;
+      totalPages.value = response.data.totalPages;
     };
 
     const requestPage = async () => {
       try {
         scrollToTop(656);
         displayLoading(".js-product-wrapper", -32);
-        if (searchQuery == "" || !searchQuery) {
+        if (selectedCategory || selectedAuthor) {
+          const response = await axios.get(
+            `http://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}`
+          );
+          curPage.value = page;
+          products.value = response.data.products;
+          totalPages.value = response.data.totalPages;
+        } else if (searchQuery == "" || !searchQuery) {
           const response = await axios.get(
             `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
           );
@@ -140,7 +165,7 @@ export default {
           totalPages.value = response.data.totalPages;
         } else {
           const response = await axios.get(
-            `http://localhost:3000/product/search?page=${page}&perPage=${perPage}&search=${searchQuery}`
+            `http://localhost:3000/product/shopSerach?page=${page}&perPage=${perPage}&search=${searchQuery}`
           );
           curPage.value = page;
           products.value = response.data.products;
@@ -182,7 +207,6 @@ export default {
       }
     });
     return {
-      clickDropdown,
       toggleMenu,
       selectedSorting,
       sortingOptions,

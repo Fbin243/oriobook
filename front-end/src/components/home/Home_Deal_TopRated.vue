@@ -26,7 +26,10 @@ export default {
 
     onMounted(async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/author/list`);
+        const response = await axios.get(
+          `http://localhost:3000/author/getAuthorListTopRated`
+        );
+        // console.log(response.data);
         author.value = response.data;
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);

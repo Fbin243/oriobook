@@ -8,6 +8,10 @@ const Order = require("../models/order.model");
 const Account = require("../models/account.model");
 
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
+async function findAuthorIdByName(authorName) {
+  const author = await Author.findOne({ name: { $regex: new RegExp(authorName, 'i') } });
+  return author ? author._id : null;
+}
 class productController {
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
@@ -73,6 +77,250 @@ class productController {
       next(error);
     }
   };
+
+
+    // [GET] product/hot
+    getNewest = async (req, res, next) => {
+      try {
+             
+          // Sorting option for date in descending order (latest to oldest)
+          const sortOption = { date: -1 };
+  
+          // Fetch the products with search and sorting options
+          const products = await Product.find()
+            .populate("id_author")
+            .sort(sortOption)
+            .limit(4);
+
+          res.status(200).json({ products });
+        
+      } catch (error) {
+        next(error);
+      }
+    };
+
+  
+  
+
+  getShopBetterFilter = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage) ? 8 : Math.max(1, parseInt(req.query.perPage));
+  
+      // Extract category and author from query parameters
+      let category = req.query.category;
+      let author = req.query.author;
+
+      if(category == "All Category"){category = ''}
+      if(category == "Family Story"){category = 'Family story'}
+      if(author == "Book Author"){author = ''}
+      console.log(category)
+      console.log(author)
+      // Build the query based on case-insensitive category and author conditions
+      const query = {};
+if (category || author) {
+
+
+  if (category) {
+    query.category = { $regex: new RegExp(category, 'i') };
+  }
+  
+  if (author) {
+    const authorId = await findAuthorIdByName(author);
+
+    query['id_author'] = authorId;
+  }
+}
+
+// Find the total number of matching products
+const totalProducts = await Product.countDocuments(query);
+
+// Calculate total pages
+const totalPages = Math.ceil(totalProducts / perPage);
+
+// Fetch products based on the query
+const products = await Product.find(query)
+  .populate("id_author")
+  .skip((page - 1) * perPage)
+  .limit(perPage);
+
+res.status(200).json({ products, totalPages });
+
+    } catch (error) {
+      next(error);
+    }
+  };
+  
+
+
+  getShopBetter = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      
+      const search = req.query.search;
+      console.log(search);
+      const filter = search
+        ? { name: { $regex: new RegExp(search, "i") } }
+        : {};
+
+      const totalProducts = await Product.countDocuments({filter});//cập nhật số trang
+      const totalPages = Math.ceil(totalProducts+1 / perPage);  
+      const products = await Product.find(filter)
+
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ products, totalPages });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getShopBetterSort = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const sort = req.query.sort;
+      let search;
+      if (req.query.search) {
+        console.log("go");
+        search = req.query.search;
+        if (search == "undefined") {
+          search = "";
+        }
+      }
+
+      const filter = search
+        ? { name: { $regex: new RegExp(search, "i") } }
+        : {};
+      console.log(filter);
+      if (sort == "price") {
+        // Sorting option for price in ascending order (low to high)
+        const sortOption = { price: 1 };
+        // Fetch the products with search and sorting options
+        const products = await Product.find(filter)
+          .populate("id_author")
+          .sort(sortOption)
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+        res.status(200).json({ products, totalPages });
+      }
+
+      if (sort == "price-desc") {
+        // Sorting option for price in ascending order (low to high)
+        const sortOption = { price: -1 };
+        // Fetch the products with search and sorting options
+        const products = await Product.find(filter)
+          .populate("id_author")
+          .sort(sortOption)
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+        res.status(200).json({ products, totalPages });
+      }
+
+      if (sort === "date") {
+        // Sorting option for date in descending order (latest to oldest)
+        const sortOption = { date: -1 };
+
+        // Fetch the products with search and sorting options
+        const products = await Product.find(filter)
+          .populate("id_author")
+          .sort(sortOption)
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+
+        res.status(200).json({ products, totalPages });
+      }
+
+      if (sort === "popularity") {
+        // Aggregation pipeline to add a new field "numReviews" representing the length of the "reviews" array
+        const aggregationPipeline = [
+          {
+            $match: filter, // Your existing match filter
+          },
+          {
+            $addFields: {
+              numReviews: { $size: "$reviews" },
+            },
+          },
+          {
+            $sort: { numReviews: -1 }, // Sort by the length of the "reviews" array in descending order
+          },
+          {
+            $skip: (page - 1) * perPage,
+          },
+          {
+            $limit: perPage,
+          },
+        ];
+
+        // Execute the aggregation pipeline
+        const products = await Product.aggregate(aggregationPipeline).exec();
+
+        // Fetch the total number of products for pagination
+        const totalProducts = await Product.countDocuments(filter);
+
+        res
+          .status(200)
+          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
+      }
+
+      if (sort === "rating") {
+        // Aggregation pipeline to add a new field "averageRating" representing the average rating from the "reviews" array
+        const aggregationPipeline = [
+          {
+            $match: filter, // Your existing match filter
+          },
+          {
+            $addFields: {
+              averageRating: { $avg: "$reviews.rating" },
+            },
+          },
+          {
+            $sort: { averageRating: -1 }, // Sort by the average rating in descending order
+          },
+          {
+            $skip: (page - 1) * perPage,
+          },
+          {
+            $limit: perPage,
+          },
+        ];
+
+        // Execute the aggregation pipeline
+        const products = await Product.aggregate(aggregationPipeline).exec();
+
+        // Fetch the total number of products for pagination
+        const totalProducts = await Product.countDocuments(filter);
+
+        res
+          .status(200)
+          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
+      }
+
+      if (sort === "menu_order") {
+        const products = await Product.find(filter)
+
+          .populate("id_author")
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+        res.status(200).json({ products, totalPages });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
   // [GET] product/detail/:id
   getDetail = async (req, res, next) => {
     try {
@@ -88,6 +336,31 @@ class productController {
       next(error);
     }
   };
+// [GET] product/productAuthor/:id
+productAuthor = async (req, res, next) => {
+  try {
+    console.log("Running");
+    const products = await Product.find({ id_author: req.params.id })
+      .populate("id_author")
+      .populate("reviews.id_account");
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: "No products found for this author ID." });
+    }
+
+    const author = products[0].id_author; // Assuming all products have the same author
+
+    const relatedProducts = await Product.find({
+      category: products[0].category, // Assuming all products have the same category
+      id_author: { $ne: req.params.id },
+    });
+
+    res.status(200).json({ products, author, relatedProducts });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
   // [GET] product/checkout
   getCheckout = async (req, res, next) => {

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import helpers from "../../helpers/helperFunctions";
+import { getTokenInfo } from "../../helpers/helperFunctions";
 import { ref } from "vue";
 export default {
   name: "SideBar",
@@ -53,7 +53,7 @@ export default {
     }
 
     async function checkAdmin() {
-      const { isAdmin = false } = await helpers.getTokenInfo();
+      const { isAdmin = false } = await getTokenInfo();
       admin.value = isAdmin;
       console.log(isAdmin);
     }

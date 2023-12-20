@@ -9,16 +9,14 @@ router.get("/shopSerach", productController.getShopBetter);
 router.get("/shopSort", productController.getShopBetterSort);
 router.get("/shopSeek", productController.getShopBetterFilter);
 router.get("/hot", productController.getNewest);
-
-
-
-
-router.get("/detail/:id", productController.getDetail);
-router.get("/productAuthor/:id", productController.productAuthor);
-router.get("/checkout", productController.getCheckout);
-router.post("/handle-review/:id", productController.handleReview);
 router.get("/search", productController.searchProduct);
 router.get("/sort", productController.sortProduct);
+router.get("/detail/:id", productController.getDetail);
+router.get("/productAuthor/:id", productController.productAuthor);
+
+// **************** USER **********************
+router.post("/handle-review/:id", productController.handleReview);
+router.get("/checkout", productController.getCheckout);
 
 // **************** ADMIN **********************
 router.get("/manage", productController.getManage);

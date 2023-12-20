@@ -43,32 +43,36 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <button @click="Click"><span>Account</span></button>
+        <router-link :to="login_path" class="nav-link" @click="Click"
+          ><span>Account</span></router-link
+        >
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   name: "Nav",
 
   setup() {
     let Token;
-
+    const login_path = ref("");
     function Click() {
       Token = localStorage.getItem("token");
       console.log(Token);
       if (Token) {
-        window.location.href = "http://localhost:8080/account-details";
+        login_path.value = "/account-details";
       } else {
-        window.location.href = "http://localhost:8080/login";
+        login_path.value = "/login";
       }
     }
 
     return {
       Click,
       Token,
+      login_path,
     };
   },
 };

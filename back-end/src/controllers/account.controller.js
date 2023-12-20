@@ -155,6 +155,7 @@ class accountController {
 
   getCart = async (req, res, next) => {
     try {
+      console.log(req.headers);
       const Acc = await account.findOne({ email: req.headers.email });
       const promises = Acc.cart.map((_cart) => {
         const { id_product } = _cart;

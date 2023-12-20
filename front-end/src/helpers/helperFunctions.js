@@ -1,6 +1,6 @@
 import VueJwtDecode from "vue-jwt-decode";
 
-function convertDateFormat(inputDate) {
+export function convertDateFormat(inputDate) {
   // Create a Date object from the input string
   const dateObj = new Date(inputDate);
 
@@ -15,7 +15,7 @@ function convertDateFormat(inputDate) {
   return formattedDate;
 }
 
-function scrollToTop(top = 0) {
+export function scrollToTop(top = 0) {
   // Scroll to the top of the page
   window.scrollTo({
     top: top,
@@ -23,7 +23,7 @@ function scrollToTop(top = 0) {
   });
 }
 
-async function getTokenInfo() {
+export async function getTokenInfo() {
   const secretKey = process.env.VUE_APP_ACCESS_TOKEN_SECRET;
   const token = localStorage.getItem("token");
   if (!token) {
@@ -33,8 +33,3 @@ async function getTokenInfo() {
   const { payload = {} } = verified || {};
   return payload;
 }
-export default {
-  convertDateFormat,
-  scrollToTop,
-  getTokenInfo,
-};

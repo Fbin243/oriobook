@@ -33,3 +33,22 @@ export async function getTokenInfo() {
   const { payload = {} } = verified || {};
   return payload;
 }
+
+export async function isAdmin() {
+  const secretKey = process.env.VUE_APP_ACCESS_TOKEN_SECRET;
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return false;
+  }
+  const verified = await VueJwtDecode.decode(token);
+  const { payload = {} } = verified || {};
+  if (payload == null) {
+    return false;
+  } else {
+    if (payload.isAdmin == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}

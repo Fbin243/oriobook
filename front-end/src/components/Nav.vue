@@ -43,7 +43,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to="login_path" class="nav-link" @click="Click"
+        <router-link :to="login_path" class="nav-link" @mouseover="Click"
           ><span>Account</span></router-link
         >
       </li>

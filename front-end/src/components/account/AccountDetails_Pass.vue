@@ -99,7 +99,7 @@ export default {
     const rules = computed(() => {
       return {
         password_current: { required },
-        password_1: { required, minLength: minLength(5) },
+        password_1: { required, minLength: minLength(3) },
         password_2: { required, sameAs: sameAs(formData.password_1) },
       };
     });

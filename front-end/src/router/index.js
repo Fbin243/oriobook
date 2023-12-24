@@ -17,6 +17,7 @@ import Manage from "@/views/admin/Manage";
 import Edit from "@/views/admin/Edit";
 import Order from "@/views/admin/Order";
 import AccountDetails from "@/views/AccountDetails";
+import { isAdmin, getTokenInfo } from "../helpers/helperFunctions";
 
 const routes = [
   {
@@ -52,6 +53,17 @@ const routes = [
         name: "Login",
         component: Login,
       },
+      {
+        path: "/login",
+        name: "Login",
+        component: Login,
+      },
+      {
+        path: "/account-details",
+        name: "AccountDetails",
+        component: AccountDetails,
+        meta: { requiresUser: true },
+      },
     ],
   },
   {
@@ -69,11 +81,11 @@ const routes = [
       },
     ],
   },
-
   {
     path: "/account-order",
     name: "AccountOrder",
     component: AccountOrder,
+    meta: { requiresUser: true },
   },
   {
     path: "/authors",
@@ -91,16 +103,6 @@ const routes = [
     ],
   },
   {
-    path: "/login",
-    name: "Login",
-    component: Login,
-  },
-  {
-    path: "/account-details",
-    name: "AccountDetails",
-    component: AccountDetails,
-  },
-  {
     path: "/checkout",
     name: "Checkout",
     component: Checkout,
@@ -114,11 +116,13 @@ const routes = [
         path: "dashboard",
         name: "Dashboard",
         component: Dashboard,
+        meta: { requiresAdmin: true },
       },
       {
         path: "manage",
         name: "Manage",
         component: Manage,
+        meta: { requiresAdmin: true },
       },
       {
         path: "edit",
@@ -127,11 +131,13 @@ const routes = [
             path: "",
             name: "EditForCreate",
             component: Edit,
+            meta: { requiresAdmin: true },
           },
           {
             path: ":id",
             name: "EditForUpdate",
             component: Edit,
+            meta: { requiresAdmin: true },
           },
         ],
       },
@@ -139,6 +145,7 @@ const routes = [
         path: "order",
         name: "Order",
         component: Order,
+        meta: { requiresAdmin: true },
       },
     ],
   },
@@ -156,6 +163,33 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, from) => {
+  // instead of having to check every route record with
+  // to.matched.some(record => record.meta.requiresAdmin)
+  let admin = await isAdmin();
+  let user = await getTokenInfo();
+
+  if (to.meta.requiresAdmin && !admin) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    return {
+      path: "/error",
+      // save the location we were at to come back later
+      // query: { redirect: to.fullPath },
+    };
+  }
+
+  if (to.meta.requiresUser && !user) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    return {
+      path: "/error",
+      // save the location we were at to come back later
+      // query: { redirect: to.fullPath },
+    };
+  }
 });
 
 export default router;

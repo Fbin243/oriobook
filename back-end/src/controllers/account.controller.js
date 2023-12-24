@@ -220,6 +220,46 @@ class accountController {
     }
   };
 
+  minusToCart = async (req, res, next) => {
+    console.log(req.params.id);
+    const Acc = await account.findOne({ email: req.headers.email });
+    let newcart = Acc.cart;
+    const pro = await newcart.find((obj) =>
+      obj.id_product.toString().includes(req.params.id)
+    );
+
+    console.log(pro);
+    if (pro.quantity - 1 != 0) {
+      const updatequantitycart = newcart.reduce((arr, obj) => {
+        if (obj.id_product.toString() == pro.id_product.toString()) {
+          return [...arr, { ...obj._doc, quantity: pro.quantity - 1 }];
+        }
+        return [...arr, obj._doc];
+      }, []);
+
+      console.log(updatequantitycart);
+      newcart = updatequantitycart;
+    } else {
+      const updatequantitycart = newcart.filter((item) => item !== pro);
+      console.log(updatequantitycart);
+      newcart = updatequantitycart;
+    }
+
+    try {
+      await account.updateOne(
+        { email: req.headers.email },
+        {
+          $set: {
+            cart: newcart,
+          },
+        }
+      );
+      return res.send({ status: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   removeFromCart = async (req, res, next) => {
     console.log(req.params.id);
     const Acc = await account.findOne({ email: req.headers.email });

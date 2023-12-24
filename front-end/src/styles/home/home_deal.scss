@@ -31,6 +31,7 @@ h1 {
 
 .items {
   display: flex;
+  width: 100%;
   padding: 0 15px;
 }
 
@@ -83,7 +84,7 @@ img {
 
 .products-content {
   padding-left: 30px;
-  width: 100%;
+  width: 50%;
   display: flex;
   align-items: center;
 }
@@ -117,6 +118,7 @@ img {
 }
 
 .product-button {
+  width: 50%;
   font-family: Lora, serif;
   cursor: pointer;
 

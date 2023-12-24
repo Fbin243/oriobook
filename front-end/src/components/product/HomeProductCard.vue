@@ -39,16 +39,21 @@ export default {
     const imgHover = ref(true);
 
     async function AddProduct(id) {
-      console.log(id);
-      const response = await axios.post(
-        `http://localhost:3000/account/addToCart/${id}`
-      );
+      try {
+        console.log(id);
+        const response = await axios.post(
+          `http://localhost:3000/account/addToCart/${id}`
+        );
 
-      if (response.data.status == true) {
-        toast.success("Wow Success!", {
-          autoClose: 2000,
-        });
-        window.location.reload();
+        if (response.data.status == true) {
+          toast.success("Wow Success!", {
+            autoClose: 2000,
+          });
+          window.location.reload();
+        }
+      } catch (error) {
+        // console.error("Lỗi khi gọi API", error);
+        window.location.href = "http://localhost:8080/login";
       }
     }
 

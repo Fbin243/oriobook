@@ -7,8 +7,8 @@
         Cart
       </h3>
       <i class="fa-regular fa-xmark cart-close-btn"></i>
-      <ul class="product-list" v-for="element in cart" :key="element">
-        <li class="product-item row">
+      <ul class="product-list">
+        <li class="product-item row" v-for="element in cart" :key="element">
           <router-link to="/" class="col-3">
             <img :src="element.image" alt="" class="product-img" />
           </router-link>
@@ -18,13 +18,18 @@
             }}</router-link>
             <p class="product-price">{{ element.price }}$</p>
             <div class="product-quantity row gx-0">
-              <button class="col"><i class="fa-light fa-minus"></i></button>
+              <button class="col" @click="minus(element._id)">
+                <i class="fa-light fa-minus"></i>
+              </button>
               <input
                 type="text"
                 class="col text-center"
+                id="quantity"
                 :value="element.quantities"
               />
-              <button class="col"><i class="fa-light fa-plus"></i></button>
+              <button class="col" @click="plus(element._id)">
+                <i class="fa-light fa-plus"></i>
+              </button>
             </div>
             <button
               class="fa-regular fa-trash-can product-remove-btn"
@@ -51,11 +56,53 @@ import { ref } from "vue";
 
 export default {
   name: "Cart",
-  // props: ["cart"],
 
   setup() {
     const cart = ref([]);
     let price = ref(0);
+    let quantity;
+
+    async function minus(id) {
+      console.log(id);
+      const response = await axios.post(
+        `http://localhost:3000/account/minusToCart/${id}`
+      );
+
+      if (response.data.status == true) {
+        try {
+          console.log("cart");
+          const response = await axios.get(
+            `http://localhost:3000/account/getCart`
+          );
+          cart.value = response.data;
+          console.log(response.data);
+        } catch (error) {
+          console.error("Lỗi khi gọi API", error);
+        }
+        price.value = await Price();
+      }
+    }
+
+    async function plus(id) {
+      console.log(id);
+      const response = await axios.post(
+        `http://localhost:3000/account/addToCart/${id}`
+      );
+
+      if (response.data.status == true) {
+        try {
+          console.log("cart");
+          const response = await axios.get(
+            `http://localhost:3000/account/getCart`
+          );
+          cart.value = response.data;
+          console.log(response.data);
+        } catch (error) {
+          console.error("Lỗi khi gọi API", error);
+        }
+        price.value = await Price();
+      }
+    }
 
     async function RemoveProduct(id) {
       console.log(id);
@@ -119,8 +166,11 @@ export default {
 
     return {
       RemoveProduct,
+      minus,
+      plus,
       cart,
       price,
+      quantity,
     };
   },
 

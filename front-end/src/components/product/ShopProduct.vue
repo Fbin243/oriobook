@@ -72,6 +72,7 @@ export default {
   },
   props: ["author_page"],
   setup(props) {
+    const selectedSortingOption = ref(null);
     const products = ref([]);
     const totalPages = ref(0);
     let page = 1;
@@ -117,8 +118,11 @@ export default {
     const selectSorting = async(option) => {
       selectedSorting.value = option;
       toggleMenu.value = false;
+      selectedSortingOption.value = option; // Store the selected option
+
       console.log('Selected Sorting:', selectedSorting.value);
       // Do something with the selected sorting value
+      console.log("Ganna:",page,"and",selectedSorting.value);
       const response = await axios.get(
         
           `http://localhost:3000/product/shopSort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
@@ -137,7 +141,7 @@ export default {
         displayLoading(".js-product-wrapper", -32);
         if(selectedCategory || selectedAuthor){
           const response = await axios.get(
-          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}`
+          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}&page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;
@@ -152,6 +156,7 @@ export default {
         products.value = response.data.products;
         totalPages.value = response.data.totalPages;
         }else{
+          
           const response = await axios.get(
           `http://localhost:3000/product/shopSerach?page=${page}&perPage=${perPage}&search=${searchQuery}`
         );
@@ -164,25 +169,42 @@ export default {
         console.error("Lỗi khi gọi API:", error);
       }
     };
-
     const paginationControl = () => {
       $(".js-number-link").click(async function (e) {
         e.preventDefault();
         page = parseInt($(this).text());
-        requestPage();
+        
+        console.log('Selected Sorting in paginationControl:', selectedSortingOption.value);
+        if(selectedSortingOption.value){
+          console.log("Sorting...");
+          selectSorting(selectedSortingOption.value);
+        }else{
+          requestPage();
+        }
       });
 
       $(".js-prev-link").click(async function (e) { 
         e.preventDefault();
         page = page > 0 ? page - 1 : page;
-        requestPage();
+        if(selectedSortingOption.value){
+          console.log("Sorting...");
+          selectSorting(selectedSortingOption.value);
+        }else{
+          requestPage();
+        }
       });
 
       $(".js-next-link").click(async function (e) {
         e.preventDefault();
         console.log(totalPages.value);
         page = page < totalPages.value ? page + 1 : page;
-        requestPage();
+  
+        if(selectedSortingOption.value){
+          console.log("Sorting...");
+          selectSorting(selectedSortingOption.value);
+        }else{
+          requestPage();
+        }
       });
     };
 

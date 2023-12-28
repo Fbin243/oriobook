@@ -72,6 +72,7 @@ class productController {
         .populate("id_author")
         .skip((page - 1) * perPage)
         .limit(perPage);
+        // console.log(totalPages);
       res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
@@ -165,16 +166,17 @@ res.status(200).json({ products, totalPages });
       const search = req.query.search;
       console.log(search);
       const filter = search
-        ? { name: { $regex: new RegExp(search, "i") } }
+        ? { name: { $regex: new RegExp(search, "") } }
         : {};
 
-      const totalProducts = await Product.countDocuments({filter});//cập nhật số trang
-      const totalPages = Math.ceil(totalProducts+1 / perPage);  
+      const totalProducts = await Product.countDocuments(filter);//cập nhật số trang
+      const totalPages = Math.ceil(totalProducts  / perPage);  
       const products = await Product.find(filter)
 
         .populate("id_author")
         .skip((page - 1) * perPage)
         .limit(perPage);
+        // console.log(totalPages);
       res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
@@ -204,7 +206,7 @@ res.status(200).json({ products, totalPages });
       const filter = search
         ? { name: { $regex: new RegExp(search, "i") } }
         : {};
-      console.log(filter);
+      // console.log(filter);
       if (sort == "price") {
         // Sorting option for price in ascending order (low to high)
         const sortOption = { price: 1 };

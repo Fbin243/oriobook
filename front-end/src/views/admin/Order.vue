@@ -97,7 +97,7 @@
                                     <a
                                       href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                       ><img
-                                        :src="product.id_product.image"
+                                        :src="product.id_product ? product.id_product.image : ''"
                                         class="product-img"
                                         alt=""
                                     /></a>
@@ -106,13 +106,13 @@
                                         class="mb-0"
                                         href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                       >
-                                        {{ product.id_product.name }}
+                                        {{ product.id_product ? product.id_product.name : '' }}
                                       </p>
                                       <p class="price mb-0">
                                         <span
                                           class="woocommerce-Price-amount amount"
                                         >
-                                          {{ product.id_product.price
+                                          {{ product.id_product ? product.id_product.price : ''
                                           }}<span class="currency"
                                             >$</span
                                           ></span
@@ -128,7 +128,7 @@
                                 >
                                   <div class="quantity">
                                     <p class="type mb-2">
-                                      {{ product.id_product.category }}
+                                      {{ product.id_product ? product.id_product.category : '' }}
                                     </p>
                                   </div>
                                 </td>
@@ -153,7 +153,7 @@
                                     ><bdi
                                       >${{
                                         roundNumber(
-                                          product.id_product.price *
+                                          (product.id_product ? product.id_product.price : 0) *
                                             product.quantity,
                                           2
                                         )

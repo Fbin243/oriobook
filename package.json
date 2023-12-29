@@ -1,0 +1,17 @@
+{
+  "name": "oriobook",
+  "version": "1.0.0",
+  "description": "## Project setup ``` npm install ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "payment": "cd payment && npm start",
+    "shop": "cd back-end && npm start",
+    "start": "concurrently \"npm run payment\" \"npm run shop\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

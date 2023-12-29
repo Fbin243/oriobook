@@ -29,6 +29,9 @@
             <router-link to="/admin/order">Manage orders</router-link>
           </li>
         </template>
+        <li class="navigation-link">
+          <router-link to="/account-wallet">My wallet</router-link>
+        </li>
         <li class="navigation-link" @click="LogOut">
           <router-link to="/">Log out</router-link>
         </li>

@@ -3,6 +3,7 @@ import Home from "@/views/Home.vue";
 import Shop from "@/views/Shop.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
 import AccountOrder from "@/views/AccountOrder.vue";
+import MyWallet from "@/views/MyWallet.vue";
 import FAQ from "@/views/FAQ.vue";
 import RefundPolicy from "@/views/RefundPolicy.vue";
 import Error from "@/views/Error";
@@ -85,6 +86,12 @@ const routes = [
     path: "/account-order",
     name: "AccountOrder",
     component: AccountOrder,
+    meta: { requiresUser: true },
+  },
+  {
+    path: "/account-wallet",
+    name: "MyWallet",
+    component: MyWallet,
     meta: { requiresUser: true },
   },
   {

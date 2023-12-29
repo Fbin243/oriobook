@@ -11,7 +11,10 @@ class orderController {
   getMyOrders = async (req, res, next) => {
     try {
       // ID_USER
-      let id_account = "6572ae4ecbdcc4811d90a8e4";
+      let email = req.headers ? req.headers.email : ''
+      let account = await Account.findOne({ email })
+      // console.log('email 2', req.headers);
+      let id_account = account ? account._id : '';
       let path = req.path;
       let pathConvert = path.charAt(1).toUpperCase() + path.slice(2); // /successfull -> Successful
 

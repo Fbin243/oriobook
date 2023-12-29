@@ -366,9 +366,10 @@ productAuthor = async (req, res, next) => {
   getCheckout = async (req, res, next) => {
     try {
       // ID_USER
-      let id_account = "6572ae4ecbdcc4811d90a8e4";
+      let email = req.headers ? req.headers.email : ''
+      // let id_account = "6572ae4ecbdcc4811d90a8e4";
 
-      let account = await Account.findOne({ _id: id_account }).populate({
+      let account = await Account.findOne({ email }).populate({
         path: "cart.id_product",
         model: Product,
       });
@@ -648,7 +649,10 @@ productAuthor = async (req, res, next) => {
   //[POST] /handle-review/:id
   handleReview = async (req, res, next) => {
     try {
-      let id_account = "6572ae4ecbdcc4811d90a8e4";
+      let email = req.headers ? req.headers.email : ''
+      let account = await Account.findOne({ email })
+
+      let id_account = account ? account._id : '';
       let idProduct = req.params.id;
 
       let content = req.body.comment;

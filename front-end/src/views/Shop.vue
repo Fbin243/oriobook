@@ -2,9 +2,8 @@
   <div class="shop-page">
     <div class="img-cover">
       <h1 class="title-heading">Shop</h1>
-      <headerShop />
     </div>
-    <div class="product-section container">
+    <div class="product-section container" style="margin-top: -300px;">
       <div class="row">
         <div class="col-3">
           <SliderShop />

@@ -1,9 +1,14 @@
 <template>
-  <h6>Categories:</h6>
   <form style="padding-left: 20px" @submit.prevent="handleSubmit">
     <h6>Categories:</h6>
-    <div class="form-group form-check" v-for="category in categories" :key="category.id">
+    <div
+      class="form-group form-check"
+      v-for="category in categories"
+      :key="category.id"
+    >
       <input
+      :class="{ 'selected': isSelectedCategory(category.name) }"
+
         type="radio"
         class="form-check-input"
         :id="'category-' + category.id"
@@ -11,14 +16,25 @@
         v-model="selectedCategory"
         :value="category.id"
       />
-      <label class="form-check-label" :for="'category-' + category.id">{{ category.name }}</label>
+      <label
+        class="form-check-label"
+        :for="'category-' + category.id"
+      >
+        {{ category.name }}
+      </label>
     </div>
 
     <br />
 
     <h6>Author:</h6>
-    <div class="form-group form-check" v-for="author in authors" :key="author.id">
+    <div
+      class="form-group form-check"
+      v-for="author in authors"
+      :key="author.id"
+    >
       <input
+      :class="{ 'selected': isSelectedAuthor(author.name) }"
+
         type="radio"
         class="form-check-input"
         :id="'author-' + author.id"
@@ -26,19 +42,33 @@
         v-model="selectedAuthor"
         :value="author.id"
       />
-      <label class="form-check-label" :for="'author-' + author.id">{{ author.name }}</label>
+      <label
+        class="form-check-label"
+        :for="'author-' + author.id"
+      >
+        {{ author.name }}
+      </label>
     </div>
 
     <br />
-
-
   </form>
   <br />
 </template>
 
+
 <script>
 export default {
   name: "SliderShop",
+  computed: {
+    isSelectedCategory() {
+      return (categoryName) =>
+        this.$route.query.category === categoryName;
+    },
+    isSelectedAuthor() {
+      return (authorName) =>
+        this.$route.query.author === authorName;
+    },
+  },
   data() {
     return {
       title: "Product Slider",
@@ -151,5 +181,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.selected {
+  border: 5px solid #007bff; /* Blue border when selected */
+}
 @import "../styles/SliderShop.scss";
 </style>

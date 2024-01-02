@@ -2,47 +2,8 @@
   <div class="container">
     
     <div class="box-wrapper" ref="boxWrapper">
-      <div class="box">
-        <div><img src="../assets/img/childbookslide.jpg">
-        </div>
-        <div class="words"><a href="">Children's books</a></div>
-      </div>
-      <div class="box">
-        <div><img src="../assets/img/comedySlide.jpg">
-        </div>
-        <div class="words"><a href="">Comedy</a></div>
-      </div>
-      <div class="box">
-        <div><img src="../assets/img/familySlide.jpg">
-        </div>
-        <div class="words"><a href="">Family Story</a></div>
-      </div>
-      <div class="box">
-        <div><img src="../assets/img/fictionSlide.jpg">
-        </div>
-        <div class="words"><a href="">Fiction</a></div>
-      </div>
-      <div class="box">
-        <div><img src="../assets/img/historySlide.jpg">
-        </div>
-        <div class="words"><a href="">History</a></div>
-      </div>
-      <div class="box">
-        <div><img src="../assets/img/modficSlide.jpg">
-        </div>
-        <div class="words"><a href="">Modern Fiction</a></div>
-      </div>
-      <div class="box">
-        <div><img src="../assets/img/romanceSlide.jpg">
-        </div>
-        <div class="words"><a href="">Romance</a></div>
-      </div>
-      <!-- Repeat the pattern for more boxes -->
-    </div>
-
-    <div class="controls" style="position: absolute;left:170px;top:410px;background-color: #eb5e37;color:white;border-radius: 50%;width: 35px;text-align: center;" @click="prev">❮</div>
-    <div class="controls" style="position: absolute;right:180px;top:410px;background-color: #eb5e37;color:white;border-radius: 50%;width: 35px;text-align: center;" @click="next">❯</div>
-  </div>
+ </div></div>
+ 
 </template>
 
 <script>

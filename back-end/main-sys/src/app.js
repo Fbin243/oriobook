@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const route = require("./routes/index.route");
 const methodOverride = require("method-override");
 const cors = require("cors");
+const https = require("https");
+const fs = require("fs");
 const app = express();
 
 // Cấu hình middleware
@@ -13,5 +15,10 @@ app.use(cors());
 
 // ROUTES INIT
 route(app);
+const opts = {
+  key: fs.readFileSync("src/cert/key.pem", { encoding: "utf-8" }),
+  cert: fs.readFileSync("src/cert/cert.pem", { encoding: "utf-8" }),
+};
+const server = https.createServer(opts, app);
 
-module.exports = app;
+module.exports = server;

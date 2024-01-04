@@ -23,6 +23,17 @@ const accountSchema = new mongoose.Schema({
       quantity: Number,
     },
   ],
+  history: [
+    {
+      action: {
+        type: String,
+        require: true,
+        enum: ["Paid", "Received", "Deposited", "Pending"],
+      },
+      changeBalance: { type: String, require: true },
+      atTimeBalance: { type: Number, require: true },
+    },
+  ],
   date: {
     type: Date,
     default: Date.now,

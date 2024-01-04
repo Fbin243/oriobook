@@ -116,7 +116,7 @@ export default {
       try {
         displayLoading(".product-details");
         const response = await axios.get(
-          `http://localhost:3000/product/detail/${id.value}`
+          `https://localhost:3000/product/detail/${id.value}`
         );
         removeLoading();
         product.value = response.data.product;

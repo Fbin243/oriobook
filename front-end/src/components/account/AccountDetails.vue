@@ -131,7 +131,7 @@ export default {
     onMounted(async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/account/getAccountDetail`
+          `https://localhost:3000/account/getAccountDetail`
         );
         formData.account_first_name = response.data.firstName;
         formData.account_last_name = response.data.lastName;
@@ -165,7 +165,7 @@ export default {
       if (result) {
         // alert(`Account details changed successfully.`);
         const response = await axios.post(
-          `http://localhost:3000/account/updateAccountDetail`,
+          `https://localhost:3000/account/updateAccountDetail`,
           {
             ...formData,
           }

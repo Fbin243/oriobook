@@ -65,14 +65,14 @@ export default {
     async function minus(id) {
       console.log(id);
       const response = await axios.post(
-        `http://localhost:3000/account/minusToCart/${id}`
+        `https://localhost:3000/account/minusToCart/${id}`
       );
 
       if (response.data.status == true) {
         try {
           console.log("cart");
           const response = await axios.get(
-            `http://localhost:3000/account/getCart`
+            `https://localhost:3000/account/getCart`
           );
           cart.value = response.data;
           console.log(response.data);
@@ -86,14 +86,14 @@ export default {
     async function plus(id) {
       console.log(id);
       const response = await axios.post(
-        `http://localhost:3000/account/addToCart/${id}`
+        `https://localhost:3000/account/addToCart/${id}`
       );
 
       if (response.data.status == true) {
         try {
           console.log("cart");
           const response = await axios.get(
-            `http://localhost:3000/account/getCart`
+            `https://localhost:3000/account/getCart`
           );
           cart.value = response.data;
           console.log(response.data);
@@ -107,7 +107,7 @@ export default {
     async function RemoveProduct(id) {
       console.log(id);
       const response = await axios.delete(
-        `http://localhost:3000/account/removeFromCart/${id}`
+        `https://localhost:3000/account/removeFromCart/${id}`
       );
 
       if (response.data.status == true) {
@@ -118,7 +118,7 @@ export default {
         try {
           console.log("cart");
           const response = await axios.get(
-            `http://localhost:3000/account/getCart`
+            `https://localhost:3000/account/getCart`
           );
           cart.value = response.data;
           console.log(response.data);
@@ -134,7 +134,7 @@ export default {
       try {
         console.log("cart");
         const response = await axios.get(
-          `http://localhost:3000/account/getCart`
+          `https://localhost:3000/account/getCart`
         );
         cart.value = response.data;
         cart.value.forEach((item) => {
@@ -195,7 +195,7 @@ export default {
       //   try {
       //     console.log("cart");
       //     const response = await axios.get(
-      //       `http://localhost:3000/account/getCart`
+      //       `https://localhost:3000/account/getCart`
       //     );
       //     cart.value = response.data;
       //     console.log(response.data);

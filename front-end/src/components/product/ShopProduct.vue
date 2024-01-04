@@ -140,7 +140,7 @@ export default {
       console.log("Selected Sorting:", selectedSorting.value);
       // Do something with the selected sorting value
       const response = await axios.get(
-        `http://localhost:3000/product/shopSort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
+        `https://localhost:3000/product/shopSort?page=${page}&perPage=${perPage}&sort=${selectedSorting.value.value}&search=${searchQuery}`
       );
       curPage.value = page;
       products.value = response.data.products;
@@ -153,21 +153,21 @@ export default {
         displayLoading(".js-product-wrapper", -32);
         if (selectedCategory || selectedAuthor) {
           const response = await axios.get(
-            `http://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}`
+            `https://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}`
           );
           curPage.value = page;
           products.value = response.data.products;
           totalPages.value = response.data.totalPages;
         } else if (searchQuery == "" || !searchQuery) {
           const response = await axios.get(
-            `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
+            `https://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
           );
           curPage.value = page;
           products.value = response.data.products;
           totalPages.value = response.data.totalPages;
         } else {
           const response = await axios.get(
-            `http://localhost:3000/product/shopSearch?page=${page}&perPage=${perPage}&search=${searchQuery}`
+            `https://localhost:3000/product/shopSearch?page=${page}&perPage=${perPage}&search=${searchQuery}`
           );
           curPage.value = page;
           products.value = response.data.products;

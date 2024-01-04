@@ -74,7 +74,7 @@ export default {
       try {
         console.log(id);
         const response = await axios.post(
-          `http://localhost:3000/account/addToCart/${id}`
+          `https://localhost:3000/account/addToCart/${id}`
         );
 
         if (response.data.status == true) {
@@ -85,7 +85,7 @@ export default {
         }
       } catch (error) {
         // console.error("Lỗi khi gọi API", error);
-        window.location.href = "http://localhost:8080/login";
+        window.location.href = "https://localhost:8080/login";
       }
     }
 

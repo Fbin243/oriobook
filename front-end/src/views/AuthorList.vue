@@ -26,7 +26,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/author/list`);
+        const response = await axios.get(`https://localhost:3000/author/list`);
         // console.log(response.data);
         author.value = response.data;
         console.log(author.value);

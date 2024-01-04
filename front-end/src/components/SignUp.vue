@@ -90,7 +90,7 @@ export default {
       if (result) {
         // alert(`Account details changed successfully.`);
         const response = await axios.post(
-          `http://localhost:3000/account/signUp/`,
+          `https://localhost:3000/account/signUp/`,
           {
             ...formData,
           }

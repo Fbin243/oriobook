@@ -104,7 +104,7 @@ export default {
       const result = await v$.value.$validate();
       if (result) {
         const response = await axios.post(
-          `http://localhost:3000/account/signIn/`,
+          `https://localhost:3000/account/signIn/`,
           {
             ...formData,
           }
@@ -124,7 +124,7 @@ export default {
             position: "top-center",
           });
         } else {
-          window.location.href = "http://localhost:8080/account-details";
+          window.location.href = "https://localhost:8080/account-details";
         }
       }
     }

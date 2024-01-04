@@ -94,7 +94,7 @@ export default {
       try {
         console.log(id.value);
         const response = await axios.get(
-          `http://localhost:3000/product/productAuthor/${id.value}`
+          `https://localhost:3000/product/productAuthor/${id.value}`
         );
         products.value = response.data.products; // Access 'products' property
         console.log(products);

@@ -180,7 +180,7 @@ export default {
         // };
         // // console.log(data);
         // const response = await axios.post(
-        //   `http://localhost:3000/product/handle-review/${idProduct.value}`,
+        //   `https://localhost:3000/product/handle-review/${idProduct.value}`,
         //   data
         // );
         // let res = response.data;

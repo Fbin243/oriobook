@@ -120,7 +120,7 @@
             disabled
           />
           <br />
-          
+
           <h6 style="font-weight: 400; font-size: 17px">Address *</h6>
           <input
             type="text"
@@ -131,7 +131,7 @@
             disabled
           />
           <br />
-          
+
           <h6 style="font-weight: 400; font-size: 17px">Phone *</h6>
           <input
             type="text"
@@ -159,7 +159,7 @@
             class="form-control"
             aria-label="With textarea"
             placeholder="Note about your delivery (eg. free,..)"
-            style="padding-top: 15px; outline: none;"
+            style="padding-top: 15px; outline: none"
           ></textarea>
         </div>
       </div>
@@ -187,14 +187,17 @@
         </div>
 
         <div class="product-section">
-          <div v-for="(item, index) in accountData.cart" :key="index" style="position: relative; margin-top: 40px">
-            <img
-              :src="item.id_product.image"
-              style="width: 30%"
-            />
+          <div
+            v-for="(item, index) in accountData.cart"
+            :key="index"
+            style="position: relative; margin-top: 40px"
+          >
+            <img :src="item.id_product.image" style="width: 30%" />
             <div style="position: absolute; top: 0; left: 160px">
-              {{item.id_product.name}}<br />
-              <p style="font-weight: 500" class="mb-0 mt-2">${{ item.id_product.price }}</p>
+              {{ item.id_product.name }}<br />
+              <p style="font-weight: 500" class="mb-0 mt-2">
+                ${{ item.id_product.price }}
+              </p>
               <div style="font-weight: 500">Quantity: {{ item.quantity }}</div>
             </div>
           </div>
@@ -303,9 +306,7 @@
           </form>
 
           <br /><br />
-          <button class="btn" style="width: 375px; height: 50px"
-          
-          >
+          <button class="btn" style="width: 375px; height: 50px">
             Place Order
           </button>
         </div>
@@ -317,12 +318,12 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "checkout",
-  setup(){
-    const accountData = ref({})
+  setup() {
+    const accountData = ref({});
 
     const toggleCoupon = () => {
       var content = document.getElementById("coupon-content");
@@ -343,7 +344,9 @@ export default {
 
     const fetchData = async (link) => {
       try {
-        const response = await axios.get(`http://localhost:3000/product/checkout`);
+        const response = await axios.get(
+          `https://localhost:3000/product/checkout`
+        );
         accountData.value = response.data;
       } catch (error) {
         console.error("Error calling API:", error);
@@ -361,7 +364,7 @@ export default {
       toggleContent,
       accountData,
     };
-  }
+  },
 };
 </script>
 

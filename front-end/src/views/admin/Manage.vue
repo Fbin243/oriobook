@@ -122,7 +122,7 @@ export default {
       try {
         displayLoading(".manage-product-list", -32, -32);
         const response = await axios.get(
-          `http://localhost:3000/product/manage?page=${page}&perPage=${perPage}`
+          `https://localhost:3000/product/manage?page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;
@@ -197,7 +197,7 @@ export default {
                 const id_product = $(checkbox).val();
                 displayLoading(".manage-product-list", -32, -32);
                 const response = await axios.delete(
-                  `http://localhost:3000/product/delete/${id_product}`
+                  `https://localhost:3000/product/delete/${id_product}`
                 );
                 checkbox.parentElement.remove();
                 // console.log(window.location);

@@ -262,7 +262,7 @@ export default {
         // console.log(data);
 
         const response = await axios.post(
-          `http://localhost:3000/product/handle-review/${idProduct.value}`,
+          `https://localhost:3000/product/handle-review/${idProduct.value}`,
           data
         );
         let res = response.data;
@@ -285,7 +285,7 @@ export default {
 
     // const fetchData = async (link) => {
     //   try {
-    //     const response = await axios.get(`http://localhost:3000/${link}`);
+    //     const response = await axios.get(`https://localhost:3000/${link}`);
     //     orderData.value = response.data;
     //     // console.log(orderData.value);
     //   } catch (error) {
@@ -336,7 +336,7 @@ export default {
 
     const requestPage = async (path) => {
       const response = await axios.get(
-        `http://localhost:3000/${path}?page=${page}&perPage=${perPage}`
+        `https://localhost:3000/${path}?page=${page}&perPage=${perPage}`
       );
 
       curPage.value = page;

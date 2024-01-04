@@ -191,7 +191,7 @@ export default {
       onMounted(async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/product/edit/${id.value}`
+            `https://localhost:3000/product/edit/${id.value}`
           );
           if (response.status == 200) {
             product.value = response.data;

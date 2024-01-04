@@ -88,7 +88,7 @@ export default {
       try {
         console.log("cart");
         const response = await axios.get(
-          `http://localhost:3000/account/getCart`
+          `https://localhost:3000/account/getCart`
         );
         cart.value = response.data;
         console.log(response.data);

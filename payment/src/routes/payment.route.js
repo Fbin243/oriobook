@@ -1,8 +1,13 @@
-const accountRouter = require("./account.route");
+const paymentRouter = require("./payment.route");
 
 function route(app) {
-  // Định nghĩa các route theo tài nguyên
-  app.use("/", accountRouter);
+  app.use("/", (req, res, next) => {
+    try {
+      res.send("Ok");
+    } catch (error) {
+      next(error);
+    }
+  });
 
   // Hai middlewares này phải để cuối để check lỗi
   app.use((req, res, next) => {

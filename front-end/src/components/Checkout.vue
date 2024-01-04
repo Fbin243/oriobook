@@ -1,56 +1,16 @@
 <template>
   <div
-    class=""
+    class="container"
     style="
-      margin-left: 30px;
-      margin-top: 30px;
-      width: 1800px;
       margin-left: auto;
       margin-right: auto;
       padding-left: 30px;
-      padding-right: 260px;
     "
   >
-    <div class="row" style="width: 100%">
-      <div class="col-8" style="position: relative; padding-left: 150px">
+    <div class="row" style="padding-right: 5px;">
+      <div class="col-8" style="position: relative;">
         <!-- Content for the 60% width div -->
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 400px;
-            height: 50px;
-            background-color: #f2f2f2;
-            font-size: 17px;
-          "
-        >
-          <i class="fa-solid fa-arrow-right-to-bracket"></i>ㅤReturning
-          Customer?ㅤ
-          <a href="">Click Here To Login</a>
-        </div>
-        <div
-          style="
-            position: absolute;
-            right: 30px;
-            top: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 400px;
-            height: 50px;
-            background-color: #f2f2f2;
-            font-size: 17px;
-          "
-        >
-          <i class="fa-solid fa-tag"></i>ㅤHave a coupon?ㅤ
-          <a
-            id="coupon-link"
-            @click="toggleCoupon"
-            style="text-decoration: underline; cursor: pointer"
-            >Click Here To Enter Your Code</a
-          >
-        </div>
+
         <div
           class="coupon-content"
           id="coupon-content"
@@ -97,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top: 30px">
+        <div >
           <h4 style="font-weight: 400; font-size: 23px">Billing details</h4>
           <br />
           <h6 style="font-weight: 400; font-size: 17px">First name *</h6>
@@ -165,150 +125,70 @@
       </div>
       <div
         class="col-4"
-        style="
-          padding-left: 30px;
-          padding-right: 250px;
-          padding-right: 30px;
-          padding-top: 30px;
-          border: 1px solid black;
-        "
       >
-        <h4
-          style="
-            font-family: Jost, sans-serif;
-            font-weight: 400;
-            font-size: 23px;
-          "
-        >
-          Product
-        </h4>
-        <div style="user-select: none">
-          __________________________________________
-        </div>
-
-        <div class="product-section">
-          <div
-            v-for="(item, index) in accountData.cart"
-            :key="index"
-            style="position: relative; margin-top: 40px"
+        <div style="
+            padding-left: 30px;
+            padding-right: 250px;
+            padding-right: 30px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            border: 1px solid black;
+          ">
+          <h4
+            style="
+              font-family: Jost, sans-serif;
+              font-weight: 400;
+              font-size: 23px;
+            "
           >
-            <img :src="item.id_product.image" style="width: 30%" />
-            <div style="position: absolute; top: 0; left: 160px">
-              {{ item.id_product.name }}<br />
-              <p style="font-weight: 500" class="mb-0 mt-2">
-                ${{ item.id_product.price }}
-              </p>
-              <div style="font-weight: 500">Quantity: {{ item.quantity }}</div>
+            Product
+          </h4>
+          <div style="user-select: none">
+            __________________________________________
+          </div>
+
+          <div class="product-section">
+            <div
+              v-for="(item, index) in accountData.cart"
+              :key="index"
+              style="position: relative; margin-top: 40px"
+            >
+              <img :src="item.id_product.image" style="width: 30%" />
+              <div style="position: absolute; top: 0; left: 160px">
+                {{ item.id_product.name }}<br />
+                <p style="font-weight: 500" class="mb-0 mt-2">
+                  ${{ item.id_product.price }}
+                </p>
+                <div style="font-weight: 500">Quantity: {{ item.quantity }}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <div style="user-select: none; color: rgb(119, 119, 119)">
-          __________________________________________
-        </div>
-        <br />
-        <div style="position: relative; width: 270px">
-          <div>Subtotal</div>
-          <div style="position: absolute; font-weight: 700; top: 0; right: 0">
-            ${{ accountData.total_price }}
+          <div style="user-select: none; color: rgb(119, 119, 119)">
+            __________________________________________
           </div>
-        </div>
-        <br />
-        <div style="position: relative; width: 270px">
-          <div>Shipping</div>
-          <div style="position: absolute; top: 0; right: 20px; font-size: 15px">
-            Flat rate
+          <br />
+          <div style="position: relative; width: 270px">
+            <div>Subtotal</div>
+            <div style="position: absolute; font-weight: 700; top: 0; right: 0">
+              ${{ accountData.total_price }}
+            </div>
+            <div>Current balance</div>
+            <div style="position: absolute; font-weight: 700; top: 27px; right: 0">
+              ${{ accountData.balance }}
+            </div>
           </div>
-        </div>
-        <div style="user-select: none; color: rgb(119, 119, 119)">
-          __________________________________________
-        </div>
-        <br />
-        <div
-          style="
-            background-color: #f2f2f2;
-            padding-left: 50px;
-            padding-top: 20px;
-            padding-bottom: 20px;
-          "
-        >
-          <form>
-            <label style="font-size: 16px; font-weight: 500">
-              <input
-                type="radio"
-                name="options"
-                @click="toggleContent('content1')"
-              />
-              Direct bank transfer
-            </label>
-            <div
-              id="content1"
-              class="hidden"
-              style="display: none; font-size: 16px; color: gray"
-            >
-              <br />Make your payment directly into our bank account. Please use
-              your Order ID as the payment reference. Your order will not be
-              shipped until the funds have cleared in our account.
-            </div>
-            <br /><br />
+          <div style="user-select: none; color: rgb(119, 119, 119)">
+            __________________________________________
+          </div>
+          <br />
+          <div
+          >
+            <p id="error-balance" style="color: red;"></p>
+            <button class="btn" style="width: 375px; height: 50px;" @click="placeOrder()">
+              Place Order
+            </button>
+          </div>
 
-            <label style="font-size: 16px; font-weight: 500">
-              <input
-                type="radio"
-                name="options"
-                @click="toggleContent('content2')"
-              />
-              Check payments
-            </label>
-            <div
-              id="content2"
-              class="hidden"
-              style="display: none; font-size: 16px; color: gray"
-            >
-              <br />Please send a check to Store Name, Store Street, Store Town,
-              Store State / County, Store Postcode.
-            </div>
-            <br /><br />
-
-            <label style="font-size: 16px; font-weight: 500">
-              <input
-                type="radio"
-                name="options"
-                @click="toggleContent('content3')"
-              />
-              Cash on delivery
-            </label>
-            <div
-              id="content3"
-              class="hidden"
-              style="display: none; font-size: 16px; color: gray"
-            >
-              <br />Pay with cash upon delivery.
-            </div>
-            <br /><br />
-
-            <label style="font-size: 16px; font-weight: 500">
-              <input
-                type="radio"
-                name="options"
-                @click="toggleContent('content4')"
-              />
-              PayPal
-            </label>
-            <div
-              id="content4"
-              class="hidden"
-              style="display: none; font-size: 16px; color: gray"
-            >
-              <br />Pay via PayPal; you can pay with your credit card if you
-              don’t have a PayPal account.
-            </div>
-            <br />
-          </form>
-
-          <br /><br />
-          <button class="btn" style="width: 375px; height: 50px">
-            Place Order
-          </button>
         </div>
       </div>
     </div>
@@ -348,6 +228,7 @@ export default {
           `https://localhost:3000/product/checkout`
         );
         accountData.value = response.data;
+        console.log(accountData.value);
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -357,12 +238,30 @@ export default {
       fetchData();
     });
 
+    const placeOrder = async () => {
+      let dataSend = {
+        total: accountData.value.total_price,
+      }
+      const response = await axios.post(
+        `https://localhost:3000/order/place`,
+        dataSend
+      );
+      let res = response.data;
+      if(res.result === 'fail'){
+        document.getElementById("error-balance").innerHTML = '* ' + res.msg + '. Please add more balance';
+      }else{
+        document.getElementById("error-balance").innerHTML = '';
+      }
+      console.log(res);
+    }
+
     // You can return data or methods that you want to expose to the template
     return {
       toggleCoupon,
       applyCoupon,
       toggleContent,
       accountData,
+      placeOrder,
     };
   },
 };

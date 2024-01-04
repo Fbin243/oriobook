@@ -55,39 +55,78 @@
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th class="border-gray-200" scope="col">
-                        Transaction ID
-                      </th>
-                      <th class="border-gray-200" scope="col">Order code</th>
+                      <th class="border-gray-200" scope="col">Transaction ID</th>
                       <th class="border-gray-200" scope="col">Date</th>
+                      <th class="border-gray-200" scope="col">Change</th>
                       <th class="border-gray-200" scope="col">Amount</th>
+                      <th class="border-gray-200 text-lg-center" scope="col" width="10%">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>#39201</td>
-                      <td>#657088d304ba4aee1848bb23</td>
                       <td>20:23:23 06/15/2021</td>
                       <td>$29.99</td>
+                      <td>$29.99</td>
+                      <td><span class="badge bg-success">Paid</span></td>
                     </tr>
                     <tr>
                       <td>#38594</td>
-                      <td>#657088d304ba4aee1848bb23</td>
                       <td>20:23:23 05/15/2021</td>
                       <td>$29.99</td>
+                      <td>$29.99</td>
+                      <td><span class="badge bg-success">Deposited</span></td>
                     </tr>
                     <tr>
                       <td>#38223</td>
-                      <td>#657088d304ba4aee1848bb23</td>
                       <td>20:23:23 04/15/2021</td>
                       <td>$29.99</td>
+                      <td>$29.99</td>
+                      <td><span class="badge bg-success">Paid</span></td>
                     </tr>
                     <tr>
                       <td>#38125</td>
-                      <td>#657088d304ba4aee1848bb23</td>
                       <td>20:23:23 03/15/2021</td>
                       <td>$29.99</td>
+                      <td>$29.992</td>
+                      <td><span class="badge bg-success">Paid</span></td>
                     </tr>
+                    <tr>
+                      <td>#38125</td>
+                      <td>20:23:23 03/15/2021</td>
+                      <td>$29.99</td>
+                      <td>$29.992</td>
+                      <td><span class="badge bg-success">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>#38125</td>
+                      <td>20:23:23 03/15/2021</td>
+                      <td>$29.99</td>
+                      <td>$29.992</td>
+                      <td><span class="badge bg-success">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>#38125</td>
+                      <td>20:23:23 03/15/2021</td>
+                      <td>$29.99</td>
+                      <td>$29.992</td>
+                      <td><span class="badge bg-success">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>#38125</td>
+                      <td>20:23:23 03/15/2021</td>
+                      <td>$29.99</td>
+                      <td>$29.992</td>
+                      <td><span class="badge bg-success">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>#38125</td>
+                      <td>20:23:23 03/15/2021</td>
+                      <td>$29.99</td>
+                      <td>$29.992</td>
+                      <td><span class="badge bg-success">Paid</span></td>
+                    </tr>
+
                   </tbody>
                 </table>
               </div>

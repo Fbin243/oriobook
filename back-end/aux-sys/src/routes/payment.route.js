@@ -1,6 +1,11 @@
 const paymentRouter = require("./payment.route");
+const paymentController = require("../controllers/payment.controller");
 
 function route(app) {
+  app.post("/add-acc", paymentController.addAcc)
+  app.post("/check-balance", paymentController.checkBalance)
+  app.post("/get-balance", paymentController.getBalance)
+
   app.use("/", (req, res, next) => {
     try {
       res.send("Ok");

@@ -1,6 +1,15 @@
+require("dotenv").config();
 const Order = require("../models/order.model");
 const Product = require("../models/product.model");
 const Account = require("../models/account.model");
+const axios = require("axios");
+const https = require("https");
+const instance = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
+});
+
 const {
   mutipleMongooseToObject,
   roundNumber,
@@ -54,6 +63,37 @@ class orderController {
       });
 
       res.status(200).json({ pendingOrder, totalPages });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // [POST] order/place
+  placeOrder = async (req, res, next) => {
+    try {
+      // console.log('total', req.body.total);
+
+      let dataSend = {
+        email: req.headers.email,
+        total: req.body.total,
+      };
+
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/check-balance`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      if(data.result === 'fail'){
+        res.json({...data, msg: `Insufficient balance`})
+      }
+
+      res.json({...data})
     } catch (error) {
       next(error);
     }

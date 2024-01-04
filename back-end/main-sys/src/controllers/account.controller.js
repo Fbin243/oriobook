@@ -1,8 +1,16 @@
+require("dotenv").config();
 const account = require("../models/account.model");
 const product = require("../models/product.model");
 const authMethod = require("../methods/auth.methods");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const axios = require("axios");
+const https = require("https");
+const instance = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
+});
 
 class accountController {
   signUp = async (req, res, next) => {
@@ -38,6 +46,31 @@ class accountController {
           accessTokenSecret,
           accessTokenLife
         );
+
+        // let _account = await account.findOne({ email: req.body.email })
+        // let id_account = _account ? _account._id : '';
+        let dataSend = {
+          email: req.body.email,
+        }
+
+        const response = await instance.post(
+          `https://localhost:${process.env.AUX_PORT}/add-acc`,
+          dataSend,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        let data = response.data
+        let result = data.result
+
+        console.log('result', result);
+
+        if(result !== 'success'){
+          return next('Fail to add new account')
+        }
 
         return res.send({ status: true, accessToken });
       });

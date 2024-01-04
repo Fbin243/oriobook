@@ -1,5 +1,5 @@
 const Author = require("../models/author.model");
-const Product = require("../models/product.model");
+const { Product, mainCategories, subCategories, updateCategoryEnums  } = require("../models/product.model");
 const { upload, uploadToImgur } = require("../middlewares/upload-file");
 const { client } = require("../middlewares/imgur");
 const path = require("path");
@@ -68,6 +68,9 @@ class productController {
         : Math.max(1, parseInt(req.query.perPage));
       const totalProducts = await Product.countDocuments({});
       const totalPages = Math.ceil(totalProducts / perPage);
+      // const allMainCategories = await Product.distinct("category.mainCategory");
+      // const allMainCategoriesArray = Array.from(new Set(allMainCategories));
+      // console.log(allMainCategoriesArray);
       const products = await Product.find({})
         .populate("id_author")
         .skip((page - 1) * perPage)
@@ -78,6 +81,54 @@ class productController {
       next(error);
     }
   };
+
+  productCate = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+  
+      // Retrieve all distinct main categories and their subcategories
+      const mainCategoriesWithSubcategories = await Product.aggregate([
+        {
+          $match: {
+            "category.mainCategory": { $ne: null },
+          },
+        },
+        {
+          $group: {
+            _id: "$category.mainCategory",
+            subCategories: { $addToSet: "$category.subCategory" },
+          },
+        },
+      ]);
+      
+      // Transform the result into an array
+      const allMainCategoriesArray = mainCategoriesWithSubcategories.map((item) => {
+        return {
+          mainCategory: item._id,
+          subCategories: item.subCategories,
+        };
+      });
+      
+  
+  
+      const products = await Product.find({})
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+  
+      res.status(200).json({ products, totalPages, allMainCategoriesArray });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
 
     // [GET] product/hot
@@ -111,28 +162,36 @@ class productController {
       // Extract category and author from query parameters
       let category = req.query.category;
       let author = req.query.author;
-
+      let subCategories = req.query.subCategories;
+      console.log(subCategories);
       if(category == "All Category"){category = ''}
       if(category == "Family Story"){category = 'Family story'}
       if(author == "Book Author"){author = ''}
-      console.log(category)
-      console.log(author)
+
       // Build the query based on case-insensitive category and author conditions
       const query = {};
 if (category || author) {
-
-
-  if (category) {
-    query.category = { $regex: new RegExp(category, 'i') };
+  if (req.query.subCategories == 'undefined') {
+    console.log("Filtering");
+    // Assuming you want to set subCategories to an empty string if it's undefined
+    subCategories = "";
   }
   
+ 
+  if (category) {
+    query["category.mainCategory"]  = { $regex: new RegExp(category, 'i') };
+  }
+  if (subCategories != ''){
+    console.log("Filtering...",subCategories)
+    // Assuming subCategories is an array of subcategory names
+    query["category.subCategory"] = { $regex: new RegExp(subCategories, 'i') };  }
   if (author) {
     const authorId = await findAuthorIdByName(author);
 
     query['id_author'] = authorId;
   }
 }
-
+console.log(query);
 // Find the total number of matching products
 const totalProducts = await Product.countDocuments(query);
 

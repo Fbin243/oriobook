@@ -84,7 +84,8 @@ export default {
     const route = useRoute();
     let selectedCategory;
     let selectedAuthor;
-   
+    let subCategories = route.query.subCategories;
+    console.log(subCategories);
     const searchQuery = route.query.search;
     if(route.query.category || route.query.author){
     const selectedCategoryy = route.query.category
@@ -140,8 +141,9 @@ export default {
         scrollToTop(656);
         displayLoading(".js-product-wrapper", -32);
         if(selectedCategory || selectedAuthor){
+          console.log("1");
           const response = await axios.get(
-          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&author=${selectedAuthor}&page=${page}&perPage=${perPage}`
+          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&subCategories=${subCategories}&author=${selectedAuthor}&page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;
@@ -149,6 +151,8 @@ export default {
         }
 
         else if(searchQuery == '' || !searchQuery){
+          console.log("2");
+
         const response = await axios.get(
           `http://localhost:3000/product/shop?page=${page}&perPage=${perPage}`
         );
@@ -156,7 +160,8 @@ export default {
         products.value = response.data.products;
         totalPages.value = response.data.totalPages;
         }else{
-          
+          console.log("3");
+
           const response = await axios.get(
           `http://localhost:3000/product/shopSerach?page=${page}&perPage=${perPage}&search=${searchQuery}`
         );
@@ -179,6 +184,7 @@ export default {
           console.log("Sorting...");
           selectSorting(selectedSortingOption.value);
         }else{
+          console.log("requestPage...");
           requestPage();
         }
       });

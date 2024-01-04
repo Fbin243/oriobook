@@ -1,5 +1,5 @@
 const Author = require("../models/author.model");
-const Product = require("../models/product.model");
+const { Product, mainCategories, subCategories } = require("../models/product.model");
 const { upload, uploadToImgur } = require("../middlewares/upload-file");
 class authorController {
    // [GET] product/detail/:id

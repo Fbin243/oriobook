@@ -1,5 +1,6 @@
 const Order = require("../models/order.model");
-const Product = require("../models/product.model");
+const { Product, mainCategories, subCategories } = require("../models/product.model");
+
 const Account = require("../models/account.model");
 const { mutipleMongooseToObject, roundNumber, mongooseToObject } = require("../utils/mongoose");
 class orderController {

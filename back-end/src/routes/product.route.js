@@ -9,6 +9,7 @@ router.get("/shopSerach", productController.getShopBetter);
 router.get("/shopSort", productController.getShopBetterSort);
 router.get("/shopSeek", productController.getShopBetterFilter);
 router.get("/hot", productController.getNewest);
+router.get("/productCate", productController.productCate);
 
 
 

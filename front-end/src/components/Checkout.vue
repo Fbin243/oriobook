@@ -303,7 +303,9 @@
           </form>
 
           <br /><br />
-          <button class="btn" style="width: 375px; height: 50px">
+          <button class="btn" style="width: 375px; height: 50px"
+          
+          >
             Place Order
           </button>
         </div>

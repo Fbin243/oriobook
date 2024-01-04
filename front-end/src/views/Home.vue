@@ -44,7 +44,7 @@ export default {
     const topRatedProducts = ref([]);
     const displayBackToTop = () => {
       window.addEventListener("scroll", () => {
-        console.log(document.documentElement.scrollTop);
+        // console.log(document.documentElement.scrollTop);
         if (
           document.documentElement.scrollTop > 2000 ||
           document.body.scrollTop > 2000

@@ -84,7 +84,7 @@
                       <td
                         :class="
                           colorChangeBal(item.changeBalance)
-                            ? 'text-primary'
+                            ? 'text-success'
                             : 'text-danger'
                         "
                       >

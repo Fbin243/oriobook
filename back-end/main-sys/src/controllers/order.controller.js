@@ -71,15 +71,16 @@ class orderController {
   // [POST] order/place
   placeOrder = async (req, res, next) => {
     try {
-      // console.log('total', req.body.total);
+      let email = req.headers.email;
+      let total = req.body.total;
+      let note = req.body.note;
 
       let dataSend = {
-        email: req.headers.email,
-        total: req.body.total,
+        email,
       };
 
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/check-balance`,
+        `https://localhost:${process.env.AUX_PORT}/get-balance`,
         dataSend,
         {
           headers: {
@@ -87,13 +88,37 @@ class orderController {
           },
         }
       );
-
       let data = response.data;
-      if(data.result === 'fail'){
-        res.json({...data, msg: `Insufficient balance`})
+
+      if(total > data.balance){
+        return res.json({result: 'fail', msg: `Insufficient balance`})
       }
 
-      res.json({...data})
+      let _account = await Account.findOne({ email })
+      let cart = _account.cart
+
+      // Create new order
+      let orderObj = new Order();
+      orderObj.id_account = _account._id
+      orderObj.note = note
+
+      cart.forEach(item => {
+        let newObj = {
+          id_product: item.id_product,
+          quantity: item.quantity,
+          isReviewed: false,
+        }
+        orderObj.detail.push(newObj)
+      })
+
+      await orderObj.save()
+
+      // Remove from cart
+      _account.cart = []
+      await _account.save()
+
+
+      res.json({result: 'success'})
     } catch (error) {
       next(error);
     }

@@ -117,6 +117,7 @@
           </h6>
           <textarea
             class="form-control"
+            v-model="note"
             aria-label="With textarea"
             placeholder="Note about your delivery (eg. free,..)"
             style="padding-top: 15px; outline: none"
@@ -184,6 +185,7 @@
           <div
           >
             <p id="error-balance" style="color: red;"></p>
+            <p id="place-success" style="color: green;"></p>
             <button class="btn" style="width: 375px; height: 50px;" @click="placeOrder()">
               Place Order
             </button>
@@ -196,6 +198,7 @@
 </template>
 
 <script>
+import VueRouter from 'vue-router';
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
@@ -203,7 +206,9 @@ import axios from "axios";
 export default {
   name: "checkout",
   setup() {
+    const router = useRouter();
     const accountData = ref({});
+    const note = ref('')
 
     const toggleCoupon = () => {
       var content = document.getElementById("coupon-content");
@@ -241,18 +246,25 @@ export default {
     const placeOrder = async () => {
       let dataSend = {
         total: accountData.value.total_price,
+        note: note.value,
       }
+
       const response = await axios.post(
         `https://localhost:3000/order/place`,
         dataSend
       );
       let res = response.data;
+
       if(res.result === 'fail'){
         document.getElementById("error-balance").innerHTML = '* ' + res.msg + '. Please add more balance';
       }else{
         document.getElementById("error-balance").innerHTML = '';
+        document.getElementById("place-success").innerHTML = '* Place order successfully';
+        
+        setTimeout(() => {
+          router.push({ name: 'Home' });
+        }, 2000);
       }
-      console.log(res);
     }
 
     // You can return data or methods that you want to expose to the template
@@ -262,6 +274,7 @@ export default {
       toggleContent,
       accountData,
       placeOrder,
+      note,
     };
   },
 };

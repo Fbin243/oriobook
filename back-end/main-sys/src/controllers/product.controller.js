@@ -122,8 +122,8 @@ class productController {
       if(category == "All Category"){category = ''}
       if(category == "Family Story"){category = 'Family story'}
       if(author == "Book Author"){author = ''}
-      console.log(category)
-      console.log(author)
+      // console.log(category)
+      // console.log(author)
       // Build the query based on case-insensitive category and author conditions
       const query = {};
 if (category || author) {
@@ -171,7 +171,7 @@ res.status(200).json({ products, totalPages });
         : Math.max(1, parseInt(req.query.perPage));
       
       const search = req.query.search;
-      console.log(search);
+      // console.log(search);
       const filter = search
         ? { name: { $regex: new RegExp(search, "i") } }
         : {};
@@ -212,7 +212,7 @@ res.status(200).json({ products, totalPages });
       const filter = search
         ? { name: { $regex: new RegExp(search, "i") } }
         : {};
-      console.log(filter);
+      // console.log(filter);
       if (sort == "price") {
         // Sorting option for price in ascending order (low to high)
         const sortOption = { price: 1 };
@@ -347,7 +347,7 @@ res.status(200).json({ products, totalPages });
 // [GET] product/productAuthor/:id
 productAuthor = async (req, res, next) => {
   try {
-    console.log("Running");
+    // console.log("Running");
     const products = await Product.find({ id_author: req.params.id })
       .populate("id_author")
       .populate("reviews.id_account");
@@ -408,10 +408,10 @@ productAuthor = async (req, res, next) => {
         }
       );
 
-      let balance = response.data.balance
+      let data = response.data
+      let balance = data.balance
       
       account.balance = balance
-      console.log(balance);
 
       res.json(account);
     } catch (error) {

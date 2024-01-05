@@ -10,7 +10,7 @@
               <div class="card border-start-lg border-start-primary">
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Name</div>
-                  <div class="h3">Tuan Nguyen</div>
+                  <div class="h3">{{ accountData.firstName }} {{ accountData.lastName }}</div>
                 </div>
               </div>
             </div>
@@ -20,7 +20,7 @@
               <div class="card border-start-lg border-start-success">
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Account balance</div>
-                  <div class="h3 d-flex align-items-center">$100.67</div>
+                  <div class="h3 d-flex align-items-center">${{accountData.balance}}</div>
                 </div>
               </div>
             </div>
@@ -63,70 +63,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>#39201</td>
-                      <td>20:23:23 06/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.99</td>
-                      <td><span class="badge bg-success">Paid</span></td>
+                    <tr v-for="(item, index) in accountData.history" :key="index">
+                      <td>#{{item.transID}}</td>
+                      <td>{{item.timeFormat}}</td>
+                      <td>{{formatChangeBal(item.changeBalance)}}</td>
+                      <td>${{item.atTimeBalance}}</td>
+                      <td><span class="badge bg-success">{{item.action}}</span></td>
                     </tr>
-                    <tr>
-                      <td>#38594</td>
-                      <td>20:23:23 05/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.99</td>
-                      <td><span class="badge bg-success">Deposited</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38223</td>
-                      <td>20:23:23 04/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.99</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.992</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.992</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.992</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.992</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.992</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
-                      <td>$29.992</td>
-                      <td><span class="badge bg-success">Paid</span></td>
-                    </tr>
-
                   </tbody>
                 </table>
               </div>
@@ -187,62 +130,57 @@ export default {
     SideBar,
   },
   setup() {
+    const accountData = ref([])
     const clickModal = () => {
       $("#exampleModal").modal("show");
     };
 
     const deposit = async () => {
       try {
-        // let error = false;
-        // if (!$("input[name=star]:checked").val()) {
-        //   document.getElementById("error-rating").innerHTML =
-        //     "* Please choose any star";
-        //   error = true;
-        // } else {
-        //   document.getElementById("error-rating").innerHTML = "";
-        // }
-        // if (document.getElementById("comment").value === "") {
-        //   document.getElementById("error-comment").innerHTML =
-        //     "* Please enter comment";
-        //   error = true;
-        // } else {
-        //   document.getElementById("error-comment").innerHTML = "";
-        // }
-        // if (error) return;
-        // let comment = document.getElementById("comment").value;
-        // let rating = document.querySelector("input[name=star]:checked").value;
-        // let data = {
-        //   idOrder: idOrder.value,
-        //   orderIndex: orderIndex.value,
-        //   comment,
-        //   rating,
-        // };
-        // // console.log(data);
-        // const response = await axios.post(
-        //   `https://localhost:3000/product/handle-review/${idProduct.value}`,
-        //   data
-        // );
-        // let res = response.data;
-        // if (res.msg === "success") {
-        //   hideModal();
-        //   successfulClick();
-        // }
-        // console.log(res.updatedOrder);
+      //  Add more balance
+
       } catch (error) {
         console.error("Error calling API:", error);
       }
     };
 
     const hideModal = () => {
-      $("input[name=star]:checked").prop("checked", false);
-      // $("#comment").text('')
-      document.getElementById("comment").value = "";
+      document.getElementById("amount").value = "";
       $("#exampleModal").modal("hide");
     };
+
+    const getMyWallet = async () => {
+      const response = await axios.get(
+        `https://localhost:3000/account/my-wallet`
+      );
+
+      accountData.value = response.data;
+
+      console.log(response.data);
+
+      // curPage.value = page;
+      // orderData.value = response.data.pendingOrder;
+      // totalPages.value = response.data.totalPages;
+    };
+
+    const formatChangeBal = (change) => {
+      return `- $${Math.abs(parseFloat(change))}`
+    }
+
+    onMounted(async () => {
+      try {
+        await getMyWallet();
+        // init();
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    });
 
     return {
       clickModal,
       deposit,
+      accountData,
+      formatChangeBal,
     };
   },
 };

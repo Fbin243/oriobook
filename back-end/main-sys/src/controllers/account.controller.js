@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const axios = require("axios");
 const https = require("https");
+const { mongooseToObject, formatDate } = require("../utils/mongoose");
 const instance = axios.create({
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
@@ -317,6 +318,73 @@ class accountController {
         }
       );
       return res.send({ status: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  testHistory = async (req, res, next) => {
+    try {
+      let email = req.body.email
+      let _account = await account.findOne({ email });
+      
+      let newHis = {
+        action: 'Received',
+        changeBalance: '+222.4',
+        atTimeBalance: 433.5,
+      }
+
+      _account.history.push(newHis)
+      _account.save()
+
+      res.send({ status: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getMyWallet = async (req, res, next) => {
+    try {
+      // nho doi
+      let email = req.headers.email
+      let _account = await account.findOne({ email});
+
+      let dataSend = {
+        email,
+      };
+
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data
+      let balance = data.balance
+
+      let _accountNew = mongooseToObject(_account)
+      _accountNew.history.forEach(item => {
+        let timeEach = new Date(item.time).getTime();
+        let remainder = timeEach.toString().slice(3);
+
+        item.transID = remainder
+        item.timeFormat = formatDate(item.time)
+      })
+
+      _accountNew.balance = balance
+
+      let transferObj = {
+        firstName: _accountNew.firstName,
+        lastName: _accountNew.lastName,
+        history: _accountNew.history,
+        balance,
+      }
+
+      res.json(transferObj)
     } catch (error) {
       next(error);
     }

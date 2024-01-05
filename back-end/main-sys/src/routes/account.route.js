@@ -24,4 +24,7 @@ router.post("/addToCart/:id", isAuth, accountController.addToCart);
 router.post("/minusToCart/:id", isAuth, accountController.minusToCart);
 router.delete("/removeFromCart/:id", isAuth, accountController.removeFromCart);
 
+router.get("/test", accountController.testHistory);
+router.get("/my-wallet", isAuth, accountController.getMyWallet);
+
 module.exports = router;

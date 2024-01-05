@@ -52,7 +52,7 @@ class accountController {
         // let id_account = _account ? _account._id : '';
         let dataSend = {
           email: req.body.email,
-        }
+        };
 
         const response = await instance.post(
           `https://localhost:${process.env.AUX_PORT}/add-acc`,
@@ -63,14 +63,14 @@ class accountController {
             },
           }
         );
-  
-        let data = response.data
-        let result = data.result
 
-        console.log('result', result);
+        let data = response.data;
+        let result = data.result;
 
-        if(result !== 'success'){
-          return next('Fail to add new account')
+        console.log("result", result);
+
+        if (result !== "success") {
+          return next("Fail to add new account");
         }
 
         return res.send({ status: true, accessToken });
@@ -325,17 +325,17 @@ class accountController {
 
   testHistory = async (req, res, next) => {
     try {
-      let email = req.body.email
+      let email = req.body.email;
       let _account = await account.findOne({ email });
-      
-      let newHis = {
-        action: 'Received',
-        changeBalance: '+222.4',
-        atTimeBalance: 433.5,
-      }
 
-      _account.history.push(newHis)
-      _account.save()
+      let newHis = {
+        action: "Received",
+        changeBalance: "+222.4",
+        atTimeBalance: 433.5,
+      };
+
+      _account.history.push(newHis);
+      _account.save();
 
       res.send({ status: true });
     } catch (error) {
@@ -345,9 +345,18 @@ class accountController {
 
   getMyWallet = async (req, res, next) => {
     try {
-      // nho doi
-      let email = req.headers.email
-      let _account = await account.findOne({ email});
+      let email = req.headers.email;
+      let _account = await account.findOne({ email });
+
+      // Pagination
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 10
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = _account.history.length;
+      const totalPages = Math.ceil(totalProducts / perPage);
 
       let dataSend = {
         email,
@@ -363,28 +372,38 @@ class accountController {
         }
       );
 
-      let data = response.data
-      let balance = data.balance
+      let data = response.data;
+      let balance = data.balance;
 
-      let _accountNew = mongooseToObject(_account)
-      _accountNew.history.forEach(item => {
-        let timeEach = new Date(item.time).getTime();
-        let remainder = timeEach.toString().slice(3);
+      let _accountNew = mongooseToObject(_account);
+      let indexFrom = (page - 1) * perPage;
 
-        item.transID = remainder
-        item.timeFormat = formatDate(item.time)
-      })
+      let newHis = [];
 
-      _accountNew.balance = balance
+      _accountNew.history.forEach((item, index) => {
+        if (index >= indexFrom && index < indexFrom + perPage) {
+          let timeEach = new Date(item.time).getTime();
+          let remainder = timeEach.toString().slice(3);
 
-      let transferObj = {
+          item.transID = remainder;
+          item.timeFormat = formatDate(item.time);
+          newHis.push(item);
+        }
+      });
+
+      _accountNew.balance = balance;
+
+      let accountData = {
         firstName: _accountNew.firstName,
         lastName: _accountNew.lastName,
-        history: _accountNew.history,
         balance,
-      }
+      };
 
-      res.json(transferObj)
+      res.json({
+        accountData,
+        history: newHis,
+        totalPages,
+      });
     } catch (error) {
       next(error);
     }

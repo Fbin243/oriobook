@@ -17,6 +17,10 @@ class accountController {
       // Tao tai khoan
       let newAcc = new account();
       newAcc.email = req.body.email;
+      newAcc.firstName = req.body.firstname;
+      newAcc.lastName = req.body.lastname;
+      newAcc.address = req.body.address;
+      newAcc.phone = req.body.phone;
       bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
         if (err) {
           return next(err);

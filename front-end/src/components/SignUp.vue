@@ -21,6 +21,74 @@
               {{ error.$message }}
             </span>
           </div>
+          <div class="firstname">
+            <input
+              type="text"
+              id="firstname"
+              class="input-text"
+              placeholder="First name*"
+              name="firstname"
+              v-model="formData.firstname"
+            />
+            <span
+              v-for="error in v$.firstname.$errors"
+              :key="error.$uid"
+              style="color: red"
+            >
+              {{ error.$message }}
+            </span>
+          </div>
+          <div class="lastname">
+            <input
+              type="text"
+              id="lastname"
+              class="input-text"
+              placeholder="Last name*"
+              name="lastname"
+              v-model="formData.lastname"
+            />
+            <span
+              v-for="error in v$.lastname.$errors"
+              :key="error.$uid"
+              style="color: red"
+            >
+              {{ error.$message }}
+            </span>
+          </div>
+          <div class="address">
+            <input
+              type="text"
+              id="address"
+              class="input-text"
+              placeholder="Address*"
+              name="address"
+              v-model="formData.address"
+            />
+            <span
+              v-for="error in v$.address.$errors"
+              :key="error.$uid"
+              style="color: red"
+            >
+              {{ error.$message }}
+            </span>
+          </div>
+          <div class="phone">
+            <input
+              type="tel"
+              id="phone"
+              class="input-text"
+              placeholder="Phone number*"
+              name="phone"
+              v-model="formData.phone"
+            />
+            <span
+              v-for="error in v$.phone.$errors"
+              :key="error.$uid"
+              style="color: red"
+            >
+              {{ error.$message }}
+            </span>
+          </div>
           <div class="password">
             <input
               type="password"
@@ -37,7 +105,6 @@
               {{ error.$message }}
             </span>
           </div>
-          <div class="woocommerce-privacy-policy-text"></div>
           <div class="button-register">
             <button
               type="button"
@@ -58,7 +125,13 @@
 <script>
 import { reactive, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, minLength, email } from "@vuelidate/validators";
+import {
+  required,
+  minLength,
+  maxLength,
+  numeric,
+  email,
+} from "@vuelidate/validators";
 import "vue3-toastify/dist/index.css";
 import axios from "../config/axios";
 
@@ -73,12 +146,25 @@ export default {
 
     const formData = reactive({
       email: "",
+      firstname: "",
+      lastname: "",
+      address: "",
+      phone: "",
       password: "",
     });
 
     const rules = computed(() => {
       return {
         email: { required, minLength: minLength(12), email },
+        firstname: { required, minLength: minLength(3) },
+        lastname: { required, minLength: minLength(3) },
+        address: { required, minLength: minLength(5) },
+        phone: {
+          required,
+          minLength: minLength(10),
+          maxLength: maxLength(10),
+          numeric,
+        },
         password: { required, minLength: minLength(3) },
       };
     });

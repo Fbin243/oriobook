@@ -85,7 +85,9 @@ export default {
     let selectedCategory;
     let selectedAuthor;
     let subCategories = route.query.subCategories;
-    console.log(subCategories);
+    let year = route.query.publishYear;
+    let price = route.query.price;
+    console.log("year", year);
     const searchQuery = route.query.search;
     if(route.query.category || route.query.author){
     const selectedCategoryy = route.query.category
@@ -140,10 +142,10 @@ export default {
        
         scrollToTop(656);
         displayLoading(".js-product-wrapper", -32);
-        if(selectedCategory || selectedAuthor){
+        if(selectedCategory || selectedAuthor || year||price){
           console.log("1");
           const response = await axios.get(
-          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&subCategories=${subCategories}&author=${selectedAuthor}&page=${page}&perPage=${perPage}`
+          `http://localhost:3000/product/shopSeek?category=${selectedCategory}&subCategories=${subCategories}&author=${selectedAuthor}&publishYear=${year}&price=${price}&page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;

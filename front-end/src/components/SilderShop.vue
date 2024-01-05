@@ -31,6 +31,7 @@
           :key="subCategory"
         >
           <input
+          :class="{ 'selected': isSelectedSubCategory(subCategory) }"
             type="radio"
             class="form-check-input"
             :id="'subCategory-' + subCategory"
@@ -51,31 +52,117 @@
     <br />
 
 
-    <h6>Author:</h6>
+    <h6>Authors:</h6>
     <div
       class="form-group form-check"
-      v-for="author in authors"
+      v-for="author in authorsAll"
       :key="author.id"
     >
       <input
-      :class="{ 'selected': isSelectedAuthor(author.name) }"
-
+        :class="{ 'selected': isSelectedAuthor(author) }"
         type="radio"
         class="form-check-input"
         :id="'author-' + author.id"
         name="author"
         v-model="selectedAuthor"
         :value="author.id"
+        @click="handleAuthorClick(author)"
       />
       <label
         class="form-check-label"
         :for="'author-' + author.id"
       >
-        {{ author.name }}
+        {{ author}}
       </label>
     </div>
-
     <br />
+    <h6>Year:</h6>
+    <!-- do here -->
+    <div class="form-group form-check">
+      <input
+        type="radio"
+        :id="'year-Before2000'"
+        name="year"
+        :value="'Before2000'"
+        class="form-check-input"
+        :class="{ 'selected': isSelectedYear('Before2000') }"
+        @click="handleYearClick('Before2000')"
+      />
+      <label :for="'year-Before2000'" class="form-check-label" >
+        Before 2000
+      </label>
+      <br>
+      <input
+        type="radio"
+        :id="'year-2000-2010'"
+        name="year"
+        :value="'2000-2010'"
+        class="form-check-input"
+        :class="{ 'selected': isSelectedYear('2000-2010') }"
+
+        @click="handleYearClick('2000-2010')"
+      />
+      <label :for="'year-2000-2010'" class="form-check-label">
+        2000-2010
+      </label>
+      <br>
+      <input
+        type="radio"
+        :id="'year-After2010'"
+        name="year"
+        :value="'After2010'"
+        class="form-check-input"
+        :class="{ 'selected': isSelectedYear('After2010') }"
+
+        @click="handleYearClick('After2010')"
+      />
+      <label :for="'year-After2010'" class="form-check-label" >
+        After 2010
+      </label>
+    </div>
+    <br/>
+    <h6>Price:</h6>
+    <div class="form-group form-check">
+    <input
+      type="radio"
+      :id="'price-LessThan50'"
+      name="price"
+      :value="'LessThan50'"
+      class="form-check-input"
+      :class="{ 'selected': isSelectedPrice('LessThan50') }"
+      @click="handlePriceClick('LessThan50')"
+    />
+    <label :for="'price-LessThan50'" class="form-check-label">
+      Less Than $50
+    </label>
+    <br>
+    <input
+      type="radio"
+      :id="'price-50-100'"
+      name="price"
+      :value="'50-100'"
+      class="form-check-input"
+      :class="{ 'selected': isSelectedPrice('50-100') }"
+      @click="handlePriceClick('50-100')"
+    />
+    <label :for="'price-50-100'" class="form-check-label">
+      $50 - $100
+    </label>
+    <br>
+    <input
+      type="radio"
+      :id="'price-MoreThan100'"
+      name="price"
+      :value="'MoreThan100'"
+      class="form-check-input"
+      :class="{ 'selected': isSelectedPrice('MoreThan100') }"
+      @click="handlePriceClick('MoreThan100')"
+    />
+    <label :for="'price-MoreThan100'" class="form-check-label">
+      More Than $100
+    </label>
+  </div>
+  <br/>
   </form>
   <br />
 </template>
@@ -93,6 +180,8 @@ export default {
     const route = useRoute();
 
     const products = ref([]);    
+    const authorsAll = ref([]);    
+
     const id = ref(route.params.id);
     
 
@@ -100,6 +189,11 @@ export default {
       try {
         console.log("Running...");
         const response = await axios.get(`http://localhost:3000/product/productCate`);
+        const response2 = await axios.get(`http://localhost:3000/product/allAuthor`);
+
+        authorsAll.value = response2.data.allMainCategoriesArray; // Access 'authorsAll' property
+        console.log(authorsAll.value);
+
         products.value = response.data.allMainCategoriesArray; // Access 'products' property
         console.log(products.value);
         // Ensure products is an array
@@ -110,7 +204,7 @@ export default {
     });
     return {
       products,
-
+      authorsAll
     };
     
   },
@@ -119,9 +213,20 @@ export default {
       return (categoryName) =>
         this.$route.query.category === categoryName;
     },
+    isSelectedSubCategory() {
+    return (subCategoryName) => this.$route.query.subCategories === subCategoryName;
+  },
     isSelectedAuthor() {
       return (authorName) =>
         this.$route.query.author === authorName;
+    },
+    isSelectedYear() {
+      return (year) =>
+        this.$route.query.publishYear === year;
+    },
+    isSelectedPrice() {
+      return (money) =>
+        this.$route.query.price === money;
     },
   },
   data() {
@@ -135,13 +240,7 @@ export default {
         //Show list of maincategories
       ],
       authors: [
-        { id: 1, name: "Liz Cheney" },
-        { id: 2, name: "Arthur Conan Doyle" },
-        { id: 3, name: "Jeff Kinney" },
-        { id: 4, name: "Julia Quinn" },
-        { id: 5, name: "Keigo Higashino" },
-        { id: 6, name: "Daniel Gerhard Brown" },
-        // Add other author options as needed
+       
       ],
     };
   },
@@ -157,10 +256,126 @@ export default {
         }
       }
     },
-    
+    handlePriceClick(money){
+      let years;
+      years= this.$route.query.publishYear;
+      if (typeof this.$route.query.publishYear === 'undefined'){ years=""}
+    if(typeof years === 'undefined'){ years=""}
+      let authorsss;
+      authorsss= this.$route.query.author;
+      if (typeof this.$route.query.author === 'undefined'){ authorsss=""}
+    if(typeof authorsss === 'undefined'){ authorsss=""}
+      let selectMainCate;
+      let selsubCategory;
+      selectMainCate =  this.$route.query.category;
+      selsubCategory =  this.$route.query.subCategory;
+      if (typeof this.$route.query.category === 'undefined'){ selectMainCate=""}
+      if(typeof selectMainCate === 'undefined'){ selectMainCate=""}
+      if (typeof this.$route.query.subCategory === 'undefined'){  selsubCategory=""}
+      if(typeof selsubCategory === 'undefined'){ selsubCategory=""}
+      console.log("route",this.$route.query.category);
+      console.log("routeSub", this.$route.query.subCategory);
+      console.log("sub",selectMainCate);
+
+      this.$router.push({
+    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+    query: {
+      category: selectMainCate,
+      subCategory:selsubCategory,
+      author: authorsss,
+      publishYear:years,
+      price: money
+    }
+  }).then(() => {
+    this.$router.go();
+    // Reload the current route
+  });
+
+    },
+
+    handleYearClick(year){
+      let money;
+      money= this.$route.query.price;
+      if (typeof this.$route.query.price === 'undefined'){ money=""}
+      let authorsss;
+      authorsss= this.$route.query.author;
+      if (typeof this.$route.query.author === 'undefined'){ authorsss=""}
+    if(typeof authorsss === 'undefined'){ authorsss=""}
+      let selectMainCate;
+      let selsubCategory;
+      selectMainCate =  this.$route.query.category;
+      selsubCategory =  this.$route.query.subCategory;
+      if (typeof this.$route.query.category === 'undefined'){ selectMainCate=""}
+      if(typeof selectMainCate === 'undefined'){ selectMainCate=""}
+      if (typeof this.$route.query.subCategory === 'undefined'){  selsubCategory=""}
+      if(typeof selsubCategory === 'undefined'){ selsubCategory=""}
+      console.log("route",this.$route.query.category);
+      console.log("routeSub", this.$route.query.subCategory);
+      console.log("sub",selectMainCate);
+
+      this.$router.push({
+    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+    query: {
+      category: selectMainCate,
+      subCategory:selsubCategory,
+      author: authorsss,
+      publishYear:year,
+      price:money
+    }
+  }).then(() => {
+    this.$router.go();
+    // Reload the current route
+  });
+    },
+
+
+    handleAuthorClick(author){
+      let money;
+      money= this.$route.query.price;
+      if (typeof this.$route.query.price === 'undefined'){ money=""}
+      let years;
+      years= this.$route.query.publishYear;
+      if (typeof this.$route.query.publishYear === 'undefined'){ years=""}
+    if(typeof years === 'undefined'){ years=""}
+
+      let selectMainCate;
+      let selsubCategory;
+      selectMainCate =  this.$route.query.category;
+      selsubCategory =  this.$route.query.subCategory;
+      if (typeof this.$route.query.category === 'undefined'){ selectMainCate=""}
+      if(typeof selectMainCate === 'undefined'){ selectMainCate=""}
+      if (typeof this.$route.query.subCategory === 'undefined'){  selsubCategory=""}
+      if(typeof selsubCategory === 'undefined'){ selsubCategory=""}
+      console.log("route",this.$route.query.category);
+      console.log("routeSub", this.$route.query.subCategory);
+      console.log("sub",selectMainCate);
+
+      this.$router.push({
+    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
+    query: {
+      category: selectMainCate,
+      subCategory:selsubCategory,
+      author: author,
+      publishYear:years,
+      price:money
+
+    }
+  }).then(() => {
+    this.$router.go();
+    // Reload the current route
+  });
+
+
+    },
 
     handleCategoryClick(categoryName) {
-
+      let money;
+      money= this.$route.query.price;
+      if (typeof this.$route.query.price === 'undefined'){ money=""}
+      let years;
+      years= this.$route.query.publishYear;
+      if (typeof this.$route.query.publishYear === 'undefined'){ years=""}
+    if(typeof years === 'undefined'){ years=""}
       let authorsss;
       authorsss= this.$route.query.author;
       if (typeof this.$route.query.author === 'undefined'){ authorsss=""}
@@ -172,7 +387,11 @@ export default {
       query: {
         category: categoryName,
         subCategories: "",
-        author: authorsss
+        author: authorsss,
+        publishYear:years,
+        price:money
+
+
       }
   }).then(() => {
     this.$router.go();
@@ -181,17 +400,28 @@ export default {
     console.log("Clicked on main category:", categoryName);},
 
     handleSubCategoryClick(mainCategory, subCategory) {
+      let money;
+      money= this.$route.query.price;
+      if (typeof this.$route.query.price === 'undefined'){ money=""}
+      let years;
+      years= this.$route.query.publishYear;
+      if (typeof this.$route.query.publishYear === 'undefined'){ years=""}
+    if(typeof years === 'undefined'){ years=""}
       let authorsss;
       authorsss= this.$route.query.author;
       if (typeof this.$route.query.author === 'undefined'){ authorsss=""}
     if(typeof authorsss === 'undefined'){ authorsss=""}
-    console.log("author",authorsss);
+    console.log("author",years);
       this.$router.replace({
       name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
       query: {
         category: mainCategory,
         subCategories: subCategory,
-        author: authorsss
+        author: authorsss,
+        publishYear:years,
+        price:money
+
+
       }
   }).then(() => {
     this.$router.go();
@@ -248,9 +478,7 @@ export default {
   });
   },
   selectedAuthor: function (newValue, oldValue) {
-    console.log("Selected Author changed from", this.getAuthorName(oldValue), "to", this.getAuthorName(newValue));
-    console.log("Selected Category:", this.getCategoryName(this.selectedCategory));
-
+  
 
     let selectMainCate;
     let selsubCategory;
@@ -275,7 +503,6 @@ export default {
     }
   }).then(() => {
     // Reload the current route
-    this.$router.go();
   });
   },
 },

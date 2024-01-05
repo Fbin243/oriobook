@@ -58,6 +58,29 @@ class productController {
     }
   };
   // [GET] product/shop
+  allAuthor = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({});
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const allMainCategories = await Author.distinct("name");
+      const allMainCategoriesArray = Array.from(new Set(allMainCategories));
+      const products = await Product.find({})
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+        // console.log(totalPages);
+      res.status(200).json({ products, totalPages, allMainCategoriesArray });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   getShop = async (req, res, next) => {
     try {
       const page = isNaN(req.query.page)
@@ -160,6 +183,10 @@ class productController {
       const perPage = isNaN(req.query.perPage) ? 8 : Math.max(1, parseInt(req.query.perPage));
   
       // Extract category and author from query parameters
+      let year = req.query.publishYear;
+      let price = req.query.price;
+
+      console.log(req.query);
       let category = req.query.category;
       let author = req.query.author;
       let subCategories = req.query.subCategories;
@@ -170,22 +197,51 @@ class productController {
 
       // Build the query based on case-insensitive category and author conditions
       const query = {};
-if (category || author) {
+      if(year==='Before2000'){
+        console.log("before");
+        query["year"] = { $lt: '2000' };
+      }
+      else if(year==='2000-2010'){
+        query["year"] =  { $gte: '2000', $lte: '2010' };
+      }
+      else if(year==='After2010'){
+        query["year"] = { $gt: '2010' };
+      }
+
+      if(price==='LessThan50'){
+        console.log("before");
+        query["price"] = { $lt: 50 };
+      }
+      else if(price==='50-100'){
+        query["price"] =  { $gte: 50, $lte: 100 };
+      }
+      else if(price==='MoreThan100'){
+        query["price"] = { $gt: 100 };
+      }
+if (category || author ) {
   if (req.query.subCategories == 'undefined') {
     console.log("Filtering");
     // Assuming you want to set subCategories to an empty string if it's undefined
     subCategories = "";
   }
-  
+  if (req.query.category == 'undefined') {
+    // Assuming you want to set subCategories to an empty string if it's undefined
+    category = "";
+  }
+  if (req.query.author == 'undefined') {
+    // Assuming you want to set subCategories to an empty string if it's undefined
+    author = "";
+  }
+
  
-  if (category) {
+  if (category!='') {
     query["category.mainCategory"]  = { $regex: new RegExp(category, 'i') };
   }
   if (subCategories != ''){
     console.log("Filtering...",subCategories)
     // Assuming subCategories is an array of subcategory names
     query["category.subCategory"] = { $regex: new RegExp(subCategories, 'i') };  }
-  if (author) {
+  if (author!='') {
     const authorId = await findAuthorIdByName(author);
 
     query['id_author'] = authorId;

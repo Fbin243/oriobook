@@ -107,7 +107,7 @@
 <script>
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
-import axios from "../../config/axios";
+import axios from "axios";
 
 import { useRoute, useRouter } from "vue-router";
 export default {
@@ -166,7 +166,7 @@ export default {
           </div>
         `);
         const response = await axios.post(
-          `/product/edit/save/${idProduct}`,
+          `https://localhost:3000/product/edit/save/${idProduct}`,
           formData,
           {
             headers: {

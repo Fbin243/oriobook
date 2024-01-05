@@ -27,11 +27,12 @@ h1 {
 
 .item-product {
   display: flex;
+  width: 100%;
 }
 
 .items {
   display: flex;
-  width: 100%;
+  width: 50%;
   padding: 0 15px;
 }
 

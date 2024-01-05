@@ -9,13 +9,15 @@ axios.interceptors.request.use(
   function (request) {
     const token = getTokenInCookie();
 
+    console.log("OLD " + request.headers["Content-Type"]);
     // Đính token vào header mới
     const newHeaders = {
       ...request.headers,
       "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
+      "Content-Type": request.headers["Content-Type"] || "application/json",
       Authorization: token,
     };
+    console.log("NEW " + newHeaders["Content-Type"]);
 
     // Đính header mới vào lại request trước khi được gửi đi
     request = {

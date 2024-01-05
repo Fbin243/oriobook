@@ -9,7 +9,7 @@ const app = express();
 // Cấu hình middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 // ROUTES INIT
 route(app);

@@ -32,7 +32,7 @@ const accountSchema = new mongoose.Schema({
       action: {
         type: String,
         require: true,
-        enum: ["Paid", "Received", "Deposited", "Restored"],
+        enum: ["Paid", "Received", "Deposited"],
       },
       changeBalance: { type: String, require: true },
       atTimeBalance: { type: Number, require: true },

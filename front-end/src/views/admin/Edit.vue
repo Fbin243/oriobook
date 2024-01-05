@@ -41,6 +41,15 @@
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
+                <label for="product-year">Year</label>
+                <input
+                  id="product-year"
+                  type="number"
+                  :value="product.year"
+                  name="year"
+                />
+              </div>
+              <div class="col">
                 <label for="product-price">Price ($)</label>
                 <input
                   id="product-price"
@@ -63,7 +72,15 @@
           <div class="edit-product-form col">
             <div class="d-flex align-items-center">
               <div class="product-category me-4">
-                <label class="product-category-label">Category</label>
+                <label class="product-category-label">
+                  Category
+                  <i
+                    class="fa-solid fa-plus product-category-plus"
+                    role="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  ></i>
+                </label>
                 <select class="edit-product-select" name="category">
                   <option
                     v-for="category in categories"
@@ -76,7 +93,7 @@
                 </select>
               </div>
               <div class="product-category">
-                <label class="product-category-label">Author</label>
+                <label class="product-category-label"> Author </label>
                 <select class="edit-product-select" name="author_name">
                   <option
                     v-for="author in authors"
@@ -99,6 +116,60 @@
             </div>
           </div>
         </form>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Add new category
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="add-category">
+                  <label for="product-main">Main category</label>
+                  <input
+                    id="product-main"
+                    type="text"
+                    name="main"
+                    class="w-100 p-1"
+                    required
+                  />
+                  <label for="product-sub" class="mt-3">Sub category</label>
+                  <input
+                    id="product-sub"
+                    type="text"
+                    name="sub"
+                    class="w-100 p-1"
+                    required
+                  />
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-primary"
+                  @click="addCategory"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </section>
   </section>
@@ -127,27 +198,27 @@ export default {
       stock: "",
       category: "",
     });
-    const categories = [
-      "Romance",
-      "Fiction",
-      "Family",
-      "Comedy",
-      "History",
-      "Other",
-    ];
-    const authors = [
-      "Liz Cheney",
-      "Jeff Kinney",
-      "Keigo Higashino",
-      "Arthur Conan Doyle",
-      "Julia Quinn",
-      "Daniel Gerhard Brown ",
-      "Other",
-    ];
+    const categories = ref({});
+    const authors = ref({});
     const authorName = ref("");
     const isSelected = (option, productOption) => {
       return option == productOption;
     };
+
+    const addCategory = (e) => {
+      console.log("OK");
+      const main = $("#product-main").val();
+      const sub = $("#product-sub").val();
+      $("#product-main").val("");
+      $("#product-sub").val("");
+      if (main) {
+        if (sub) {
+          categories.value.push(`${main} / ${sub}`);
+        } else categories.value.push(`${main}`);
+      }
+      console.log(main, sub);
+    };
+
     const addOrUpdateProduct = async () => {
       const formData = new FormData(document.getElementById("edit-form"));
       const values = {};
@@ -190,7 +261,27 @@ export default {
     if (route.name == "EditForUpdate") {
       onMounted(async () => {
         try {
-          const response = await axios.get(
+          // Lấy tất cả category
+          let response = await axios.get(
+            `https://localhost:3000/product/category`
+          );
+          const inputArray = response.data;
+          categories.value = inputArray
+            .map((item) => {
+              if (item.sub.length === 0) {
+                return [item.main];
+              } else {
+                return item.sub.map((subItem) => `${item.main} / ${subItem}`);
+              }
+            })
+            .flat();
+
+          // Lấy tất cả author
+          response = await axios.get(`https://localhost:3000/author/list`);
+          authors.value = response.data;
+          authors.value = authors.value.map((item) => item.name);
+
+          response = await axios.get(
             `https://localhost:3000/product/edit/${id.value}`
           );
           if (response.status == 200) {
@@ -223,6 +314,7 @@ export default {
       authors,
       authorName,
       addOrUpdateProduct,
+      addCategory,
     };
   },
 };

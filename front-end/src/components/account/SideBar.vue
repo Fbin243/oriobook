@@ -26,6 +26,9 @@
             <router-link to="/admin/manage">Manage products</router-link>
           </li>
           <li class="navigation-link">
+            <router-link to="/admin/manage-author">Manage authors</router-link>
+          </li>
+          <li class="navigation-link">
             <router-link to="/admin/order">Manage orders</router-link>
           </li>
         </template>
@@ -58,7 +61,6 @@ export default {
     async function checkAdmin() {
       const { isAdmin = false } = await getTokenInfo();
       admin.value = isAdmin;
-      console.log(isAdmin);
     }
     return { LogOut, checkAdmin, admin };
   },

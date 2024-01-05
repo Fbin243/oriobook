@@ -9,10 +9,51 @@ const Account = require("../models/account.model");
 
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 async function findAuthorIdByName(authorName) {
-  const author = await Author.findOne({ name: { $regex: new RegExp(authorName, 'i') } });
+  const author = await Author.findOne({
+    name: { $regex: new RegExp(authorName, "i") },
+  });
   return author ? author._id : null;
 }
 class productController {
+  // GET product/category
+  getCategory = async (req, res, next) => {
+    try {
+      const products = await Product.find({});
+      // Tổng hợp danh sách danh mục
+      const categoryList = [];
+
+      products.forEach((product) => {
+        const existingCategory = categoryList.find(
+          (category) => category.main === product.category
+        );
+
+        if (existingCategory) {
+          // Danh mục chính đã tồn tại, kiểm tra danh mục con
+          if (product.sub_category) {
+            if (!existingCategory.sub.includes(product.sub_category)) {
+              existingCategory.sub.push(product.sub_category);
+            }
+          }
+        } else {
+          // Danh mục chính chưa tồn tại, tạo mới
+          const newCategory = {
+            main: product.category,
+            sub: [],
+          };
+          if (product.sub_category) {
+            newCategory.sub.push(product.sub_category);
+          }
+          categoryList.push(newCategory);
+        }
+      });
+
+      console.log(categoryList);
+      res.json(categoryList);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
     try {
@@ -78,80 +119,79 @@ class productController {
     }
   };
 
-
-    // [GET] product/hot
-    getNewest = async (req, res, next) => {
-      try {
-             
-          // Sorting option for date in descending order (latest to oldest)
-          const sortOption = { date: -1 };
-  
-          // Fetch the products with search and sorting options
-          const products = await Product.find()
-            .populate("id_author")
-            .sort(sortOption)
-            .limit(4);
-
-          res.status(200).json({ products });
-        
-      } catch (error) {
-        next(error);
-      }
-    };
-
-  
-  
-
-  getShopBetterFilter = async (req, res, next) => {
+  // [GET] product/hot
+  getNewest = async (req, res, next) => {
     try {
-      const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-      const perPage = isNaN(req.query.perPage) ? 8 : Math.max(1, parseInt(req.query.perPage));
-  
-      // Extract category and author from query parameters
-      let category = req.query.category;
-      let author = req.query.author;
+      // Sorting option for date in descending order (latest to oldest)
+      const sortOption = { date: -1 };
 
-      if(category == "All Category"){category = ''}
-      if(category == "Family Story"){category = 'Family story'}
-      if(author == "Book Author"){author = ''}
-      console.log(category)
-      console.log(author)
-      // Build the query based on case-insensitive category and author conditions
-      const query = {};
-if (category || author) {
+      // Fetch the products with search and sorting options
+      const products = await Product.find()
+        .populate("id_author")
+        .sort(sortOption)
+        .limit(4);
 
-
-  if (category) {
-    query.category = { $regex: new RegExp(category, 'i') };
-  }
-  
-  if (author) {
-    const authorId = await findAuthorIdByName(author);
-
-    query['id_author'] = authorId;
-  }
-}
-
-// Find the total number of matching products
-const totalProducts = await Product.countDocuments(query);
-
-// Calculate total pages
-const totalPages = Math.ceil(totalProducts / perPage);
-
-// Fetch products based on the query
-const products = await Product.find(query)
-  .populate("id_author")
-  .skip((page - 1) * perPage)
-  .limit(perPage);
-
-res.status(200).json({ products, totalPages });
-
+      res.status(200).json({ products });
     } catch (error) {
       next(error);
     }
   };
-  
 
+  getShopBetterFilter = async (req, res, next) => {
+    try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 8
+        : Math.max(1, parseInt(req.query.perPage));
+
+      // Extract category and author from query parameters
+      let category = req.query.category;
+      let author = req.query.author;
+
+      if (category == "All Category") {
+        category = "";
+      }
+      if (category == "Family Story") {
+        category = "Family story";
+      }
+      if (author == "Book Author") {
+        author = "";
+      }
+      console.log(category);
+      console.log(author);
+      // Build the query based on case-insensitive category and author conditions
+      const query = {};
+      if (category || author) {
+        if (category) {
+          query.category = { $regex: new RegExp(category, "i") };
+        }
+
+        if (author) {
+          const authorId = await findAuthorIdByName(author);
+
+          query["id_author"] = authorId;
+        }
+      }
+
+      // Find the total number of matching products
+      const totalProducts = await Product.countDocuments(query);
+
+      // Calculate total pages
+      const totalPages = Math.ceil(totalProducts / perPage);
+
+      // Fetch products based on the query
+      const products = await Product.find(query)
+        .populate("id_author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+
+      res.status(200).json({ products, totalPages });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   getShopBetter = async (req, res, next) => {
     try {
@@ -161,15 +201,15 @@ res.status(200).json({ products, totalPages });
       const perPage = isNaN(req.query.perPage)
         ? 8
         : Math.max(1, parseInt(req.query.perPage));
-      
+
       const search = req.query.search;
       console.log(search);
       const filter = search
         ? { name: { $regex: new RegExp(search, "i") } }
         : {};
 
-      const totalProducts = await Product.countDocuments({filter});//cập nhật số trang
-      const totalPages = Math.ceil(totalProducts+1 / perPage);  
+      const totalProducts = await Product.countDocuments({ filter }); //cập nhật số trang
+      const totalPages = Math.ceil(totalProducts + 1 / perPage);
       const products = await Product.find(filter)
 
         .populate("id_author")
@@ -336,37 +376,38 @@ res.status(200).json({ products, totalPages });
       next(error);
     }
   };
-// [GET] product/productAuthor/:id
-productAuthor = async (req, res, next) => {
-  try {
-    console.log("Running");
-    const products = await Product.find({ id_author: req.params.id })
-      .populate("id_author")
-      .populate("reviews.id_account");
+  // [GET] product/productAuthor/:id
+  productAuthor = async (req, res, next) => {
+    try {
+      console.log("Running");
+      const products = await Product.find({ id_author: req.params.id })
+        .populate("id_author")
+        .populate("reviews.id_account");
 
-    if (!products || products.length === 0) {
-      return res.status(404).json({ message: "No products found for this author ID." });
+      if (!products || products.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "No products found for this author ID." });
+      }
+
+      const author = products[0].id_author; // Assuming all products have the same author
+
+      const relatedProducts = await Product.find({
+        category: products[0].category, // Assuming all products have the same category
+        id_author: { $ne: req.params.id },
+      });
+
+      res.status(200).json({ products, author, relatedProducts });
+    } catch (error) {
+      next(error);
     }
-
-    const author = products[0].id_author; // Assuming all products have the same author
-
-    const relatedProducts = await Product.find({
-      category: products[0].category, // Assuming all products have the same category
-      id_author: { $ne: req.params.id },
-    });
-
-    res.status(200).json({ products, author, relatedProducts });
-  } catch (error) {
-    next(error);
-  }
-};
-
+  };
 
   // [GET] product/checkout
   getCheckout = async (req, res, next) => {
     try {
       // ID_USER
-      let email = req.headers ? req.headers.email : ''
+      let email = req.headers ? req.headers.email : "";
       // let id_account = "6572ae4ecbdcc4811d90a8e4";
 
       let account = await Account.findOne({ email }).populate({
@@ -649,10 +690,10 @@ productAuthor = async (req, res, next) => {
   //[POST] /handle-review/:id
   handleReview = async (req, res, next) => {
     try {
-      let email = req.headers ? req.headers.email : ''
-      let account = await Account.findOne({ email })
+      let email = req.headers ? req.headers.email : "";
+      let account = await Account.findOne({ email });
 
-      let id_account = account ? account._id : '';
+      let id_account = account ? account._id : "";
       let idProduct = req.params.id;
 
       let content = req.body.comment;

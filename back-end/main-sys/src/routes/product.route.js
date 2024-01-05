@@ -18,6 +18,7 @@ router.get("/search", productController.searchProduct);
 router.get("/sort", productController.sortProduct);
 router.get("/detail/:id", productController.getDetail);
 router.get("/productAuthor/:id", productController.productAuthor);
+router.get("/category", productController.getCategory);
 
 // **************** USER **********************
 router.post("/handle-review/:id", isAuth, productController.handleReview);

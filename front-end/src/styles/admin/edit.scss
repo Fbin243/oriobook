@@ -3,6 +3,9 @@
   .edit-product-breadcrumb {
     font-size: 30px;
   }
+  .product-category-plus {
+    color: var(--primary-color);
+  }
   .edit-product-form {
     & + .edit-product-form {
       margin-left: 2rem;

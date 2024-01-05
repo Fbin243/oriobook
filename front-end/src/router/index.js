@@ -15,7 +15,9 @@ import Aboutus from "@/views/Aboutus.vue";
 import Checkout from "@/views/Checkout.vue";
 import Dashboard from "@/views/admin/Dashboard";
 import Manage from "@/views/admin/Manage";
+import ManageAuthor from "@/views/admin/ManageAuthor";
 import Edit from "@/views/admin/Edit";
+import EditAuthor from "@/views/admin/EditAuthor";
 import Order from "@/views/admin/Order";
 import AccountDetails from "@/views/AccountDetails";
 import { isAdmin, getTokenInfo } from "../helpers/helperFunctions";
@@ -132,6 +134,12 @@ const routes = [
         meta: { requiresAdmin: true },
       },
       {
+        path: "manage-author",
+        name: "ManageAuthor",
+        component: ManageAuthor,
+        meta: { requiresAdmin: true },
+      },
+      {
         path: "edit",
         children: [
           {
@@ -144,6 +152,23 @@ const routes = [
             path: ":id",
             name: "EditForUpdate",
             component: Edit,
+            meta: { requiresAdmin: true },
+          },
+        ],
+      },
+      {
+        path: "edit-author",
+        children: [
+          {
+            path: "",
+            name: "EditAuthorForCreate",
+            component: EditAuthor,
+            meta: { requiresAdmin: true },
+          },
+          {
+            path: ":id",
+            name: "EditAuthorForUpdate",
+            component: EditAuthor,
             meta: { requiresAdmin: true },
           },
         ],

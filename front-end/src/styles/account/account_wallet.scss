@@ -1,5 +1,4 @@
-.my-wallet-page{
-  margin-top: 16px;
+.my-wallet-page {
   margin-bottom: 32px;
   min-height: 700px;
 }
@@ -25,7 +24,8 @@
   background-color: rgba(33, 40, 50, 0.03);
   border-bottom: 1px solid rgba(33, 40, 50, 0.125);
 }
-.form-control, .dataTable-input {
+.form-control,
+.dataTable-input {
   display: block;
   width: 100%;
   padding: 0.875rem 1.125rem;
@@ -63,13 +63,15 @@
   font-size: 2em;
 }
 
-.table-billing-history th, .table-billing-history td {
+.table-billing-history th,
+.table-billing-history td {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   padding-left: 1.375rem;
   padding-right: 1.375rem;
 }
-.table > :not(caption) > * > *, .dataTable-table > :not(caption) > * > * {
+.table > :not(caption) > * > *,
+.dataTable-table > :not(caption) > * > * {
   padding: 0.75rem 0.75rem;
   background-color: var(--bs-table-bg);
   border-bottom-width: 1px;
@@ -92,19 +94,17 @@
   height: 100% !important;
 }
 
-
 // Modal
 
-.modal-dialog{
+.modal-dialog {
   width: 100%;
   .btn {
     // height: 45px;
     width: 100%;
     // margin: 15px 0;
     border: none !important;
-  
   }
-  
+
   .btn button {
     height: 100%;
     width: 60%;
@@ -120,42 +120,41 @@
     padding-bottom: 8px;
     text-transform: uppercase;
   }
-  
+
   .btn button:hover {
     background: #1a5e49;
   }
 }
 
-.evaluate-btn{
+.evaluate-btn {
   flex-grow: 2;
   display: flex;
   justify-content: flex-end;
-  .modal-content{
-    .img-rv{
+  .modal-content {
+    .img-rv {
       width: 65px;
       height: 65px;
     }
 
-    ul{
+    ul {
       display: flex;
 
-      li{
+      li {
         margin-left: 4px;
       }
-
     }
   }
 
-  form{
+  form {
     // display: flex;
     // justify-content: space-evenly;
   }
 
-  #comment{
+  #comment {
     width: 100%;
   }
 
-  .btn-submit{
+  .btn-submit {
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
@@ -172,7 +171,7 @@
   color: #444;
   padding: 10px;
   float: right;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 input:not(:checked) ~ label:hover,
 input:not(:checked) ~ label:hover ~ label {
@@ -181,7 +180,6 @@ input:not(:checked) ~ label:hover ~ label {
 
 input:checked ~ label {
   color: #fd4;
-  
 }
 
 #rate-1:checked ~ .rating-desc:before {
@@ -206,12 +204,12 @@ input:checked ~ label {
   font-weight: 600;
   margin: 5px 0 20px 0;
   text-align: center;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 .textarea #amount {
   border: 1px solid #e4e5e7;
   background: white;
-  color: #6C6C6E;
+  color: #6c6c6e;
   padding: 22px;
   font-size: 16px;
   // margin-top: 15px;
@@ -243,9 +241,9 @@ input:checked ~ label {
   border-radius: 10px;
   padding: 40px;
 }
-@media (max-width:576px) {
+@media (max-width: 576px) {
   .star-rating-bx {
-      padding:20px 15px;
+    padding: 20px 15px;
   }
 }
 
@@ -260,10 +258,10 @@ input:checked ~ label {
   color: red;
 }
 
-#error-rating{
+#error-rating {
   padding-top: 55px;
 }
 
-.no-show{
+.no-show {
   display: none;
 }

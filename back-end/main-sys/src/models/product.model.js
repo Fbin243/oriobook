@@ -23,6 +23,11 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    year: {
+      type: Number,
+      required: true,
+      default: () => new Date().getFullYear(),
+    },
     description: {
       type: String,
       trim: true,
@@ -35,8 +40,9 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: "Romance",
-      enum: ["Romance", "Fiction", "Family", "Comedy", "History", "Other"],
+    },
+    sub_category: {
+      type: String,
     },
     reviews: {
       type: [

@@ -2,6 +2,14 @@ const Category = require("../models/category.model");
 const { upload, uploadToImgur } = require("../middlewares/upload-file");
 class categoryController {
   // *************** ADMIN *********************
+  getAllCategory = async (req, res, next) => {
+    try {
+      let categories = await Category.find({}).populate("sub_category._id");
+      res.status(200).json(categories);
+    } catch (error) {
+      next(error);
+    }
+  };
   // [GET] Categorie/dashboard
   getManageCategory = async (req, res, next) => {
     try {

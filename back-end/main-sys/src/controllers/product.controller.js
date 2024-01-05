@@ -15,45 +15,6 @@ async function findAuthorIdByName(authorName) {
   return author ? author._id : null;
 }
 class productController {
-  // GET product/category
-  getCategory = async (req, res, next) => {
-    try {
-      const products = await Product.find({});
-      // Tổng hợp danh sách danh mục
-      const categoryList = [];
-
-      products.forEach((product) => {
-        const existingCategory = categoryList.find(
-          (category) => category.main === product.category
-        );
-
-        if (existingCategory) {
-          // Danh mục chính đã tồn tại, kiểm tra danh mục con
-          if (product.sub_category) {
-            if (!existingCategory.sub.includes(product.sub_category)) {
-              existingCategory.sub.push(product.sub_category);
-            }
-          }
-        } else {
-          // Danh mục chính chưa tồn tại, tạo mới
-          const newCategory = {
-            main: product.category,
-            sub: [],
-          };
-          if (product.sub_category) {
-            newCategory.sub.push(product.sub_category);
-          }
-          categoryList.push(newCategory);
-        }
-      });
-
-      console.log(categoryList);
-      res.json(categoryList);
-    } catch (error) {
-      next(error);
-    }
-  };
-
   // [GET] product/best-seller
   getBestSeller = async (req, res, next) => {
     try {
@@ -611,6 +572,7 @@ class productController {
       const totalProducts = await Product.countDocuments({});
       const totalPages = Math.ceil(totalProducts / perPage);
       const products = await Product.find({})
+        .populate("id_category")
         .skip((page - 1) * perPage)
         .limit(perPage);
       res.status(200).json({ products, totalPages });

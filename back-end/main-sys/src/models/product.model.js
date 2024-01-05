@@ -24,11 +24,6 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    year: {
-      type: Number,
-      required: true,
-      default: () => new Date().getFullYear(),
-    },
     description: {
       type: String,
       trim: true,

@@ -41,15 +41,6 @@
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
-                <label for="product-year">Year</label>
-                <input
-                  id="product-year"
-                  type="number"
-                  :value="product.year"
-                  name="year"
-                />
-              </div>
-              <div class="col">
                 <label for="product-price">Price ($)</label>
                 <input
                   id="product-price"
@@ -73,14 +64,14 @@
             <div class="d-flex align-items-center">
               <div class="product-category me-4">
                 <label class="product-category-label"> Category </label>
-                <select class="edit-product-select" name="category">
+                <select class="edit-product-select" name="id_category">
                   <option
                     v-for="category in categories"
                     :key="category"
-                    :value="category"
-                    :selected="isSelected(category, product.category)"
+                    :value="category._id"
+                    :selected="isSelected(category._id, product.id_category)"
                   >
-                    {{ category }}
+                    {{ category.name }}
                   </option>
                 </select>
               </div>
@@ -134,27 +125,13 @@ export default {
       price: "",
       description: "",
       stock: "",
-      category: "",
+      id_category: "",
     });
     const categories = ref({});
     const authors = ref({});
     const authorName = ref("");
     const isSelected = (option, productOption) => {
       return option == productOption;
-    };
-
-    const addCategory = (e) => {
-      console.log("OK");
-      const main = $("#product-main").val();
-      const sub = $("#product-sub").val();
-      $("#product-main").val("");
-      $("#product-sub").val("");
-      if (main) {
-        if (sub) {
-          categories.value.push(`${main} / ${sub}`);
-        } else categories.value.push(`${main}`);
-      }
-      console.log(main, sub);
     };
 
     const addOrUpdateProduct = async () => {
@@ -200,25 +177,12 @@ export default {
       onMounted(async () => {
         try {
           // Lấy tất cả category
-          let response = await axios.get(
-            `https://localhost:3000/product/category`
-          );
-          const inputArray = response.data;
-          categories.value = inputArray
-            .map((item) => {
-              if (item.sub.length === 0) {
-                return [item.main];
-              } else {
-                return item.sub.map((subItem) => `${item.main} / ${subItem}`);
-              }
-            })
-            .flat();
-
+          let response = await axios.get(`https://localhost:3000/category/all`);
+          categories.value = response.data;
           // Lấy tất cả author
           response = await axios.get(`https://localhost:3000/author/list`);
           authors.value = response.data;
           authors.value = authors.value.map((item) => item.name);
-
           response = await axios.get(
             `https://localhost:3000/product/edit/${id.value}`
           );
@@ -252,7 +216,6 @@ export default {
       authors,
       authorName,
       addOrUpdateProduct,
-      addCategory,
     };
   },
 };

@@ -48,7 +48,7 @@
                       {{ product.name }}
                     </li>
                     <li class="manage-product-info text-center col-2 me-2">
-                      {{ product.category }}
+                      {{ product.category_name }}
                     </li>
                     <li class="manage-product-info text-center col-2 me-2">
                       {{ product.stock }}
@@ -104,7 +104,6 @@
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "../../config/axios";
-import { useRoute, useRouter } from "vue-router";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 export default {
   name: "Manage",
@@ -126,6 +125,9 @@ export default {
         );
         curPage.value = page;
         products.value = response.data.products;
+        products.value.forEach((product) => {
+          product.category_name = product.id_category.name;
+        });
         totalPages.value = response.data.totalPages;
         removeLoading();
       } catch (error) {
@@ -200,8 +202,6 @@ export default {
                   `https://localhost:3000/product/delete/${id_product}`
                 );
                 checkbox.parentElement.remove();
-                // console.log(window.location);
-                // router.(window.location.pathname + "?page=2");
                 removeLoading();
                 window.location.reload();
               }

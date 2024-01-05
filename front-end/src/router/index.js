@@ -16,8 +16,10 @@ import Checkout from "@/views/Checkout.vue";
 import Dashboard from "@/views/admin/Dashboard";
 import Manage from "@/views/admin/Manage";
 import ManageAuthor from "@/views/admin/ManageAuthor";
+import ManageCategory from "@/views/admin/ManageCategory";
 import Edit from "@/views/admin/Edit";
 import EditAuthor from "@/views/admin/EditAuthor";
+import EditCategory from "@/views/admin/EditCategory";
 import Order from "@/views/admin/Order";
 import AccountDetails from "@/views/AccountDetails";
 import { isAdmin, getTokenInfo } from "../helpers/helperFunctions";
@@ -140,6 +142,12 @@ const routes = [
         meta: { requiresAdmin: true },
       },
       {
+        path: "manage-category",
+        name: "ManageCategory",
+        component: ManageCategory,
+        meta: { requiresAdmin: true },
+      },
+      {
         path: "edit",
         children: [
           {
@@ -169,6 +177,23 @@ const routes = [
             path: ":id",
             name: "EditAuthorForUpdate",
             component: EditAuthor,
+            meta: { requiresAdmin: true },
+          },
+        ],
+      },
+      {
+        path: "edit-Category",
+        children: [
+          {
+            path: "",
+            name: "EditCategoryForCreate",
+            component: EditCategory,
+            meta: { requiresAdmin: true },
+          },
+          {
+            path: ":id",
+            name: "EditCategoryForUpdate",
+            component: EditCategory,
             meta: { requiresAdmin: true },
           },
         ],

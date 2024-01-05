@@ -29,6 +29,11 @@
             <router-link to="/admin/manage-author">Manage authors</router-link>
           </li>
           <li class="navigation-link">
+            <router-link to="/admin/manage-category"
+              >Manage categories</router-link
+            >
+          </li>
+          <li class="navigation-link">
             <router-link to="/admin/order">Manage orders</router-link>
           </li>
         </template>

@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
-const account = require("./account.model");
-const author = require("./author.model");
 
 const productSchema = new mongoose.Schema(
   {
     id_author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "author",
-      // type: String,
+    },
+    id_category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "category",
     },
     name: {
       type: String,
@@ -38,19 +39,12 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    category: {
-      type: String,
-    },
-    sub_category: {
-      type: String,
-    },
     reviews: {
       type: [
         {
           id_account: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "account",
-            // type: String,
           },
           rating: {
             type: Number,

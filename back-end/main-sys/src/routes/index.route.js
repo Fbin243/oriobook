@@ -2,11 +2,13 @@ const productRouter = require("./product.route");
 const accountRouter = require("./account.route");
 const orderRouter = require("./order.route");
 const authorRouter = require("./author.route");
+const categoryRouter = require("./category.route");
 
 function route(app) {
   // Định nghĩa các route theo tài nguyên
   app.use("/account", accountRouter);
   app.use("/product", productRouter);
+  app.use("/category", categoryRouter);
   app.use("/order", orderRouter);
   app.use("/author", authorRouter);
 

@@ -72,15 +72,7 @@
           <div class="edit-product-form col">
             <div class="d-flex align-items-center">
               <div class="product-category me-4">
-                <label class="product-category-label">
-                  Category
-                  <i
-                    class="fa-solid fa-plus product-category-plus"
-                    role="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  ></i>
-                </label>
+                <label class="product-category-label"> Category </label>
                 <select class="edit-product-select" name="category">
                   <option
                     v-for="category in categories"
@@ -116,60 +108,6 @@
             </div>
           </div>
         </form>
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Add new category
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <form id="add-category">
-                  <label for="product-main">Main category</label>
-                  <input
-                    id="product-main"
-                    type="text"
-                    name="main"
-                    class="w-100 p-1"
-                    required
-                  />
-                  <label for="product-sub" class="mt-3">Sub category</label>
-                  <input
-                    id="product-sub"
-                    type="text"
-                    name="sub"
-                    class="w-100 p-1"
-                    required
-                  />
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button
-                  class="btn btn-primary"
-                  @click="addCategory"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
     </section>
   </section>

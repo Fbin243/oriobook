@@ -13,7 +13,7 @@ axios.interceptors.request.use(
     const newHeaders = {
       ...request.headers,
       "Access-Control-Allow-Origin": "*",
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
       Authorization: token,
     };
 

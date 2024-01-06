@@ -62,14 +62,14 @@ class accountController {
 
         let data = response.data;
         let result = data.result;
-        let paymentToken = data.paymentToken ?? ''
 
         if (result !== "success") {
           return next(data.msg);
         }
 
-        newAcc.token = paymentToken;
+        let paymentToken = data.paymentToken;
 
+        newAcc.token = paymentToken;
         // Save new account
         await newAcc.save();
 
@@ -84,7 +84,7 @@ class accountController {
     try {
       // console.log(req.body);
       // Kiem tra xem email da duoc dung de tao tai khoan hay chua
-      const Acc = await account.findOne({ email: req.body.email });
+      let Acc = await account.findOne({ email: req.body.email });
       if (Acc == null) {
         return res.send("email error");
       } else {
@@ -111,6 +111,33 @@ class accountController {
               accessTokenSecret,
               accessTokenLife
             );
+
+            let dataSend = {
+              email: req.body.email,
+            };
+    
+            const response = await instance.post(
+              `https://localhost:${process.env.AUX_PORT}/generate-token`,
+              dataSend,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+    
+            let data = response.data;
+            let resultStatus = data.result;
+    
+            if (resultStatus !== "success") {
+              return next(data.msg);
+            }
+
+            let paymentToken = data.paymentToken
+
+            Acc.token = paymentToken;
+            await Acc.save();
+
             return res.send({ status: true, accessToken });
           }
         );
@@ -402,6 +429,13 @@ class accountController {
       let indexFrom = (page - 1) * perPage;
 
       let newHis = [];
+
+      _accountNew.history.sort((a, b) => {
+        const dateA = new Date(a.time);
+        const dateB = new Date(b.time);
+      
+        return dateB - dateA;
+      });
 
       _accountNew.history.forEach((item, index) => {
         if (index >= indexFrom && index < indexFrom + perPage) {

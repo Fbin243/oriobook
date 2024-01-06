@@ -20,10 +20,10 @@ class orderController {
   getMyOrders = async (req, res, next) => {
     try {
       // ID_USER
-      let email = req.headers ? req.headers.email : ''
-      let account = await Account.findOne({ email })
+      let email = req.headers ? req.headers.email : "";
+      let account = await Account.findOne({ email });
       // console.log('email 2', req.headers);
-      let id_account = account ? account._id : '';
+      let id_account = account ? account._id : "";
       let path = req.path;
       let pathConvert = path.charAt(1).toUpperCase() + path.slice(2); // /successfull -> Successful
 
@@ -75,8 +75,10 @@ class orderController {
       let total = req.body.total;
       let note = req.body.note;
 
+      let _account = await Account.findOne({ email });
+
       let dataSend = {
-        email,
+        paymentToken: _account.token,
       };
 
       const response = await instance.post(
@@ -89,36 +91,71 @@ class orderController {
         }
       );
       let data = response.data;
+      let balance = data.balance
 
-      if(total > data.balance){
-        return res.json({result: 'fail', msg: `Insufficient balance`})
+      if (data.result !== "success") {
+        return res.json({ result: "fail", msg: "Fail to get balance" });
       }
 
-      let _account = await Account.findOne({ email })
-      let cart = _account.cart
+      if (total > balance) {
+        return res.json({ result: "fail", msg: `Insufficient balance` });
+      }
+
+      let cart = _account.cart;
 
       // Create new order
       let orderObj = new Order();
-      orderObj.id_account = _account._id
-      orderObj.note = note
+      orderObj.id_account = _account._id;
+      orderObj.note = note;
 
-      cart.forEach(item => {
+      cart.forEach((item) => {
         let newObj = {
           id_product: item.id_product,
           quantity: item.quantity,
           isReviewed: false,
-        }
-        orderObj.detail.push(newObj)
-      })
+        };
+        orderObj.detail.push(newObj);
+      });
 
-      await orderObj.save()
+      await orderObj.save();
+
+      // Adjust balance
+      let dataSend2 = {
+        paymentToken: _account.token,
+        changeBal: `-${total}`,
+      };
+
+      const response2 = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/adjust-balance`,
+        dataSend2,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let data2 = response2.data;
+
+      if (data2.result !== "success") {
+        return next("Fail to adjust balance");
+      }
+
+      // Create a new transaction
+      let newHis = {
+        action: "Paid",
+        changeBalance: `-${total}`,
+        atTimeBalance: balance - total,
+      };
+
+      _account.history.push(newHis);
 
       // Remove from cart
-      _account.cart = []
-      await _account.save()
+      _account.cart = [];
 
+      // Save _account
+      await _account.save();
 
-      res.json({result: 'success'})
+      res.json({ result: "success" });
     } catch (error) {
       next(error);
     }

@@ -174,7 +174,7 @@
               ${{ accountData.total_price }}
             </div>
             <div>Current balance</div>
-            <div style="position: absolute; font-weight: 700; top: 27px; right: 0">
+            <div style="position: absolute; font-weight: 700; top: 27px; right: -8px">
               ${{ accountData.balance }}
             </div>
           </div>

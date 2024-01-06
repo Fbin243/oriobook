@@ -395,7 +395,7 @@ productAuthor = async (req, res, next) => {
       account.total_price = totalSum;
 
       let dataSend = {
-        email,
+        paymentToken: account.token,
       };
 
       const response = await instance.post(
@@ -409,9 +409,9 @@ productAuthor = async (req, res, next) => {
       );
 
       let data = response.data
-      let balance = data.balance
-      
-      account.balance = balance
+      if(data.result === 'success'){
+        account.balance = data.balance
+      }
 
       res.json(account);
     } catch (error) {

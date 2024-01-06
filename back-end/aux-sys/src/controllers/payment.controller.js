@@ -13,6 +13,11 @@ class accountController {
     try {
       let email = req.body.email;
 
+      let paymentObj = await Payment.findOne({ email })
+      if(paymentObj){
+        res.json({result: 'fail', msg: 'Payment account exists'});
+      }
+
       let newPayment = new Payment({
         email,
         balance: 0,

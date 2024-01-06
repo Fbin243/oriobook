@@ -67,10 +67,8 @@ class accountController {
         let data = response.data;
         let result = data.result;
 
-        console.log("result", result);
-
         if (result !== "success") {
-          return next("Fail to add new account");
+          return next(data.msg);
         }
 
         return res.send({ status: true, accessToken });

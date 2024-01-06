@@ -42,7 +42,9 @@
 
 <script>
 import { getTokenInfo } from "../../helpers/helperFunctions";
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import axios from "../../config/axios";
 export default {
   name: "SideBar",
 
@@ -51,8 +53,16 @@ export default {
     let admin = ref(false);
 
     async function LogOut() {
-      localStorage.removeItem("token");
-      window.location.href = "https://localhost:8080/";
+      
+      const response = await axios.post(
+        `https://localhost:3000/account/logout`
+        );
+      let res = response.data;
+
+      if(res.result === 'success'){
+        localStorage.removeItem("token");
+        window.location.href = "https://localhost:8080/";
+      }
     }
 
     async function checkAdmin() {

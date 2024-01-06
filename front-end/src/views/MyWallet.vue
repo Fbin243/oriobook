@@ -7,7 +7,7 @@
           <div class="row">
             <div class="col-lg-6 mb-4">
               <!-- Billing card 1-->
-              <div class="card border-start-lg border-start-primary">
+              <div class="card border-start-lg border-start-primary" style="height: 100%;">
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Name</div>
                   <div class="h3">
@@ -18,7 +18,7 @@
             </div>
 
             <div class="col-lg-6 mb-4">
-              <!-- Billing card 3-->
+              <!-- Billing card 2-->
               <div class="card border-start-lg border-start-success">
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Account balance</div>

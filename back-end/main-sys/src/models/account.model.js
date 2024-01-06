@@ -42,6 +42,11 @@ const accountSchema = new mongoose.Schema({
       },
     },
   ],
+  token: {
+    type: String,
+    default: '',
+    require: true,
+  },
 });
 
 module.exports = mongoose.model("account", accountSchema);

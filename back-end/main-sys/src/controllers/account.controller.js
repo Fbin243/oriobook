@@ -32,8 +32,6 @@ class accountController {
         }
         newAcc.password = hash;
 
-        await newAcc.save();
-
         const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
         const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
@@ -48,8 +46,6 @@ class accountController {
           accessTokenLife
         );
 
-        // let _account = await account.findOne({ email: req.body.email })
-        // let id_account = _account ? _account._id : '';
         let dataSend = {
           email: req.body.email,
         };
@@ -66,10 +62,16 @@ class accountController {
 
         let data = response.data;
         let result = data.result;
+        let paymentToken = data.paymentToken ?? ''
 
         if (result !== "success") {
           return next(data.msg);
         }
+
+        newAcc.token = paymentToken;
+
+        // Save new account
+        await newAcc.save();
 
         return res.send({ status: true, accessToken });
       });
@@ -321,26 +323,43 @@ class accountController {
     }
   };
 
-  testHistory = async (req, res, next) => {
+  // [POST] account/logout
+  logout = async (req, res, next) => {
     try {
-      let email = req.body.email;
-      let _account = await account.findOne({ email });
+      let email = req.headers.email;
+      let _account = await account.findOne({ email })
 
-      let newHis = {
-        action: "Received",
-        changeBalance: "+222.4",
-        atTimeBalance: 433.5,
-      };
+      _account.token = ''
 
-      _account.history.push(newHis);
-      _account.save();
+      await _account.save()
 
-      res.send({ status: true });
+      res.json({ result: 'success' });
     } catch (error) {
       next(error);
     }
   };
 
+  // testHistory = async (req, res, next) => {
+  //   try {
+  //     let email = req.body.email;
+  //     let _account = await account.findOne({ email });
+
+  //     let newHis = {
+  //       action: "Received",
+  //       changeBalance: "+222.4",
+  //       atTimeBalance: 433.5,
+  //     };
+
+  //     _account.history.push(newHis);
+  //     _account.save();
+
+  //     res.send({ status: true });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
+
+  // [GET] account/my-wallet
   getMyWallet = async (req, res, next) => {
     try {
       let email = req.headers.email;
@@ -358,6 +377,7 @@ class accountController {
 
       let dataSend = {
         email,
+        paymentToken: _account.token
       };
 
       const response = await instance.post(
@@ -371,6 +391,11 @@ class accountController {
       );
 
       let data = response.data;
+      let result = data.result;
+
+      if(result === 'fail'){
+        return next(data.msg);
+      }
       let balance = data.balance;
 
       let _accountNew = mongooseToObject(_account);

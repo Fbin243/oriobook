@@ -8,6 +8,8 @@ const isAuth = authMiddleware.isAuth;
 // Implement các hàm backend ở đây
 router.post("/signUp", accountController.signUp);
 router.post("/signIn", accountController.signIn);
+
+router.post("/logout", isAuth, accountController.logout);
 router.get("/getAccountDetail", isAuth, accountController.getAccountDetail);
 router.post(
   "/updateAccountDetail",
@@ -24,7 +26,7 @@ router.post("/addToCart/:id", isAuth, accountController.addToCart);
 router.post("/minusToCart/:id", isAuth, accountController.minusToCart);
 router.delete("/removeFromCart/:id", isAuth, accountController.removeFromCart);
 
-router.get("/test", accountController.testHistory);
+// router.get("/test", accountController.testHistory);
 router.get("/my-wallet", isAuth, accountController.getMyWallet);
 
 module.exports = router;

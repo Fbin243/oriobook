@@ -79,6 +79,7 @@ class productController {
         category = await Category.findOne({
           name: { $regex: new RegExp(category, "i") },
         }).populate("sub_category._id");
+        console.log(category);
         if (category.isMain) {
           // Tạo ra 1 list gồm tên main category và sub category
           const categoryIDs = [category._id];
@@ -162,14 +163,24 @@ class productController {
   // [GET] product/detail/:id
   getDetail = async (req, res, next) => {
     try {
-      const product = await Product.findOne({ _id: req.params.id })
+      let product = await Product.findOne({ _id: req.params.id })
         .populate("id_author")
-        .populate("reviews.id_account");
+        .populate("reviews.id_account")
+        .populate("id_category");
+      let sum = 0;
+      let productRating = 0;
+      for (let review of product.reviews) {
+        sum += review.rating;
+      }
+      if (product.reviews.length > 0)
+        productRating = (sum / product.reviews.length).toFixed(1);
+      // Cắt bớt revỉew list
+      product.reviews = product.reviews.reverse().slice(0, 6);
       const relatedProducts = await Product.find({
-        category: product.category,
+        id_category: product.id_category._id,
         _id: { $ne: product._id },
       });
-      res.status(200).json({ product, relatedProducts });
+      res.status(200).json({ product, relatedProducts, productRating });
     } catch (error) {
       next(error);
     }

@@ -25,6 +25,7 @@
           left: 50%;
         }
       }
+      .nav-link.active,
       .nav-link:hover {
         span::before {
           visibility: visible;
@@ -54,6 +55,7 @@
         }
       }
 
+      &.active,
       &:hover,
       &:active {
         color: #eb5e38;

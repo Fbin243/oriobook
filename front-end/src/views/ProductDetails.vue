@@ -1,27 +1,23 @@
 <template>
   <div class="product-details container">
-    <div class="breadcrumb" itemprop="breadcrumb">
-      <a href="/">Home</a>
-      <span class="delimiter"></span>
-      <a href="/products">Shop</a>
-      <span class="delimiter"></span>
-      <a :href="'/products?category=' + product.category">
-        {{ product.category }}
-      </a>
-      <span class="delimiter"></span>
-      {{ product.name }}
-    </div>
-
-    <div class="product-content row">
-      <div class="product-img col-6">
-        <img :src="product.image" :alt="product.name" />
+    <div class="product-content row mt-5">
+      <div class="col-6 justify-content-center d-flex">
+        <img
+          :src="product.image"
+          :alt="product.name"
+          class="col-8 product-img"
+        />
       </div>
-      <div class="product-info col-6">
+      <div class="product-info col-6 ms-auto">
         <div class="product-title">{{ product.name }}</div>
-        <div class="product-price">${{ product.price }}</div>
+        <div class="product-rating">
+          {{ productRating }} / 5.0
+          <i class="fa-solid fa-star" style="color: orange"></i>
+        </div>
+        <div class="product-price mt-4">${{ product.price }}</div>
         <p class="product-desc d-flex justify-content-between">
           <span>Author: {{ nameAuthor }}</span>
-          <span>Category: {{ product.category }}</span>
+          <span>Category: {{ product.category_name }}</span>
           <span>Stock: {{ product.stock }}</span>
         </p>
         <div class="d-flex pt-5">
@@ -91,7 +87,7 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "../config/axios";
 
 import HomeProductCard from "@/components/product/HomeProductCard.vue";
@@ -111,6 +107,7 @@ export default {
     const product = ref({});
     const relatedProducts = ref({});
     const nameAuthor = ref("");
+    const productRating = ref(0);
 
     onMounted(async () => {
       try {
@@ -120,11 +117,11 @@ export default {
         );
         removeLoading();
         product.value = response.data.product;
+        productRating.value = response.data.productRating;
+        console.log(product.value);
+        product.value.category_name = product.value.id_category.name;
         relatedProducts.value = response.data.relatedProducts;
-        // console.log(response.data);
         nameAuthor.value = product.value.id_author.name;
-        // console.log(product.value);
-        // window.location.reload();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -134,6 +131,7 @@ export default {
       product,
       nameAuthor,
       relatedProducts,
+      productRating,
     };
   },
 };

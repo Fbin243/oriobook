@@ -1,4 +1,5 @@
 const Category = require("../models/category.model");
+const Product = require("../models/product.model");
 const { upload, uploadToImgur } = require("../middlewares/upload-file");
 class categoryController {
   // *************** ADMIN *********************
@@ -77,14 +78,16 @@ class categoryController {
   // [POST] category/edit/save
   updateCategory = async (req, res, next) => {
     try {
+      const _id = req.body.id;
       const name = req.body.name;
       let sub_cate = req.body.sub_cate;
       console.log("sub_cate:", sub_cate);
-      let category = await Category.findOne({ name }).populate(
+      let category = await Category.findOne({ _id }).populate(
         "sub_category._id"
       );
       let removeCategory = [];
       console.log(category.sub_category);
+      category.name = name;
       category.sub_category = category.sub_category.filter((cate) => {
         // Lọc ra những cate phải bỏ đi
         if (!sub_cate.includes(cate._id.name)) {
@@ -111,7 +114,7 @@ class categoryController {
         const savedElement = await newCategory.save();
         category.sub_category.push({ _id: savedElement._id });
       }
-      await Category.updateOne({ name }, category);
+      await Category.updateOne({ _id }, category);
 
       // Xóa những cate cần nữa
       for (let cate of removeCategory) {
@@ -131,8 +134,12 @@ class categoryController {
         "sub_category._id"
       );
       for (let cate of category.sub_category) {
+        // Xóa tất cả sản phẩm của sub category đó
+        await Product.deleteMany({ id_category: cate._id._id });
         await Category.deleteOne({ _id: cate._id._id });
       }
+      // Xóa tất cả sản phẩm của main category đó
+      await Product.deleteMany({ id_category: req.params.id });
       await Category.deleteOne({ _id: req.params.id });
       res.status(200).json({ msg: "Deleted Category" });
     } catch (err) {

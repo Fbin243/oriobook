@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 export default {
   name: "Nav",
 
@@ -68,6 +68,13 @@ export default {
         login_path.value = "/login";
       }
     }
+
+    onMounted(() => {
+      $(".nav-link").click(function () {
+        $(".nav-link").removeClass("active");
+        $(this).addClass("active");
+      });
+    });
 
     return {
       Click,

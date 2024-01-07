@@ -35,26 +35,11 @@
       <div id="content1" class="tab-pane fade show active">
         <!-- Your content for the 'Active' link goes here -->
         <br /><br />
-        <p style="font-size: 15px; color: #242424cc">
+        <p style="font-size: 18px; color: #242424cc">
           {{ product.description }}
         </p>
       </div>
       <div id="content2" class="tab-pane fade">
-        <!-- Your content for the 'Link' goes here -->
-        <!-- <p style="font-family: Lora, serif; font-size: 25px; color: #242424">
-          Reviews
-        </p>
-        <br /> -->
-        <!-- <p
-          style="
-            font-family: Jost, sans-serif;
-            font-size: 15px;
-            color: #242424cc;
-          "
-        >
-          There is no review yet
-          {{ product.reviews.length }}
-        </p> -->
         <div class="testimonial-box-container">
           <template v-for="review in product.reviews">
             <div class="testimonial-box">
@@ -82,7 +67,7 @@
               </div>
               <!--Comments---------------------------------------->
               <div class="client-comment">
-                <p>
+                <p class="overflow-ellipsis">
                   {{ review.content }}
                 </p>
               </div>

@@ -1,28 +1,8 @@
 .product-details {
   margin-bottom: 32px;
 
-  .breadcrumb {
-    font-size: 15px;
-    line-height: 30px;
-    font-weight: 500;
-    a {
-      &:hover {
-        color: #eb5e38;
-      }
-      color: var(--gray-dark, #242424);
-      position: relative;
-    }
-    .delimiter {
-      margin: 0 13px;
-      width: 1px;
-      height: 20px;
-      background: rgba(36, 36, 36, 0.3);
-      transform: rotate(45deg);
-      display: inline-block;
-      transform-origin: center;
-      position: relative;
-      top: 5px;
-    }
+  .product-img {
+    border: 30px solid var(--beige-color);
   }
 
   .product-content {

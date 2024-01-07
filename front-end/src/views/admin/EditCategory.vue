@@ -31,6 +31,12 @@
                 :value="category.name"
                 name="name"
               />
+              <input
+                id="product-id"
+                type="hidden"
+                :value="category._id"
+                name="id"
+              />
             </li>
             <li class="edit-product-form-item mb-3">
               <label for="product-description d-flex"
@@ -147,6 +153,7 @@ export default {
 
     const addOrUpdateCategory = async () => {
       const formData = {
+        id: $("#product-id").val(),
         name: $("#product-name").val(),
         sub_cate,
       };

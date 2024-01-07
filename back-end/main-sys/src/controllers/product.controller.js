@@ -232,7 +232,7 @@ class productController {
       });
 
       let totalSum = account.cart.reduce((sum, item) => {
-        let price = item.id_product.price;
+        let price = item.id_product ? item.id_product.price : "";
         let quantity = item.quantity;
 
         item.subtotal = roundNumber(price * quantity, 2);

@@ -1,14 +1,10 @@
 <template>
   <div
     class="container"
-    style="
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 30px;
-    "
+    style="margin-left: auto; margin-right: auto; padding-left: 30px"
   >
-    <div class="row" style="padding-right: 5px;">
-      <div class="col-8" style="position: relative;">
+    <div class="row" style="padding-right: 5px">
+      <div class="col-8" style="position: relative">
         <!-- Content for the 60% width div -->
 
         <div
@@ -57,7 +53,7 @@
             </div>
           </div>
         </div>
-        <div >
+        <div>
           <h4 style="font-weight: 400; font-size: 23px">Billing details</h4>
           <br />
           <h6 style="font-weight: 400; font-size: 17px">First name *</h6>
@@ -124,17 +120,17 @@
           ></textarea>
         </div>
       </div>
-      <div
-        class="col-4"
-      >
-        <div style="
+      <div class="col-4">
+        <div
+          style="
             padding-left: 30px;
             padding-right: 250px;
             padding-right: 30px;
             padding-top: 30px;
             padding-bottom: 30px;
             border: 1px solid black;
-          ">
+          "
+        >
           <h4
             style="
               font-family: Jost, sans-serif;
@@ -154,13 +150,15 @@
               :key="index"
               style="position: relative; margin-top: 40px"
             >
-              <img :src="item.id_product.image" style="width: 30%" />
+              <img :src="item.id_product?.image" style="width: 30%" />
               <div style="position: absolute; top: 0; left: 160px">
-                {{ item.id_product.name }}<br />
+                {{ item.id_product?.name }}<br />
                 <p style="font-weight: 500" class="mb-0 mt-2">
-                  ${{ item.id_product.price }}
+                  ${{ item.id_product?.price }}
                 </p>
-                <div style="font-weight: 500">Quantity: {{ item.quantity }}</div>
+                <div style="font-weight: 500">
+                  Quantity: {{ item.quantity }}
+                </div>
               </div>
             </div>
           </div>
@@ -174,7 +172,14 @@
               ${{ accountData.total_price }}
             </div>
             <div>Current balance</div>
-            <div style="position: absolute; font-weight: 700; top: 27px; right: -8px">
+            <div
+              style="
+                position: absolute;
+                font-weight: 700;
+                top: 27px;
+                right: -8px;
+              "
+            >
               ${{ accountData.balance }}
             </div>
           </div>
@@ -182,15 +187,17 @@
             __________________________________________
           </div>
           <br />
-          <div
-          >
-            <p id="error-balance" style="color: red;"></p>
-            <p id="place-success" style="color: green;"></p>
-            <button class="btn" style="width: 375px; height: 50px;" @click="placeOrder()">
+          <div>
+            <p id="error-balance" style="color: red"></p>
+            <p id="place-success" style="color: green"></p>
+            <button
+              class="btn"
+              style="width: 375px; height: 50px"
+              @click="placeOrder()"
+            >
               Place Order
             </button>
           </div>
-
         </div>
       </div>
     </div>
@@ -198,7 +205,7 @@
 </template>
 
 <script>
-import VueRouter from 'vue-router';
+import VueRouter from "vue-router";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
@@ -208,7 +215,7 @@ export default {
   setup() {
     const router = useRouter();
     const accountData = ref({});
-    const note = ref('')
+    const note = ref("");
 
     const toggleCoupon = () => {
       var content = document.getElementById("coupon-content");
@@ -247,7 +254,7 @@ export default {
       let dataSend = {
         total: accountData.value.total_price,
         note: note.value,
-      }
+      };
 
       const response = await axios.post(
         `https://localhost:3000/order/place`,
@@ -255,17 +262,19 @@ export default {
       );
       let res = response.data;
 
-      if(res.result === 'fail'){
-        document.getElementById("error-balance").innerHTML = '* ' + res.msg + '. Please add more balance';
-      }else{
-        document.getElementById("error-balance").innerHTML = '';
-        document.getElementById("place-success").innerHTML = '* Place order successfully';
-        
+      if (res.result === "fail") {
+        document.getElementById("error-balance").innerHTML =
+          "* " + res.msg + ". Please add more balance";
+      } else {
+        document.getElementById("error-balance").innerHTML = "";
+        document.getElementById("place-success").innerHTML =
+          "* Place order successfully";
+
         setTimeout(() => {
-          router.push({ name: 'Home' });
+          router.push({ name: "Home" });
         }, 2000);
       }
-    }
+    };
 
     // You can return data or methods that you want to expose to the template
     return {

@@ -4,8 +4,9 @@ const adminMiddleware = require("../middlewares/admin.middlewares");
 const router = express.Router();
 const isAdmin = adminMiddleware.isAdmin;
 
+router.get("/all", categoryController.getAllCategory);
+
 // **************** ADMIN **********************
-router.get("/all", isAdmin, categoryController.getAllCategory);
 router.get("/manage", isAdmin, categoryController.getManageCategory);
 router.get("/edit/:id", isAdmin, categoryController.getEditCategory);
 router.post("/edit/save", isAdmin, categoryController.addCategory);

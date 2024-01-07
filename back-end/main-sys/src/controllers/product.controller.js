@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 const Order = require("../models/order.model");
 const Account = require("../models/account.model");
+const Category = require("../models/category.model");
 
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 async function findAuthorIdByName(authorName) {
@@ -62,18 +63,78 @@ class productController {
   // [GET] product/shop
   getShop = async (req, res, next) => {
     try {
+      console.log(req.query);
       const page = isNaN(req.query.page)
         ? 1
         : Math.max(1, parseInt(req.query.page));
       const perPage = isNaN(req.query.perPage)
         ? 8
         : Math.max(1, parseInt(req.query.perPage));
-      const totalProducts = await Product.countDocuments({});
+      let { search, sort, category, author } = req.query;
+
+      // Match option cho search, category, author
+      const matchOption =
+        search != "" ? { name: { $regex: new RegExp(search, "i") } } : {};
+      if (category != "") {
+        category = await Category.findOne({
+          name: { $regex: new RegExp(category, "i") },
+        }).populate("sub_category._id");
+        if (category.isMain) {
+          // Tạo ra 1 list gồm tên main category và sub category
+          const categoryIDs = [category._id];
+          for (let subCate of category.sub_category) {
+            categoryIDs.push(subCate._id._id);
+          }
+          matchOption.$or = categoryIDs.map((item) => ({
+            id_category: item,
+          }));
+        } else matchOption.id_category = category._id;
+      }
+      if (author != "") {
+        author = await Author.findOne({
+          name: { $regex: new RegExp(author, "i") },
+        });
+        matchOption.id_author = author._id;
+      }
+
+      // Sort option
+      let sortOption = { date: 1 };
+      if (sort == "price") sortOption = { price: 1 };
+      else if (sort == "price-desc") sortOption = { price: -1 };
+      else if (sort == "latest") sortOption = { date: -1 };
+      else if (sort == "rating") sortOption = { avgRating: -1 };
+
+      // Lấy sản phẩm thỏa mãn tất cả matchOption
+      const totalProducts = await Product.countDocuments(matchOption);
       const totalPages = Math.ceil(totalProducts / perPage);
-      const products = await Product.find({})
-        .populate("id_author")
-        .skip((page - 1) * perPage)
-        .limit(perPage);
+      const pineline = [
+        {
+          $match: matchOption,
+        },
+        {
+          $lookup: {
+            from: "authors", // Tên của collection bạn muốn tham chiếu
+            localField: "id_author", // Trường trong collection hiện tại (orders)
+            foreignField: "_id", // Trường trong collection từng được tham chiếu (users)
+            as: "id_author", // Tên của trường trong kết quả chứa thông tin từ collection tham chiếu
+          },
+        },
+        {
+          $addFields: {
+            avgRating: { $avg: "$reviews.rating" },
+          },
+        },
+        {
+          $sort: sortOption,
+        },
+        {
+          $skip: (page - 1) * perPage,
+        },
+        {
+          $limit: perPage,
+        },
+      ];
+      const products = await Product.aggregate(pineline);
       res.status(200).json({ products, totalPages });
     } catch (error) {
       next(error);
@@ -98,230 +159,6 @@ class productController {
     }
   };
 
-  getShopBetterFilter = async (req, res, next) => {
-    try {
-      const page = isNaN(req.query.page)
-        ? 1
-        : Math.max(1, parseInt(req.query.page));
-      const perPage = isNaN(req.query.perPage)
-        ? 8
-        : Math.max(1, parseInt(req.query.perPage));
-
-      // Extract category and author from query parameters
-      let category = req.query.category;
-      let author = req.query.author;
-
-      if (category == "All Category") {
-        category = "";
-      }
-      if (category == "Family Story") {
-        category = "Family story";
-      }
-      if (author == "Book Author") {
-        author = "";
-      }
-      console.log(category);
-      console.log(author);
-      // Build the query based on case-insensitive category and author conditions
-      const query = {};
-      if (category || author) {
-        if (category) {
-          query.category = { $regex: new RegExp(category, "i") };
-        }
-
-        if (author) {
-          const authorId = await findAuthorIdByName(author);
-
-          query["id_author"] = authorId;
-        }
-      }
-
-      // Find the total number of matching products
-      const totalProducts = await Product.countDocuments(query);
-
-      // Calculate total pages
-      const totalPages = Math.ceil(totalProducts / perPage);
-
-      // Fetch products based on the query
-      const products = await Product.find(query)
-        .populate("id_author")
-        .skip((page - 1) * perPage)
-        .limit(perPage);
-
-      res.status(200).json({ products, totalPages });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  getShopBetter = async (req, res, next) => {
-    try {
-      const page = isNaN(req.query.page)
-        ? 1
-        : Math.max(1, parseInt(req.query.page));
-      const perPage = isNaN(req.query.perPage)
-        ? 8
-        : Math.max(1, parseInt(req.query.perPage));
-
-      const search = req.query.search;
-      console.log(search);
-      const filter = search
-        ? { name: { $regex: new RegExp(search, "i") } }
-        : {};
-
-      const totalProducts = await Product.countDocuments({ filter }); //cập nhật số trang
-      const totalPages = Math.ceil(totalProducts + 1 / perPage);
-      const products = await Product.find(filter)
-
-        .populate("id_author")
-        .skip((page - 1) * perPage)
-        .limit(perPage);
-      res.status(200).json({ products, totalPages });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  getShopBetterSort = async (req, res, next) => {
-    try {
-      const page = isNaN(req.query.page)
-        ? 1
-        : Math.max(1, parseInt(req.query.page));
-      const perPage = isNaN(req.query.perPage)
-        ? 8
-        : Math.max(1, parseInt(req.query.perPage));
-      const totalProducts = await Product.countDocuments({});
-      const totalPages = Math.ceil(totalProducts / perPage);
-      const sort = req.query.sort;
-      let search;
-      if (req.query.search) {
-        console.log("go");
-        search = req.query.search;
-        if (search == "undefined") {
-          search = "";
-        }
-      }
-
-      const filter = search
-        ? { name: { $regex: new RegExp(search, "i") } }
-        : {};
-      console.log(filter);
-      if (sort == "price") {
-        // Sorting option for price in ascending order (low to high)
-        const sortOption = { price: 1 };
-        // Fetch the products with search and sorting options
-        const products = await Product.find(filter)
-          .populate("id_author")
-          .sort(sortOption)
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-        res.status(200).json({ products, totalPages });
-      }
-
-      if (sort == "price-desc") {
-        // Sorting option for price in ascending order (low to high)
-        const sortOption = { price: -1 };
-        // Fetch the products with search and sorting options
-        const products = await Product.find(filter)
-          .populate("id_author")
-          .sort(sortOption)
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-        res.status(200).json({ products, totalPages });
-      }
-
-      if (sort === "date") {
-        // Sorting option for date in descending order (latest to oldest)
-        const sortOption = { date: -1 };
-
-        // Fetch the products with search and sorting options
-        const products = await Product.find(filter)
-          .populate("id_author")
-          .sort(sortOption)
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-
-        res.status(200).json({ products, totalPages });
-      }
-
-      if (sort === "popularity") {
-        // Aggregation pipeline to add a new field "numReviews" representing the length of the "reviews" array
-        const aggregationPipeline = [
-          {
-            $match: filter, // Your existing match filter
-          },
-          {
-            $addFields: {
-              numReviews: { $size: "$reviews" },
-            },
-          },
-          {
-            $sort: { numReviews: -1 }, // Sort by the length of the "reviews" array in descending order
-          },
-          {
-            $skip: (page - 1) * perPage,
-          },
-          {
-            $limit: perPage,
-          },
-        ];
-
-        // Execute the aggregation pipeline
-        const products = await Product.aggregate(aggregationPipeline).exec();
-
-        // Fetch the total number of products for pagination
-        const totalProducts = await Product.countDocuments(filter);
-
-        res
-          .status(200)
-          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
-      }
-
-      if (sort === "rating") {
-        // Aggregation pipeline to add a new field "averageRating" representing the average rating from the "reviews" array
-        const aggregationPipeline = [
-          {
-            $match: filter, // Your existing match filter
-          },
-          {
-            $addFields: {
-              averageRating: { $avg: "$reviews.rating" },
-            },
-          },
-          {
-            $sort: { averageRating: -1 }, // Sort by the average rating in descending order
-          },
-          {
-            $skip: (page - 1) * perPage,
-          },
-          {
-            $limit: perPage,
-          },
-        ];
-
-        // Execute the aggregation pipeline
-        const products = await Product.aggregate(aggregationPipeline).exec();
-
-        // Fetch the total number of products for pagination
-        const totalProducts = await Product.countDocuments(filter);
-
-        res
-          .status(200)
-          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
-      }
-
-      if (sort === "menu_order") {
-        const products = await Product.find(filter)
-
-          .populate("id_author")
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-        res.status(200).json({ products, totalPages });
-      }
-    } catch (error) {
-      next(error);
-    }
-  };
   // [GET] product/detail/:id
   getDetail = async (req, res, next) => {
     try {
@@ -340,7 +177,6 @@ class productController {
   // [GET] product/productAuthor/:id
   productAuthor = async (req, res, next) => {
     try {
-      console.log("Running");
       const products = await Product.find({ id_author: req.params.id })
         .populate("id_author")
         .populate("reviews.id_account");
@@ -389,171 +225,6 @@ class productController {
       account.total_price = totalSum;
 
       res.status(200).json(account);
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  searchProduct = async (req, res, next) => {
-    try {
-      const page = isNaN(req.query.page)
-        ? 1
-        : Math.max(1, parseInt(req.query.page));
-      const perPage = isNaN(req.query.perPage)
-        ? 8
-        : Math.max(1, parseInt(req.query.perPage));
-      const totalProducts = await Product.countDocuments({});
-      const search = req.query.search;
-      const filter = search
-        ? { name: { $regex: new RegExp(search, "i") } }
-        : {};
-
-      const totalPages = Math.ceil(totalProducts / perPage);
-      const products = await Product.find(filter)
-
-        .populate("id_author")
-        .skip((page - 1) * perPage)
-        .limit(perPage);
-      res.status(200).json({ products, totalPages });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  sortProduct = async (req, res, next) => {
-    try {
-      const page = isNaN(req.query.page)
-        ? 1
-        : Math.max(1, parseInt(req.query.page));
-      const perPage = isNaN(req.query.perPage)
-        ? 8
-        : Math.max(1, parseInt(req.query.perPage));
-      const totalProducts = await Product.countDocuments({});
-      const totalPages = Math.ceil(totalProducts / perPage);
-      const sort = req.query.sort;
-      let search;
-      if (req.query.search) {
-        search = req.query.search;
-        if (search == "undefined") {
-          search = "";
-        }
-      }
-
-      const filter = search
-        ? { name: { $regex: new RegExp(search, "i") } }
-        : {};
-      if (sort == "price") {
-        // Sorting option for price in ascending order (low to high)
-        const sortOption = { price: 1 };
-        // Fetch the products with search and sorting options
-        const products = await Product.find(filter)
-          .populate("id_author")
-          .sort(sortOption)
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-        res.status(200).json({ products, totalPages });
-      }
-
-      if (sort == "price-desc") {
-        // Sorting option for price in ascending order (low to high)
-        const sortOption = { price: -1 };
-        // Fetch the products with search and sorting options
-        const products = await Product.find(filter)
-          .populate("id_author")
-          .sort(sortOption)
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-        res.status(200).json({ products, totalPages });
-      }
-
-      if (sort === "date") {
-        // Sorting option for date in descending order (latest to oldest)
-        const sortOption = { date: -1 };
-
-        // Fetch the products with search and sorting options
-        const products = await Product.find(filter)
-          .populate("id_author")
-          .sort(sortOption)
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-
-        res.status(200).json({ products, totalPages });
-      }
-
-      if (sort === "popularity") {
-        // Aggregation pipeline to add a new field "numReviews" representing the length of the "reviews" array
-        const aggregationPipeline = [
-          {
-            $match: filter, // Your existing match filter
-          },
-          {
-            $addFields: {
-              numReviews: { $size: "$reviews" },
-            },
-          },
-          {
-            $sort: { numReviews: -1 }, // Sort by the length of the "reviews" array in descending order
-          },
-          {
-            $skip: (page - 1) * perPage,
-          },
-          {
-            $limit: perPage,
-          },
-        ];
-
-        // Execute the aggregation pipeline
-        const products = await Product.aggregate(aggregationPipeline).exec();
-
-        // Fetch the total number of products for pagination
-        const totalProducts = await Product.countDocuments(filter);
-
-        res
-          .status(200)
-          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
-      }
-
-      if (sort === "rating") {
-        // Aggregation pipeline to add a new field "averageRating" representing the average rating from the "reviews" array
-        const aggregationPipeline = [
-          {
-            $match: filter, // Your existing match filter
-          },
-          {
-            $addFields: {
-              averageRating: { $avg: "$reviews.rating" },
-            },
-          },
-          {
-            $sort: { averageRating: -1 }, // Sort by the average rating in descending order
-          },
-          {
-            $skip: (page - 1) * perPage,
-          },
-          {
-            $limit: perPage,
-          },
-        ];
-
-        // Execute the aggregation pipeline
-        const products = await Product.aggregate(aggregationPipeline).exec();
-
-        // Fetch the total number of products for pagination
-        const totalProducts = await Product.countDocuments(filter);
-
-        res
-          .status(200)
-          .json({ products, totalPages: Math.ceil(totalProducts / perPage) });
-      }
-
-      if (sort === "menu_order") {
-        const products = await Product.find(filter)
-
-          .populate("id_author")
-          .skip((page - 1) * perPage)
-          .limit(perPage);
-        res.status(200).json({ products, totalPages });
-      }
     } catch (error) {
       next(error);
     }

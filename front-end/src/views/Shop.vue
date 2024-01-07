@@ -1,14 +1,13 @@
 <template>
   <div class="shop-page">
-    <div class="img-cover">
+    <div
+      class="img-cover d-flex align-items-center justify-content-center"
+      style="height: 250px"
+    >
       <h1 class="title-heading">Shop</h1>
-      <headerShop />
     </div>
     <div class="product-section container">
       <div class="row">
-        <div class="col-3">
-          <SliderShop />
-        </div>
         <ShopProduct />
       </div>
     </div>
@@ -17,13 +16,11 @@
 
 <script>
 import ShopProduct from "@/components/product/ShopProduct.vue";
-import SliderShop from "@/components/SilderShop.vue";
 import headerShop from "@/components/headerShop.vue";
 
 export default {
   components: {
     ShopProduct,
-    SliderShop,
     headerShop,
   },
 };

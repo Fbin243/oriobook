@@ -4,7 +4,9 @@ class categoryController {
   // *************** ADMIN *********************
   getAllCategory = async (req, res, next) => {
     try {
-      let categories = await Category.find({}).populate("sub_category._id");
+      let categories = await Category.find({ isMain: true }).populate(
+        "sub_category._id"
+      );
       res.status(200).json(categories);
     } catch (error) {
       next(error);

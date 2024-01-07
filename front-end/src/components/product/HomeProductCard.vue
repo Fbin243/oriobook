@@ -11,7 +11,9 @@
     <div class="product-info">
       <a class="author-name" href="#">{{ product.id_author.name }} </a>
       <div class="product-name-box">
-        <a class="product-name" href="#">{{ product.name }}</a>
+        <a class="product-name overflow-ellipsis" href="#">{{
+          product.name
+        }}</a>
       </div>
       <p>${{ product.price.toFixed(2) }}</p>
     </div>

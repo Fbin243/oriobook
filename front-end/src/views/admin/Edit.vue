@@ -127,7 +127,8 @@ export default {
       stock: "",
       id_category: "",
     });
-    const categories = ref({});
+    const categories = ref([]);
+    const categoryList = ref([]);
     const authors = ref({});
     const authorName = ref("");
     const isSelected = (option, productOption) => {
@@ -173,16 +174,32 @@ export default {
         previewFileType: "any",
       });
     });
-    if (route.name == "EditForUpdate") {
-      onMounted(async () => {
-        try {
-          // Lấy tất cả category
-          let response = await axios.get(`https://localhost:3000/category/all`);
-          categories.value = response.data;
-          // Lấy tất cả author
-          response = await axios.get(`https://localhost:3000/author/list`);
-          authors.value = response.data;
-          authors.value = authors.value.map((item) => item.name);
+
+    onMounted(async () => {
+      try {
+        // Lấy tất cả category
+        let response = await axios.get(`https://localhost:3000/category/all`);
+        categoryList.value = response.data;
+        for (let cate of categoryList.value) {
+          console.log(cate);
+          categories.value.push({
+            _id: cate._id,
+            name: cate.name,
+          });
+          for (let subCate of cate.sub_category) {
+            // console.log(subCate);
+            categories.value.push({
+              _id: subCate._id._id,
+              name: cate.name + " / " + subCate._id.name,
+            });
+          }
+        }
+        // Lấy tất cả author
+        response = await axios.get(`https://localhost:3000/author/list`);
+        authors.value = response.data;
+        authors.value = authors.value.map((item) => item.name);
+
+        if (route.name == "EditForUpdate") {
           response = await axios.get(
             `https://localhost:3000/product/edit/${id.value}`
           );
@@ -203,11 +220,11 @@ export default {
               code: 400,
               errMsg: "Bad request",
             };
-        } catch (error) {
-          // Chuyển trang lỗi
         }
-      });
-    }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
 
     return {
       product,

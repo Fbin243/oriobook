@@ -58,9 +58,9 @@
         </ul>
       </div>
       <button class="search-btn" @click="submitSearch">
-    <i class="fa-regular fa-magnifying-glass"></i>
-    <span class="text-uppercase">find book</span>
-  </button>
+        <i class="fa-regular fa-magnifying-glass"></i>
+        <span class="text-uppercase">find book</span>
+      </button>
     </div>
   </div>
 </template>
@@ -92,23 +92,25 @@ export default {
     },
 
     submitSearch() {
-  // Gather selected options
-  const selectedCategory = document.querySelector(".select-menu:nth-child(1) .sBtn-text").innerText;
-  const selectedAuthor = document.querySelector(".select-menu:nth-child(2) .sBtn-text").innerText;
+      // Gather selected options
+      const selectedCategory = document.querySelector(
+        ".select-menu:nth-child(1) .sBtn-text"
+      ).innerText;
+      const selectedAuthor = document.querySelector(
+        ".select-menu:nth-child(2) .sBtn-text"
+      ).innerText;
 
-  // Example: Log the selected options (you can replace this with your desired action)
-  console.log("Selected Category:", selectedCategory);
-  console.log("Selected Author:", selectedAuthor);
+      console.log("Selected Category:", selectedCategory);
+      console.log("Selected Author:", selectedAuthor);
 
-  // Navigate to the "product" page with selected values as query parameters
-  this.$router.push({
-    name: 'Shop', // Assuming 'ShopProduct' is the name of the route for the product page
-    query: {
-      category: selectedCategory,
-      author: selectedAuthor
-    }
-  });
-}
+      this.$router.push({
+        name: "Shop",
+        query: {
+          category: selectedCategory,
+          author: selectedAuthor,
+        },
+      });
+    },
   },
 };
 </script>

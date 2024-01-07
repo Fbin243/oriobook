@@ -173,3 +173,11 @@ img {
     opacity: 1;
   }
 }
+
+// Xử lí chữ quá dài
+.overflow-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 10px;
+  text-overflow: ellipsis;
+}

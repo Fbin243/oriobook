@@ -1,6 +1,6 @@
 <template>
   <div class="authorlist-page">
-    <div class="img-cover">
+    <div class="img-cover d-flex align-items-center justify-content-center">
       <h1 class="title-heading">List Athors</h1>
     </div>
 

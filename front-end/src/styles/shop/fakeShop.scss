@@ -1,7 +1,7 @@
 .container {
   margin: 0 auto;
 }
-.shop-page{
+.shop-page {
   .img-cover {
     background-image: url("/src/assets/img/bg-shop.jpeg");
     height: 300px;
@@ -10,8 +10,6 @@
       font-size: 35px;
       grid-area: auto;
       line-height: 32.3px;
-      // margin: 200px 0;
-      padding: 180px 15px 0;
       text-align: center;
       font-family: Lora;
     }
@@ -20,7 +18,5 @@
   .product-section {
     margin-top: 16px;
     margin-bottom: 32px;
-
-    
   }
 }

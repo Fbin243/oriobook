@@ -1,15 +1,18 @@
 <template>
-  <div class="shop-page" style="margin-bottom: 3800px">
-    <div class="img-cover">
+  <div class="shop-page">
+    <div
+      class="img-cover d-flex align-items-center justify-content-center"
+      style="height: 250px"
+    >
       <h1 class="title-heading">About us</h1>
-      <br /><br /><br /><br />
-      <featureRow />
-      <vidOffer />
-      <ourHisAndTeam />
-      <Testimonial />
-      <br /><br /><br /><br />
-      <emailSupscription />
     </div>
+    \ <br /><br /><br /><br />
+    <featureRow />
+    <vidOffer />
+    <ourHisAndTeam />
+    <Testimonial />
+    <br /><br /><br /><br />
+    <emailSupscription />
   </div>
 </template>
 

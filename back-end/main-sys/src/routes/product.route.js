@@ -10,12 +10,7 @@ const isAdmin = adminMiddleware.isAdmin;
 router.get("/best-seller", productController.getBestSeller);
 router.get("/top-rated", productController.getTopRatedBook);
 router.get("/shop", productController.getShop);
-router.get("/shopSearch", productController.getShopBetter);
-router.get("/shopSort", productController.getShopBetterSort);
-router.get("/shopSeek", productController.getShopBetterFilter);
 router.get("/hot", productController.getNewest);
-router.get("/search", productController.searchProduct);
-router.get("/sort", productController.sortProduct);
 router.get("/detail/:id", productController.getDetail);
 router.get("/productAuthor/:id", productController.productAuthor);
 

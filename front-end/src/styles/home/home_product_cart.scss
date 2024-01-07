@@ -1,17 +1,12 @@
 .product-card {
   font-family: Lora, serif;
-  // border: 1px solid grey;
-  // border-radius: 8px;
   cursor: pointer;
   .image-container {
     position: relative;
     display: flex;
     justify-content: center;
     background-color: var(--beige-color);
-    height: 380px;
-    padding: 30px;
-    // border-radius: 8px 8px 0 0;
-    // overflow: hidden;
+    padding: 25px;
 
     &:hover .add-to-cart {
       animation: fadeIn 0.5s ease-in-out;
@@ -27,8 +22,8 @@
       object-fit: cover;
       border-radius: 4px;
       box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-      height: 320px;
       width: 100%;
+      height: 280px;
     }
 
     .add-to-cart {
@@ -77,11 +72,8 @@
         text-align: left;
         text-decoration: none;
         color: #242424;
-
-        // white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }

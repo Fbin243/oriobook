@@ -61,7 +61,7 @@ export default {
     const login_path = ref("");
     function Click() {
       Token = localStorage.getItem("token");
-      console.log(Token);
+      // console.log(Token);
       if (Token) {
         login_path.value = "/account-details";
       } else {

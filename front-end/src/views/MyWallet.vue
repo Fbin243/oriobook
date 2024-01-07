@@ -7,26 +7,30 @@
           <div class="row">
             <div class="col-lg-6 mb-4">
               <!-- Billing card 1-->
-              <div class="card border-start-lg border-start-primary">
+              <div class="card border-start-lg border-start-primary" style="height: 100%;">
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Name</div>
-                  <div class="h3">Tuan Nguyen</div>
+                  <div class="h3">
+                    {{ accountData.firstName }} {{ accountData.lastName }}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="col-lg-6 mb-4">
-              <!-- Billing card 3-->
+              <!-- Billing card 2-->
               <div class="card border-start-lg border-start-success">
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Account balance</div>
-                  <div class="h3 d-flex align-items-center">$100.67</div>
+                  <div class="h3 d-flex align-items-center">
+                    ${{ accountData.balance }}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <!-- Payment methods card-->
-          <div class="card card-header-actions mb-4">
+          <div class="col-12 card card-header-actions mb-4">
             <div
               class="card-header d-flex align-items-center"
               style="padding-left: 12px"
@@ -35,14 +39,14 @@
               <button
                 class="btn btn-primary ms-3"
                 type="button"
-                @click="clickModal()"
+                @click="clickModal"
               >
                 DEPOSIT
               </button>
             </div>
           </div>
           <!-- Billing history card-->
-          <div class="card mb-4">
+          <div class="col-12 card mb-4" style="min-height: 630px;">
             <div class="card-header" style="padding-left: 12px">
               Billing History
             </div>
@@ -58,41 +62,90 @@
                       <th class="border-gray-200" scope="col">
                         Transaction ID
                       </th>
-                      <th class="border-gray-200" scope="col">Order code</th>
                       <th class="border-gray-200" scope="col">Date</th>
+                      <th class="border-gray-200" scope="col">Change</th>
                       <th class="border-gray-200" scope="col">Amount</th>
+                      <th
+                        class="border-gray-200 text-lg-center"
+                        scope="col"
+                        width="10%"
+                      >
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>#39201</td>
-                      <td>#657088d304ba4aee1848bb23</td>
-                      <td>20:23:23 06/15/2021</td>
-                      <td>$29.99</td>
-                    </tr>
-                    <tr>
-                      <td>#38594</td>
-                      <td>#657088d304ba4aee1848bb23</td>
-                      <td>20:23:23 05/15/2021</td>
-                      <td>$29.99</td>
-                    </tr>
-                    <tr>
-                      <td>#38223</td>
-                      <td>#657088d304ba4aee1848bb23</td>
-                      <td>20:23:23 04/15/2021</td>
-                      <td>$29.99</td>
-                    </tr>
-                    <tr>
-                      <td>#38125</td>
-                      <td>#657088d304ba4aee1848bb23</td>
-                      <td>20:23:23 03/15/2021</td>
-                      <td>$29.99</td>
+                    <tr
+                      v-for="(item, index) in historyData"
+                      :key="index"
+                    >
+                      <td>#{{ item.transID }}</td>
+                      <td>{{ item.timeFormat }}</td>
+                      <td
+                        :class="
+                          colorChangeBal(item.changeBalance)
+                            ? 'text-success'
+                            : 'text-danger'
+                        "
+                      >
+                        {{ formatChangeBal(item.changeBalance) }}
+                      </td>
+                      <td>${{ item.atTimeBalance }}</td>
+                      <td>
+                        <span
+                          class="badge"
+                          :class="{
+                            'bg-danger': item.action === 'Paid',
+                            'bg-success': item.action === 'Received',
+                            'bg-warning': item.action === 'Deposited',
+                          }"
+                          >{{ item.action }}</span
+                        >
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
+
+          <!-- Pagination -->
+          <!-- :class="{ 'd-none': !accountData.length }" -->
+          <div class="col-12 mt-2" :class="{ 'd-none': !historyData.length }"> 
+            <nav aria-label="Page navigation example">
+              <ul class="pagination d-flex justify-content-end">
+                <li class="page-item">
+                  <a
+                    class="page-link js-prev-link"
+                    href="#"
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li
+                  v-for="(page, index) in totalPages"
+                  class="page-item"
+                  :key="index"
+                >
+                  <a
+                    class="page-link js-number-link"
+                    :class="{ active: page == curPage }"
+                    href="#"
+                    >{{ page }}</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a class="page-link js-next-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
         </div>
       </div>
     </div>
@@ -134,6 +187,8 @@
         </div>
       </div>
     </div>
+
+    
   </div>
 </template>
 
@@ -148,62 +203,95 @@ export default {
     SideBar,
   },
   setup() {
+    const accountData = ref([]);
+    const historyData = ref([])
+
+    const totalPages = ref(null);
+    let page = 1;
+    const curPage = ref(page);
+    let perPage = 10;
+
     const clickModal = () => {
       $("#exampleModal").modal("show");
     };
 
     const deposit = async () => {
       try {
-        // let error = false;
-        // if (!$("input[name=star]:checked").val()) {
-        //   document.getElementById("error-rating").innerHTML =
-        //     "* Please choose any star";
-        //   error = true;
-        // } else {
-        //   document.getElementById("error-rating").innerHTML = "";
-        // }
-        // if (document.getElementById("comment").value === "") {
-        //   document.getElementById("error-comment").innerHTML =
-        //     "* Please enter comment";
-        //   error = true;
-        // } else {
-        //   document.getElementById("error-comment").innerHTML = "";
-        // }
-        // if (error) return;
-        // let comment = document.getElementById("comment").value;
-        // let rating = document.querySelector("input[name=star]:checked").value;
-        // let data = {
-        //   idOrder: idOrder.value,
-        //   orderIndex: orderIndex.value,
-        //   comment,
-        //   rating,
-        // };
-        // // console.log(data);
-        // const response = await axios.post(
-        //   `https://localhost:3000/product/handle-review/${idProduct.value}`,
-        //   data
-        // );
-        // let res = response.data;
-        // if (res.msg === "success") {
-        //   hideModal();
-        //   successfulClick();
-        // }
-        // console.log(res.updatedOrder);
+        //  Add more balance
       } catch (error) {
         console.error("Error calling API:", error);
       }
     };
 
     const hideModal = () => {
-      $("input[name=star]:checked").prop("checked", false);
-      // $("#comment").text('')
-      document.getElementById("comment").value = "";
+      document.getElementById("amount").value = "";
       $("#exampleModal").modal("hide");
     };
+
+    const getMyWallet = async () => {
+      const response = await axios.get(
+        `https://localhost:3000/account/my-wallet?page=${page}&perPage=${perPage}`
+      );
+
+      // console.log(response.data);
+
+      curPage.value = page;
+      accountData.value = response.data.accountData;
+      historyData.value = response.data.history;
+      totalPages.value = response.data.totalPages;
+    };
+
+    const init = function () {
+      $(() => {
+        if (totalPages.value) {
+          $(".js-number-link").click(async function (e) {
+            e.preventDefault();
+            page = parseInt($(this).text());
+            await getMyWallet();
+          });
+          $(".js-prev-link").click(async function (e) {
+            e.preventDefault();
+            page = page > 0 ? page - 1 : page;
+            await getMyWallet();
+          });
+          $(".js-next-link").click(async function (e) {
+            e.preventDefault();
+            page = page < totalPages.value ? page + 1 : page;
+            await getMyWallet();
+          });
+        }
+      });
+    };
+
+    const formatChangeBal = (change) => {
+      return `${change[0]} $${Math.abs(parseFloat(change))}`;
+    };
+
+    const colorChangeBal = (change) => {
+      if (change[0] === "+") return true;
+      return false;
+    };
+
+    onMounted(async () => {
+      try {
+        await getMyWallet();
+        init();
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
+    });
 
     return {
       clickModal,
       deposit,
+      formatChangeBal,
+      colorChangeBal,
+
+      accountData,
+      historyData,
+
+      totalPages,
+      curPage,
     };
   },
 };

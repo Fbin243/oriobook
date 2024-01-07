@@ -1,8 +1,17 @@
+require("dotenv").config();
 const account = require("../models/account.model");
 const product = require("../models/product.model");
 const authMethod = require("../methods/auth.methods");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const axios = require("axios");
+const https = require("https");
+const { mongooseToObject, formatDate } = require("../utils/mongoose");
+const instance = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
+});
 
 class accountController {
   signUp = async (req, res, next) => {
@@ -27,8 +36,6 @@ class accountController {
         }
         newAcc.password = hash;
 
-        await newAcc.save();
-
         const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
         const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
@@ -43,6 +50,33 @@ class accountController {
           accessTokenLife
         );
 
+        let dataSend = {
+          email: req.body.email,
+        };
+
+        const response = await instance.post(
+          `https://localhost:${process.env.AUX_PORT}/add-acc`,
+          dataSend,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        let data = response.data;
+        let result = data.result;
+
+        if (result !== "success") {
+          return next(data.msg);
+        }
+
+        let paymentToken = data.paymentToken;
+
+        newAcc.token = paymentToken;
+        // Save new account
+        await newAcc.save();
+
         return res.send({ status: true, accessToken });
       });
     } catch (error) {
@@ -54,7 +88,7 @@ class accountController {
     try {
       // console.log(req.body);
       // Kiem tra xem email da duoc dung de tao tai khoan hay chua
-      const Acc = await account.findOne({ email: req.body.email });
+      let Acc = await account.findOne({ email: req.body.email });
       if (Acc == null) {
         return res.send("email error");
       } else {
@@ -81,6 +115,33 @@ class accountController {
               accessTokenSecret,
               accessTokenLife
             );
+
+            let dataSend = {
+              email: req.body.email,
+            };
+    
+            const response = await instance.post(
+              `https://localhost:${process.env.AUX_PORT}/generate-token`,
+              dataSend,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+    
+            let data = response.data;
+            let resultStatus = data.result;
+    
+            if (resultStatus !== "success") {
+              return next(data.msg);
+            }
+
+            let paymentToken = data.paymentToken
+
+            Acc.token = paymentToken;
+            await Acc.save();
+
             return res.send({ status: true, accessToken });
           }
         );
@@ -288,6 +349,122 @@ class accountController {
         }
       );
       return res.send({ status: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // [POST] account/logout
+  logout = async (req, res, next) => {
+    try {
+      let email = req.headers.email;
+      let _account = await account.findOne({ email })
+
+      _account.token = ''
+
+      await _account.save()
+
+      res.json({ result: 'success' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // testHistory = async (req, res, next) => {
+  //   try {
+  //     let email = req.body.email;
+  //     let _account = await account.findOne({ email });
+
+  //     let newHis = {
+  //       action: "Received",
+  //       changeBalance: "+222.4",
+  //       atTimeBalance: 433.5,
+  //     };
+
+  //     _account.history.push(newHis);
+  //     _account.save();
+
+  //     res.send({ status: true });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
+
+  // [GET] account/my-wallet
+  getMyWallet = async (req, res, next) => {
+    try {
+      let email = req.headers.email;
+      let _account = await account.findOne({ email });
+
+      // Pagination
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 10
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = _account.history.length;
+      const totalPages = Math.ceil(totalProducts / perPage);
+
+      let dataSend = {
+        email,
+        paymentToken: _account.token
+      };
+
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      let result = data.result;
+
+      if(result === 'fail'){
+        return next(data.msg);
+      }
+      let balance = data.balance;
+
+      let _accountNew = mongooseToObject(_account);
+      let indexFrom = (page - 1) * perPage;
+
+      let newHis = [];
+
+      _accountNew.history.sort((a, b) => {
+        const dateA = new Date(a.time);
+        const dateB = new Date(b.time);
+      
+        return dateB - dateA;
+      });
+
+      _accountNew.history.forEach((item, index) => {
+        if (index >= indexFrom && index < indexFrom + perPage) {
+          let timeEach = new Date(item.time).getTime();
+          let remainder = timeEach.toString().slice(3);
+
+          item.transID = remainder;
+          item.timeFormat = formatDate(item.time);
+          newHis.push(item);
+        }
+      });
+
+      _accountNew.balance = balance;
+
+      let accountData = {
+        firstName: _accountNew.firstName,
+        lastName: _accountNew.lastName,
+        balance,
+      };
+
+      res.json({
+        accountData,
+        history: newHis,
+        totalPages,
+      });
     } catch (error) {
       next(error);
     }

@@ -38,6 +38,26 @@ const accountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  history: [
+    {
+      action: {
+        type: String,
+        require: true,
+        enum: ["Paid", "Received", "Deposited"],
+      },
+      changeBalance: { type: String, require: true },
+      atTimeBalance: { type: Number, require: true },
+      time: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  token: {
+    type: String,
+    default: '',
+    require: true,
+  },
 });
 
 module.exports = mongoose.model("account", accountSchema);

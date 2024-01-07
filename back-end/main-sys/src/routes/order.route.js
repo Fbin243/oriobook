@@ -11,6 +11,7 @@ const isAdmin = adminMiddleware.isAdmin;
 router.get("/pending", isAuth, orderController.getMyOrders);
 router.get("/successful", isAuth, orderController.getMyOrders);
 router.get("/cancelled", isAuth, orderController.getMyOrders);
+router.post("/place", isAuth, orderController.placeOrder);
 
 // **************** ADMIN **********************
 router.get("/manage-order", isAdmin, orderController.getManageOrders);

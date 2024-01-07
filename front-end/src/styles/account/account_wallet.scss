@@ -265,3 +265,8 @@ input:checked ~ label {
 .no-show {
   display: none;
 }
+
+.badge {
+  text-transform: uppercase;
+  width: 100px;
+}

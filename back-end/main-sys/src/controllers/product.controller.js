@@ -8,6 +8,14 @@ const Order = require("../models/order.model");
 const Account = require("../models/account.model");
 const Category = require("../models/category.model");
 
+const axios = require("axios");
+const https = require("https");
+const instance = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
+});
+
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 async function findAuthorIdByName(authorName) {
   const author = await Author.findOne({
@@ -235,7 +243,26 @@ class productController {
       account = mongooseToObject(account);
       account.total_price = totalSum;
 
-      res.status(200).json(account);
+      let dataSend = {
+        paymentToken: account.token,
+      };
+
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      if (data.result === "success") {
+        account.balance = data.balance;
+      }
+
+      res.json(account);
     } catch (error) {
       next(error);
     }

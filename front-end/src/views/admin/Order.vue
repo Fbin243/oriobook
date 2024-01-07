@@ -26,14 +26,14 @@
               >
                 <td>{{ index + 1 }}</td>
                 <td class="customer-name">
-                  {{ order.id_account.lastName + order.id_account.firstName }}
+                  {{ order.id_account ? order.id_account.lastName: ''}} {{ order.id_account ? order.id_account.firstName : '' }}
                 </td>
 
                 <td class="email">
-                  {{ order.id_account.email }}
+                  {{ order.id_account ? order.id_account.email : '' }}
                 </td>
                 <td class="phone-number">
-                  {{ order.id_account.phone }}
+                  {{ order.id_account ? order.id_account.phone : ''}}
                 </td>
 
                 <td class="status">
@@ -182,8 +182,12 @@
                           </table>
 
                           <p
+                            class="text-primary mb-0" style="text-align: left; padding-left: 20px;"
+                          ><strong>Note:</strong> {{ foundObject.note }}</p>
+
+                          <p
                             id="error-approval"
-                            class="text-danger"
+                            class="text-danger mb-0"
                             v-if="formStatus === 'Pending'"
                           ></p>
 
@@ -304,6 +308,7 @@ export default {
     const clickModal = (_orderId) => {
       getOrderDetails(_orderId);
       $("#exampleModal").modal("show");
+      console.log(foundObject);
     };
 
     const roundNumber = (num, decimalPlaces = 0) => {
@@ -385,6 +390,7 @@ export default {
       handleOrder,
       formStatus,
       orderId,
+      
       totalPages,
       curPage,
     };

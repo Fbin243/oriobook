@@ -276,7 +276,7 @@ class productController {
         ? 1
         : Math.max(1, parseInt(req.query.page));
       const perPage = isNaN(req.query.perPage)
-        ? 4
+        ? 6
         : Math.max(1, parseInt(req.query.perPage));
       const totalProducts = await Product.countDocuments({});
       const totalPages = Math.ceil(totalProducts / perPage);

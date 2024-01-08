@@ -115,7 +115,7 @@ export default {
     const totalPages = ref(0);
     let page = 1;
     const curPage = ref(page);
-    const perPage = 4;
+    const perPage = 7;
 
     const requestPage = async () => {
       try {

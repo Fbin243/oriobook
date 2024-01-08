@@ -179,4 +179,10 @@ img {
   overflow: hidden;
   margin-right: 10px;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Date picker
+.input-group-append {
+  cursor: pointer;
 }

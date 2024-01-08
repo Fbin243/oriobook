@@ -44,9 +44,9 @@
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
-                <label for="product-dob">Date of birth</label>
+                <label for="datepicker">Date of birth</label>
                 <input
-                  id="product-dob"
+                  id="datepicker"
                   type="text"
                   :value="authorDOB"
                   name="date_of_birth"
@@ -179,6 +179,8 @@ export default {
         showUpload: false,
         previewFileType: "any",
       });
+
+      $("#datepicker").datepicker();
     });
     if (route.name == "EditAuthorForUpdate") {
       onMounted(async () => {
@@ -190,11 +192,13 @@ export default {
             author.value = response.data;
             authorGender.value = author.value.gender;
             const inputDate = new Date(author.value.date_of_birth);
-            authorDOB.value = `${inputDate.getDate()}/${
-              inputDate.getMonth() + 1
-            }/${inputDate.getFullYear()}`;
-            console.log(authorDOB.value);
-            console.log(authorGender.value);
+            const day = inputDate.getDate();
+            const month = inputDate.getMonth() + 1; // Lưu ý: Tháng bắt đầu từ 0
+            const year = inputDate.getFullYear();
+            // Sử dụng phương thức toLocaleDateString để định dạng ngày tháng năm
+            authorDOB.value = new Date(year, month - 1, day).toLocaleDateString(
+              "en-GB"
+            );
             // Hiển thị hình ảnh preview
             $(() => {
               $(".file-drop-zone-title").css({

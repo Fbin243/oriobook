@@ -26,14 +26,15 @@
               >
                 <td>{{ index + 1 }}</td>
                 <td class="customer-name">
-                  {{ order.id_account ? order.id_account.lastName: ''}} {{ order.id_account ? order.id_account.firstName : '' }}
+                  {{ order.id_account ? order.id_account.lastName : "" }}
+                  {{ order.id_account ? order.id_account.firstName : "" }}
                 </td>
 
                 <td class="email">
-                  {{ order.id_account ? order.id_account.email : '' }}
+                  {{ order.id_account ? order.id_account.email : "" }}
                 </td>
                 <td class="phone-number">
-                  {{ order.id_account ? order.id_account.phone : ''}}
+                  {{ order.id_account ? order.id_account.phone : "" }}
                 </td>
 
                 <td class="status">
@@ -182,8 +183,11 @@
                           </table>
 
                           <p
-                            class="text-primary mb-0" style="text-align: left; padding-left: 20px;"
-                          ><strong>Note:</strong> {{ foundObject.note }}</p>
+                            class="text-primary mb-0"
+                            style="text-align: left; padding-left: 20px"
+                          >
+                            <strong>Note:</strong> {{ foundObject.note }}
+                          </p>
 
                           <p
                             id="error-approval"
@@ -361,7 +365,7 @@ export default {
           });
           $(".js-prev-link").click(async function (e) {
             e.preventDefault();
-            page = page > 0 ? page - 1 : page;
+            page = page > 1 ? page - 1 : page;
             await requestPage();
           });
           $(".js-next-link").click(async function (e) {
@@ -390,7 +394,7 @@ export default {
       handleOrder,
       formStatus,
       orderId,
-      
+
       totalPages,
       curPage,
     };

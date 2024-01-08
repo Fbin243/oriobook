@@ -29,16 +29,6 @@
                 name="name"
               />
             </li>
-            <li class="edit-product-form-item mb-3">
-              <label for="product-description">Description</label>
-              <textarea
-                name="description"
-                id="product-description"
-                cols="30"
-                rows="20"
-                >{{ product.description }}</textarea
-              >
-            </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
                 <label for="product-price">Price ($)</label>
@@ -59,36 +49,45 @@
                 />
               </div>
             </li>
+            <li class="edit-product-form-item mb-3">
+              <label for="product-description">Description</label>
+              <textarea
+                name="description"
+                id="product-description"
+                cols="30"
+                rows="20"
+                >{{ product.description }}</textarea
+              >
+            </li>
           </ul>
           <div class="edit-product-form col">
-            <div class="d-flex align-items-center">
-              <div class="product-category me-4">
-                <label class="product-category-label"> Category </label>
-                <select class="edit-product-select" name="id_category">
-                  <option
-                    v-for="category in categories"
-                    :key="category"
-                    :value="category._id"
-                    :selected="isSelected(category._id, product.id_category)"
-                  >
-                    {{ category.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="product-category">
-                <label class="product-category-label"> Author </label>
-                <select class="edit-product-select" name="author_name">
-                  <option
-                    v-for="author in authors"
-                    :key="author"
-                    :value="author"
-                    :selected="isSelected(author, authorName)"
-                  >
-                    {{ author }}
-                  </option>
-                </select>
-              </div>
+            <div class="product-category mb-3">
+              <label class="product-category-label"> Category </label>
+              <select class="edit-product-select" name="id_category">
+                <option
+                  v-for="category in categories"
+                  :key="category"
+                  :value="category._id"
+                  :selected="isSelected(category._id, product.id_category)"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
             </div>
+            <div class="product-category">
+              <label class="product-category-label"> Author </label>
+              <select class="edit-product-select" name="author_name">
+                <option
+                  v-for="author in authors"
+                  :key="author"
+                  :value="author"
+                  :selected="isSelected(author, authorName)"
+                >
+                  {{ author }}
+                </option>
+              </select>
+            </div>
+
             <div class="mb-2">
               <input
                 type="file"

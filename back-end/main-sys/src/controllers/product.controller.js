@@ -282,6 +282,7 @@ class productController {
       const totalPages = Math.ceil(totalProducts / perPage);
       const products = await Product.find({})
         .populate("id_category")
+        .sort({ date: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);
       res.status(200).json({ products, totalPages });
@@ -311,6 +312,9 @@ class productController {
         const author = await Author.findOne({ name: req.body.author_name });
         delete req.body.author_name;
         req.body.id_author = author._id;
+        // Cộng 1 sách cho trường published_book của tác giả
+        author.published_book += 1;
+        await author.save();
         if (req.file) {
           // Upload the file to Imgur
           const imgurLink = await uploadToImgur(req.file.buffer);
@@ -334,13 +338,23 @@ class productController {
           return res.status(400).send({ message: err.message });
         }
         // Tìm id_author ứng với author_name
-        const author = await Author.findOne({ name: req.body.author_name });
+        const newAuthor = await Author.findOne({ name: req.body.author_name });
         delete req.body.author_name;
-        req.body.id_author = author._id;
+        req.body.id_author = newAuthor._id;
         // Update link ảnh nếu có
         if (req.file) {
           const imgurLink = await uploadToImgur(req.file.buffer);
           req.body.image = imgurLink;
+        }
+        // Lấy thông tin sản phẩm hiện tại
+        const curProduct = await Product.findOne({ _id: req.params.id });
+        // So sánh id tác giả cũ và tác giả mới nếu khác nhau thì cập nhật published_book lại
+        if (curProduct.id_author != req.body.id_author) {
+          const oldAuthor = await Author.findOne({ _id: curProduct.id_author });
+          if (oldAuthor.published_book > 0) oldAuthor.published_book -= 1;
+          newAuthor.published_book += 1;
+          await oldAuthor.save();
+          await newAuthor.save();
         }
         await Product.updateOne({ _id: req.params.id }, req.body);
         res.status(200).json({ msg: "Updated Product" });
@@ -352,6 +366,13 @@ class productController {
   // [POST] product/delete/:id
   deleteProduct = async (req, res, next) => {
     try {
+      // Lấy thông tin sản phẩm bị xóa
+      const removeProduct = await Product.findOne({ _id: req.params.id });
+      // Lấy thông tin tác giả, trừ số lượng published_book đi 1
+      const author = await Author.findOne({ _id: removeProduct.id_author });
+      if (author.published_book > 0) author.published_book -= 1;
+      author.save();
+      // Xóa sản phẩm đi
       await Product.deleteOne({ _id: req.params.id });
       res.status(200).json({ msg: "Deleted Product" });
     } catch (err) {

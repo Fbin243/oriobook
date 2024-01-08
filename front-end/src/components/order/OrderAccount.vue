@@ -362,7 +362,7 @@ export default {
           $(".js-prev-link").click(async function (e) {
             e.preventDefault();
             console.log("da vo 2", page);
-            page = page > 0 ? page - 1 : page;
+            page = page > 1 ? page - 1 : page;
             await requestPage(pathRef.value);
           });
 

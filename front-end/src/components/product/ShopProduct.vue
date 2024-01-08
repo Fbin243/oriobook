@@ -224,7 +224,9 @@ export default {
         queryObject.category = newCategory;
       }
       $(`.js-category-option:not(#${newCategoryID})`).prop("checked", false);
+      page = 1;
       await requestPage();
+      paginationControl();
     };
 
     const selectAuthor = async (newAuthor, newAuthorID) => {
@@ -235,14 +237,18 @@ export default {
         queryObject.author = newAuthor;
       }
       $(`.js-author-option:not(#${newAuthorID})`).prop("checked", false);
+      page = 1;
       await requestPage();
+      paginationControl();
     };
 
     const selectSorting = async (option) => {
       sort.value = option;
       toggleMenu.value = false;
       queryObject.sort = option.value;
+      page = 1;
       await requestPage();
+      paginationControl();
     };
 
     const requestPage = async () => {
@@ -252,6 +258,7 @@ export default {
         const response = await axios.get(
           `https://localhost:3000/product/shop?page=${page}&perPage=${perPage}&${params}`
         );
+        console.log(page);
         curPage.value = page;
         products.value = response.data.products;
         console.log(products.value);
@@ -268,20 +275,21 @@ export default {
         page = parseInt($(this).text());
         requestPage();
       });
+    };
 
+    $(() => {
       $(".js-prev-link").click(async function (e) {
         e.preventDefault();
-        page = page > 0 ? page - 1 : page;
+        page = page > 1 ? page - 1 : page;
         requestPage();
       });
 
       $(".js-next-link").click(async function (e) {
         e.preventDefault();
-        console.log(totalPages.value);
         page = page < totalPages.value ? page + 1 : page;
         requestPage();
       });
-    };
+    });
 
     onMounted(async () => {
       try {

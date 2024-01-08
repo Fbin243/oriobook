@@ -7,7 +7,10 @@
           <div class="row">
             <div class="col-lg-6 mb-4">
               <!-- Billing card 1-->
-              <div class="card border-start-lg border-start-primary" style="height: 100%;">
+              <div
+                class="card border-start-lg border-start-primary"
+                style="height: 100%"
+              >
                 <div class="card-body" style="padding-left: 12px">
                   <div class="small text-muted">Name</div>
                   <div class="h3">
@@ -46,7 +49,7 @@
             </div>
           </div>
           <!-- Billing history card-->
-          <div class="col-12 card mb-4" style="min-height: 630px;">
+          <div class="col-12 card mb-4" style="min-height: 630px">
             <div class="card-header" style="padding-left: 12px">
               Billing History
             </div>
@@ -75,10 +78,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      v-for="(item, index) in historyData"
-                      :key="index"
-                    >
+                    <tr v-for="(item, index) in historyData" :key="index">
                       <td>#{{ item.transID }}</td>
                       <td>{{ item.timeFormat }}</td>
                       <td
@@ -111,7 +111,7 @@
 
           <!-- Pagination -->
           <!-- :class="{ 'd-none': !accountData.length }" -->
-          <div class="col-12 mt-2" :class="{ 'd-none': !historyData.length }"> 
+          <div class="col-12 mt-2" :class="{ 'd-none': !historyData.length }">
             <nav aria-label="Page navigation example">
               <ul class="pagination d-flex justify-content-end">
                 <li class="page-item">
@@ -145,7 +145,6 @@
               </ul>
             </nav>
           </div>
-
         </div>
       </div>
     </div>
@@ -187,8 +186,6 @@
         </div>
       </div>
     </div>
-
-    
   </div>
 </template>
 
@@ -204,7 +201,7 @@ export default {
   },
   setup() {
     const accountData = ref([]);
-    const historyData = ref([])
+    const historyData = ref([]);
 
     const totalPages = ref(null);
     let page = 1;
@@ -251,7 +248,7 @@ export default {
           });
           $(".js-prev-link").click(async function (e) {
             e.preventDefault();
-            page = page > 0 ? page - 1 : page;
+            page = page > 1 ? page - 1 : page;
             await getMyWallet();
           });
           $(".js-next-link").click(async function (e) {

@@ -140,7 +140,7 @@ export default {
 
       $(".js-prev-link").click(async function (e) {
         e.preventDefault();
-        page = page > 0 ? page - 1 : page;
+        page = page > 1 ? page - 1 : page;
         requestPage();
       });
 

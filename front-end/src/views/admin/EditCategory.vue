@@ -49,6 +49,7 @@
                   style="width: fit-content"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
+                  @click="resetToEmpty"
                   ><i class="fa-solid fa-plus"></i></a
               ></label>
               <div
@@ -91,6 +92,12 @@
                     name="sub"
                     class="w-100 p-1"
                     required
+                  />
+                  <input
+                    id="product-sub-id"
+                    type="hidden"
+                    class="w-100 p-1"
+                    value="new-cate"
                   />
                 </form>
               </div>
@@ -135,20 +142,59 @@ export default {
     const isSelected = (option, productOption) => {
       return option == productOption;
     };
+    const resetToEmpty = () => {
+      $("#product-sub").val("");
+      $("#product-sub-id").val("new-cate");
+      $(".js-sub-cate.active").removeClass("active");
+    };
     const addSubCategory = () => {
       const name = $("#product-sub").val().trim();
-      sub_cate.push(name);
+      const _id = $("#product-sub-id").val();
       $("#product-sub").val("");
-      var newElement = $(
-        `<span style="border-radius: 4px" class="p-1 bg-primary me-1">${name}<i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i></span>`
-      );
-      $("#product-description").append(newElement);
-      $(".js-delete-cate").click(removeSubCategory);
+      $("#product-sub-id").val("");
+      if (_id != "new-cate") {
+        // Sửa tên sub cate trên giao diện và trong list sub_cate
+        $(".js-sub-cate.active").find(".sub-cate-title").text(name);
+        sub_cate.forEach((cate) => {
+          if (cate._id == _id) {
+            cate.name = name;
+          }
+        });
+        $(".js-sub-cate.active").removeClass("active");
+      } else {
+        sub_cate.push({
+          _id: "",
+          name: name,
+        });
+        var newElement = $(
+          `<span style="border-radius: 4px" class="p-1 bg-primary me-1">
+          <span class="js-sub-cate" data-bs-toggle="modal" 
+           data-bs-target="#exampleModal" role="button">
+            <span class="sub-cate-title">${name}</span>
+            <input type="hidden" value="">
+          </span>
+          <i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i>
+        </span>`
+        );
+        $("#product-description").append(newElement);
+        $(".js-delete-cate").click(removeSubCategory);
+        $(".js-sub-cate").click(updateSubCategory);
+      }
     };
 
-    const removeSubCategory = function () {
-      sub_cate = sub_cate.filter((item) => item !== $(this).parent().text());
+    const removeSubCategory = function (e) {
+      e.stopPropagation();
+      sub_cate = sub_cate.filter(
+        (item) => item._id !== $(this).parent().find("input").val()
+      );
       $(this).parent().remove();
+    };
+
+    const updateSubCategory = function () {
+      $("#product-sub").val($(this).find(".sub-cate-title").text().trim());
+      $("#product-sub-id").val($(this).find("input").val());
+      $(".js-sub-cate").removeClass("active");
+      $(this).addClass("active");
     };
 
     const addOrUpdateCategory = async () => {
@@ -188,19 +234,20 @@ export default {
             category.value = response.data;
             category.value.sub_category.forEach((subCate) => {
               var newElement = $(
-                `<span style="border-radius: 4px" class="p-1 bg-primary me-1">${subCate._id.name}<i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i
-                ></span>`
+                `<span style="border-radius: 4px" class="p-1 bg-primary me-1">
+                  <span class="js-sub-cate" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal" role="button">
+                    <span class="sub-cate-title">${subCate._id.name}</span>
+                    <input type="hidden" value="${subCate._id._id}">
+                  </span>
+                  <i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i>
+                  </span>`
               );
-              sub_cate.push(subCate._id.name);
+              sub_cate.push({ _id: subCate._id._id, name: subCate._id.name });
               $("#product-description").append(newElement);
             });
-            category.value.sub_category_id = category.value.sub_category.map(
-              (subCate) => {
-                subCate = subCate._id._id;
-                return subCate;
-              }
-            );
             $(".js-delete-cate").click(removeSubCategory);
+            $(".js-sub-cate").click(updateSubCategory);
           } else
             throw {
               code: 400,
@@ -218,6 +265,7 @@ export default {
       addOrUpdateCategory,
       addSubCategory,
       removeSubCategory,
+      resetToEmpty,
     };
   },
 };

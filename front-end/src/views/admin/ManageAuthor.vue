@@ -105,7 +105,6 @@
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "../../config/axios";
-import { useRoute, useRouter } from "vue-router";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 export default {
   name: "Manage",
@@ -143,7 +142,7 @@ export default {
 
       $(".js-prev-link").click(async function (e) {
         e.preventDefault();
-        page = page > 0 ? page - 1 : page;
+        page = page > 1 ? page - 1 : page;
         requestPage();
       });
 
@@ -192,14 +191,14 @@ export default {
             // Remove item khỏi giao diện
             checkboxes.forEach(async (checkbox) => {
               if (checkbox.checked) {
-                const id_product = $(checkbox).val();
+                console.log("OK", checkbox);
+                const id_author = $(checkbox).val();
                 displayLoading(".manage-product-list", -32, -32);
                 const response = await axios.delete(
-                  `https://localhost:3000/product/delete/${id_product}`
+                  `https://localhost:3000/author/delete/${id_author}`
                 );
                 checkbox.parentElement.remove();
-                // console.log(window.location);
-                // router.(window.location.pathname + "?page=2");
+                console.log(response.data);
                 removeLoading();
                 window.location.reload();
               }

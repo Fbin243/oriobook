@@ -80,6 +80,7 @@ class authorController {
       const totalAuthors = await Author.countDocuments({});
       const totalPages = Math.ceil(totalAuthors / perPage);
       const authors = await Author.find({})
+        .sort({ date: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);
       res.status(200).json({ authors, totalPages });
@@ -152,10 +153,12 @@ class authorController {
   // [POST] product/delete/:id
   deleteAuthor = async (req, res, next) => {
     try {
+      // Xóa hết tất cả sp của tác giả
+      await Product.deleteMany({ id_author: req.params.id });
       await Author.deleteOne({ _id: req.params.id });
-      res.status(200).json({ msg: "Deleted Author" });
+      res.status(200).json({ msg: "Delete author successfully!" });
     } catch (err) {
-      next(err);
+      res.status(400).json({ msg: "Delete author fail!" });
     }
   };
 }

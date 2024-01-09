@@ -235,6 +235,7 @@ class accountController {
           const quantities = Acc.cart.find(
             (_item) => _item.id_product.toString() == value._id.toString()
           ).quantity;
+
           return [...arr, { ...value._doc, quantities }];
         }
         return arr;

@@ -107,7 +107,7 @@
           v-for="product in products"
           :key="product._id"
         >
-          <HomeProductCard :product="product" />
+          <HomeProductCard :product="product" @add-cart="addCart"/>
         </div>
         <div
           class="d-flex mt-5 justify-content-center"
@@ -164,7 +164,7 @@ export default {
     HomeProductCard,
   },
   props: ["author_page"],
-  setup(props) {
+  setup(props, {emit}) {
     const products = ref([]);
     const totalPages = ref(0);
     const author_page = ref(props.author_page);
@@ -305,6 +305,11 @@ export default {
         console.error("Lỗi khi gọi API:", error);
       }
     });
+
+    const addCart = () => {
+      emit('add-cart');
+    }
+
     return {
       toggleMenu,
       sort,
@@ -320,6 +325,8 @@ export default {
       showSubCategory,
       selectCategory,
       selectAuthor,
+
+      addCart,
     };
   },
 };

@@ -8,7 +8,7 @@
     </div>
     <div class="product-section container">
       <div class="row">
-        <ShopProduct />
+        <ShopProduct @add-cart="addCart"/>
       </div>
     </div>
   </div>
@@ -23,6 +23,15 @@ export default {
     ShopProduct,
     headerShop,
   },
+  setup(props, {emit}){
+    const addCart = () => {
+      emit('add-cart')
+    }
+
+    return{
+      addCart,
+    }
+  }
 };
 </script>
 

@@ -37,7 +37,7 @@ import "vue3-toastify/dist/index.css";
 export default {
   name: "HomeProductCard",
   props: ["product"],
-  setup() {
+  setup(props, {emit}) {
     const imgHover = ref(true);
 
     async function AddProduct(id) {
@@ -47,11 +47,14 @@ export default {
           `https://localhost:3000/account/addToCart/${id}`
         );
 
+        // Emit
+        emit('add-cart');
+
         if (response.data.status == true) {
           toast.success("Wow Success!", {
             autoClose: 2000,
           });
-          window.location.reload();
+          // window.location.reload();
         }
       } catch (error) {
         // console.error("Lỗi khi gọi API", error);

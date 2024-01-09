@@ -8,13 +8,13 @@ function route(app) {
   app.post("/get-balance", middlewares.verifyToken, paymentController.getBalance)
   app.post("/adjust-balance", middlewares.verifyToken, paymentController.adjustBalance)
 
-  app.use("/", (req, res, next) => {
-    try {
-      res.send("Ok");
-    } catch (error) {
-      next(error);
-    }
-  });
+  // app.use("/", (req, res, next) => {
+  //   try {
+  //     res.send("Ok");
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // });
 
   // Hai middlewares này phải để cuối để check lỗi
   app.use((req, res, next) => {

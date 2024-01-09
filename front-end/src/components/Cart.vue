@@ -52,60 +52,64 @@
 import axios from "../config/axios";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { ref } from "vue";
+import { ref, watch, inject, onMounted } from "vue";
 
 export default {
   name: "Cart",
-
-  setup() {
+  setup(props, { emit }) {
     const cart = ref([]);
     let price = ref(0);
     let quantity;
 
-    async function minus(id) {
-      console.log(id);
+    const init = async () => {
+      let sum = 0;
+      try {
+        const response = await axios.get(
+          `https://localhost:3000/account/getCart`
+        );
+
+        cart.value = response.data;
+        cart.value.forEach((item) => {
+          sum += item.quantities * 1 * item.price * 1;
+        });
+
+        price.value = sum.toFixed(2);
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
+    };
+
+    const minus = async (id) => {
+      // console.log(id);
+
       const response = await axios.post(
         `https://localhost:3000/account/minusToCart/${id}`
       );
 
       if (response.data.status == true) {
-        try {
-          console.log("cart");
-          const response = await axios.get(
-            `https://localhost:3000/account/getCart`
-          );
-          cart.value = response.data;
-          console.log(response.data);
-        } catch (error) {
-          console.error("Lỗi khi gọi API", error);
-        }
-        price.value = await Price();
+        await init();
+        // Emit
+        emit("add-cart");
       }
-    }
+    };
 
-    async function plus(id) {
-      console.log(id);
+    const plus = async (id) => {
+      // console.log(id);
+
       const response = await axios.post(
         `https://localhost:3000/account/addToCart/${id}`
       );
 
       if (response.data.status == true) {
-        try {
-          console.log("cart");
-          const response = await axios.get(
-            `https://localhost:3000/account/getCart`
-          );
-          cart.value = response.data;
-          console.log(response.data);
-        } catch (error) {
-          console.error("Lỗi khi gọi API", error);
-        }
-        price.value = await Price();
+        await init();
+        // Emit
+        emit("add-cart");
       }
-    }
+    };
 
-    async function RemoveProduct(id) {
-      console.log(id);
+    const RemoveProduct = async (id) => {
+      // console.log(id);
+
       const response = await axios.delete(
         `https://localhost:3000/account/removeFromCart/${id}`
       );
@@ -115,36 +119,11 @@ export default {
           autoClose: 1000,
         });
 
-        try {
-          console.log("cart");
-          const response = await axios.get(
-            `https://localhost:3000/account/getCart`
-          );
-          cart.value = response.data;
-          console.log(response.data);
-        } catch (error) {
-          console.error("Lỗi khi gọi API", error);
-        }
-        price.value = await Price();
+        await init();
+        // Emit
+        emit("add-cart");
       }
-    }
-
-    async function Price() {
-      let sum = 0;
-      try {
-        console.log("cart");
-        const response = await axios.get(
-          `https://localhost:3000/account/getCart`
-        );
-        cart.value = response.data;
-        cart.value.forEach((item) => {
-          sum += item.quantities * 1 * item.price * 1;
-        });
-      } catch (error) {
-        console.error("Lỗi khi gọi API", error);
-      }
-      return sum.toFixed(2);
-    }
+    };
 
     $(".cart-btn").click(async function (e) {
       e.preventDefault();
@@ -160,8 +139,7 @@ export default {
         $(".cart").removeClass("enable");
       });
 
-      price.value = await Price();
-      console.log("total", price.value);
+      await init();
     });
 
     return {

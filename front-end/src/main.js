@@ -1,5 +1,10 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
+import mitt from "mitt";
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+const eventBus = mitt();
+
+app.provide("eventBus", eventBus);
+app.use(router).mount("#app");

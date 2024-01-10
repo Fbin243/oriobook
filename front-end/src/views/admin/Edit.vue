@@ -94,6 +94,7 @@
                 name="image"
                 class="form-control"
                 id="formFile"
+                accept="image/*"
               />
             </div>
           </div>

@@ -1,35 +1,33 @@
 require("dotenv").config();
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const jwt = require("jsonwebtoken");
 const Payment = require("../models/payment.model");
 
 class accountController {
   // [POST] account/generate-token
-  generatePaymentToken = async (req, res, next) => {
-    try {
-      let email = req.body.email;
+  // generatePaymentToken = async (req, res, next) => {
+  //   try {
+  //     let email = req.body.email;
 
-      let paymentObj = await Payment.findOne({ email })
-      if(!paymentObj){
-        return res.json({result: 'fail', msg: `Payment account doesn't exist`});
-      }
+  //     let paymentObj = await Payment.findOne({ email })
+  //     if(!paymentObj){
+  //       return res.json({result: 'fail', msg: `Payment account doesn't exist`});
+  //     }
 
-      let paymentToken = this.generateAccess(email);
+  //     // let paymentToken = this.generateAccess(email);
 
-      res.json({result: 'success', paymentToken});
-    } catch (error) {
-      next(error);
-    }
-  };
+  //     // res.json({result: 'success', paymentToken});
+  //     res.json({result: 'success'});
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   addAcc = async (req, res, next) => {
     try {
       let email = req.body.email;
 
-      let paymentObj = await Payment.findOne({ email })
-      if(paymentObj){
-        return res.json({result: 'fail', msg: 'Payment account exists'});
+      let paymentObj = await Payment.findOne({ email });
+      if (paymentObj) {
+        return res.json({ result: "fail", msg: "Payment account exists" });
       }
 
       let newPayment = new Payment({
@@ -37,11 +35,12 @@ class accountController {
         balance: 0,
       });
 
-      await newPayment.save()
+      await newPayment.save();
 
-      let paymentToken = this.generateAccess(email);
+      // let paymentToken = this.generateAccess(email);
 
-      res.json({result: 'success', paymentToken});
+      // res.json({ result: "success", paymentToken });
+      res.json({ result: "success" });
     } catch (error) {
       next(error);
     }
@@ -49,11 +48,12 @@ class accountController {
 
   getBalance = async (req, res, next) => {
     try {
-      let email = req.user.email;
+      console.log("GET BALANCE: ", req.body);
+      let email = req.body.email;
 
-      let paymentObj = await Payment.findOne({ email })
+      let paymentObj = await Payment.findOne({ email });
 
-      res.json({result:'success', balance: paymentObj.balance})
+      res.json({ result: "success", balance: paymentObj.balance });
     } catch (error) {
       next(error);
     }
@@ -63,34 +63,34 @@ class accountController {
     try {
       let email = req.user.email;
       let changeBal = req.body.changeBal;
-      let operation = changeBal[0]
-      let money = parseFloat(changeBal.slice(1))
+      let operation = changeBal[0];
+      let money = parseFloat(changeBal.slice(1));
 
-      let paymentObj = await Payment.findOne({ email })
+      let paymentObj = await Payment.findOne({ email });
 
-      if(operation === '+'){
+      if (operation === "+") {
         paymentObj.balance += money;
-      }else if(operation === '-'){
+      } else if (operation === "-") {
         paymentObj.balance -= money;
       }
 
       await paymentObj.save();
 
-      res.json({result:'success'})
+      res.json({ result: "success" });
     } catch (error) {
       next(error);
     }
   };
 
-  generateAccess = (email) => {
-    return jwt.sign(
-      {
-        email,
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: `${process.env.ACCESS_TOKEN_LIFE}` }
-    );
-  };
+  // generateAccess = (email) => {
+  //   return jwt.sign(
+  //     {
+  //       email,
+  //     },
+  //     process.env.ACCESS_TOKEN_SECRET,
+  //     { expiresIn: `${process.env.ACCESS_TOKEN_LIFE}` }
+  //   );
+  // };
 }
 
 module.exports = new accountController();

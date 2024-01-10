@@ -17,14 +17,19 @@
     line-height: 25.5px;
     padding: 10px 0px;
     text-align: left;
+    &.active {
+      a {
+        color: var(--primary-color);
+      }
+    }
     a {
       color: black;
       font-family: Jost;
       font-size: 16px;
       font-weight: 500;
-      &:active {
-        color: blue;
-      }
+      // &:active {
+      //   color: blue;
+      // }
     }
   }
 

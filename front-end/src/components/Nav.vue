@@ -2,7 +2,9 @@
   <nav class="nav container">
     <ul class="nav-list">
       <li class="nav-item">
-        <router-link to="/" class="nav-link"><span>Home</span></router-link>
+        <router-link to="/" class="nav-link active"
+          ><span>Home</span></router-link
+        >
       </li>
       <li class="nav-item">
         <router-link to="/products" class="nav-link"
@@ -29,23 +31,21 @@
           <li class="nav-item">
             <router-link to="/contact" class="nav-link">Contact</router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/faq" class="nav-link">FAQ</router-link>
-          </li>
         </ul>
       </li>
     </ul>
     <ul class="nav-list">
       <li class="nav-item">
-        <router-link to="/" class="nav-link">
+        <router-link to="/faq" class="nav-link">
           <i class="fa-regular fa-circle-question me-2"></i>
-          <span>Can we help you?</span>
+          <span>Frequently Asked Question?</span>
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link :to="login_path" class="nav-link" @mouseover="Click"
-          ><span>Account</span></router-link
-        >
+        <router-link :to="login_path" class="nav-link" @mouseover="Click">
+          <i class="fa-regular fa-user me-2"></i>
+          <span>Account</span>
+        </router-link>
       </li>
     </ul>
   </nav>

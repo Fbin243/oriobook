@@ -35,25 +35,6 @@
               {{ error.$message }}
             </span>
           </div>
-          <div class="rememberme-lost">
-            <div class="rememberme">
-              <input
-                name="rememberme"
-                type="checkbox"
-                id="rememberme"
-                value="forever"
-              />
-
-              <label for="rememberme" class="inline">Remember me</label>
-            </div>
-
-            <div class="lost-password">
-              <a
-                href="https://wpbingosite.com/wordpress/oriobook/my-account/lost-password/"
-                >Lost your password?</a
-              >
-            </div>
-          </div>
           <div class="button-login">
             <button
               type="button"
@@ -77,7 +58,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import axios from "../config/axios";
+import axios from "axios";
 import { useRouter } from "vue-router";
 
 export default {
@@ -102,13 +83,14 @@ export default {
 
     async function SaveData() {
       const result = await v$.value.$validate();
+      console.log("CHECK");
       if (result) {
+        console.log("OKE");
         const response = await axios.post(
-          `https://localhost:3000/account/signIn/`,
-          {
-            ...formData,
-          }
+          `https://localhost:3000/account/signIn`,
+          formData
         );
+        console.log("OKE");
 
         console.log(response.data.accessToken);
         localStorage.setItem("token", response.data.accessToken);

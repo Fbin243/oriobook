@@ -6,11 +6,14 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const axios = require("axios");
 const https = require("https");
+const jwt = require("jsonwebtoken");
 const { mongooseToObject, formatDate } = require("../utils/mongoose");
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
 const instance = axios.create({
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: false,
-  }),
+  httpsAgent: httpsAgent,
 });
 
 class accountController {
@@ -54,8 +57,9 @@ class accountController {
           email: req.body.email,
         };
 
+        // Khi đăng kí tk bên ht chính thì ht phụ cx khởi tạo tk thanh toán tương ứng
         const response = await instance.post(
-          `https://localhost:${process.env.AUX_PORT}/add-acc`,
+          `https://localhost:4000/add-acc`,
           dataSend,
           {
             headers: {
@@ -86,7 +90,8 @@ class accountController {
 
   signIn = async (req, res, next) => {
     try {
-      // console.log(req.body);
+      console.log(req.body);
+      console.log("ĐÃ lên ");
       // Kiem tra xem email da duoc dung de tao tai khoan hay chua
       let Acc = await account.findOne({ email: req.body.email });
       if (Acc == null) {
@@ -116,31 +121,31 @@ class accountController {
               accessTokenLife
             );
 
-            let dataSend = {
-              email: req.body.email,
-            };
-    
-            const response = await instance.post(
-              `https://localhost:${process.env.AUX_PORT}/generate-token`,
-              dataSend,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-    
-            let data = response.data;
-            let resultStatus = data.result;
-    
-            if (resultStatus !== "success") {
-              return next(data.msg);
-            }
+            // let dataSend = {
+            //   email: req.body.email,
+            // };
 
-            let paymentToken = data.paymentToken
+            // const response = await instance.post(
+            //   `https://localhost:${process.env.AUX_PORT}/generate-token`,
+            //   dataSend,
+            //   {
+            //     headers: {
+            //       "Content-Type": "application/json",
+            //     },
+            //   }
+            // );
 
-            Acc.token = paymentToken;
-            await Acc.save();
+            // let data = response.data;
+            // let resultStatus = data.result;
+
+            // if (resultStatus !== "success") {
+            //   return next(data.msg);
+            // }
+
+            // let paymentToken = data.paymentToken;
+
+            // Acc.token = paymentToken;
+            // await Acc.save();
 
             return res.send({ status: true, accessToken });
           }
@@ -359,13 +364,13 @@ class accountController {
   logout = async (req, res, next) => {
     try {
       let email = req.headers.email;
-      let _account = await account.findOne({ email })
+      let _account = await account.findOne({ email });
 
-      _account.token = ''
+      // _account.token = "";
 
-      await _account.save()
+      // await _account.save();
 
-      res.json({ result: 'success' });
+      res.json({ result: "success" });
     } catch (error) {
       next(error);
     }
@@ -407,25 +412,38 @@ class accountController {
       const totalProducts = _account.history.length;
       const totalPages = Math.ceil(totalProducts / perPage);
 
+      // Tạo 1 token để có thể verify đúng hệ thống kết nối
+      const paymentToken = jwt.sign(
+        {
+          iss: process.env.MAIN_SYSTEM_NAME,
+        },
+        process.env.AUX_ACCESS_TOKEN_SECRET,
+        { expiresIn: `${process.env.AUX_ACCESS_TOKEN_LIFE}` }
+      );
+
       let dataSend = {
         email,
-        paymentToken: _account.token
       };
+
+      console.log("TOKEN được tạo: ", paymentToken, email);
 
       const response = await instance.post(
         `https://localhost:${process.env.AUX_PORT}/get-balance`,
         dataSend,
         {
           headers: {
+            Authorization: `Bearer ${paymentToken}`,
             "Content-Type": "application/json",
           },
         }
       );
 
+      console.log("RES trả về", response.data);
+
       let data = response.data;
       let result = data.result;
 
-      if(result === 'fail'){
+      if (result === "fail") {
         return next(data.msg);
       }
       let balance = data.balance;
@@ -438,7 +456,7 @@ class accountController {
       _accountNew.history.sort((a, b) => {
         const dateA = new Date(a.time);
         const dateB = new Date(b.time);
-      
+
         return dateB - dateA;
       });
 

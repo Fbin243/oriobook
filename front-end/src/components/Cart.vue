@@ -206,7 +206,6 @@ export default {
       //   };
       // });
       $(".cart-close-btn").click(async () => {
-        console.log("close");
         $(".cart").removeClass("enable");
         try {
           const response = await axios.get(
@@ -219,7 +218,6 @@ export default {
           this.eventBus.emit("reload", newquantity.value);
         } catch (error) {
           console.error("Lỗi khi gọi API", error);
-          window.location.href = "https://localhost:8080/login";
         }
       });
     },

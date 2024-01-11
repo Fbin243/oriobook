@@ -187,6 +187,7 @@ class accountController {
 
   addToCart = async (req, res, next) => {
     console.log(req.params.id);
+    const quantity = parseFloat(req.params.quantity);
     const Acc = await account.findOne({ email: req.headers.email });
     let newcart = Acc.cart;
     const pro = await newcart.find((obj) =>
@@ -196,7 +197,7 @@ class accountController {
       console.log(pro);
       const updatequantitycart = newcart.reduce((arr, obj) => {
         if (obj.id_product.toString() == pro.id_product.toString()) {
-          return [...arr, { ...obj._doc, quantity: pro.quantity + 1 }];
+          return [...arr, { ...obj._doc, quantity: pro.quantity + quantity }];
         }
         return [...arr, obj._doc];
       }, []);
@@ -205,7 +206,7 @@ class accountController {
     } else {
       newcart.push({
         id_product: req.params.id,
-        quantity: 1,
+        quantity: quantity,
       });
     }
 

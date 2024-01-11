@@ -26,15 +26,31 @@
         </p>
         <div class="d-flex pt-5">
           <div class="product-quantity row gx-0 me-2">
-            <button class="col">
+            <button
+              class="col"
+              @click="changeQuantity('minus')"
+              :disabled="isDisabled(quantity, 0)"
+            >
               <i class="fa-light fa-minus"></i>
             </button>
-            <input type="text" class="col text-center" value="5" />
-            <button class="col">
+            <input
+              type="text"
+              class="col text-center"
+              disabled
+              :value="quantity"
+            />
+            <button
+              class="col"
+              @click="changeQuantity('plus')"
+              :disabled="isDisabled(quantity, product.stock)"
+            >
               <i class="fa-light fa-plus"></i>
             </button>
           </div>
-          <button class="product-add-cart-btn">
+          <button
+            class="product-add-cart-btn"
+            @click="AddProduct(product._id, quantity)"
+          >
             <span class="text-uppercase">Add to cart</span>
           </button>
         </div>
@@ -91,8 +107,11 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeMount } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "../config/axios";
+
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 import HomeProductCard from "@/components/product/HomeProductCard.vue";
 import tabProduct from "@/components/tabProduct.vue";
@@ -101,6 +120,7 @@ import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 
 export default {
   name: "ProductDetails",
+  inject: ["eventBus"],
   components: {
     HomeProductCard,
     tabProduct,
@@ -111,6 +131,7 @@ export default {
     const product = ref({});
     const relatedProducts = ref({});
     const nameAuthor = ref("");
+    let quantity = ref(1);
 
     onMounted(async () => {
       try {
@@ -130,11 +151,54 @@ export default {
       }
     });
 
+    const isDisabled = computed(() => {
+      return (quantities, temp) => {
+        return quantities === temp;
+      };
+    });
+
+    function changeQuantity(temp) {
+      if (temp === "plus") {
+        quantity.value += 1;
+      } else if (temp === "minus") {
+        quantity.value -= 1;
+      }
+    }
+
     return {
       product,
       nameAuthor,
       relatedProducts,
+      quantity,
+      isDisabled,
+      changeQuantity,
     };
+  },
+  methods: {
+    async AddProduct(id, quantity) {
+      try {
+        console.log(id);
+        const response = await axios.post(
+          `https://localhost:3000/account/addToCart/${id}/${quantity}`
+        );
+        if (response.data.status == true) {
+          const response1 = await axios.get(
+            `https://localhost:3000/account/getCart`
+          );
+          let newquantity = ref(0);
+          for (let i = 0; i < response1.data.length; i++) {
+            newquantity.value += response1.data[i].quantities;
+          }
+          this.eventBus.emit("reload", newquantity.value);
+          toast.success("Wow Success!", {
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+        // window.location.href = "https://localhost:8080/login";
+      }
+    },
   },
 };
 </script>

@@ -20,7 +20,7 @@ router.post(
   accountController.updateAccountPassword
 );
 router.get("/getCart", isAuth, accountController.getCart);
-router.post("/addToCart/:id", isAuth, accountController.addToCart);
+router.post("/addToCart/:id/:quantity", isAuth, accountController.addToCart);
 router.post("/minusToCart/:id", isAuth, accountController.minusToCart);
 router.delete("/removeFromCart/:id", isAuth, accountController.removeFromCart);
 

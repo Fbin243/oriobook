@@ -113,6 +113,7 @@ const routes = [
     path: "/checkout",
     name: "Checkout",
     component: Checkout,
+    meta: { requiresUser: true },
   },
 
   // ADMIN ROUTES

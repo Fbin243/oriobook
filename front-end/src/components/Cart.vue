@@ -26,9 +26,14 @@
                   type="text"
                   class="col text-center"
                   id="quantity"
+                  disabled
                   :value="element.quantities"
                 />
-                <button class="col" @click="plus(element._id)">
+                <button
+                  class="col"
+                  @click="plus(element._id)"
+                  :disabled="isDisabled(element.quantities, element.stock)"
+                >
                   <i class="fa-light fa-plus"></i>
                 </button>
               </div>
@@ -48,11 +53,15 @@
       </template>
 
       <template v-if="cart.length === 0">
-        <h2
-          class="cart-heading text-uppercase text-center d-flex justify-content-center text-danger"
-        >
-          Cart is empty !!!
-        </h2>
+        <div class="empty">
+          <span>No products in the cart.</span>
+          <a
+            class="go-shop underline-animation"
+            href="https://localhost:8080/products"
+          >
+            Shop all products
+          </a>
+        </div>
       </template>
     </div>
   </section>
@@ -62,7 +71,7 @@
 import axios from "../config/axios";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export default {
   name: "Cart",
@@ -72,6 +81,12 @@ export default {
   setup() {
     const cart = ref([]);
     let price = ref(0);
+
+    const isDisabled = computed(() => {
+      return (quantities, stock) => {
+        return quantities === stock;
+      };
+    });
 
     async function update() {
       try {
@@ -100,8 +115,9 @@ export default {
 
     async function plus(id) {
       console.log(id);
+      const quantity = 1;
       const response = await axios.post(
-        `https://localhost:3000/account/addToCart/${id}`
+        `https://localhost:3000/account/addToCart/${id}/${quantity}`
       );
 
       if (response.data.status == true) {
@@ -165,6 +181,7 @@ export default {
       plus,
       cart,
       price,
+      isDisabled,
     };
   },
 

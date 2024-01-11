@@ -35,25 +35,6 @@
               {{ error.$message }}
             </span>
           </div>
-          <div class="rememberme-lost">
-            <div class="rememberme">
-              <input
-                name="rememberme"
-                type="checkbox"
-                id="rememberme"
-                value="forever"
-              />
-
-              <label for="rememberme" class="inline">Remember me</label>
-            </div>
-
-            <div class="lost-password">
-              <a
-                href="https://wpbingosite.com/wordpress/oriobook/my-account/lost-password/"
-                >Lost your password?</a
-              >
-            </div>
-          </div>
           <div class="button-login">
             <button
               type="button"
@@ -63,6 +44,17 @@
               @click="SaveData"
             >
               Login
+            </button>
+          </div>
+
+          <div class="button-login">
+            <button
+              type="button"
+              class="woocommerce-Button button"
+              name="google"
+              value="Goole"
+            >
+              Login with Google
             </button>
           </div>
         </form>

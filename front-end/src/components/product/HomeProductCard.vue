@@ -40,8 +40,9 @@ export default {
     async AddProduct(id) {
       try {
         console.log(id);
+        const quantity = 1;
         const response = await axios.post(
-          `https://localhost:3000/account/addToCart/${id}`
+          `https://localhost:3000/account/addToCart/${id}/${quantity}`
         );
         if (response.data.status == true) {
           const response1 = await axios.get(

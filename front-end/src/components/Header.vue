@@ -64,6 +64,7 @@ export default {
   },
   setup() {
     let cart = ref(0);
+    const searchQuery = ref("");
 
     const handleSearchForm = () => {
       $(".search").css({
@@ -103,7 +104,7 @@ export default {
     return {
       handleSearchForm,
       cart,
-      totalQuant,
+      // totalQuant,
       searchQuery,
     };
   },

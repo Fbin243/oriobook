@@ -48,11 +48,9 @@
       </template>
 
       <template v-if="cart.length === 0">
-        <h2
-          class="cart-heading text-uppercase text-center d-flex justify-content-center text-danger"
-        >
-          Cart is empty !!!
-        </h2>
+        <h5 class="cart-heading text-center d-flex justify-content-center mt-5">
+          No products in the cart.
+        </h5>
       </template>
     </div>
   </section>
@@ -72,6 +70,23 @@ export default {
   setup() {
     const cart = ref([]);
     let price = ref(0);
+
+    async function Price() {
+      let sum = 0;
+      try {
+        console.log("cart");
+        const response = await axios.get(
+          "https://localhost:3000/account/getCart"
+        );
+        cart.value = response.data;
+        cart.value.forEach((item) => {
+          sum += item.quantities * 1 * item.price * 1;
+        });
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
+      return sum.toFixed(2);
+    }
 
     async function update() {
       try {
@@ -137,7 +152,7 @@ export default {
       );
 
       if (response.data.status == true) {
-        toast.success("Wow Success!", {
+        toast.success("Removed Product!", {
           autoClose: 1000,
         });
 
@@ -206,6 +221,7 @@ export default {
       //   };
       // });
       $(".cart-close-btn").click(async () => {
+        console.log("close");
         $(".cart").removeClass("enable");
         try {
           const response = await axios.get(
@@ -218,6 +234,7 @@ export default {
           this.eventBus.emit("reload", newquantity.value);
         } catch (error) {
           console.error("Lỗi khi gọi API", error);
+          window.location.href = "https://localhost:8080/login";
         }
       });
     },

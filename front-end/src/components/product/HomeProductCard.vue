@@ -54,7 +54,7 @@ export default {
             newquantity.value += response1.data[i].quantities;
           }
           this.eventBus.emit("reload", newquantity.value);
-          toast.success("Wow Success!", {
+          toast.success("Added Product!", {
             autoClose: 1000,
           });
         }

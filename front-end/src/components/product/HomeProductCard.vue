@@ -30,40 +30,45 @@
 <script>
 import { ref } from "vue";
 import axios from "../../config/axios";
-
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 export default {
   name: "HomeProductCard",
+  inject: ["eventBus"],
   props: ["product"],
-  setup(props, {emit}) {
-    const imgHover = ref(true);
 
-    async function AddProduct(id) {
+  methods: {
+    async AddProduct(id) {
       try {
         console.log(id);
         const response = await axios.post(
           `https://localhost:3000/account/addToCart/${id}`
         );
-
-        // Emit
-        emit('add-cart');
-
         if (response.data.status == true) {
+          const response1 = await axios.get(
+            `https://localhost:3000/account/getCart`
+          );
+          let newquantity = ref(0);
+          for (let i = 0; i < response1.data.length; i++) {
+            newquantity.value += response1.data[i].quantities;
+          }
+          this.eventBus.emit("reload", newquantity.value);
           toast.success("Wow Success!", {
-            autoClose: 2000,
+            autoClose: 1000,
           });
-          // window.location.reload();
         }
       } catch (error) {
-        // console.error("Lỗi khi gọi API", error);
+        console.error("Lỗi khi gọi API", error);
         window.location.href = "https://localhost:8080/login";
       }
-    }
+    },
+  },
+
+  setup() {
+    const imgHover = ref(true);
 
     return {
-      AddProduct,
       imgHover,
     };
   },

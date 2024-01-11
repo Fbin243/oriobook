@@ -11,29 +11,47 @@ import Nav from "@/components/Nav.vue";
 import Header from "@/components/Header.vue";
 import Cart from "@/components/Cart.vue";
 import Footer from "@/components/Footer";
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import { ref, provide, onMounted } from "vue";
+import axios from "./config/axios";
+
+const quantity = ref(0); // Khai báo biến quantity là biến toàn cục
 
 export default {
   name: "App",
+
   components: {
     Nav,
     Header,
     Cart,
     Footer,
   },
-  setup(props, { emit }) {
-    const addCartBool = ref(false);
 
-    const addCart = () => {
-      addCartBool.value = !addCartBool.value;
-    };
+  inject: ["eventBus"],
 
-    return {
-      addCart,
-      addCartBool,
-    };
+  setup() {
+    onMounted(async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:3000/account/getCart`
+        );
+
+        for (let i = 0; i < response.data.length; i++) {
+          quantity.value += response.data[i].quantities;
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
+    });
+
+    provide("quantity", quantity);
+  },
+
+  mounted() {
+    this.eventBus.on("reload", (newquantity) => {
+      console.log("newquantity " + newquantity);
+      // Cập nhật giá trị mới cho quantity
+      quantity.value = newquantity;
+    });
   },
 };
 </script>

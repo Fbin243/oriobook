@@ -6,44 +6,54 @@
       >
         Cart
       </h3>
-      <i class="fa-regular fa-xmark cart-close-btn"></i>
-      <ul class="product-list">
-        <li class="product-item row" v-for="element in cart" :key="element">
-          <router-link to="/" class="col-3">
-            <img :src="element.image" alt="" class="product-img" />
-          </router-link>
-          <div class="col-9">
-            <router-link to="/" class="product-title">{{
-              element.name
-            }}</router-link>
-            <p class="product-price">{{ element.price }}$</p>
-            <div class="product-quantity row gx-0">
-              <button class="col" @click="minus(element._id)">
-                <i class="fa-light fa-minus"></i>
-              </button>
-              <input
-                type="text"
-                class="col text-center"
-                id="quantity"
-                :value="element.quantities"
-              />
-              <button class="col" @click="plus(element._id)">
-                <i class="fa-light fa-plus"></i>
-              </button>
+      <button class="fa-regular fa-xmark cart-close-btn"></button>
+      <template v-if="cart.length !== 0">
+        <ul class="product-list">
+          <li class="product-item row" v-for="element in cart" :key="element">
+            <router-link to="/" class="col-3">
+              <img :src="element.image" alt="" class="product-img" />
+            </router-link>
+            <div class="col-9">
+              <router-link to="/" class="product-title">{{
+                element.name
+              }}</router-link>
+              <p class="product-price">{{ element.price }}$</p>
+              <div class="product-quantity row gx-0">
+                <button class="col" @click="minus(element._id)">
+                  <i class="fa-light fa-minus"></i>
+                </button>
+                <input
+                  type="text"
+                  class="col text-center"
+                  id="quantity"
+                  :value="element.quantities"
+                />
+                <button class="col" @click="plus(element._id)">
+                  <i class="fa-light fa-plus"></i>
+                </button>
+              </div>
+              <button
+                class="fa-regular fa-trash-can product-remove-btn"
+                @click="RemoveProduct(element._id)"
+              ></button>
             </div>
-            <button
-              class="fa-regular fa-trash-can product-remove-btn"
-              @click="RemoveProduct(element._id)"
-            ></button>
-          </div>
-        </li>
-      </ul>
-      <p class="product-total d-flex justify-content-between">
-        <span>Subtotal: </span><span>{{ price }}$</span>
-      </p>
-      <router-link to="/checkout" class="cart-checkout-btn text-uppercase">
-        <span>Check out</span>
-      </router-link>
+          </li>
+        </ul>
+        <p class="product-total d-flex justify-content-between">
+          <span>Subtotal: </span><span>{{ price }}$</span>
+        </p>
+        <router-link to="/checkout" class="cart-checkout-btn text-uppercase">
+          <span>Check out</span>
+        </router-link>
+      </template>
+
+      <template v-if="cart.length === 0">
+        <h2
+          class="cart-heading text-uppercase text-center d-flex justify-content-center text-danger"
+        >
+          Cart is empty !!!
+        </h2>
+      </template>
     </div>
   </section>
 </template>
@@ -56,10 +66,26 @@ import { ref, watch, inject, onMounted } from "vue";
 
 export default {
   name: "Cart",
-  setup(props, { emit }) {
+
+  inject: ["eventBus"],
+
+  setup() {
     const cart = ref([]);
     let price = ref(0);
-    let quantity;
+
+    async function update() {
+      try {
+        console.log("cart");
+        const response = await axios.get(
+          `https://localhost:3000/account/getCart`
+        );
+        cart.value = response.data;
+        console.log(response.data);
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
+      price.value = await Price();
+    }
 
     const init = async () => {
       let sum = 0;
@@ -87,9 +113,7 @@ export default {
       );
 
       if (response.data.status == true) {
-        await init();
-        // Emit
-        emit("add-cart");
+        await update();
       }
     };
 
@@ -101,9 +125,7 @@ export default {
       );
 
       if (response.data.status == true) {
-        await init();
-        // Emit
-        emit("add-cart");
+        await update();
       }
     };
 
@@ -119,14 +141,13 @@ export default {
           autoClose: 1000,
         });
 
-        await init();
-        // Emit
-        emit("add-cart");
+        await update();
       }
     };
 
     $(".cart-btn").click(async function (e) {
       e.preventDefault();
+
       $(".cart").addClass("enable");
       $(".cart-slider").click(function (e) {
         e.stopPropagation();
@@ -139,7 +160,7 @@ export default {
         $(".cart").removeClass("enable");
       });
 
-      await init();
+      price.value = await Price();
     });
 
     return {
@@ -148,7 +169,6 @@ export default {
       plus,
       cart,
       price,
-      quantity,
     };
   },
 
@@ -185,9 +205,22 @@ export default {
       //     cart,
       //   };
       // });
-      $(".cart-close-btn").click(() => {
+      $(".cart-close-btn").click(async () => {
+        console.log("close");
         $(".cart").removeClass("enable");
-        window.location.reload();
+        try {
+          const response = await axios.get(
+            `https://localhost:3000/account/getCart`
+          );
+          let newquantity = ref(0);
+          for (let i = 0; i < response.data.length; i++) {
+            newquantity.value += response.data[i].quantities;
+          }
+          this.eventBus.emit("reload", newquantity.value);
+        } catch (error) {
+          console.error("Lỗi khi gọi API", error);
+          window.location.href = "https://localhost:8080/login";
+        }
       });
     },
   },

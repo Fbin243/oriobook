@@ -23,9 +23,13 @@ class categoryController {
       const perPage = isNaN(req.query.perPage)
         ? 4
         : Math.max(1, parseInt(req.query.perPage));
-      const totalCategories = await Category.countDocuments({ isMain: true });
+      const searchOption = req.query.search
+        ? { name: { $regex: new RegExp(req.query.search, "i") } }
+        : {};
+      searchOption.isMain = true;
+      const totalCategories = await Category.countDocuments(searchOption);
       const totalPages = Math.ceil(totalCategories / perPage);
-      let categories = await Category.find({ isMain: true })
+      let categories = await Category.find(searchOption)
         .sort({ date: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage)

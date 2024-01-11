@@ -313,9 +313,12 @@ class productController {
       const perPage = isNaN(req.query.perPage)
         ? 6
         : Math.max(1, parseInt(req.query.perPage));
-      const totalProducts = await Product.countDocuments({});
+      const searchOption = req.query.search
+        ? { name: { $regex: new RegExp(req.query.search, "i") } }
+        : {};
+      const totalProducts = await Product.countDocuments(searchOption);
       const totalPages = Math.ceil(totalProducts / perPage);
-      const products = await Product.find({})
+      const products = await Product.find(searchOption)
         .populate("id_category")
         .sort({ date: -1 })
         .skip((page - 1) * perPage)

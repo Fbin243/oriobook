@@ -73,6 +73,9 @@
               </div>
             </div>
           </template>
+          <p :class="reviews.length == 0 ? '' : 'd-none'" class="mt-5">
+            There isn't any reviews yet!
+          </p>
         </div>
         <nav
           aria-label="Page navigation example"
@@ -119,6 +122,7 @@
 import { ref, onMounted, watch } from "vue";
 import { convertDateFormat } from "@/helpers/helperFunctions";
 import Pagination from "@/components/Pagination.vue";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 
 export default {
   name: "tabProduct",
@@ -137,7 +141,6 @@ export default {
       async (newProduct) => {
         product.value = newProduct;
         totalPages.value = Math.ceil(product.value.reviews.length / perPage);
-        console.log("Watch: ", product.value, totalPages.value);
         await requestPage();
         paginationControl();
       }
@@ -147,7 +150,6 @@ export default {
       $(".js-number-link-review").click(async function (e) {
         e.preventDefault();
         page = parseInt($(this).text());
-        console.log(product);
         await requestPage();
       });
 
@@ -172,7 +174,6 @@ export default {
           point,
           Math.min(point + perPage, product.value.reviews.length)
         );
-        console.log(reviews.value);
         curPage.value = page;
         removeLoading();
       } catch (error) {

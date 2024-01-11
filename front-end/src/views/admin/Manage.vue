@@ -3,9 +3,21 @@
     <section class="row">
       <Sidebar></Sidebar>
       <section class="manage-product col-9">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between mb-3">
           <p class="manage-product-breadcrumb">Products</p>
-          <a class="btn text-uppercase ms-auto" href="/admin/edit" role="button"
+          <div class="manage-product-search-bar">
+            <label for="search-input-id" class="search-label">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </label>
+            <input
+              type="email"
+              class="search-input"
+              id="search-input-id"
+              placeholder="Search for product"
+              :value="searchQuery"
+            />
+          </div>
+          <a class="btn text-uppercase" href="/admin/edit" role="button"
             >Add product</a
           >
         </div>
@@ -91,13 +103,25 @@ export default {
     let page = 1;
     const curPage = ref(page);
     const perPage = 7;
+    const searchQuery = ref("");
+
+    const handleSearchQuery = () => {
+      $(`#search-input-id`).keypress(async function (event) {
+        var keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode == "13") {
+          searchQuery.value = $("#search-input-id").val();
+          await requestPage();
+        }
+      });
+    };
 
     const requestPage = async () => {
       try {
         displayLoading(".manage-product-list", -32, -32);
-        const response = await axios.get(
-          `https://localhost:3000/product/manage?page=${page}&perPage=${perPage}`
-        );
+        let url = `https://localhost:3000/product/manage?page=${page}&perPage=${perPage}`;
+        if (searchQuery) url += `&search=${searchQuery.value}`;
+        const response = await axios.get(url);
+        console.log(url);
         curPage.value = page;
         products.value = response.data.products;
         products.value.forEach((product) => {
@@ -105,6 +129,9 @@ export default {
         });
         totalPages.value = response.data.totalPages;
         removeLoading();
+        $(() => {
+          handleDelete();
+        });
       } catch (error) {
         console.error(error);
       }
@@ -131,65 +158,67 @@ export default {
       });
     };
 
-    const init = function () {
-      $(() => {
-        const deleteBtn = document.querySelector(
-          ".manage-product .js-delete-btn"
+    const handleDelete = () => {
+      const deleteBtn = document.querySelector(
+        ".manage-product .js-delete-btn"
+      );
+
+      if (totalPages === 0) {
+        manageProductContent.classList.add("d-none");
+        deleteBtn.classList.add("d-none");
+        manageProductScreen.insertAdjacentHTML(
+          "beforeend",
+          `<p class="text-center" style="font-size: 2rem; margin-top: 2rem;">You haven't add any items! </p>`
+        );
+      } else {
+        const mainCheckbox = document.querySelector(
+          ".manage-product-titles .manage-product-checkbox"
+        );
+        const checkboxes = document.querySelectorAll(
+          ".manage-product-item .manage-product-checkbox"
         );
 
-        if (totalPages === 0) {
-          manageProductContent.classList.add("d-none");
-          deleteBtn.classList.add("d-none");
-          manageProductScreen.insertAdjacentHTML(
-            "beforeend",
-            `<p class="text-center" style="font-size: 2rem; margin-top: 2rem;">You haven't add any products! </p>`
-          );
-        } else {
-          const mainCheckbox = document.querySelector(
-            ".manage-product-titles .manage-product-checkbox"
-          );
-          const checkboxes = document.querySelectorAll(
-            ".manage-product-item .manage-product-checkbox"
-          );
-          const searchInputManageProduct = document.querySelector(
-            ".manage-product .search-input"
-          );
-
-          mainCheckbox.addEventListener("click", () => {
-            if (mainCheckbox.checked)
-              checkboxes.forEach((checkbox) => {
-                checkbox.checked = true;
-              });
-            else
-              checkboxes.forEach((checkbox) => {
-                checkbox.checked = false;
-              });
-          });
-
-          deleteBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            // Remove item khỏi giao diện
-            checkboxes.forEach(async (checkbox) => {
-              if (checkbox.checked) {
-                const id_product = $(checkbox).val();
-                displayLoading(".manage-product-list", -32, -32);
-                const response = await axios.delete(
-                  `https://localhost:3000/product/delete/${id_product}`
-                );
-                checkbox.parentElement.remove();
-                removeLoading();
-                window.location.reload();
-              }
-              mainCheckbox.checked = false;
+        mainCheckbox.addEventListener("click", () => {
+          if (mainCheckbox.checked)
+            checkboxes.forEach((checkbox) => {
+              checkbox.checked = true;
             });
-          });
+          else
+            checkboxes.forEach((checkbox) => {
+              checkbox.checked = false;
+            });
+        });
 
-          paginationControl();
-        }
+        deleteBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          // Remove item khỏi giao diện
+          checkboxes.forEach(async (checkbox) => {
+            if (checkbox.checked) {
+              const id_product = $(checkbox).val();
+              displayLoading(".manage-product-list", -32, -32);
+              const response = await axios.delete(
+                `https://localhost:3000/category/delete/${id_product}`
+              );
+              checkbox.parentElement.remove();
+              removeLoading();
+              window.location.reload();
+            }
+            mainCheckbox.checked = false;
+          });
+        });
+      }
+    };
+
+    const init = function () {
+      $(() => {
+        handleDelete();
+        paginationControl();
       });
     };
+
     onMounted(async () => {
       try {
+        handleSearchQuery();
         await requestPage();
         init();
       } catch (error) {
@@ -200,6 +229,7 @@ export default {
       products,
       totalPages,
       curPage,
+      searchQuery,
     };
   },
 };

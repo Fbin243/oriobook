@@ -2,6 +2,7 @@
   background-color: #fff;
   .manage-product-breadcrumb {
     font-size: 30px;
+    margin-bottom: 0;
   }
 
   .manage-product-content {
@@ -12,12 +13,14 @@
 
   .search-input,
   .manage-product-select {
-    width: 100%;
-    height: 60px;
-    padding-left: 50px;
-    color: #aaa;
-    border: 1px solid var(--border-color);
-    border-right: none;
+    min-width: 500px;
+    height: 40px;
+    padding-left: 40px;
+    color: #242424;
+    background-color: rgb(250, 222, 169);
+    // border: 1px solid var(--border-color);
+    border: none;
+    border-radius: 20px;
   }
 
   .manage-product-select-container {
@@ -51,7 +54,7 @@
     top: 50%;
     left: 14px;
     transform: translateY(-50%);
-    color: #aaa;
+    color: #999;
     cursor: pointer;
   }
 

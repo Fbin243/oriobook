@@ -228,6 +228,7 @@ export default {
 
     const requestPage = async () => {
       try {
+        scrollToTop(440);
         displayLoading(".js-product-wrapper", -32);
         const params = new URLSearchParams(queryObject).toString();
         const response = await axios.get(

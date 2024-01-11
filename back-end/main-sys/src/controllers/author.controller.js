@@ -97,9 +97,12 @@ class authorController {
       const perPage = isNaN(req.query.perPage)
         ? 4
         : Math.max(1, parseInt(req.query.perPage));
-      const totalAuthors = await Author.countDocuments({});
+      const searchOption = req.query.search
+        ? { name: { $regex: new RegExp(req.query.search, "i") } }
+        : {};
+      const totalAuthors = await Author.countDocuments(searchOption);
       const totalPages = Math.ceil(totalAuthors / perPage);
-      const authors = await Author.find({})
+      const authors = await Author.find(searchOption)
         .sort({ date: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);

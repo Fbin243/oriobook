@@ -72,16 +72,19 @@
       </div>
     </div>
     <tabProduct :product="product" />
-    <div class="row mt-5 gx-2">
+    <div class="row mt-5 gx-2 justify-content-center">
       <div class="col-12 title">Related Products</div>
 
-      <div
-        class="col-3 mt-3 m-20"
-        v-for="relatedProduct in relatedProducts"
-        :key="relatedProduct._id"
-      >
-        <HomeProductCard :product="relatedProduct" />
+      <div class="js-related-product row">
+        <div
+          class="col-4 mt-3 m-20"
+          v-for="relatedProduct in relatedProducts"
+          :key="relatedProduct._id"
+        >
+          <HomeProductCard :product="relatedProduct" />
+        </div>
       </div>
+      <Pagination :totalPages="totalPages" :curPage="curPage" />
     </div>
   </div>
 </template>
@@ -94,12 +97,14 @@ import HomeProductCard from "@/components/product/HomeProductCard.vue";
 import tabProduct from "@/components/tabProduct.vue";
 import { useRoute } from "vue-router";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   name: "ProductDetails",
   components: {
     HomeProductCard,
     tabProduct,
+    Pagination,
   },
   setup() {
     const route = useRoute();
@@ -109,19 +114,54 @@ export default {
     const nameAuthor = ref("");
     const productRating = ref(0);
 
-    onMounted(async () => {
+    const totalPages = ref(0);
+    let page = 1;
+    const curPage = ref(page);
+    const perPage = 5;
+
+    const paginationControl = () => {
+      $(".js-number-link").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        requestPage();
+      });
+
+      $(".js-prev-link").click(async function (e) {
+        e.preventDefault();
+        page = page > 1 ? page - 1 : page;
+        requestPage();
+      });
+
+      $(".js-next-link").click(async function (e) {
+        e.preventDefault();
+        page = page < totalPages.value ? page + 1 : page;
+        requestPage();
+      });
+    };
+
+    const requestPage = async () => {
       try {
-        displayLoading(".product-details");
+        displayLoading(".js-related-product", -50, 0);
         const response = await axios.get(
-          `https://localhost:3000/product/detail/${id.value}`
+          `https://localhost:3000/product/detail/${id.value}?page=${page}&perPage=${perPage}`
         );
-        removeLoading();
         product.value = response.data.product;
         productRating.value = response.data.productRating;
-        console.log(product.value);
         product.value.category_name = product.value.id_category.name;
         relatedProducts.value = response.data.relatedProducts;
         nameAuthor.value = product.value.id_author.name;
+        curPage.value = page;
+        totalPages.value = response.data.totalPages;
+        removeLoading();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    onMounted(async () => {
+      try {
+        await requestPage();
+        paginationControl();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -132,6 +172,8 @@ export default {
       nameAuthor,
       relatedProducts,
       productRating,
+      curPage,
+      totalPages,
     };
   },
 };

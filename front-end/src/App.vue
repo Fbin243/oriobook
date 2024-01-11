@@ -1,8 +1,8 @@
 <template>
   <Nav />
-  <Header :addCartBool="addCartBool"/>
-  <Cart @add-cart="addCart"/>
-  <router-view @add-cart="addCart"/>
+  <Header :addCartBool="addCartBool" />
+  <Cart @add-cart="addCart" />
+  <router-view @add-cart="addCart" />
   <Footer />
 </template>
 
@@ -23,19 +23,18 @@ export default {
     Cart,
     Footer,
   },
-  setup(props, {emit}){
-    const addCartBool = ref(false)
+  setup(props, { emit }) {
+    const addCartBool = ref(false);
 
     const addCart = () => {
       addCartBool.value = !addCartBool.value;
-      console.log('co add 1', addCartBool.value);
-    }
+    };
 
-    return{
+    return {
       addCart,
       addCartBool,
-    }
-  }
+    };
+  },
 };
 </script>
 

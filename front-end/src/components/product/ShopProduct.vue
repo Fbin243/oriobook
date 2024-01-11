@@ -107,7 +107,7 @@
           v-for="product in products"
           :key="product._id"
         >
-          <HomeProductCard :product="product" @add-cart="addCart"/>
+          <HomeProductCard :product="product" @add-cart="addCart" />
         </div>
         <div
           class="d-flex mt-5 justify-content-center"
@@ -119,34 +119,7 @@
         </div>
       </div>
     </div>
-    <nav
-      aria-label="Page navigation example"
-      :class="totalPages == 0 ? 'd-none' : ''"
-      class="mt-1"
-    >
-      <ul class="pagination justify-content-end me-3">
-        <li class="page-item">
-          <a class="page-link js-prev-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">Previous</span>
-          </a>
-        </li>
-        <li v-for="page in totalPages" class="page-item">
-          <a
-            class="page-link js-number-link"
-            :class="{ active: page == curPage }"
-            href="#"
-            >{{ page }}</a
-          >
-        </li>
-        <li class="page-item">
-          <a class="page-link js-next-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Next</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <Pagination :totalPages="totalPages" :curPage="curPage" />
   </div>
 </template>
 
@@ -157,14 +130,16 @@ import axios from "axios";
 import HomeProductCard from "./HomeProductCard.vue";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 import { scrollToTop } from "@/helpers/helperFunctions";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   name: "ShopProduct",
   components: {
     HomeProductCard,
+    Pagination,
   },
   props: ["author_page"],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const products = ref([]);
     const totalPages = ref(0);
     const author_page = ref(props.author_page);
@@ -297,7 +272,7 @@ export default {
         categories.value = response.data;
 
         // Lấy tất cả tác giả
-        response = await axios.get(`https://localhost:3000/author/list`);
+        response = await axios.get(`https://localhost:3000/author/all`);
         authors.value = response.data;
         await requestPage();
         paginationControl();
@@ -307,8 +282,8 @@ export default {
     });
 
     const addCart = () => {
-      emit('add-cart');
-    }
+      emit("add-cart");
+    };
 
     return {
       toggleMenu,
@@ -325,7 +300,6 @@ export default {
       showSubCategory,
       selectCategory,
       selectAuthor,
-
       addCart,
     };
   },

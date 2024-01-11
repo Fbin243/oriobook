@@ -60,11 +60,16 @@
         </div>
       </div>
 
-      <div class="row gx-2 gy-3 row-products">
-        <div class="col m-20" v-for="product in products" :key="product">
-          <HomeProductCard :product="product" />
+      <div
+        class="row gx-2 gy-3 row-products js-container-author-product justify-content-center"
+      >
+        <div class="row">
+          <div class="col m-20" v-for="product in products" :key="product">
+            <HomeProductCard :product="product" />
+          </div>
         </div>
       </div>
+      <Pagination :totalPages="totalPages" :curPage="curPage" />
     </div>
   </div>
 </template>
@@ -76,29 +81,65 @@ import HomeProductCard from "../product/HomeProductCard.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   name: "Author",
   components: {
     ShopProduct,
     HomeProductCard,
+    Pagination,
   },
   props: ["author"],
   setup() {
     const route = useRoute();
-
     const products = ref([]);
     const id = ref(route.params.id);
+    const totalPages = ref(0);
+    let page = 1;
+    const curPage = ref(page);
+    const perPage = 5;
+
+    const paginationControl = () => {
+      $(".js-number-link").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        requestPage();
+      });
+
+      $(".js-prev-link").click(async function (e) {
+        e.preventDefault();
+        page = page > 1 ? page - 1 : page;
+        requestPage();
+      });
+
+      $(".js-next-link").click(async function (e) {
+        e.preventDefault();
+        page = page < totalPages.value ? page + 1 : page;
+        requestPage();
+      });
+    };
+
+    const requestPage = async () => {
+      try {
+        displayLoading(".js-container-author-product", -40, 0);
+        const response = await axios.get(
+          `https://localhost:3000/product/productAuthor/${id.value}?page=${page}&perPage=${perPage}`
+        );
+        curPage.value = page;
+        products.value = response.data.products;
+        totalPages.value = response.data.totalPages;
+        removeLoading();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     onMounted(async () => {
       try {
-        console.log(id.value);
-        const response = await axios.get(
-          `https://localhost:3000/product/productAuthor/${id.value}`
-        );
-        products.value = response.data.products; // Access 'products' property
-        console.log(products);
-        // Ensure products is an array
+        await requestPage();
+        paginationControl();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
@@ -106,6 +147,8 @@ export default {
     return {
       products,
       convertDateFormat: convertDateFormat,
+      curPage,
+      totalPages,
     };
   },
 };

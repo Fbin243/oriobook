@@ -68,6 +68,7 @@ export default {
   setup(props, { emit }) {
     const cart = ref([]);
     const totalQuant = ref(0);
+    const searchQuery = ref("");
 
     watch(
       () => props.addCartBool,
@@ -113,23 +114,20 @@ export default {
 
     onMounted(async () => {
       await init();
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchParam = urlParams.get("search");
+      console.log(searchParam);
+      if (searchParam) {
+        searchQuery.value = searchParam;
+      }
     });
 
     return {
       handleSearchForm,
       cart,
       totalQuant,
+      searchQuery,
     };
-  },
-  mounted() {
-    // Check if the search parameter exists in the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchParam = urlParams.get("search");
-
-    // Set searchQuery based on the URL parameter
-    if (searchParam) {
-      this.searchQuery = searchParam;
-    }
   },
 };
 </script>

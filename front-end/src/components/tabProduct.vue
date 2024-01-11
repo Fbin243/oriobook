@@ -41,7 +41,7 @@
       </div>
       <div id="content2" class="tab-pane fade">
         <div class="testimonial-box-container">
-          <template v-for="review in product.reviews">
+          <template v-for="review in reviews">
             <div class="testimonial-box">
               <!--top------------------------->
               <div class="box-top">
@@ -74,19 +74,117 @@
             </div>
           </template>
         </div>
+        <nav
+          aria-label="Page navigation example"
+          :class="totalPages == 0 ? 'd-none' : ''"
+          class="mt-1"
+        >
+          <ul class="pagination justify-content-end me-3">
+            <li class="page-item">
+              <a
+                href="#"
+                class="page-link js-prev-link-review"
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <li v-for="page in totalPages" class="page-item">
+              <a
+                href="#"
+                class="page-link js-number-link-review"
+                :class="{ active: page == curPage }"
+                >{{ page }}</a
+              >
+            </li>
+            <li class="page-item">
+              <a
+                href="#"
+                class="page-link js-next-link-review"
+                aria-label="Next"
+              >
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ref, onMounted, watch } from "vue";
 import { convertDateFormat } from "@/helpers/helperFunctions";
+import Pagination from "@/components/Pagination.vue";
+
 export default {
   name: "tabProduct",
+  components: { Pagination },
   props: ["product"],
-  setup() {
+  setup(props) {
+    let page = 1;
+    const curPage = ref(page);
+    const perPage = 6;
+    const product = ref(props.product);
+    const reviews = ref([]);
+    const totalPages = ref(0);
+
+    watch(
+      () => props.product,
+      async (newProduct) => {
+        product.value = newProduct;
+        totalPages.value = Math.ceil(product.value.reviews.length / perPage);
+        console.log("Watch: ", product.value, totalPages.value);
+        await requestPage();
+        paginationControl();
+      }
+    );
+
+    const paginationControl = () => {
+      $(".js-number-link-review").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        console.log(product);
+        await requestPage();
+      });
+
+      $(".js-prev-link-review").click(async function (e) {
+        e.preventDefault();
+        page = page > 1 ? page - 1 : page;
+        await requestPage();
+      });
+
+      $(".js-next-link-review").click(async function (e) {
+        e.preventDefault();
+        page = page < totalPages.value ? page + 1 : page;
+        await requestPage();
+      });
+    };
+
+    const requestPage = async () => {
+      try {
+        console.log("OK: ", product.value, reviews.value);
+        const point = (page - 1) * perPage;
+        reviews.value = product.value.reviews.slice(
+          point,
+          Math.min(point + perPage, product.value.reviews.length)
+        );
+        console.log(reviews.value);
+        curPage.value = page;
+        removeLoading();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     return {
       convertDateFormat: convertDateFormat,
+      curPage,
+      totalPages,
+      reviews,
     };
   },
 };

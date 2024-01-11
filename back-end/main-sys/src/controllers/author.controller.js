@@ -13,11 +13,31 @@ class authorController {
     }
   };
 
-  // [GET] getAuthorList
+  // [GET] author/list
   getAuthorList = async (req, res, next) => {
     try {
-      const authorList = await Author.find();
-      res.status(200).json(authorList);
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 6
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalAuthors = await Author.countDocuments({});
+      const totalPages = Math.ceil(totalAuthors / perPage);
+      const authors = await Author.find()
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res.status(200).json({ authors, totalPages });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // [GET] author/all
+  getAllAuthors = async (req, res, next) => {
+    try {
+      const authors = await Author.find();
+      res.status(200).json(authors);
     } catch (error) {
       next(error);
     }
@@ -61,7 +81,7 @@ class authorController {
         (a, b) => b.avgRating - a.avgRating
       );
 
-      res.status(200).json(sortedAuthors);
+      res.status(200).json(sortedAuthors.slice(0, 6));
     } catch (error) {
       next(error);
     }

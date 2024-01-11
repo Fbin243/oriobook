@@ -4,7 +4,11 @@
       <Sidebar></Sidebar>
       <div class="col-9 order-section">
         <p class="title">Orders</p>
-        <div class="div" style="min-height: 600px" v-if="orderData.length">
+        <div
+          class="js-order-container"
+          style="min-height: 600px"
+          v-if="orderData.length"
+        >
           <table class="order-table table-bordered">
             <thead>
               <tr>
@@ -29,14 +33,12 @@
                   {{ order.id_account ? order.id_account.lastName : "" }}
                   {{ order.id_account ? order.id_account.firstName : "" }}
                 </td>
-
                 <td class="email">
                   {{ order.id_account ? order.id_account.email : "" }}
                 </td>
                 <td class="phone-number">
                   {{ order.id_account ? order.id_account.phone : "" }}
                 </td>
-
                 <td class="status">
                   <span
                     class="badge bg-primary text-uppercase"
@@ -54,7 +56,6 @@
                     >{{ order.status }}</span
                   >
                 </td>
-
                 <td class="details">
                   <!-- <i class="fa-thin fa-ellipsis-stroke"></i> -->
                   <div class="evaluate-btn">
@@ -133,7 +134,6 @@
                                     </div>
                                   </div>
                                 </td>
-
                                 <td
                                   class="product-category"
                                   data-title="Category"
@@ -148,7 +148,6 @@
                                     </p>
                                   </div>
                                 </td>
-
                                 <td
                                   class="product-quantity"
                                   data-title="Quantity"
@@ -159,7 +158,6 @@
                                     </p>
                                   </div>
                                 </td>
-
                                 <td
                                   class="product-subtotal"
                                   data-title="Subtotal"
@@ -181,20 +179,17 @@
                               </tr>
                             </tbody>
                           </table>
-
                           <p
                             class="text-primary mb-0"
                             style="text-align: left; padding-left: 20px"
                           >
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>
-
                           <p
                             id="error-approval"
                             class="text-danger mb-0"
                             v-if="formStatus === 'Pending'"
                           ></p>
-
                           <div
                             class="order-btn-section"
                             v-if="formStatus === 'Pending'"
@@ -215,7 +210,6 @@
                         </div>
                       </div>
                     </div>
-
                     <button
                       type="button"
                       class="btn btn-submit"
@@ -238,40 +232,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="col-12 mt-2" :class="{ 'd-none': !orderData.length }">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination d-flex justify-content-end">
-              <li class="page-item">
-                <a
-                  class="page-link js-prev-link"
-                  href="#"
-                  aria-label="Previous"
-                >
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li
-                v-for="(page, index) in totalPages"
-                class="page-item"
-                :key="index"
-              >
-                <a
-                  class="page-link js-number-link"
-                  :class="{ active: page == curPage }"
-                  href="#"
-                  >{{ page }}</a
-                >
-              </li>
-              <li class="page-item">
-                <a class="page-link js-next-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <Pagination :totalPages="totalPages" :curPage="curPage" />
       </div>
     </div>
   </div>
@@ -284,11 +245,13 @@ import axios from "../../config/axios";
 
 import Sidebar from "@/components/account/SideBar";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   name: "Order",
   components: {
     Sidebar,
+    Pagination,
   },
   setup(props, { emit }) {
     const orderData = ref([]);
@@ -347,13 +310,14 @@ export default {
     };
 
     const requestPage = async () => {
+      displayLoading(".js-order-container", -48, 0);
       const response = await axios.get(
         `https://localhost:3000/order/manage-order?page=${page}&perPage=${perPage}`
       );
       curPage.value = page;
       orderData.value = response.data.orders;
-      // orderData.value = []
       totalPages.value = response.data.totalPages;
+      removeLoading();
     };
     const init = function () {
       $(() => {

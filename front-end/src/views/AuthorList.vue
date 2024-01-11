@@ -4,7 +4,10 @@
       <h1 class="title-heading">List Athors</h1>
     </div>
 
-    <Authors :author="author" />
+    <Authors :author="authors" />
+    <div class="container mt-0 justify-content-end">
+      <Pagination :totalPages="totalPages" :curPage="curPage" />
+    </div>
   </div>
 </template>
 
@@ -12,31 +15,69 @@
 import Authors from "@/components/author/Authors.vue";
 import { ref, onMounted } from "vue";
 import axios from "../config/axios";
-
-import { useRoute } from "vue-router";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   components: {
     Authors,
+    Pagination,
   },
   setup() {
-    const route = useRoute();
-    const id = ref(route.params.id);
-    const author = ref({});
+    const authors = ref([]);
+    const totalPages = ref(0);
+    let page = 1;
+    const curPage = ref(page);
+    const perPage = 8;
+
+    const paginationControl = () => {
+      $(".js-number-link").click(async function (e) {
+        e.preventDefault();
+        page = parseInt($(this).text());
+        requestPage();
+      });
+
+      $(".js-prev-link").click(async function (e) {
+        e.preventDefault();
+        page = page > 1 ? page - 1 : page;
+        requestPage();
+      });
+
+      $(".js-next-link").click(async function (e) {
+        e.preventDefault();
+        page = page < totalPages.value ? page + 1 : page;
+        requestPage();
+      });
+    };
+
+    const requestPage = async () => {
+      try {
+        displayLoading(".js-author-container", -64, 0);
+        const response = await axios.get(
+          `https://localhost:3000/author/list?page=${page}&perPage=${perPage}`
+        );
+        curPage.value = page;
+        authors.value = response.data.authors;
+        totalPages.value = response.data.totalPages;
+        removeLoading();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     onMounted(async () => {
       try {
-        const response = await axios.get(`https://localhost:3000/author/list`);
-        // console.log(response.data);
-        author.value = response.data;
-        console.log(author.value);
+        await requestPage();
+        paginationControl();
       } catch (error) {
         console.error("Lỗi khi gọi API:", error);
       }
     });
 
     return {
-      author,
+      totalPages,
+      curPage,
+      authors,
     };
   },
 };

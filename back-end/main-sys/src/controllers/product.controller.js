@@ -184,11 +184,33 @@ class productController {
         productRating = (sum / product.reviews.length).toFixed(1);
       // Cắt bớt revỉew list
       product.reviews = product.reviews.reverse().slice(0, 6);
-      const relatedProducts = await Product.find({
-        id_category: product.id_category._id,
+
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 6
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({
+        $or: [
+          { id_category: product.id_category._id },
+          { id_author: product.id_author._id },
+        ],
         _id: { $ne: product._id },
       });
-      res.status(200).json({ product, relatedProducts, productRating });
+      const totalPages = Math.ceil(totalProducts / perPage);
+      const relatedProducts = await Product.find({
+        $or: [
+          { id_category: product.id_category._id },
+          { id_author: product.id_author._id },
+        ],
+        _id: { $ne: product._id },
+      })
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+      res
+        .status(200)
+        .json({ product, relatedProducts, productRating, totalPages });
     } catch (error) {
       next(error);
     }
@@ -196,9 +218,22 @@ class productController {
   // [GET] product/productAuthor/:id
   productAuthor = async (req, res, next) => {
     try {
+      const page = isNaN(req.query.page)
+        ? 1
+        : Math.max(1, parseInt(req.query.page));
+      const perPage = isNaN(req.query.perPage)
+        ? 6
+        : Math.max(1, parseInt(req.query.perPage));
+      const totalProducts = await Product.countDocuments({
+        id_author: req.params.id,
+      });
+      const totalPages = Math.ceil(totalProducts / perPage);
+
       const products = await Product.find({ id_author: req.params.id })
         .populate("id_author")
-        .populate("reviews.id_account");
+        .populate("reviews.id_account")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
 
       if (!products || products.length === 0) {
         return res
@@ -213,7 +248,7 @@ class productController {
         id_author: { $ne: req.params.id },
       });
 
-      res.status(200).json({ products, author, relatedProducts });
+      res.status(200).json({ products, author, relatedProducts, totalPages });
     } catch (error) {
       next(error);
     }

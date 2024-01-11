@@ -7,6 +7,7 @@ const isAdmin = adminMiddleware.isAdmin;
 router.get("/detail/:id", authorController.getDetail);
 router.get("/list", authorController.getAuthorList);
 router.get("/getAuthorListTopRated", authorController.getAuthorListTopRated);
+router.get("/all", authorController.getAllAuthors);
 
 // **************** ADMIN **********************
 router.get("/manage", isAdmin, authorController.getManageAuthor);

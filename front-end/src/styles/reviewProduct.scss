@@ -30,6 +30,8 @@ a {
   justify-content: center;
   width: 100%;
   flex-wrap: wrap;
+  min-height: 480px;
+  align-items: flex-start;
 }
 
 .testimonial-box {

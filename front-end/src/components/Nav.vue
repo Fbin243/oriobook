@@ -2,9 +2,7 @@
   <nav class="nav container">
     <ul class="nav-list">
       <li class="nav-item">
-        <router-link to="/" class="nav-link active"
-          ><span>Home</span></router-link
-        >
+        <router-link to="/" class="nav-link"><span>Home</span></router-link>
       </li>
       <li class="nav-item">
         <router-link to="/products" class="nav-link"

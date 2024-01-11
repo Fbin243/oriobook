@@ -8,8 +8,8 @@
       you're looking for easier to read.
     </h1>
 
-    <div class="search-container d-flex">
-      <div class="select-menu text-uppercase">
+    <form class="search-container d-flex">
+      <!-- <div class="select-menu text-uppercase">
         <div class="select-btn">
           <i class="fa-solid fa-grid-2"></i>
           <span class="sBtn-text">All category</span>
@@ -56,12 +56,18 @@
             <span class="option-text">Julia Quinn</span>
           </li>
         </ul>
-      </div>
+      </div> -->
+      <input
+        class="form-control me-2 search-input"
+        type="search"
+        placeholder="Enter book's name ..."
+        aria-label="Search"
+      />
       <button class="search-btn" @click="submitSearch">
         <i class="fa-regular fa-magnifying-glass"></i>
         <span class="text-uppercase">find book</span>
       </button>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -92,24 +98,19 @@ export default {
     },
 
     submitSearch() {
-      // Gather selected options
-      const selectedCategory = document.querySelector(
-        ".select-menu:nth-child(1) .sBtn-text"
-      ).innerText;
-      const selectedAuthor = document.querySelector(
-        ".select-menu:nth-child(2) .sBtn-text"
-      ).innerText;
-
-      console.log("Selected Category:", selectedCategory);
-      console.log("Selected Author:", selectedAuthor);
-
-      this.$router.push({
-        name: "Shop",
-        query: {
-          category: selectedCategory,
-          author: selectedAuthor,
-        },
-      });
+      const searchQuery = $(".search-input").val();
+      console.log(searchQuery);
+      this.$router
+        .push({
+          name: "Shop",
+          query: {
+            search: searchQuery,
+          },
+        })
+        .then(() => {
+          // Reload the current route
+          this.$router.go();
+        });
     },
   },
 };

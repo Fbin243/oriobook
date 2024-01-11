@@ -195,7 +195,7 @@ export default {
           }
         }
         // Lấy tất cả author
-        response = await axios.get(`https://localhost:3000/author/list`);
+        response = await axios.get(`https://localhost:3000/author/all`);
         authors.value = response.data;
         authors.value = authors.value.map((item) => item.name);
 

@@ -67,34 +67,7 @@
           <a class="btn text-uppercase js-delete-btn" href="#" role="button"
             >Delete</a
           >
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <a
-                  class="page-link js-prev-link"
-                  href="#"
-                  aria-label="Previous"
-                >
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li v-for="page in totalPages" class="page-item">
-                <a
-                  class="page-link js-number-link"
-                  :class="{ active: page == curPage }"
-                  href="#"
-                  >{{ page }}</a
-                >
-              </li>
-              <li class="page-item">
-                <a class="page-link js-next-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <Pagination :totalPages="totalPages" :curPage="curPage" />
         </div>
       </section>
     </section>
@@ -106,10 +79,12 @@ import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
 import axios from "../../config/axios";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
+import Pagination from "@/components/Pagination.vue";
 export default {
   name: "Manage",
   components: {
     Sidebar,
+    Pagination,
   },
   setup() {
     const authors = ref([]);

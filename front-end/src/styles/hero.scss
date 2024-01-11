@@ -2,6 +2,18 @@
   background: url("@/assets/img/header-background.png") center;
   min-height: 1180px;
   padding-top: 220px;
+
+  .search-input {
+    border: none;
+    border-radius: 0;
+    width: 80%;
+    padding-left: 30px;
+    font-size: 20px;
+    &::placeholder {
+      font-size: 20px;
+      color: #939393 !important;
+    }
+  }
 }
 
 .sub-heading {

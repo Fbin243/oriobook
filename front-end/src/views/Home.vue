@@ -1,7 +1,7 @@
 <template>
   <Hero />
   <featureRow />
-  <Category />
+  <!-- <Category /> -->
   <Deal_TopRated />
   <HomeProduct :topRatedProducts="topRatedProducts" :bestSeller="bestSeller" />
   <HomeBanner />

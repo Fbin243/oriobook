@@ -77,21 +77,20 @@ class orderController {
 
       let _account = await Account.findOne({ email });
 
-      let dataSend = {
-        paymentToken: _account.token,
-      };
+      let dataSend = {};
 
       const response = await instance.post(
         `https://localhost:${process.env.AUX_PORT}/get-balance`,
         dataSend,
         {
           headers: {
+            Authorization: `Bearer ${_account.token}`,
             "Content-Type": "application/json",
           },
         }
       );
       let data = response.data;
-      let balance = data.balance
+      let balance = data.balance;
 
       if (data.result !== "success") {
         return res.json({ result: "fail", msg: "Fail to get balance" });
@@ -121,7 +120,6 @@ class orderController {
 
       // Adjust balance
       let dataSend2 = {
-        paymentToken: _account.token,
         changeBal: `-${total}`,
       };
 
@@ -130,6 +128,7 @@ class orderController {
         dataSend2,
         {
           headers: {
+            Authorization: `Bearer ${_account.token}`,
             "Content-Type": "application/json",
           },
         }

@@ -57,9 +57,9 @@ class accountController {
           email: req.body.email,
         };
 
-        // Khi đăng kí tk bên ht chính thì ht phụ cx khởi tạo tk thanh toán tương ứng
+        // Khi đăng kí tk bên ht chính thì gửi request để tạo tk bên ht phụ kèm xin token
         const response = await instance.post(
-          `https://localhost:4000/add-acc`,
+          `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
           dataSend,
           {
             headers: {
@@ -121,31 +121,32 @@ class accountController {
               accessTokenLife
             );
 
-            // let dataSend = {
-            //   email: req.body.email,
-            // };
+            let dataSend = {
+              email: req.body.email,
+            };
 
-            // const response = await instance.post(
-            //   `https://localhost:${process.env.AUX_PORT}/generate-token`,
-            //   dataSend,
-            //   {
-            //     headers: {
-            //       "Content-Type": "application/json",
-            //     },
-            //   }
-            // );
+            // Khi đăng nhập tài khoản thì xin lại bên ht phụ một token mới
+            const response = await instance.post(
+              `https://localhost:${process.env.AUX_PORT}/generate-token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+              dataSend,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
 
-            // let data = response.data;
-            // let resultStatus = data.result;
+            let data = response.data;
+            let resultStatus = data.result;
 
-            // if (resultStatus !== "success") {
-            //   return next(data.msg);
-            // }
+            if (resultStatus !== "success") {
+              return next(data.msg);
+            }
 
-            // let paymentToken = data.paymentToken;
+            let paymentToken = data.paymentToken;
 
-            // Acc.token = paymentToken;
-            // await Acc.save();
+            Acc.token = paymentToken;
+            await Acc.save();
 
             return res.send({ status: true, accessToken });
           }
@@ -367,35 +368,16 @@ class accountController {
       let email = req.headers.email;
       let _account = await account.findOne({ email });
 
-      // _account.token = "";
+      // Khi logout thì set token thành rỗng
+      _account.token = "";
 
-      // await _account.save();
+      await _account.save();
 
       res.json({ result: "success" });
     } catch (error) {
       next(error);
     }
   };
-
-  // testHistory = async (req, res, next) => {
-  //   try {
-  //     let email = req.body.email;
-  //     let _account = await account.findOne({ email });
-
-  //     let newHis = {
-  //       action: "Received",
-  //       changeBalance: "+222.4",
-  //       atTimeBalance: 433.5,
-  //     };
-
-  //     _account.history.push(newHis);
-  //     _account.save();
-
-  //     res.send({ status: true });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
 
   // [GET] account/my-wallet
   getMyWallet = async (req, res, next) => {
@@ -413,33 +395,20 @@ class accountController {
       const totalProducts = _account.history.length;
       const totalPages = Math.ceil(totalProducts / perPage);
 
-      // Tạo 1 token để có thể verify đúng hệ thống kết nối
-      const paymentToken = jwt.sign(
-        {
-          iss: process.env.MAIN_SYSTEM_NAME,
-        },
-        process.env.AUX_ACCESS_TOKEN_SECRET,
-        { expiresIn: `${process.env.AUX_ACCESS_TOKEN_LIFE}` }
-      );
+      // Dữ liệu gửi đi
+      let dataSend = {};
 
-      let dataSend = {
-        email,
-      };
-
-      console.log("TOKEN được tạo: ", paymentToken, email);
-
+      // Muốn lấy thông tin ví thì dùng token đã xin được lúc đăng kí hoặc đăng nhập để gửi lên ht phụ
       const response = await instance.post(
         `https://localhost:${process.env.AUX_PORT}/get-balance`,
         dataSend,
         {
           headers: {
-            Authorization: `Bearer ${paymentToken}`,
+            Authorization: `Bearer ${_account.token}`,
             "Content-Type": "application/json",
           },
         }
       );
-
-      console.log("RES trả về", response.data);
 
       let data = response.data;
       let result = data.result;

@@ -53,11 +53,6 @@
       </template>
 
       <template v-if="cart.length === 0">
-        <<<<<<< HEAD
-        <h5 class="cart-heading text-center d-flex justify-content-center mt-5">
-          No products in the cart.
-        </h5>
-        =======
         <div class="empty">
           <span>No products in the cart.</span>
           <a
@@ -67,7 +62,6 @@
             Shop all products
           </a>
         </div>
-        >>>>>>> origin/Hanh-task02
       </template>
     </div>
   </section>

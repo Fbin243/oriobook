@@ -26,9 +26,14 @@
                   type="text"
                   class="col text-center"
                   id="quantity"
+                  disabled
                   :value="element.quantities"
                 />
-                <button class="col" @click="plus(element._id)">
+                <button
+                  class="col"
+                  @click="plus(element._id)"
+                  :disabled="isDisabled(element.quantities, element.stock)"
+                >
                   <i class="fa-light fa-plus"></i>
                 </button>
               </div>
@@ -48,9 +53,21 @@
       </template>
 
       <template v-if="cart.length === 0">
+        <<<<<<< HEAD
         <h5 class="cart-heading text-center d-flex justify-content-center mt-5">
           No products in the cart.
         </h5>
+        =======
+        <div class="empty">
+          <span>No products in the cart.</span>
+          <a
+            class="go-shop underline-animation"
+            href="https://localhost:8080/products"
+          >
+            Shop all products
+          </a>
+        </div>
+        >>>>>>> origin/Hanh-task02
       </template>
     </div>
   </section>
@@ -60,7 +77,7 @@
 import axios from "../config/axios";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { ref, watch, inject, onMounted } from "vue";
+import { ref, computed } from "vue";
 
 export default {
   name: "Cart",
@@ -87,6 +104,11 @@ export default {
       }
       return sum.toFixed(2);
     }
+    const isDisabled = computed(() => {
+      return (quantities, stock) => {
+        return quantities === stock;
+      };
+    });
 
     async function update() {
       try {
@@ -132,17 +154,17 @@ export default {
       }
     };
 
-    const plus = async (id) => {
-      // console.log(id);
-
+    async function plus(id) {
+      console.log(id);
+      const quantity = 1;
       const response = await axios.post(
-        `https://localhost:3000/account/addToCart/${id}`
+        `https://localhost:3000/account/addToCart/${id}/${quantity}`
       );
 
       if (response.data.status == true) {
         await update();
       }
-    };
+    }
 
     const RemoveProduct = async (id) => {
       // console.log(id);
@@ -184,6 +206,7 @@ export default {
       plus,
       cart,
       price,
+      isDisabled,
     };
   },
 

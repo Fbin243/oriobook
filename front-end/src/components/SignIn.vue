@@ -46,6 +46,17 @@
               Login
             </button>
           </div>
+
+          <div class="button-login">
+            <button
+              type="button"
+              class="woocommerce-Button button"
+              name="google"
+              value="Goole"
+            >
+              Login with Google
+            </button>
+          </div>
         </form>
       </div>
     </div>

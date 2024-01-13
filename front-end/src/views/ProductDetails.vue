@@ -50,7 +50,10 @@
             <span class="text-uppercase">Add to cart</span>
           </button>
         </div>
-        <button class="product-quick-buy-btn">
+        <button
+          class="product-quick-buy-btn"
+          @click="BuyNow(product._id, quantity)"
+        >
           <span class="text-uppercase">Buy now</span>
         </button>
 
@@ -236,7 +239,30 @@ export default {
         }
       } catch (error) {
         console.error("Lỗi khi gọi API", error);
-        // window.location.href = "https://localhost:8080/login";
+        window.location.href = "https://localhost:8080/login";
+      }
+    },
+
+    async BuyNow(id, quantity) {
+      try {
+        console.log(id);
+        const response = await axios.post(
+          `https://localhost:3000/account/addToCart/${id}/${quantity}`
+        );
+        if (response.data.status == true) {
+          const response1 = await axios.get(
+            `https://localhost:3000/account/getCart`
+          );
+          let newquantity = ref(0);
+          for (let i = 0; i < response1.data.length; i++) {
+            newquantity.value += response1.data[i].quantities;
+          }
+          this.eventBus.emit("reload", newquantity.value);
+          window.location.href = "https://localhost:8080/checkout";
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+        window.location.href = "https://localhost:8080/login";
       }
     },
   },

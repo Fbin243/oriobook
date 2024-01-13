@@ -22,6 +22,7 @@ import EditAuthor from "@/views/admin/EditAuthor";
 import EditCategory from "@/views/admin/EditCategory";
 import Order from "@/views/admin/Order";
 import AccountDetails from "@/views/AccountDetails";
+import Authorize from "@/views/authorize/Authorize.vue";
 import { isAdmin, getTokenInfo } from "../helpers/helperFunctions";
 
 const routes = [
@@ -118,6 +119,11 @@ const routes = [
     name: "Checkout",
     component: Checkout,
     meta: { requiresUser: true },
+  },
+  {
+    path: "/access",
+    name: "Access",
+    component: Authorize,
   },
 
   // ADMIN ROUTES

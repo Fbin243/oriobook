@@ -84,6 +84,7 @@
         type="email"
         id="account_email"
         autocomplete="email"
+        class="bg-secondary-subtle"
         v-model="formData.account_email"
         disabled
       />

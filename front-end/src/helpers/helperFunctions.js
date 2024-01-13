@@ -29,9 +29,13 @@ export async function getTokenInfo() {
   if (!token) {
     return null;
   }
-  const verified = await VueJwtDecode.decode(token);
-  const { payload = {} } = verified || {};
-  return payload;
+  try {
+    const verified = await VueJwtDecode.decode(token);
+    const { payload = {} } = verified || {};
+    return payload;
+  } catch (err) {
+    return null;
+  }
 }
 
 export async function isAdmin() {
@@ -40,15 +44,19 @@ export async function isAdmin() {
   if (!token) {
     return false;
   }
-  const verified = await VueJwtDecode.decode(token);
-  const { payload = {} } = verified || {};
-  if (payload == null) {
-    return false;
-  } else {
-    if (payload.isAdmin == true) {
-      return true;
-    } else {
+  try {
+    const verified = await VueJwtDecode.decode(token);
+    const { payload = {} } = verified || {};
+    if (payload == null) {
       return false;
+    } else {
+      if (payload.isAdmin == true) {
+        return true;
+      } else {
+        return false;
+      }
     }
+  } catch (err) {
+    return false;
   }
 }

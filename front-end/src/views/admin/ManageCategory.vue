@@ -4,7 +4,7 @@
       <Sidebar></Sidebar>
       <section class="manage-product col-9">
         <div class="d-flex align-items-center justify-content-between mb-3">
-          <p class="manage-product-breadcrumb">Categories</p>
+          <!-- <p class="manage-product-breadcrumb">Categories</p> -->
           <div class="manage-product-search-bar">
             <label for="search-input-id" class="search-label">
               <i class="fa-solid fa-magnifying-glass search-icon"></i>

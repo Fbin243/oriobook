@@ -88,10 +88,15 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+
 export default {
   name: "Nav",
 
   setup() {
+    const router = useRouter();
+
     let Token;
     const login_path = ref("");
     function Click() {

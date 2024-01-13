@@ -2,8 +2,8 @@
   <div class="admin-order-page container">
     <div class="row content">
       <Sidebar></Sidebar>
-      <div class="col-9 order-section">
-        <p class="title">Orders</p>
+      <div class="col-9 order-section" style="margin-top: 1px;">
+        <!-- <p class="title">Orders</p> -->
         <div
           class="js-order-container"
           style="min-height: 600px"
@@ -68,7 +68,7 @@
                       aria-hidden="true"
                     >
                       <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
+                        <div class="modal-content scroll-bar-custom-1">
                           <table class="order-table table-bordered">
                             <thead>
                               <tr>
@@ -166,9 +166,10 @@
                             </tbody>
                           </table>
                           <p
-                            class="text-primary"
-                            style="text-align: left; padding-left: 20px"
+                            class="text-primary ellipsis-custom-6" :class="formStatus == 'Pending' ? 'mb-2' : 'mb-cus-05'"
+                            style="text-align: left; padding: 0 20px;"
                           >
+                          <!--  text-align: justify; -->
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>
                           <p

@@ -8,7 +8,7 @@
       </h3>
       <button class="fa-regular fa-xmark cart-close-btn"></button>
       <template v-if="cart.length !== 0">
-        <ul class="product-list">
+        <ul class="product-list scroll-bar-custom-2">
           <li class="product-item row" v-for="element in cart" :key="element">
             <router-link to="/" class="col-3">
               <img :src="element.image" alt="" class="product-img" />

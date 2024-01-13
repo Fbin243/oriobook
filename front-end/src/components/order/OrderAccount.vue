@@ -1,5 +1,6 @@
 <template>
   <div class="col-9 order-section" style="min-height: 660px">
+
     <div class="type-filter">
       <h4
         class="pending text-primary underline-animation"

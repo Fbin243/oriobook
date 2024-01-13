@@ -3,7 +3,6 @@
     <div class="row content">
       <SideBar />
       <div class="col-9">
-        <p class="title">My wallet</p>
         <div class="row">
           <div class="col-6 mb-4">
             <!-- Billing card 1-->

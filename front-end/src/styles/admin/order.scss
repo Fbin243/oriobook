@@ -75,7 +75,7 @@
 
   .order-table {
     width: 915px;
-    margin: 16px;
+    margin: 16px 16px 8px;
   }
 
   .product-thumbnail {
@@ -93,7 +93,7 @@
   .order-btn-section {
     display: flex;
     justify-content: flex-end;
-    padding: 0 16px 16px;
+    padding: 0 20px 16px;
 
     button {
       width: 150px;
@@ -119,6 +119,7 @@
   .modal-content {
     overflow-y: scroll;
     max-height: 710px;
+    border-radius: 10px;
 
     .img-rv {
       width: 65px;
@@ -264,4 +265,8 @@ input:checked ~ label {
 
 #error-rating {
   padding-top: 55px;
+}
+
+.mb-cus-05{
+  margin-bottom: 0.7rem;
 }

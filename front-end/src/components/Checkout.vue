@@ -144,7 +144,7 @@
             __________________________________________
           </div>
 
-          <div class="product-section">
+          <div class="product-section scroll-bar-custom-2">
             <div
               v-for="(item, index) in accountData.cart"
               :key="index"

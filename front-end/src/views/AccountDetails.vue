@@ -21,6 +21,9 @@ export default {
     AccountDetails,
     AccountDetails_Pass,
   },
+  setup(){
+    
+  }
 };
 </script>
 

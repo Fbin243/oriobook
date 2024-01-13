@@ -203,6 +203,13 @@ img {
   overflow: hidden;
 }
 
+.ellipsis-custom-6 {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
 // Scroll y - version 1
 
 .scroll-bar-custom-1::-webkit-scrollbar {

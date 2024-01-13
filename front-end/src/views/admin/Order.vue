@@ -166,9 +166,10 @@
                             </tbody>
                           </table>
                           <p
-                            class="text-primary" :class="formStatus == 'Pending' ? 'mb-0' : 'mb-cus-05'"
-                            style="text-align: left; padding-left: 20px; margin-bottom: 0.5rem;"
+                            class="text-primary ellipsis-custom-6" :class="formStatus == 'Pending' ? 'mb-0' : 'mb-cus-05'"
+                            style="text-align: left; padding: 0 20px; margin-bottom: 0.5rem;"
                           >
+                          <!--  text-align: justify; -->
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>
                           <p

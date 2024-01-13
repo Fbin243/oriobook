@@ -115,16 +115,27 @@ class orderController {
       orderObj.id_account = _account._id;
       orderObj.note = note;
 
-      cart.forEach((item) => {
-        let newObj = {
-          id_product: item.id_product,
-          quantity: item.quantity,
-          isReviewed: false,
-        };
-        orderObj.detail.push(newObj);
-      });
+      for (const item of cart) {
+        try {
+          let productAdd = await Product.findOne({ _id: item.id_product })
+          .populate('id_category');
+
+          let newObj = {
+            id_product: item.id_product,
+            product: mongooseToObject(productAdd),
+            quantity: item.quantity,
+            isReviewed: false,
+          };
+
+          orderObj.detail.push(newObj);
+        } catch (error) {
+          console.error('Lỗi khi thêm chi tiết đơn hàng:', error.message);
+          // Xử lý lỗi nếu cần thiết
+        }
+      }
 
       await orderObj.save();
+      // await orderObj.populate('detail.id_product').execPopulate();
 
       // Adjust balance of client
       let dataSend2 = {
@@ -245,14 +256,6 @@ class orderController {
         .populate({
           path: "id_account",
           model: Account,
-        })
-        .populate({
-          path: "detail.id_product",
-          model: Product,
-          populate: {
-            path: "id_category",
-            model: Category,
-          },
         })
         .sort({ date: -1 });
 

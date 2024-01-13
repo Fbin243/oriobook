@@ -11,13 +11,11 @@ module.exports = {
   },
   formatDate(date) {
     const formattedTime = date.toLocaleTimeString("en-US", { hour12: false });
-    const formattedDate = date.toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    });
+    const day = (date.getDate() + 1).toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
 
-    const result = `${formattedTime} ${formattedDate}`;
-    return result;
+    const formattedResult = `${formattedTime} ${day}/${month}/${year}`;
+    return formattedResult;
   },
 };

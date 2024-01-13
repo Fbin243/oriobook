@@ -152,7 +152,7 @@
             >
               <img :src="item.id_product?.image" style="width: 30%" />
               <div style="position: absolute; top: 0; left: 160px">
-                {{ item.id_product?.name }}<br />
+                <p class="mb-0 ellipsis-custom-2">{{ item.id_product?.name }}</p>
                 <p style="font-weight: 500" class="mb-0 mt-2">
                   ${{ item.id_product?.price }}
                 </p>
@@ -166,21 +166,21 @@
             __________________________________________
           </div>
           <br />
-          <div style="position: relative; width: 270px">
-            <div>Subtotal</div>
-            <div style="position: absolute; font-weight: 700; top: 0; right: 0">
-              ${{ accountData.total_price }}
+          <div>
+            <div class="d-flex">
+              <div style="width: 280px;">Subtotal</div>
+              <div style="font-weight: 700;">
+                ${{ accountData.total_price }}
+              </div>
             </div>
-            <div>Current balance</div>
-            <div
-              style="
-                position: absolute;
-                font-weight: 700;
-                top: 27px;
-                right: -8px;
-              "
-            >
-              ${{ accountData.balance }}
+
+            <div class="d-flex">
+              <div style="width: 280px;">Current balance</div>
+              <div
+               style="font-weight: 700;" 
+              >
+                ${{ parseFloat(accountData.balance).toFixed(2) }}
+              </div>
             </div>
           </div>
           <div style="user-select: none; color: rgb(119, 119, 119)">
@@ -271,7 +271,7 @@ export default {
           "* Place order successfully";
 
         setTimeout(() => {
-          router.push({ name: "Home" });
+          router.push({ name: "MyWallet" });
         }, 2000);
       }
     };

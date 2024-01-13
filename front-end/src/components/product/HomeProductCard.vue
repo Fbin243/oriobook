@@ -11,7 +11,7 @@
     <div class="product-info">
       <a class="author-name" href="#">{{ product.id_author.name }} </a>
       <div class="product-name-box">
-        <a class="product-name overflow-ellipsis" href="#">{{
+        <a class="product-name ellipsis-custom-1 me-2" href="#">{{
           product.name
         }}</a>
       </div>

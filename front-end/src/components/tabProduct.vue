@@ -67,7 +67,7 @@
               </div>
               <!--Comments---------------------------------------->
               <div class="client-comment">
-                <p class="overflow-ellipsis">
+                <p class="ellipsis-custom-3">
                   {{ review.content }}
                 </p>
               </div>

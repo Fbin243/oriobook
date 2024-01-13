@@ -60,15 +60,15 @@ export default {
   setup() {
     let admin = ref(false);
     async function LogOut() {
-      const response = await axios.post(
-        `https://localhost:3000/account/logout`
-      );
-      let res = response.data;
+      // const response = await axios.post(
+      //   `https://localhost:3000/account/logout`
+      // );
+      // let res = response.data;
 
-      if (res.result === "success") {
-        localStorage.removeItem("token");
-        window.location.href = "https://localhost:8080/";
-      }
+      // if (res.result === "success") {
+      // }
+      localStorage.removeItem("token");
+      window.location.href = "https://localhost:8080/";
     }
 
     async function checkAdmin() {

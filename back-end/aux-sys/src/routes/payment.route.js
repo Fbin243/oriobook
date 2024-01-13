@@ -13,9 +13,19 @@ function route(app) {
     paymentController.getBalance
   );
   app.post(
+    "/get-balance-other",
+    middlewares.verifyToken,
+    paymentController.getBalanceOther
+  );
+  app.post(
     "/adjust-balance",
     middlewares.verifyToken,
     paymentController.adjustBalance
+  );
+  app.post(
+    "/adjust-balance-other",
+    middlewares.verifyToken,
+    paymentController.adjustBalanceOther
   );
 
   // Hai middlewares này phải để cuối để check lỗi

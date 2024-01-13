@@ -1,6 +1,21 @@
 .my-wallet-page {
   margin-bottom: 32px;
   min-height: 700px;
+  .title {
+    color: #242424;
+    font-family: Jost;
+    font-size: 30px;
+    grid-area: auto;
+    line-height: 45px;
+  }
+
+  .bg-warning{
+    background-color: #FF9843 !important;
+  }
+
+  .text-warning{
+    color: #FF9843 !important;
+  }
 }
 
 .img-account-profile {

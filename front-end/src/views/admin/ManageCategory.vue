@@ -3,10 +3,22 @@
     <section class="row">
       <Sidebar></Sidebar>
       <section class="manage-product col-9">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-between mb-3">
           <p class="manage-product-breadcrumb">Categories</p>
+          <div class="manage-product-search-bar">
+            <label for="search-input-id" class="search-label">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </label>
+            <input
+              type="email"
+              class="search-input"
+              id="search-input-id"
+              placeholder="Search for product"
+              :value="searchQuery"
+            />
+          </div>
           <a
-            class="btn text-uppercase ms-auto"
+            class="btn text-uppercase"
             href="/admin/edit-category"
             role="button"
             >Add main category</a
@@ -85,13 +97,24 @@ export default {
     let page = 1;
     const curPage = ref(page);
     const perPage = 4;
+    const searchQuery = ref("");
+
+    const handleSearchQuery = () => {
+      $(`#search-input-id`).keypress(async function (event) {
+        var keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode == "13") {
+          searchQuery.value = $("#search-input-id").val();
+          await requestPage();
+        }
+      });
+    };
 
     const requestPage = async () => {
       try {
         displayLoading(".manage-product-list", -32, -32);
-        const response = await axios.get(
-          `https://localhost:3000/category/manage?page=${page}&perPage=${perPage}`
-        );
+        let url = `https://localhost:3000/category/manage?page=${page}&perPage=${perPage}`;
+        if (searchQuery) url += `&search=${searchQuery.value}`;
+        const response = await axios.get(url);
         console.log(response.data);
         curPage.value = page;
         categories.value = response.data.categories;
@@ -101,7 +124,9 @@ export default {
           return cate;
         });
         removeLoading();
-        handleDelete();
+        $(() => {
+          handleDelete();
+        });
       } catch (error) {
         console.error(error);
       }
@@ -188,6 +213,7 @@ export default {
     onMounted(async () => {
       try {
         await requestPage();
+        handleSearchQuery();
         init();
       } catch (error) {
         console.error(error);
@@ -197,6 +223,7 @@ export default {
       categories,
       totalPages,
       curPage,
+      searchQuery,
     };
   },
 };

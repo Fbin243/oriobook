@@ -123,7 +123,7 @@ export default {
 
     const requestPage = async () => {
       try {
-        displayLoading(".js-container-author-product", -40, 0);
+        displayLoading(".js-container-author-product", -50, 0);
         const response = await axios.get(
           `https://localhost:3000/product/productAuthor/${id.value}?page=${page}&perPage=${perPage}`
         );

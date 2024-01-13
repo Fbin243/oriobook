@@ -60,38 +60,47 @@
 <script>
 import { ref } from "vue";
 import axios from "../../config/axios";
-
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 export default {
   name: "HomeProductDeal",
+  inject: ["eventBus"],
   props: ["group"],
+
+  methods: {
+    async AddProduct(id) {
+      try {
+        console.log(id);
+        const quantity = 1;
+        const response = await axios.post(
+          `https://localhost:3000/account/addToCart/${id}/${quantity}`
+        );
+        if (response.data.status == true) {
+          const response1 = await axios.get(
+            `https://localhost:3000/account/getCart`
+          );
+          let newquantity = ref(0);
+          for (let i = 0; i < response1.data.length; i++) {
+            newquantity.value += response1.data[i].quantities;
+          }
+          this.eventBus.emit("reload", newquantity.value);
+          toast.success("Wow Success!", {
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+        window.location.href = "https://localhost:8080/login";
+      }
+    },
+  },
+
   setup() {
     const number = ref(2);
 
-    async function AddProduct(id) {
-      try {
-        console.log(id);
-        const response = await axios.post(
-          `https://localhost:3000/account/addToCart/${id}`
-        );
-
-        if (response.data.status == true) {
-          toast.success("Wow Success!", {
-            autoClose: 2000,
-          });
-          window.location.reload();
-        }
-      } catch (error) {
-        // console.error("Lỗi khi gọi API", error);
-        window.location.href = "https://localhost:8080/login";
-      }
-    }
-
     return {
       number,
-      AddProduct,
     };
   },
 };

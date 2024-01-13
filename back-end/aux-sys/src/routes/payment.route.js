@@ -3,8 +3,10 @@ const paymentController = require("../controllers/payment.controller");
 const middlewares = require("../middlewares/verify");
 
 function route(app) {
+  // Có 2 route này để xin token tương ứng với đăng kí và đăng nhập
   app.post("/add-acc", paymentController.addAcc);
-  // app.post("/generate-token", paymentController.generatePaymentToken);
+  app.post("/generate-token", paymentController.generatePaymentToken);
+  // Các route dưới là sử dụng token đã đăng kí nên cần middleware verify
   app.post(
     "/get-balance",
     middlewares.verifyToken,

@@ -39,7 +39,7 @@
       </form>
       <button class="cart-btn">
         <i class="fa-sharp fa-regular fa-basket-shopping-simple"></i>
-        <span id="lblCartCount"> {{ totalQuant }} </span>
+        <span id="lblCartCount"> {{ cart }} </span>
         <span>Cart</span>
       </button>
     </div>
@@ -47,9 +47,7 @@
 </template>
 
 <script>
-import axios from "../config/axios";
-
-import { ref, watch, inject, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 
 export default {
   name: "Header",
@@ -64,18 +62,9 @@ export default {
         });
     },
   },
-  props: ["addCartBool"],
-  setup(props, { emit }) {
-    const cart = ref([]);
-    const totalQuant = ref(0);
+  setup() {
+    let cart = ref(0);
     const searchQuery = ref("");
-
-    watch(
-      () => props.addCartBool,
-      async (change) => {
-        await init();
-      }
-    );
 
     const handleSearchForm = () => {
       $(".search").css({
@@ -96,17 +85,7 @@ export default {
 
     const init = async () => {
       try {
-        const response = await axios.get(
-          `https://localhost:3000/account/getCart`
-        );
-        cart.value = response.data;
-        totalQuant.value = 0;
-
-        cart.value.forEach((item) => {
-          totalQuant.value += item.quantities;
-        });
-
-        console.log(response.data);
+        cart.value = inject("quantity");
       } catch (error) {
         console.error("Lỗi khi gọi API", error);
       }
@@ -125,7 +104,7 @@ export default {
     return {
       handleSearchForm,
       cart,
-      totalQuant,
+      // totalQuant,
       searchQuery,
     };
   },

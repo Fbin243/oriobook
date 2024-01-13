@@ -91,7 +91,7 @@
                             <tbody id="tbody-scroll">
                               <tr
                                 class="cart_item"
-                                v-for="(product, index_2) in foundObject.detail"
+                                v-for="(productItem, index_2) in foundObject.detail"
                                 :key="index_2"
                               >
                                 <td class="product-thumbnail">
@@ -99,11 +99,7 @@
                                     <a
                                       href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                       ><img
-                                        :src="
-                                          product.id_product
-                                            ? product.id_product.image
-                                            : ''
-                                        "
+                                        :src="productItem.product?.image"
                                         class="product-img"
                                         alt=""
                                     /></a>
@@ -112,21 +108,13 @@
                                         class="mb-0"
                                         href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                       >
-                                        {{
-                                          product.id_product
-                                            ? product.id_product.name
-                                            : ""
-                                        }}
+                                        {{productItem.product?.name}}
                                       </p>
                                       <p class="price mb-0">
                                         <span
                                           class="woocommerce-Price-amount amount"
                                         >
-                                          {{
-                                            product.id_product
-                                              ? product.id_product.price
-                                              : ""
-                                          }}<span class="currency"
+                                          {{productItem.product?.price}}<span class="currency"
                                             >$</span
                                           ></span
                                         >
@@ -141,9 +129,7 @@
                                   <div class="quantity">
                                     <p class="type mb-2">
                                       {{
-                                        product.id_product
-                                          ? product.id_product.id_category.name
-                                          : ""
+                                        productItem.product?.id_category?.name
                                       }}
                                     </p>
                                   </div>
@@ -154,7 +140,7 @@
                                 >
                                   <div class="quantity">
                                     <p class="number mb-2">
-                                      {{ product.quantity }}
+                                      {{ productItem.quantity }}
                                     </p>
                                   </div>
                                 </td>
@@ -167,9 +153,9 @@
                                     ><bdi
                                       >${{
                                         roundNumber(
-                                          (product.id_product
-                                            ? product.id_product.price
-                                            : 0) * product.quantity,
+                                          (productItem.product
+                                            ? productItem.product.price
+                                            : 0) * productItem.quantity,
                                           2
                                         )
                                       }}
@@ -269,7 +255,7 @@ export default {
       console.log(orderId.value);
       foundObject.value = orderData.value.find((item) => item._id === _orderId);
       formStatus.value = foundObject.value.status;
-      // console.log(foundObject.value.detail);
+      console.log(foundObject.value);
     };
 
     const clickModal = (_orderId) => {

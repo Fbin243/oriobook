@@ -12,24 +12,26 @@
     color: #242424;
     display: list-item;
     font-family: Jost;
-    font-size: 15px;
+    font-size: 16px;
     grid-area: auto;
     line-height: 25.5px;
     padding: 10px 0px;
     text-align: left;
-    &.active {
-      a {
-        color: var(--primary-color);
-      }
+    font-weight: 500;
+    cursor: pointer;
+
+    &.active, &.active a{
+      color: var(--primary-color);
     }
-    a {
-      color: black;
-      font-family: Jost;
-      font-size: 16px;
-      font-weight: 500;
-      // &:active {
-      //   color: blue;
-      // }
+    // a {
+    //   color: black;
+    //   font-family: Jost;
+    //   font-size: 16px;
+    //   font-weight: 500;
+    // }
+
+    &:hover, &:hover a{
+      color: var(--primary-color);;
     }
   }
 

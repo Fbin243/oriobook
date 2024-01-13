@@ -10,35 +10,46 @@
   >
     <nav class="navigation">
       <ul>
-        <li class="navigation-link">
-          <router-link to="/account-details">Account details</router-link>
+        <li class="navigation-link" data-path="/account-details" @click="directPage( $event.target)">
+          <!-- <router-link to="/account-details"></router-link> -->
+          Account details
         </li>
+
         <template v-if="!admin">
-          <li class="navigation-link">
-            <router-link to="/account-order">Orders</router-link>
+          <li class="navigation-link" data-path="/account-order" @click="directPage($event.target)">
+            <!-- <router-link to="/account-order">Orders</router-link> -->
+            My orders
           </li>
         </template>
+
         <template v-if="admin">
-          <li class="navigation-link">
-            <router-link to="/admin/dashboard">Dashboard</router-link>
+          <li class="navigation-link" data-path="/admin/dashboard" @click="directPage($event.target)">
+            <!-- <router-link to="/admin/dashboard">Dashboard</router-link> -->
+            Dashboard
           </li>
-          <li class="navigation-link">
-            <router-link to="/admin/manage">Manage products</router-link>
+          <li class="navigation-link" data-path="/admin/manage" @click="directPage($event.target)">
+            <!-- <router-link to="/admin/manage">Manage products</router-link> -->
+            Manage products
           </li>
-          <li class="navigation-link">
-            <router-link to="/admin/manage-author">Manage authors</router-link>
+          <li class="navigation-link" data-path="/admin/manage-author" @click="directPage($event.target)">
+            <!-- <router-link to="/admin/manage-author"></router-link> -->
+            Manage authors
           </li>
-          <li class="navigation-link">
-            <router-link to="/admin/manage-category"
-              >Manage categories</router-link
-            >
+          <li class="navigation-link" data-path="/admin/manage-category" @click="directPage($event.target)">
+            <!-- <router-link to="/admin/manage-category"
+              ></router-link -->
+              Manage categories
           </li>
-          <li class="navigation-link">
-            <router-link to="/admin/order">Manage orders</router-link>
+          <li class="navigation-link" data-path="/admin/order" @click="directPage($event.target)">
+            <!-- <router-link to="/admin/order"></router-link> -->
+            Manage orders
           </li>
         </template>
-        <li class="navigation-link">
-          <router-link to="/account-wallet">My wallet</router-link>
+
+
+        <li class="navigation-link" data-path="/account-wallet" @click="directPage($event.target)">
+          <!-- <router-link to="/account-wallet"></router-link> -->
+          My wallet
         </li>
         <li class="navigation-link" @click="LogOut">
           <router-link to="/">Log out</router-link>
@@ -58,6 +69,8 @@ export default {
 
   components: {},
   setup() {
+    const router = useRouter();
+
     let admin = ref(false);
     async function LogOut() {
       // const response = await axios.post(
@@ -68,6 +81,8 @@ export default {
       // if (res.result === "success") {
       // }
       localStorage.removeItem("token");
+      localStorage.removeItem("sidebar");
+
       window.location.href = "https://localhost:8080/";
     }
 
@@ -75,10 +90,36 @@ export default {
       const { isAdmin = false } = await getTokenInfo();
       admin.value = isAdmin;
     }
-    return { LogOut, checkAdmin, admin };
-  },
-  async mounted() {
-    await this.checkAdmin();
+
+    function directPage(element) {
+      const dataPath = $(element).data('path');
+      $('.navigation-link').removeClass('active');
+
+      localStorage.setItem('sidebar', dataPath);
+      $(element).addClass('active');
+
+      router.push(dataPath);
+    }
+
+    onMounted(async () => {
+      await checkAdmin();
+
+      let activeSideBar = localStorage.getItem('sidebar') ?? '/account-details';
+      let markedElement = $(`.navigation-link[data-path="${activeSideBar}"]`);
+      
+      if(markedElement.length === 1){
+        directPage(markedElement);
+      }
+    });
+
+
+    return {
+      LogOut,
+      checkAdmin,
+      admin,
+
+      directPage,
+    };
   },
 };
 </script>

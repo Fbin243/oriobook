@@ -3,7 +3,7 @@
     <section class="row">
       <Sidebar></Sidebar>
       <section class="dashboard col-9">
-        <p class="dashboard-breadcrumb">Dashboard</p>
+        <!-- <p class="dashboard-breadcrumb">Dashboard</p> -->
         <section class="dashboard-general col-8 mx-auto">
           <ul class="dashboard-general-list row gx-0 mb-5">
             <li

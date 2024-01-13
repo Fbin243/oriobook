@@ -2,8 +2,8 @@
   <div class="admin-order-page container">
     <div class="row content">
       <Sidebar></Sidebar>
-      <div class="col-9 order-section">
-        <p class="title">Orders</p>
+      <div class="col-9 order-section" style="margin-top: 1px;">
+        <!-- <p class="title">Orders</p> -->
         <div
           class="js-order-container"
           style="min-height: 600px"

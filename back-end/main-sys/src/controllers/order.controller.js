@@ -2,6 +2,7 @@ require("dotenv").config();
 const Order = require("../models/order.model");
 const Product = require("../models/product.model");
 const Account = require("../models/account.model");
+const Category = require("../models/category.model");
 const axios = require("axios");
 const https = require("https");
 const instance = axios.create({
@@ -91,7 +92,7 @@ class orderController {
         }
       );
       let data = response.data;
-      let balance = data.balance
+      let balance = data.balance;
 
       if (data.result !== "success") {
         return res.json({ result: "fail", msg: "Fail to get balance" });
@@ -183,6 +184,10 @@ class orderController {
         .populate({
           path: "detail.id_product",
           model: Product,
+          populate: {
+            path: "id_category",
+            model: Category,
+          },
         });
       res.status(200).json({ orders, totalPages });
     } catch (error) {

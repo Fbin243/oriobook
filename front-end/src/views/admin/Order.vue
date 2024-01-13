@@ -142,7 +142,7 @@
                                     <p class="type mb-2">
                                       {{
                                         product.id_product
-                                          ? product.id_product.category
+                                          ? product.id_product.id_category.name
                                           : ""
                                       }}
                                     </p>

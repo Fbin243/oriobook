@@ -166,8 +166,8 @@
                             </tbody>
                           </table>
                           <p
-                            class="text-primary"
-                            style="text-align: left; padding-left: 20px"
+                            class="text-primary" :class="formStatus == 'Pending' ? 'mb-0' : 'mb-cus-05'"
+                            style="text-align: left; padding-left: 20px; margin-bottom: 0.5rem;"
                           >
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>

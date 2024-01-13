@@ -75,7 +75,7 @@
 
   .order-table {
     width: 915px;
-    margin: 16px;
+    margin: 16px 16px 8px;
   }
 
   .product-thumbnail {
@@ -119,6 +119,7 @@
   .modal-content {
     overflow-y: scroll;
     max-height: 710px;
+    border-radius: 10px;
 
     .img-rv {
       width: 65px;
@@ -264,4 +265,31 @@ input:checked ~ label {
 
 #error-rating {
   padding-top: 55px;
+}
+
+.mb-cus-05{
+  margin-bottom: 0.5rem;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+.modal-content::-webkit-scrollbar-track {
+  // box-shadow: white; 
+  background-color: white;
+  border-radius: 0 10px 10px 0;
+  border: 1px solid rgba(0, 0, 0, 0.156);
+}
+ 
+/* Handle */
+.modal-content::-webkit-scrollbar-thumb {
+  background: #C1C1C1; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
 }

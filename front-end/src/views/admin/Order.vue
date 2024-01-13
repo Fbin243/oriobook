@@ -180,7 +180,7 @@
                             </tbody>
                           </table>
                           <p
-                            class="text-primary mb-0"
+                            class="text-primary"
                             style="text-align: left; padding-left: 20px"
                           >
                             <strong>Note:</strong> {{ foundObject.note }}
@@ -295,7 +295,7 @@ export default {
         data
       );
       let res = response.data;
-      if (res.msg === "success") {
+      if (res.result === "success") {
         // console.log('handle ok');
         $("#error-approval").text("");
         await requestPage();
@@ -303,9 +303,7 @@ export default {
         $("#exampleModal").modal("hide");
       } else {
         // console.log('ko du so luong hang');
-        $("#error-approval").text(
-          "There is not a sufficient quantity of the product."
-        );
+        $("#error-approval").text(res.msg);
       }
     };
 

@@ -278,15 +278,14 @@ class productController {
       account = mongooseToObject(account);
       account.total_price = totalSum;
 
-      let dataSend = {
-        paymentToken: account.token,
-      };
+      let dataSend = {};
 
       const response = await instance.post(
         `https://localhost:${process.env.AUX_PORT}/get-balance`,
         dataSend,
         {
           headers: {
+            Authorization: `Bearer ${account.token}`,
             "Content-Type": "application/json",
           },
         }

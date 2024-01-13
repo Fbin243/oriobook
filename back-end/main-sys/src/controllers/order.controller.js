@@ -15,6 +15,7 @@ const {
   roundNumber,
   mongooseToObject,
 } = require("../utils/mongoose");
+
 class orderController {
   // [GET] order/pending
   getMyOrders = async (req, res, next) => {
@@ -76,9 +77,11 @@ class orderController {
       let note = req.body.note;
 
       let _account = await Account.findOne({ email });
+      let _adminAccount = await Account.findOne({ isAdmin: true });
 
-      let dataSend = {};
+      const dataSend = {}
 
+      // Get balance of client
       const response = await instance.post(
         `https://localhost:${process.env.AUX_PORT}/get-balance`,
         dataSend,
@@ -89,11 +92,12 @@ class orderController {
           },
         }
       );
+
       let data = response.data;
       let balance = data.balance;
 
       if (data.result !== "success") {
-        return res.json({ result: "fail", msg: "Fail to get balance" });
+        return res.json({ result: "fail", msg: "Fail to get balance of client" });
       }
 
       if (total > balance) {
@@ -118,7 +122,7 @@ class orderController {
 
       await orderObj.save();
 
-      // Adjust balance
+      // Adjust balance of client
       let dataSend2 = {
         changeBal: `-${total}`,
       };
@@ -139,7 +143,7 @@ class orderController {
         return next("Fail to adjust balance");
       }
 
-      // Create a new transaction
+      // Create a new transaction for client
       let newHis = {
         action: "Paid",
         changeBalance: `-${total}`,
@@ -148,11 +152,67 @@ class orderController {
 
       _account.history.push(newHis);
 
+      // --------------ADMIN------------------
+      // Get balance for admin
+      let dataSend3 = {
+        email: _adminAccount.email
+      };
+
+      const response3 = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/get-balance-other`,
+        dataSend3,
+        {
+          headers: {
+            Authorization: `Bearer ${_account.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let data3 = response3.data;
+      let balance3 = data3.balance;
+
+      if (data3.result !== "success") {
+        return res.json({ result: "fail", msg: "Fail to get balance of admin" });
+      }
+
+      // Adjust balance of admin
+      let dataSend4 = {
+        email: _adminAccount.email,
+        changeBal: `+${total}`,
+      };
+
+      const response4 = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/adjust-balance-other`,
+        dataSend4,
+        {
+          headers: {
+            Authorization: `Bearer ${_account.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data4 = response4.data;
+
+      if (data4.result !== "success") {
+        return next("Fail to adjust balance of admin");
+      }
+
+      // Create a new transaction for admin
+      let newHis2 = {
+        action: "Received",
+        changeBalance: `+${total}`,
+        atTimeBalance: balance3 + total,
+      };
+
+      _adminAccount.history.push(newHis2);
+
       // Remove from cart
       _account.cart = [];
 
       // Save _account
       await _account.save();
+      await _adminAccount.save();
 
       res.json({ result: "success" });
     } catch (error) {
@@ -182,7 +242,9 @@ class orderController {
         .populate({
           path: "detail.id_product",
           model: Product,
-        });
+        })
+        .sort({ date: -1 });
+        
       res.status(200).json({ orders, totalPages });
     } catch (error) {
       next(error);
@@ -198,6 +260,9 @@ class orderController {
       let order = await Order.findOne({ _id: orderId }).populate({
         path: "detail.id_product",
         model: Product,
+      }).populate({
+        path: "id_account",
+        model: Account,
       });
 
       order = mongooseToObject(order);
@@ -241,9 +306,10 @@ class orderController {
             { $set: { status: "Successful" } },
             { new: true }
           );
-          res.status(200).json({ msg: "success" });
+
+          res.status(200).json({ result: "success" });
         } else {
-          res.status(200).json({ msg: "fail" });
+          res.status(200).json({ result: "fail", msg: "There is not a sufficient quantity of the product." });
         }
       } else {
         const updatedOrder = await Order.findOneAndUpdate(
@@ -251,12 +317,154 @@ class orderController {
           { $set: { status: "Cancelled" } },
           { new: true }
         );
-        res.status(200).json({ msg: "success" });
+
+        // ---------------------------------------------------
+
+        let totalSum = order.detail.reduce((sum, item) => {
+          let price = item.id_product ? item.id_product.price : "";
+          let quantity = item.quantity;
+  
+          item.subtotal = roundNumber(price * quantity, 2);
+          let total = roundNumber(sum + item.subtotal, 2);
+          return total;
+        }, 0);
+
+        // a new transaction
+        if(order.id_account){
+          await this.restoreClient(order.id_account.email, totalSum);
+        }
+
+        res.status(200).json({ result: "success" });
       }
     } catch (error) {
       next(error);
     }
   };
+
+  restoreClient = async (emailClient, total) => {
+    try {
+      let _account = await Account.findOne({ email: emailClient });
+      let _adminAccount = await Account.findOne({ isAdmin: true });
+
+      const dataSend = {}
+
+      // Get balance of admin
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        dataSend,
+        {
+          headers: {
+            Authorization: `Bearer ${_adminAccount.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      let balance = data.balance;
+
+      if (data.result !== "success") {
+        return res.json({ result: "fail", msg: "Fail to get balance of admin" });
+      }
+
+      if (total > balance) {
+        return res.json({ result: "fail", msg: `Insufficient balance` });
+      }
+
+      // Adjust balance of admin
+      let dataSend2 = {
+        changeBal: `-${total}`,
+      };
+
+      const response2 = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/adjust-balance`,
+        dataSend2,
+        {
+          headers: {
+            Authorization: `Bearer ${_adminAccount.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let data2 = response2.data;
+
+      if (data2.result !== "success") {
+        return next("Fail to adjust balance");
+      }
+
+      // Create a new transaction for admin
+      let newHis = {
+        action: "Paid",
+        changeBalance: `-${total}`,
+        atTimeBalance: balance - total,
+      };
+
+      _adminAccount.history.push(newHis);
+
+      // --------------CLIENT------------------
+      // Get balance for client
+      let dataSend3 = {
+        email: emailClient,
+      };
+
+      const response3 = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/get-balance-other`,
+        dataSend3,
+        {
+          headers: {
+            Authorization: `Bearer ${_adminAccount.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let data3 = response3.data;
+      let balance3 = data3.balance;
+
+      if (data3.result !== "success") {
+        return res.json({ result: "fail", msg: "Fail to get balance of client" });
+      }
+
+      // Adjust balance of client
+      let dataSend4 = {
+        email: emailClient,
+        changeBal: `+${total}`,
+      };
+
+      const response4 = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/adjust-balance-other`,
+        dataSend4,
+        {
+          headers: {
+            Authorization: `Bearer ${_adminAccount.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data4 = response4.data;
+
+      if (data4.result !== "success") {
+        return next("Fail to adjust balance of client");
+      }
+
+      // Create a new transaction for client
+      let newHis2 = {
+        action: "Received",
+        changeBalance: `+${total}`,
+        atTimeBalance: balance3 + total,
+      };
+
+      _account.history.push(newHis2);
+
+      // Save _account
+      await _account.save();
+      await _adminAccount.save();
+
+      // res.json({ result: "success" });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new orderController();

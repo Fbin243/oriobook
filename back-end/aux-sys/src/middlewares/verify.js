@@ -4,7 +4,7 @@ const verifyToken = async (req, res, next) => {
   // Lấy payment token trong header ra và check
   const paymentToken =
     req.headers.authorization && req.headers.authorization.split(" ")[1];
-  console.log("TOKEN Nhận được: ", paymentToken);
+  // console.log("TOKEN Nhận được: ", paymentToken);
 
   if (paymentToken) {
     jwt.verify(paymentToken, process.env.ACCESS_TOKEN_SECRET, (err, email) => {

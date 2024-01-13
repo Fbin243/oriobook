@@ -3,7 +3,6 @@
     <section class="row">
       <Sidebar></Sidebar>
       <section class="dashboard col-9">
-        <p class="dashboard-breadcrumb">Dashboard</p>
         <div class="js-dashboard-container">
           <section class="dashboard-general col-8 mx-auto">
             <ul class="dashboard-general-list row gx-0 mb-5">
@@ -108,7 +107,7 @@ export default {
 
     onMounted(async () => {
       try {
-        displayLoading(".js-dashboard-container", -50``);
+        displayLoading(".js-dashboard-container", -50);
         let response = await axios.get(
           "https://localhost:3000/product/dashboard"
         );

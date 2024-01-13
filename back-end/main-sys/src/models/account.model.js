@@ -10,7 +10,7 @@ const accountSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
-  password: { type: String, required: true, trim: true },
+  password: { type: String, default: "", trim: true },
   isAdmin: { type: Boolean, default: false },
   phone: { type: String, default: "", trim: true },
   address: { type: String, default: "", trim: true },
@@ -55,7 +55,7 @@ const accountSchema = new mongoose.Schema({
   ],
   token: {
     type: String,
-    default: '',
+    default: "",
     require: true,
   },
 });

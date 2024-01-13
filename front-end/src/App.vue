@@ -1,8 +1,8 @@
 <template>
   <Nav />
-  <Header :addCartBool="addCartBool" />
-  <Cart @add-cart="addCart" />
-  <router-view @add-cart="addCart" />
+  <Header />
+  <Cart />
+  <router-view />
   <Footer />
 </template>
 
@@ -27,7 +27,11 @@ export default {
   },
 
   inject: ["eventBus"],
-
+  methods: {
+    getCookie() {
+      const username = this.$cookies;
+    },
+  },
   setup() {
     onMounted(async () => {
       try {

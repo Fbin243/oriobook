@@ -1,11 +1,13 @@
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const getTokenInCookie = () => {
+  console.log("ccc", Cookies.get());
+
   return localStorage.getItem("token") ?? "";
 };
-
+const instances = axios.create();
 // Add a request interceptor
-axios.interceptors.request.use(
+instances.interceptors.request.use(
   function (request) {
     const token = getTokenInCookie();
 
@@ -13,6 +15,8 @@ axios.interceptors.request.use(
     const newHeaders = {
       ...request.headers,
       "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+      "Access-Control-Allow-Headers": "*",
       "Content-Type": request.headers["Content-Type"] || "application/json",
       Authorization: token,
     };
@@ -32,8 +36,21 @@ axios.interceptors.request.use(
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+instances.interceptors.response.use(
   function (response) {
+    console.log("response", response);
+    const newHeaders = {
+      ...response.headers,
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE",
+      "Access-Control-Allow-Headers": "*",
+      "Content-Type": response.headers["Content-Type"] || "application/json",
+    };
+
+    response = {
+      ...response,
+      headers: newHeaders,
+    };
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
@@ -45,4 +62,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default axios;
+export default instances;

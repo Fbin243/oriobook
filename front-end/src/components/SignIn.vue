@@ -47,16 +47,18 @@
             </button>
           </div>
 
-          <div class="button-login">
-            <button
-              type="button"
-              class="woocommerce-Button button"
-              name="google"
-              value="Goole"
-            >
-              Login with Google
-            </button>
-          </div>
+          <p class="text-center fw-bold mt-3 text-muted" style="width: 100%">
+            OR
+          </p>
+
+          <a
+            class="btn btn-danger rounded-0 text-light d-flex align-items-center justify-content-center"
+            style="width: 100%; height: 50px; font-size: 15px"
+            href="https://localhost:3000/auth/google"
+            role="button"
+          >
+            <i class="fab fa-google me-2"></i>Login with google
+          </a>
         </form>
       </div>
     </div>

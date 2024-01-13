@@ -118,24 +118,6 @@ export default {
       price.value = await Price();
     }
 
-    const init = async () => {
-      let sum = 0;
-      try {
-        const response = await axios.get(
-          `https://localhost:3000/account/getCart`
-        );
-
-        cart.value = response.data;
-        cart.value.forEach((item) => {
-          sum += item.quantities * 1 * item.price * 1;
-        });
-
-        price.value = sum.toFixed(2);
-      } catch (error) {
-        console.error("Lỗi khi gọi API", error);
-      }
-    };
-
     const minus = async (id) => {
       // console.log(id);
 
@@ -237,6 +219,23 @@ export default {
       //     cart,
       //   };
       // });
+      $(".cart").click(async () => {
+        console.log("close");
+        $(".cart").removeClass("enable");
+        try {
+          const response = await axios.get(
+            `https://localhost:3000/account/getCart`
+          );
+          let newquantity = ref(0);
+          for (let i = 0; i < response.data.length; i++) {
+            newquantity.value += response.data[i].quantities;
+          }
+          this.eventBus.emit("reload", newquantity.value);
+        } catch (error) {
+          console.error("Lỗi khi gọi API", error);
+          window.location.href = "https://localhost:8080/login";
+        }
+      });
       $(".cart-close-btn").click(async () => {
         console.log("close");
         $(".cart").removeClass("enable");

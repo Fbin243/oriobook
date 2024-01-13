@@ -1,17 +1,111 @@
 const express = require("express");
+const { passport } = require("./auth");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const route = require("./routes/index.route");
 const methodOverride = require("method-override");
+const { OAuth2Client } = require("google-auth-library");
+const account = require("./models/account.model");
+const authMethod = require("./methods/auth.methods");
+
 const cors = require("cors");
 const https = require("https");
 const fs = require("fs");
 const app = express();
 
+app.use(
+  session({
+    secret: "mysecret",
+    resave: false,
+    saveUninitialized: true,
+    coockie: { secure: false },
+  })
+);
+
+app.use(passport.initialize());
+
 // Cấu hình middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  })
+);
+
+app.use(passport.session());
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+  })
+);
+
+const getOath2Client = () => {
+  const oauth2 = new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    "https://localhost:3000/auth/google/callback"
+  );
+  return oauth2;
+};
+
+app.get("/auth/google/callback", async (req, res) => {
+  const { code = null } = req.query;
+  if (!code) {
+    return res.redirect("https://localhost:8080/login");
+  }
+  try {
+    const client = getOath2Client();
+    const result = await client.getToken(code);
+    const accessToken = result.tokens.access_token;
+
+    const information = await fetch(
+      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then((res) => res.json());
+    console.log(information);
+
+    // Kiem tra xem email da duoc dung de tao tai khoan hay chua
+    const oldAcc = await account.findOne({ email: information.email });
+    let newAcc = new account();
+    if (oldAcc == null) {
+      // Tao tai khoan
+      newAcc.email = information.email;
+      newAcc.firstName = information.given_name;
+      newAcc.lastName = information.family_name;
+      await newAcc.save();
+    } else {
+      newAcc = oldAcc;
+    }
+
+    const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
+    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+    const dataForAccessToken = {
+      email: newAcc.email,
+      isAdmin: false,
+    };
+
+    const access_token = await authMethod.generateToken(
+      dataForAccessToken,
+      accessTokenSecret,
+      accessTokenLife
+    );
+
+    return res.redirect(`https://localhost:8080/access?token=${access_token}`);
+  } catch (err) {
+    console.log(err);
+    // return res.redirect("https://localhost:8080/login");
+  }
+});
 
 // ROUTES INIT
 route(app);

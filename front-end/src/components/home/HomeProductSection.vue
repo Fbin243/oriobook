@@ -16,7 +16,7 @@
         Top Rating
       </h4>
     </div>
-    <div class="row gx-2 gy-3 row-products">
+    <div class="row gx-5 gy-3 row-products">
       <div class="col m-20" v-for="product in products" :key="product._id">
         <HomeProductCard :product="product" />
       </div>
@@ -27,6 +27,7 @@
 <script>
 import { ref, watch } from "vue";
 import HomeProductCard from "../product/HomeProductCard.vue";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 
 export default {
   name: "HomeProductSection",
@@ -41,13 +42,17 @@ export default {
     const toggle = ref(true);
 
     const bestSellerClick = () => {
+      displayLoading(".row-products", -45);
       products.value = props.bestSeller;
       toggle.value = true;
+      removeLoading();
     };
 
     const featureClick = () => {
+      displayLoading(".row-products", -45);
       products.value = props.topRatedProducts;
       toggle.value = false;
+      removeLoading();
     };
 
     watch(

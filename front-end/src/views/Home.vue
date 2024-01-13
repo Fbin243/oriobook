@@ -4,9 +4,13 @@
   <!-- <Category /> -->
   <Deal_TopRated />
   <HomeProduct :topRatedProducts="topRatedProducts" :bestSeller="bestSeller" />
+  <br />
+  <br />
   <HomeBanner />
   <Testimonial />
-  <emailSupscription />
+  <br />
+  <br />
+  <!-- <emailSupscription /> -->
   <div class="back-top">
     <i class="fa-solid fa-arrow-up" @click="scrollToTop"></i>
   </div>

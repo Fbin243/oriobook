@@ -6,13 +6,14 @@
     >
       <h1 class="title-heading">About us</h1>
     </div>
-    \ <br /><br /><br /><br />
+    <br />
     <featureRow />
-    <vidOffer />
+    <br />
+    <!-- <vidOffer /> -->
     <ourHisAndTeam />
     <Testimonial />
-    <br /><br /><br /><br />
-    <emailSupscription />
+    <br />
+    <!-- <emailSupscription /> -->
   </div>
 </template>
 

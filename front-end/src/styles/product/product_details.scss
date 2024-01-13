@@ -40,9 +40,15 @@
           border-right: 1px solid #242424;
         }
       }
+
       .product-desc {
         font-size: 18px;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
+        & .product-author-name {
+          &:hover {
+            color: var(--primary-color);
+          }
+        }
       }
       .product-add-cart-btn,
       .product-quick-buy-btn {

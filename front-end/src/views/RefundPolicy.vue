@@ -1,6 +1,10 @@
 <template>
   <div class="refund-policy">
-    <div class="title-banner text-center">Refund and Returns Policy</div>
+    <div
+      class="title-banner text-center d-flex align-items-center justify-content-center"
+    >
+      Refund and Returns Policy
+    </div>
     <div class="content container">
       <h3 class="title">Overview</h3>
       <p>

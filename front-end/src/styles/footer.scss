@@ -27,10 +27,18 @@
 }
 
 .icon:hover {
-  color: red; /* Change color on hover */
-  font-size: 28px; /* Increase size on hover */
+  color: var(--primary-color); /* Change color on hover */
 }
 
 .icon:active {
-  color: darkred; /* Change color when clicked */
+  color: var(--primary-color); /* Change color when clicked */
+}
+
+.footer-link {
+  font-weight: 400px;
+  font-size: 15px;
+  line-height: 30px;
+  &:hover {
+    color: var(--primary-color);
+  }
 }

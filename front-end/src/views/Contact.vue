@@ -1,5 +1,5 @@
 <template>
-  <div class="shop-page" style="margin-bottom: 500px">
+  <div class="shop-page">
     <div
       class="img-cover d-flex align-items-center justify-content-center"
       style="height: 250px"

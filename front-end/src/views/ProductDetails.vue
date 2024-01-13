@@ -5,7 +5,7 @@
         <img
           :src="product.image"
           :alt="product.name"
-          class="col-8 product-img"
+          class="col-7 product-img"
         />
       </div>
       <div class="product-info col-6 ms-auto">
@@ -14,12 +14,27 @@
           {{ productRating }} / 5.0
           <i class="fa-solid fa-star" style="color: orange"></i>
         </div>
-        <div class="product-price mt-4">${{ product.price }}</div>
-        <p class="product-desc d-flex justify-content-between">
-          <span>Author: {{ nameAuthor }}</span>
+        <div class="product-price mt-4">
+          <strong>${{ product.price }}</strong>
+        </div>
+        <p class="product-desc">
+          <span
+            >Author:
+            <a
+              :href="'/authors/' + idAuthor"
+              class="product-author-name"
+              @click="handleLinkClick('/authors')"
+              >{{ nameAuthor }}</a
+            ></span
+          >
+        </p>
+        <p class="product-desc">
           <span>Category: {{ product.category_name }}</span>
+        </p>
+        <p class="product-desc">
           <span>Stock: {{ product.stock }}</span>
         </p>
+
         <div class="d-flex pt-5">
           <div class="product-quantity row gx-0 me-2">
             <button
@@ -76,7 +91,7 @@
           </li>
         </ul>
 
-        <div class="safe-checkout">
+        <!-- <div class="safe-checkout">
           <div class="title-safe-checkout">Guaranteed Checkout</div>
           <div class="img-safe-checkout">
             <img
@@ -84,7 +99,7 @@
               alt="Image Checkout"
             />
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <tabProduct :product="product" />
@@ -132,6 +147,7 @@ export default {
     const product = ref({});
     const relatedProducts = ref({});
     const nameAuthor = ref("");
+    const idAuthor = ref("");
     const productRating = ref(0);
 
     const totalPages = ref(0);
@@ -170,6 +186,7 @@ export default {
         product.value.category_name = product.value.id_category.name;
         relatedProducts.value = response.data.relatedProducts;
         nameAuthor.value = product.value.id_author.name;
+        idAuthor.value = product.value.id_author._id;
         curPage.value = page;
         totalPages.value = response.data.totalPages;
         removeLoading();
@@ -178,6 +195,10 @@ export default {
       }
     };
     let quantity = ref(1);
+
+    function handleLinkClick(to) {
+      localStorage.setItem("activeLink", to);
+    }
 
     onMounted(async () => {
       try {
@@ -205,6 +226,7 @@ export default {
     return {
       product,
       nameAuthor,
+      idAuthor,
       relatedProducts,
       productRating,
       curPage,
@@ -212,6 +234,7 @@ export default {
       quantity,
       isDisabled,
       changeQuantity,
+      handleLinkClick,
     };
   },
   methods: {

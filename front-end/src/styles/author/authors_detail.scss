@@ -1,4 +1,4 @@
-.author-details-section{
+.author-details-section {
   margin-bottom: 64px;
 }
 
@@ -149,7 +149,17 @@ p {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.shop-product{
+.shop-product {
   padding-left: 2px;
   padding-right: 2px;
+}
+
+.title {
+  color: #242424;
+  font-size: 15px;
+  grid-area: auto;
+  line-height: 25.5px;
+  margin: 0px 0px 32px;
+  font-family: Lora;
+  font-size: 34px;
 }

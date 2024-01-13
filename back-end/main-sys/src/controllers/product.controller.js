@@ -7,7 +7,6 @@ const fs = require("fs");
 const Order = require("../models/order.model");
 const Account = require("../models/account.model");
 const Category = require("../models/category.model");
-
 const axios = require("axios");
 const https = require("https");
 const instance = axios.create({
@@ -367,7 +366,7 @@ class productController {
       next(error);
     }
   };
-  // [POST] product/edit/save
+  // [POST] product/edit/save/:id
   updateProduct = async (req, res, next) => {
     try {
       upload(req, res, async (err) => {

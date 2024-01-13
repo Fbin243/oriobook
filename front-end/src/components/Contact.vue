@@ -1,43 +1,34 @@
 <template>
-  <div class="gg" style="width: 1500px;margin-left: auto;margin-right: auto;position: relative;">
-    <div id="map" style="width: 50%; margin: 30px;margin-top: 80px;"></div>
-    <div class="container" style="margin-right: 50px;">
+  <div
+    class="gg"
+    style="
+      width: 1500px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    "
+  >
+    <div id="map" style="width: 50%; margin: 30px; margin-top: 80px"></div>
+    <div class="container" style="margin-right: 50px">
       <h4>Need more information?</h4>
       <br />
       <div>
-        <i class="fa-solid fa-location-dot"></i> 3 Nguyen Van Cu, District 5, HoChiMinh City,<br />
-        3166 (03) 9238 8831
+        <i class="fa-solid fa-location-dot"></i> 227 Nguyen Van Cu, District 5,
+        Ho Chi Minh City,<br />
+        <i class="fa-solid fa-phone"></i> (+84) 943018664
       </div>
       <br />
       <div>
-        For all customer enquiries please contact us at: hello@hazelandfolk.com<br />
+        All customer enquiries please contact us at:
+        <a href="mailto:oriobook.webdev@gmail.com" style="text-decoration: none"
+          ><strong class="d-inline">oriobook.webdev@gmail.com</strong><br
+        /></a>
         Please allow 24 to 48 hours for our team to respond to you.
       </div>
       <br />
       <h4>Open hours:</h4>
-      Monday to Friday 8am to 5pm,<br />
-      Australian Eastern Standard Time.<br /><br />
-      <h4 style="font-family: jost, sans-serif;font-size: 24px;">Contact us:</h4><br>
-      <form action="#" method="post">
-        <div class="form-group">
-          <label for="name" style="font-family: jost, sans-serif;font-size: 15px;">Name:</label>
-          <input type="text" class="form-control" id="name" name="name" required />
-        </div><br>
-
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" name="email" required />
-        </div>
-        <br>
-        <div class="form-group">
-          <label for="message">Message:</label>
-          <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-dark btn-hover-orange">
-          Submit
-        </button>
-      </form>
+      Monday to Friday 8.AM to 5.PM,<br />
+      Indochina Standard Time.
     </div>
   </div>
 </template>

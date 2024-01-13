@@ -1,51 +1,51 @@
 .container {
-    padding-top: 60px;
-    padding-bottom: 60px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0 auto; /* Center the container on the page */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto; /* Center the container on the page */
 }
-
 
 /* Style for each box */
 .box {
-    font-family: Lora, serif;   
-    width: 440px;
-    height: 200px;
-    color: #000000;
-    text-align: center;
-    line-height: 20px;
-    font-size: 20px;
-    font-weight: 100;
-    padding: 30px;
+  font-family: Lora, serif;
+  width: 440px;
+  height: 200px;
+  color: #000000;
+  text-align: center;
+  line-height: 20px;
+  font-size: 20px;
+  font-weight: 100;
+  padding: 30px;
 }
 .box:hover {
-    animation: shake 1s ease-in-out;
+  animation: shake 1s ease-in-out;
 }
 
 .reset {
-    color: #696969;
-    line-height: 20px;
-    font-size: 16px;
-    font-weight: 100;
+  font-family: Jost, sans-serif;
+  color: #000000;
+  font-size: 16px;
+  line-height: 25px;
+  font-weight: 400;
 }
 
 .icon {
-    font-size: 45px; /* Adjust the font-size to make the icon larger */
-
-
+  font-size: 45px; /* Adjust the font-size to make the icon larger */
 }
 
 @keyframes shake {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    25%, 75% {
-        transform: translateX(-5px);
-    }
-    50% {
-        transform: translateX(5px);
-    }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25%,
+  75% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
 }

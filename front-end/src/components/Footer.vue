@@ -13,11 +13,7 @@
       >
       <br /><br />
       <div
-        style="
-          font-size: 15px;
-          color: rgb(110, 110, 110);
-          font-family: Jost, sans-serif;
-        "
+        style="font-size: 15px; color: #242424; font-family: Jost, sans-serif"
       >
         Got Question? Call us 24/7
       </div>
@@ -36,83 +32,41 @@
 
       <div
         style="
-          font-weight: 100;
-          color: rgb(110, 110, 110);
+          font-weight: 400;
+          color: #242424;
           font-family: Jost, sans-serif;
           font-size: 15px;
         "
       >
-        268 St, South New York/NY 98944, United States
+        227 Nguyen Van Cu, District 5, Ho Chi Minh City.
       </div>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div
-          style="
-            font-weight: 100;
-            color: rgb(110, 110, 110);
-            font-family: Jost, sans-serif;
-            font-size: 15px;
-          "
-        >
-          ntbinh21@clc.fitus.edu.vn
-        </div>
-      </a>
     </div>
     <div class="box box2">
       <strong style="font-size: 22px; font-family: Lora, serif"
         >Publisher</strong
       >
       <br /><br />
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Norstedt's history
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">Norstedt's history</div>
       </a>
 
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Norstedt's Publishing Group
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">Norstedt's Publishing Group</div>
       </a>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Norstedt's Agency
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">Norstedt's Agency</div>
       </a>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          The book club
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">The book club</div>
       </a>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Environment and sustainability
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">Environment and sustainability</div>
       </a>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Work with us
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">Work with us</div>
       </a>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Book Fairs
-        </div>
+      <a href="#" style="text-decoration: none"
+        ><div class="footer-link">Book Fairs</div>
       </a>
     </div>
     <div class="box box3">
@@ -121,30 +75,25 @@
       >
       <br /><br />
       <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
+        href="/aboutus"
         style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">About us</div>
+        @click="handleLinkClick('/aboutus')"
+        ><div class="footer-link">About us</div>
       </a>
       <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
+        href="/contact"
         style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Our Services
-        </div>
+        @click="handleLinkClick('/contact')"
+        ><div class="footer-link">Contact</div>
       </a>
       <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
+        href="/faq"
         style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Latest News
-        </div>
+        @click="handleLinkClick('/faq')"
+        ><div class="footer-link">FAQs</div>
       </a>
-      <a
-        href="mailto:ntbinh21@clc.fitus.edu.vn   "
-        style="text-decoration: none"
-        ><div style="font-weight: 100; color: rgb(110, 110, 110)">
-          Best Sellers
-        </div>
+      <a href="/refund-policy" style="text-decoration: none"
+        ><div class="footer-link">Refund and Returns Policy</div>
       </a>
     </div>
     <div class="box box4">
@@ -153,42 +102,30 @@
       >
       <br /><br />
       <a
-        href="https://www.facebook.com/"
+        href="https://www.facebook.com/VNUHCM.US"
         target="_blank"
         rel="noopener noreferrer"
       >
         <i class="fab fa-facebook icon"></i> </a
       >ㅤ
-      <a
-        href="https://studenthcmusedu-my.sharepoint.com/personal/tghong_mso_hcmus_edu_vn/_layouts/15/stream.aspx?id=%2Fpersonal%2Ftghong_mso_hcmus_edu_vn%2FDocuments%2FRecordings%2FSEMINAR%20THỰC%20HÀNH%20LẦN%201%20-%20HTTTDN%20-%2021HTTT1-20231102_080506-Meeting%20Recording%2Emp4&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="#" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-instagram icon"></i> </a
       >ㅤ
-      <a
-        href="https://chat.openai.com/c/056fad36-ce96-4712-b96e-4ff2dd08fe4a"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="#" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-twitter icon"></i> </a
       >ㅤ
-      <a
-        href="https://www.facebook.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="#" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-wordpress-simple icon"></i>
       </a>
       <br /><br />
-      <img src="../assets/img/money.jpg" style="margin-left: -30px" />
+      <!-- <img src="../assets/img/money.jpg" style="margin-left: -30px" /> -->
     </div>
   </div>
   <div
     style="
       text-align: center;
       font-size: 15px;
-      color: rgb(110, 110, 110);
+      color: #242424;
       font-family: Jost, sans-serif;
       margin-top: 100px;
       padding-bottom: 50px;
@@ -199,8 +136,32 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
 export default {
   name: "footer",
+  setup() {
+    // Step 1: Create a ref to store the active link
+    const activeLink = ref("/");
+
+    // Step 2: Handle router link click event
+    function handleLinkClick(to) {
+      activeLink.value = to;
+      localStorage.setItem("activeLink", to);
+    }
+
+    // Step 3: Check localStorage on component mount
+    onMounted(() => {
+      const storedActiveLink = localStorage.getItem("activeLink");
+      if (storedActiveLink) {
+        activeLink.value = storedActiveLink;
+      }
+    });
+
+    return {
+      activeLink,
+      handleLinkClick,
+    };
+  },
 };
 </script>
 

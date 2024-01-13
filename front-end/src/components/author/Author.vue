@@ -59,7 +59,7 @@
           </ul>
         </div>
       </div>
-
+      <div class="title mt-5 ps-4">Author's books</div>
       <div
         class="row gx-2 gy-3 row-products js-container-author-product justify-content-center"
       >

@@ -1,7 +1,7 @@
 <template>
   <div class="col-3">
     <form style="padding-left: 20px">
-      <h6 style="margin-top: 56px">Categories:</h6>
+      <h6 style="margin-top: 56px" class="text-uppercase">Categories:</h6>
       <div
         class="form-group form-check"
         v-for="category in categories"
@@ -14,9 +14,9 @@
           @click="selectCategory(category.name, category._id)"
         />
         <div class="d-flex align-items-center justify-content-between">
-          <label class="form-check-label" :for="category._id">{{
-            category.name
-          }}</label>
+          <label class="form-check-label" :for="category._id"
+            >{{ category.name }} ({{ category.num_product }})</label
+          >
           <i
             class="fa-regular fa-chevron-down"
             :id="'sub-container-btn-' + category._id"
@@ -39,7 +39,7 @@
               @click="selectCategory(subCate._id.name, subCate._id._id)"
             />
             <label class="form-check-label" :for="subCate._id._id">
-              {{ subCate._id.name }}
+              {{ subCate._id.name }} ({{ subCate._id.num_product }})
             </label>
           </div>
         </div>
@@ -47,7 +47,7 @@
 
       <br />
 
-      <h6>Author:</h6>
+      <h6 class="text-uppercase">Author:</h6>
       <div
         class="form-group form-check"
         v-for="author in authors"
@@ -59,9 +59,9 @@
           :id="author._id"
           @click="selectAuthor(author.name, author._id)"
         />
-        <label class="form-check-label" :for="author._id">{{
-          author.name
-        }}</label>
+        <label class="form-check-label" :for="author._id"
+          >{{ author.name }} ({{ author.published_book }})</label
+        >
       </div>
 
       <br />
@@ -100,7 +100,7 @@
           </li>
         </ul>
       </div>
-      <div class="row gx-3 px-0 js-product-wrapper" style="min-height: 806px">
+      <div class="row gx-3 px-0 js-product-wrapper" style="min-height: 826px">
         <div
           class="mt-3"
           :class="author_page ? 'm-20' : 'col-3'"

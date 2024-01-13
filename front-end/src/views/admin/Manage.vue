@@ -159,6 +159,7 @@ export default {
     };
 
     const handleDelete = () => {
+      $(".manage-product-titles .manage-product-checkbox").off("click");
       const deleteBtn = document.querySelector(
         ".manage-product .js-delete-btn"
       );
@@ -197,7 +198,7 @@ export default {
               const id_product = $(checkbox).val();
               displayLoading(".manage-product-list", -32, -32);
               const response = await axios.delete(
-                `https://localhost:3000/category/delete/${id_product}`
+                `https://localhost:3000/product/delete/${id_product}`
               );
               checkbox.parentElement.remove();
               removeLoading();
@@ -209,18 +210,13 @@ export default {
       }
     };
 
-    const init = function () {
-      $(() => {
-        handleDelete();
-        paginationControl();
-      });
-    };
-
     onMounted(async () => {
       try {
         handleSearchQuery();
         await requestPage();
-        init();
+        $(() => {
+          paginationControl();
+        });
       } catch (error) {
         console.error(error);
       }

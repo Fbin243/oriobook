@@ -101,7 +101,6 @@ export default {
     let page = 1;
     const curPage = ref(page);
     const perPage = 4;
-
     const searchQuery = ref("");
 
     const handleSearchQuery = () => {
@@ -154,6 +153,7 @@ export default {
     };
 
     const handleDelete = () => {
+      $(".manage-product-titles .manage-product-checkbox").off("click");
       const deleteBtn = document.querySelector(
         ".manage-product .js-delete-btn"
       );
@@ -189,14 +189,15 @@ export default {
           // Remove item khỏi giao diện
           checkboxes.forEach(async (checkbox) => {
             if (checkbox.checked) {
-              const id_product = $(checkbox).val();
+              const id_author = $(checkbox).val();
               displayLoading(".manage-product-list", -32, -32);
+              console.log("GỌi hàm delete");
               const response = await axios.delete(
-                `https://localhost:3000/category/delete/${id_product}`
+                `https://localhost:3000/author/delete/${id_author}`
               );
               checkbox.parentElement.remove();
               removeLoading();
-              window.location.reload();
+              // window.location.reload();
             }
             mainCheckbox.checked = false;
           });
@@ -204,18 +205,13 @@ export default {
       }
     };
 
-    const init = function () {
-      $(() => {
-        handleDelete();
-        paginationControl();
-      });
-    };
-
     onMounted(async () => {
       try {
         handleSearchQuery();
         await requestPage();
-        init();
+        $(() => {
+          paginationControl();
+        });
       } catch (error) {
         console.error(error);
       }

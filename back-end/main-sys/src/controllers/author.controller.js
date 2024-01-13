@@ -1,6 +1,8 @@
 const Author = require("../models/author.model");
 const Product = require("../models/product.model");
 const { upload, uploadToImgur } = require("../middlewares/upload-file");
+const { adjustCategoryOrAuthor } = require("../utils/adjustCategoryOrAuthor");
+
 class authorController {
   // [GET] product/detail/:id
   getDetail = async (req, res, next) => {
@@ -103,9 +105,9 @@ class authorController {
       const totalAuthors = await Author.countDocuments(searchOption);
       const totalPages = Math.ceil(totalAuthors / perPage);
       const authors = await Author.find(searchOption)
-        .sort({ date: -1 })
         .skip((page - 1) * perPage)
-        .limit(perPage);
+        .limit(perPage)
+        .sort({ date: -1 });
       res.status(200).json({ authors, totalPages });
     } catch (error) {
       next(error);
@@ -176,12 +178,20 @@ class authorController {
   // [POST] product/delete/:id
   deleteAuthor = async (req, res, next) => {
     try {
+      console.log("DELETE AUTHOR");
+      // Tìm ra tất cả những sp của tác giả cần xóa
+      const removeProducts = await Product.find({ id_author: req.params.id });
+      console.log("San pham cua tac gia can xoa: ", removeProducts);
+      for (let product of removeProducts) {
+        await adjustCategoryOrAuthor(product.id_category, -1);
+      }
       // Xóa hết tất cả sp của tác giả
       await Product.deleteMany({ id_author: req.params.id });
+      // Xóa tác giả
       await Author.deleteOne({ _id: req.params.id });
       res.status(200).json({ msg: "Delete author successfully!" });
     } catch (err) {
-      res.status(400).json({ msg: "Delete author fail!" });
+      next(err);
     }
   };
 }

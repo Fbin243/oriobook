@@ -14,7 +14,7 @@ const displayLoading = (container, top = 0, left = 0) => {
 const removeLoading = () => {
   setTimeout(() => {
     $(".loading-screen").remove();
-  }, 500);
+  }, 800);
 };
 
 module.exports = {

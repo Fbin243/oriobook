@@ -19,6 +19,7 @@ router.post("/handle-review/:id", isAuth, productController.handleReview);
 router.get("/checkout", isAuth, productController.getCheckout);
 
 // **************** ADMIN **********************
+router.get("/dashboard", isAdmin, productController.getDashboard);
 router.get("/manage", isAdmin, productController.getManage);
 router.get("/edit/:id", isAdmin, productController.getEdit);
 router.post("/edit/save", isAdmin, productController.addProduct);

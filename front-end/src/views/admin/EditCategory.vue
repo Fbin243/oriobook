@@ -170,7 +170,7 @@ export default {
           `<span style="border-radius: 4px" class="p-1 bg-primary me-1">
           <span class="js-sub-cate" data-bs-toggle="modal" 
            data-bs-target="#exampleModal" role="button">
-            <span class="sub-cate-title">${name}</span>
+            <span class="sub-cate-title">${name} (0)</span>
             <input type="hidden" value="">
           </span>
           <i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i>
@@ -237,7 +237,7 @@ export default {
                 `<span style="border-radius: 4px" class="p-1 bg-primary me-1">
                   <span class="js-sub-cate" data-bs-toggle="modal"
                   data-bs-target="#exampleModal" role="button">
-                    <span class="sub-cate-title">${subCate._id.name}</span>
+                    <span class="sub-cate-title">${subCate._id.name} (${subCate._id.num_product})</span>
                     <input type="hidden" value="${subCate._id._id}">
                   </span>
                   <i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i>

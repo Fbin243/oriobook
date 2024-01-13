@@ -1,7 +1,8 @@
 const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 const Author = require("../models/author.model");
-const { upload, uploadToImgur } = require("../middlewares/upload-file");
+const { adjustCategoryOrAuthor } = require("../utils/adjustCategoryOrAuthor");
+
 class categoryController {
   // *************** ADMIN *********************
   getAllCategory = async (req, res, next) => {
@@ -73,7 +74,7 @@ class categoryController {
         isMain: true,
       });
 
-      const savedElement = await newCategory.save();
+      await newCategory.save();
 
       res.status(200).json({ msg: "Added Category" });
     } catch (error) {
@@ -142,7 +143,6 @@ class categoryController {
         const savedElement = await newCategory.save();
         category.sub_category.push({ _id: savedElement._id });
       }
-      await Category.updateOne({ _id }, category);
 
       console.log("Những sub cate bị xóa: ", removeCategory);
       // Xóa những sub cate không cần nữa
@@ -150,18 +150,18 @@ class categoryController {
         // Tìm ra tất cả các cuốn sách của sub cate đang xét
         const removeProducts = await Product.find({
           id_category: cate._id,
-        }).populate("id_author");
-        // Cập nhật lại trường published_book của tất cả các tác giả có sách bị xóa
+        });
         for (let product of removeProducts) {
-          await Author.updateOne(
-            { _id: product.id_author._id },
-            { $set: { published_book: product.id_author.published_book - 1 } }
-          );
+          // Cập nhật lại trường published_book của tất cả các tác giả có sách bị xóa
+          await adjustCategoryOrAuthor(product.id_author, -1, true);
+          category.num_product -= 1;
         }
         // Xóa tất cả các sp thuộc sub cate đó
         await Product.deleteMany({ id_category: cate._id });
         await Category.deleteOne({ _id: cate._id });
       }
+
+      await Category.updateOne({ _id }, category);
       res.status(200).json({ msg: "Updated Category" });
     } catch (error) {
       next(error);
@@ -179,13 +179,10 @@ class categoryController {
         // Tìm ra tất cả các cuốn sách của sub cate đang xét
         const removeProducts = await Product.find({
           id_category: cate._id._id,
-        }).populate("id_author");
-        // Cập nhật lại trường published_book của tất cả các tác giả có sách bị xóa
+        });
         for (let product of removeProducts) {
-          await Author.updateOne(
-            { _id: product.id_author._id },
-            { $set: { published_book: product.id_author.published_book - 1 } }
-          );
+          // Cập nhật lại published_book
+          await adjustCategoryOrAuthor(product.id_author, -1, true);
         }
         // Xóa tất cả sản phẩm của sub category đó
         await Product.deleteMany({ id_category: cate._id._id });

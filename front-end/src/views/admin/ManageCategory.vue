@@ -56,7 +56,7 @@
                     class="manage-product-item-infos row gx-0 align-items-center"
                   >
                     <li class="manage-product-info text-center col">
-                      {{ category.name }}
+                      {{ category.name }} ({{ category.num_product }})
                     </li>
                     <li class="manage-product-info text-center col-2 me-2">
                       {{ category.num_sub }}
@@ -154,6 +154,7 @@ export default {
     };
 
     const handleDelete = () => {
+      $(".manage-product-titles .manage-product-checkbox").off("click");
       const deleteBtn = document.querySelector(
         ".manage-product .js-delete-btn"
       );
@@ -204,17 +205,13 @@ export default {
       }
     };
 
-    const init = function () {
-      $(() => {
-        handleDelete();
-        paginationControl();
-      });
-    };
     onMounted(async () => {
       try {
         await requestPage();
         handleSearchQuery();
-        init();
+        $(() => {
+          paginationControl();
+        });
       } catch (error) {
         console.error(error);
       }

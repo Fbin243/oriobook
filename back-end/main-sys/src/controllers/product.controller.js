@@ -14,7 +14,7 @@ const instance = axios.create({
     rejectUnauthorized: false,
   }),
 });
-
+const { adjustCategoryOrAuthor } = require("../utils/adjustCategoryOrAuthor");
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 async function findAuthorIdByName(authorName) {
   const author = await Author.findOne({
@@ -44,6 +44,7 @@ class productController {
       next(error);
     }
   };
+
   // [GET] product/top-rated
   getTopRatedBook = async (req, res, next) => {
     try {
@@ -67,6 +68,7 @@ class productController {
       next(error);
     }
   };
+
   // [GET] product/shop
   getShop = async (req, res, next) => {
     try {
@@ -214,6 +216,7 @@ class productController {
       next(error);
     }
   };
+
   // [GET] product/productAuthor/:id
   productAuthor = async (req, res, next) => {
     try {
@@ -303,13 +306,68 @@ class productController {
 
   // *************** ADMIN *********************
   // [GET] product/dashboard
+  getDashboard = async (req, res, next) => {
+    try {
+      // Lấy hết tẩt cả product ra, populate hết các id
+      const products = await Product.find({})
+        .populate("id_author")
+        .populate("id_category");
+
+      // Tính totalStock và totalReview
+      let totalStock = 0;
+      let totalReview = 0;
+      let avgRating = 0;
+      for (let product of products) {
+        totalStock += product.stock;
+        totalReview += product.reviews.length;
+        for (let review of product.reviews) {
+          avgRating += review.rating;
+        }
+      }
+
+      avgRating = (avgRating / totalReview).toFixed(2);
+
+      const categories = await Category.find({ isMain: true }).populate(
+        "sub_category._id"
+      );
+
+      // Lấy ra list authors
+      const authors = await Author.find({});
+
+      // Tính total income
+      const orders = await Order.find({});
+      let totalIncome = 0;
+      let totalOrder = orders.length;
+      let successOrder = await Order.countDocuments({ status: "Successful" });
+      for (let order of orders) {
+        for (let item of order.detail) {
+          totalIncome += item.quantity * item.product.price;
+        }
+      }
+
+      res.status(200).json({
+        categories,
+        authors,
+        totalIncome,
+        totalOrder,
+        successOrder,
+        totalStock,
+        totalReview,
+        avgRating,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // [GET] product/manage
   getManage = async (req, res, next) => {
     try {
       const page = isNaN(req.query.page)
         ? 1
         : Math.max(1, parseInt(req.query.page));
       const perPage = isNaN(req.query.perPage)
-        ? 6
+        ? 7
         : Math.max(1, parseInt(req.query.perPage));
       const searchOption = req.query.search
         ? { name: { $regex: new RegExp(req.query.search, "i") } }
@@ -326,6 +384,7 @@ class productController {
       next(error);
     }
   };
+
   // [GET] product/edit
   getEdit = async (req, res, next) => {
     try {
@@ -337,6 +396,7 @@ class productController {
       next(error);
     }
   };
+
   // [POST] product/edit/save
   addProduct = async (req, res, next) => {
     try {
@@ -344,13 +404,10 @@ class productController {
         if (err) {
           return res.status(400).send({ message: err.message });
         }
-        // Tìm id_author ứng với author_name
-        const author = await Author.findOne({ name: req.body.author_name });
-        delete req.body.author_name;
-        req.body.id_author = author._id;
-        // Cộng 1 sách cho trường published_book của tác giả
-        author.published_book += 1;
-        await author.save();
+        // Cộng 1 cho published_book của author
+        await adjustCategoryOrAuthor(req.body.id_author, 1, true);
+        // Cộng 1 cho num_product của category
+        await adjustCategoryOrAuthor(req.body.id_category, 1);
         if (req.file) {
           // Upload the file to Imgur
           const imgurLink = await uploadToImgur(req.file.buffer);
@@ -366,6 +423,7 @@ class productController {
       next(error);
     }
   };
+
   // [POST] product/edit/save/:id
   updateProduct = async (req, res, next) => {
     try {
@@ -373,25 +431,32 @@ class productController {
         if (err) {
           return res.status(400).send({ message: err.message });
         }
-        // Tìm id_author ứng với author_name
-        const newAuthor = await Author.findOne({ name: req.body.author_name });
-        delete req.body.author_name;
-        req.body.id_author = newAuthor._id;
         // Update link ảnh nếu có
         if (req.file) {
           const imgurLink = await uploadToImgur(req.file.buffer);
           req.body.image = imgurLink;
         }
+
+        console.log("OK", req.body);
+
         // Lấy thông tin sản phẩm hiện tại
         const curProduct = await Product.findOne({ _id: req.params.id });
         // So sánh id tác giả cũ và tác giả mới nếu khác nhau thì cập nhật published_book lại
         if (curProduct.id_author != req.body.id_author) {
-          const oldAuthor = await Author.findOne({ _id: curProduct.id_author });
-          if (oldAuthor.published_book > 0) oldAuthor.published_book -= 1;
-          newAuthor.published_book += 1;
-          await oldAuthor.save();
-          await newAuthor.save();
+          // Trừ 1 cho tác giả cũ
+          await adjustCategoryOrAuthor(curProduct.id_author, -1, true);
+          // Cộng 1 cho tác giả mới
+          await adjustCategoryOrAuthor(req.body.id_author, 1, true);
         }
+
+        // So sánh id cate cũ và cate mới nếu khác thì cập nhật num_product
+        if (curProduct.id_category != req.body.id_category) {
+          // Trừ 1 cho cate cũ
+          await adjustCategoryOrAuthor(curProduct.id_category, -1);
+          // Cộng 1 cho cate mới
+          await adjustCategoryOrAuthor(req.body.id_category, 1);
+        }
+
         await Product.updateOne({ _id: req.params.id }, req.body);
         res.status(200).json({ msg: "Updated Product" });
       });
@@ -399,15 +464,16 @@ class productController {
       next(error);
     }
   };
+
   // [POST] product/delete/:id
   deleteProduct = async (req, res, next) => {
     try {
       // Lấy thông tin sản phẩm bị xóa
       const removeProduct = await Product.findOne({ _id: req.params.id });
-      // Lấy thông tin tác giả, trừ số lượng published_book đi 1
-      const author = await Author.findOne({ _id: removeProduct.id_author });
-      if (author.published_book > 0) author.published_book -= 1;
-      author.save();
+      // Trừ số lượng published_book đi 1 của tác giả tương ứng
+      await adjustCategoryOrAuthor(removeProduct.id_author, -1, true);
+      // Cập nhật num_product của cate tương ứng
+      await adjustCategoryOrAuthor(removeProduct.id_category, -1);
       // Xóa sản phẩm đi
       await Product.deleteOne({ _id: req.params.id });
       res.status(200).json({ msg: "Deleted Product" });
@@ -415,6 +481,7 @@ class productController {
       next(err);
     }
   };
+
   //[POST] /handle-review/:id
   handleReview = async (req, res, next) => {
     try {

@@ -76,14 +76,14 @@
             </div>
             <div class="product-category">
               <label class="product-category-label"> Author </label>
-              <select class="edit-product-select" name="author_name">
+              <select class="edit-product-select" name="id_author">
                 <option
                   v-for="author in authors"
                   :key="author"
-                  :value="author"
-                  :selected="isSelected(author, authorName)"
+                  :value="author._id"
+                  :selected="isSelected(author._id, authorName)"
                 >
-                  {{ author }}
+                  {{ author.name }}
                 </option>
               </select>
             </div>
@@ -197,7 +197,6 @@ export default {
         // Lấy tất cả author
         response = await axios.get(`https://localhost:3000/author/all`);
         authors.value = response.data;
-        authors.value = authors.value.map((item) => item.name);
 
         if (route.name == "EditForUpdate") {
           response = await axios.get(
@@ -205,7 +204,7 @@ export default {
           );
           if (response.status == 200) {
             product.value = response.data;
-            authorName.value = product.value.id_author.name;
+            authorName.value = product.value.id_author._id;
             // Hiển thị hình ảnh preview
             $(() => {
               $(".file-drop-zone-title").css({

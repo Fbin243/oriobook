@@ -31,7 +31,7 @@
                 />
                 <button
                   class="col"
-                  @click="plus(element._id)"
+                  @click="plus(element._id, element.stock)"
                   :disabled="isDisabled(element.quantities, element.stock)"
                 >
                   <i class="fa-light fa-plus"></i>
@@ -130,15 +130,17 @@ export default {
       }
     };
 
-    async function plus(id) {
-      console.log(id);
-      const quantity = 1;
-      const response = await axios.post(
-        `https://localhost:3000/account/addToCart/${id}/${quantity}`
-      );
+    async function plus(id, stock) {
+      if (stock > 0) {
+        console.log(id);
+        const quantity = 1;
+        const response = await axios.post(
+          `https://localhost:3000/account/addToCart/${id}/${quantity}`
+        );
 
-      if (response.data.status == true) {
-        await update();
+        if (response.data.status == true) {
+          await update();
+        }
       }
     }
 

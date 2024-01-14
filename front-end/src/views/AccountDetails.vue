@@ -4,7 +4,7 @@
       <SideBar />
       <div class="woocommerce-MyAccount-content col-9">
         <AccountDetails />
-        <AccountDetails_Pass />
+        <AccountDetails_Pass v-if="display === true" />
       </div>
     </div>
   </div>
@@ -14,6 +14,8 @@
 import SideBar from "@/components/account/SideBar.vue";
 import AccountDetails from "@/components/account/AccountDetails.vue";
 import AccountDetails_Pass from "@/components/account/AccountDetails_Pass.vue";
+import { onMounted, ref } from "vue";
+import axios from "../config/axios";
 
 export default {
   components: {
@@ -21,9 +23,26 @@ export default {
     AccountDetails,
     AccountDetails_Pass,
   },
-  setup(){
-    
-  }
+  setup() {
+    let display = ref(true);
+    onMounted(async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:3000/account/getAccountDetail`
+        );
+
+        if (response.data.password == "") {
+          display.value = false;
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API", error);
+      }
+    });
+
+    return {
+      display,
+    };
+  },
 };
 </script>
 

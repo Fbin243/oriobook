@@ -352,7 +352,7 @@ class orderController {
 
         // a new transaction
         if (order.id_account) {
-          await this.restoreClient(order.id_account.email, totalSum);
+          await this.restoreClient(res, order.id_account.email, totalSum);
         }
 
         res.status(200).json({ result: "success" });
@@ -362,7 +362,7 @@ class orderController {
     }
   };
 
-  restoreClient = async (emailClient, total) => {
+  restoreClient = async (res, emailClient, total) => {
     try {
       let _account = await Account.findOne({ email: emailClient });
       let _adminAccount = await Account.findOne({ isAdmin: true });
@@ -413,7 +413,8 @@ class orderController {
       let data2 = response2.data;
 
       if (data2.result !== "success") {
-        return next("Fail to adjust balance");
+        // return next("Fail to adjust balance");
+        throw new Error("Fail to adjust balance");
       }
 
       // Create a new transaction for admin
@@ -471,7 +472,8 @@ class orderController {
       let data4 = response4.data;
 
       if (data4.result !== "success") {
-        return next("Fail to adjust balance of client");
+        // return next("Fail to adjust balance of client");
+        throw new Error("Fail to adjust balance of client");
       }
 
       // Create a new transaction for client

@@ -13,6 +13,15 @@ const https = require("https");
 const fs = require("fs");
 const app = express();
 
+const axios = require("axios");
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
+const instance = axios.create({
+  httpsAgent: httpsAgent,
+});
+
 app.use(
   session({
     secret: "mysecret",
@@ -81,7 +90,8 @@ app.get("/auth/google/callback", async (req, res) => {
       newAcc.email = information.email;
       newAcc.firstName = information.given_name;
       newAcc.lastName = information.family_name;
-      await newAcc.save();
+
+      // await newAcc.save();
     } else {
       newAcc = oldAcc;
     }
@@ -99,6 +109,38 @@ app.get("/auth/google/callback", async (req, res) => {
       accessTokenSecret,
       accessTokenLife
     );
+
+    // Khi đăng kí tk bên ht chính thì gửi request để tạo tk bên ht phụ kèm xin token
+    let dataSend = {
+      email: newAcc.email,
+    };
+
+    const response = await instance.post(
+      `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+      dataSend,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    let data = response.data;
+    let result2 = data.result;
+
+    if (result2 !== "success") {
+      return next(data.msg);
+    }
+
+    let paymentToken = data.paymentToken;
+
+    if(oldAcc === null){
+      newAcc.token = paymentToken;
+      await newAcc.save();
+    }else{
+      oldAcc.token = paymentToken;
+      await oldAcc.save();
+    }
 
     return res.redirect(`https://localhost:8080/access?token=${access_token}`);
   } catch (err) {

@@ -4,10 +4,11 @@ const product = require("../models/product.model");
 const authMethod = require("../methods/auth.methods");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const { mongooseToObject, formatDate } = require("../utils/mongoose");
+const jwt = require("jsonwebtoken");
+
 const axios = require("axios");
 const https = require("https");
-const jwt = require("jsonwebtoken");
-const { mongooseToObject, formatDate } = require("../utils/mongoose");
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
@@ -53,11 +54,11 @@ class accountController {
           accessTokenLife
         );
 
+        // Khi đăng kí tk bên ht chính thì gửi request để tạo tk bên ht phụ kèm xin token
         let dataSend = {
           email: req.body.email,
         };
 
-        // Khi đăng kí tk bên ht chính thì gửi request để tạo tk bên ht phụ kèm xin token
         const response = await instance.post(
           `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
           dataSend,

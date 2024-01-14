@@ -87,7 +87,7 @@
 <script>
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
-import axios from "axios";
+import axios from "../../config/axios";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 
 export default {

@@ -107,7 +107,7 @@
 <script>
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
-import axios from "axios";
+import axios from "../../config/axios";
 
 import { useRoute, useRouter } from "vue-router";
 export default {

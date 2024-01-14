@@ -75,7 +75,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import axios from "axios";
+import axios from "../config/axios";
 import { useRouter } from "vue-router";
 
 export default {

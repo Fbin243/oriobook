@@ -1,6 +1,5 @@
 <template>
   <div class="col-9 order-section" style="min-height: 660px">
-
     <div class="type-filter">
       <h4
         class="pending text-primary underline-animation"
@@ -193,7 +192,7 @@
 <script>
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import axios from "../../config/axios";
 
 export default {
   name: "OrderAccount",

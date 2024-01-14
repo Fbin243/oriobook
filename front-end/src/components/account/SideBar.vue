@@ -70,6 +70,7 @@ export default {
   components: {},
   setup() {
     const router = useRouter();
+    const route = useRoute();
 
     let admin = ref(false);
     async function LogOut() {
@@ -101,14 +102,37 @@ export default {
       router.push(dataPath);
     }
 
+    function updateActive(element) {
+      const dataPath = $(element).data('path');
+      $('.navigation-link').removeClass('active');
+
+      localStorage.setItem('sidebar', dataPath);
+      $(element).addClass('active');
+    }
+
     onMounted(async () => {
       await checkAdmin();
+      let path = router.currentRoute.value?.path
+      let dataPaths = $('.navigation-link').map(function() {
+        return $(this).data('path');
+      }).get();
 
-      let activeSideBar = localStorage.getItem('sidebar') ?? '/account-details';
-      let markedElement = $(`.navigation-link[data-path="${activeSideBar}"]`);
-      
-      if(markedElement.length === 1){
-        directPage(markedElement);
+      // console.log(path);
+
+      if (dataPaths.includes(path)){
+        let activeSideBar = localStorage.getItem('sidebar') ?? '/account-details';
+        let markedElement = $(`.navigation-link[data-path="${activeSideBar}"]`);
+
+        if(markedElement && markedElement.length === 1){
+          directPage(markedElement);
+          router.push(activeSideBar);
+        }
+        
+      }else{
+        let activeSideBar = localStorage.getItem('sidebar') ?? '/account-details';
+        let markedElement = $(`.navigation-link[data-path="${activeSideBar}"]`);
+
+        updateActive(markedElement);
       }
     });
 

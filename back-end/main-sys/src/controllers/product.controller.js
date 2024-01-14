@@ -345,6 +345,8 @@ class productController {
         }
       }
 
+      totalIncome = totalIncome.toFixed(2);
+
       res.status(200).json({
         categories,
         authors,

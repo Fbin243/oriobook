@@ -11,17 +11,18 @@
             </div>
           </router-link>
           <a
-            type="submit"
             class="btn text-uppercase ms-auto js-save-btn"
             href="#"
-            @click="addOrUpdateProduct"
+            @click.prevent="addOrUpdateProduct"
             >Save</a
           >
         </div>
         <form class="edit-product-forms row gx-0" id="edit-form">
           <ul class="edit-product-form col-7">
             <li class="edit-product-form-item mb-3">
-              <label for="product-name">Name</label>
+              <label for="product-name"
+                >Name <span class="text-danger">{{ nameError }}</span>
+              </label>
               <input
                 id="product-name"
                 type="text"
@@ -31,7 +32,10 @@
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
-                <label for="product-price">Price ($)</label>
+                <label for="product-price"
+                  >Price ($)
+                  <span class="text-danger">{{ priceError }}</span></label
+                >
                 <input
                   id="product-price"
                   type="number"
@@ -40,7 +44,10 @@
                 />
               </div>
               <div class="col">
-                <label for="product-stock">Stock (items)</label>
+                <label for="product-stock"
+                  >Stock
+                  <span class="text-danger">{{ stockError }}</span></label
+                >
                 <input
                   id="product-stock"
                   type="number"
@@ -50,7 +57,10 @@
               </div>
             </li>
             <li class="edit-product-form-item mb-3">
-              <label for="product-description">Description</label>
+              <label for="product-description"
+                >Description
+                <span class="text-danger">{{ descriptionError }}</span></label
+              >
               <textarea
                 name="description"
                 id="product-description"
@@ -107,7 +117,7 @@
 <script>
 import Sidebar from "@/components/account/SideBar";
 import { onMounted, ref } from "vue";
-import axios from "../../config/axios";
+import axios from "@/config/axios";
 
 import { useRoute, useRouter } from "vue-router";
 export default {
@@ -135,12 +145,89 @@ export default {
       return option == productOption;
     };
 
+    // Refs for validation error messages
+    const nameError = ref("");
+    const priceError = ref("");
+    const stockError = ref("");
+    const descriptionError = ref("");
+
+    const validateForm = (values) => {
+      let isValid = true;
+
+      // Validation for name
+      values.name = values.name.trim();
+      product.value.name = values.name;
+      if (values.name === "") {
+        nameError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.name.length > 150) {
+        nameError.value = "cannot exceed 150 characters.";
+        isValid = false;
+      } else {
+        nameError.value = "";
+      }
+
+      // Validation for price
+      values.price = parseFloat(values.price);
+      product.value.price = values.price;
+      if (isNaN(values.price)) {
+        priceError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.price < 0) {
+        priceError.value = "cannot be negative.";
+        isValid = false;
+      } else if (values.price > 1000) {
+        priceError.value = "cannot exceed 1000$.";
+        isValid = false;
+      } else {
+        priceError.value = "";
+      }
+
+      // Validation for stock
+      values.stock = parseFloat(values.stock);
+      product.value.stock = values.stock;
+      if (isNaN(values.stock)) {
+        stockError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.stock < 0) {
+        stockError.value = "cannot be negative.";
+        isValid = false;
+      } else if (values.stock > 1000) {
+        stockError.value = "cannot exceed 1000 items.";
+        isValid = false;
+      } else {
+        stockError.value = "";
+      }
+
+      // Validation for description
+      values.description = values.description.trim();
+      product.value.description = values.description;
+      if (values.description === "") {
+        descriptionError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.description.length > 2000) {
+        descriptionError.value = "cannot exceed 2000 characters.";
+        isValid = false;
+      } else {
+        descriptionError.value = "";
+      }
+
+      console.log("Values: ", values);
+
+      return isValid;
+    };
+
     const addOrUpdateProduct = async () => {
       const formData = new FormData(document.getElementById("edit-form"));
       const values = {};
       formData.forEach((value, key) => {
         values[key] = value;
       });
+
+      // Validate before submitting
+      if (!validateForm(values)) {
+        return;
+      }
 
       try {
         const idProduct = product.value._id ? product.value._id : "";
@@ -232,6 +319,11 @@ export default {
       authors,
       authorName,
       addOrUpdateProduct,
+      // Expose error messages
+      nameError,
+      priceError,
+      stockError,
+      descriptionError,
     };
   },
 };

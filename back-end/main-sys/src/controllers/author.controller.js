@@ -137,10 +137,7 @@ class authorController {
           // Do something with the Imgur link (e.g., save it to a database)
           req.body.image = imgurLink;
         } else req.body.image = "https://i.imgur.com/D8pnlgT.jpg";
-        // Set up lại cái time để lưu vào DB
-        const [day, month, year] = req.body.date_of_birth.split("/");
-        const formattedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
-        req.body.date_of_birth = formattedDate.toISOString();
+        req.body.date_of_birth = new Date(req.body.date_of_birth);
         const newAuthor = new Author(req.body);
         await newAuthor.save();
         res.status(200).json({ msg: "Added Author" });
@@ -158,10 +155,7 @@ class authorController {
         if (err) {
           return res.status(400).send({ message: err.message });
         }
-        // Set up lại cái time để lưu vào DB
-        const [day, month, year] = req.body.date_of_birth.split("/");
-        const formattedDate = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
-        req.body.date_of_birth = formattedDate.toISOString();
+        req.body.date_of_birth = new Date(req.body.date_of_birth);
         // Update link ảnh nếu có
         if (req.file) {
           const imgurLink = await uploadToImgur(req.file.buffer);

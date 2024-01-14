@@ -17,14 +17,16 @@
             type="submit"
             class="btn text-uppercase ms-auto js-save-btn"
             href="#"
-            @click="addOrUpdateAuthor"
+            @click.prevent="addOrUpdateAuthor"
             >Save</a
           >
         </div>
         <form class="edit-product-forms row gx-0" id="edit-form">
           <ul class="edit-product-form col-7">
             <li class="edit-product-form-item mb-3">
-              <label for="product-name">Name</label>
+              <label for="product-name"
+                >Name <span class="text-danger">{{ nameError }}</span></label
+              >
               <input
                 id="product-name"
                 type="text"
@@ -33,7 +35,10 @@
               />
             </li>
             <li class="edit-product-form-item mb-3">
-              <label for="product-description">Description</label>
+              <label for="product-description"
+                >Description
+                <span class="text-danger">{{ descriptionError }}</span></label
+              >
               <textarea
                 name="description"
                 id="product-description"
@@ -44,12 +49,15 @@
             </li>
             <li class="edit-product-form-item mb-3 row">
               <div class="col">
-                <label for="datepicker">Date of birth</label>
+                <label for="datepicker"
+                  >Date of birth
+                  <span class="text-danger">{{ dobError }}</span></label
+                >
                 <input
-                  id="datepicker"
-                  type="text"
-                  :value="authorDOB"
+                  type="date"
+                  :value="author.date_of_birth"
                   name="date_of_birth"
+                  class="pe-2"
                 />
               </div>
               <div class="col d-none">
@@ -63,7 +71,9 @@
               </div>
             </li>
             <li class="edit-product-form-item mb-3">
-              <label for="product-style">Style</label>
+              <label for="product-style"
+                >Style <span class="text-danger">{{ styleError }}</span></label
+              >
               <input
                 id="product-style"
                 type="text"
@@ -72,7 +82,10 @@
               />
             </li>
             <li class="edit-product-form-item mb-3">
-              <label for="product-address">Address</label>
+              <label for="product-address"
+                >Address
+                <span class="text-danger">{{ addressError }}</span></label
+              >
               <input
                 id="product-address"
                 type="text"
@@ -140,13 +153,92 @@ export default {
     const isSelected = (option, productOption) => {
       return option == productOption;
     };
+
+    // Refs for validation error messages
+    const nameError = ref("");
+    const dobError = ref("");
+    const styleError = ref("");
+    const addressError = ref("");
+    const descriptionError = ref("");
+
+    const validateForm = (values) => {
+      let isValid = true;
+
+      // Validation for name
+      values.name = values.name.trim();
+      author.value.name = values.name;
+      if (values.name === "") {
+        nameError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.name.length > 150) {
+        nameError.value = "cannot exceed 150 characters.";
+        isValid = false;
+      } else {
+        nameError.value = "";
+      }
+
+      // Validation for style
+      values.style = values.style.trim();
+      author.value.style = values.style;
+      if (values.style === "") {
+        styleError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.style.length > 300) {
+        styleError.value = "cannot exceed 300 characters.";
+        isValid = false;
+      } else {
+        styleError.value = "";
+      }
+
+      // Validation for address
+      values.address = values.address.trim();
+      author.value.address = values.address;
+      if (values.address === "") {
+        addressError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.address.length > 300) {
+        addressError.value = "cannot exceed 300 characters.";
+        isValid = false;
+      } else {
+        addressError.value = "";
+      }
+
+      // Validation for date_of_birth
+      author.value.date_of_birth = values.date_of_birth;
+      if (values.date_of_birth === "") {
+        dobError.value = "cannot be empty.";
+        isValid = false;
+      } else {
+        dobError.value = "";
+      }
+
+      // Validation for description
+      values.description = values.description.trim();
+      author.value.description = values.description;
+      if (values.description === "") {
+        descriptionError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.description.length > 2000) {
+        descriptionError.value = "cannot exceed 2000 characters.";
+        isValid = false;
+      } else {
+        descriptionError.value = "";
+      }
+
+      return isValid;
+    };
+
     const addOrUpdateAuthor = async () => {
       const formData = new FormData(document.getElementById("edit-form"));
       const values = {};
       formData.forEach((value, key) => {
         values[key] = value;
       });
-      console.log(values);
+
+      // Validate before submitting
+      if (!validateForm(values)) {
+        return;
+      }
 
       try {
         const idAuthor = author.value._id ? author.value._id : "";
@@ -179,8 +271,6 @@ export default {
         showUpload: false,
         previewFileType: "any",
       });
-
-      $("#datepicker").datepicker();
     });
     if (route.name == "EditAuthorForUpdate") {
       onMounted(async () => {
@@ -191,14 +281,13 @@ export default {
           if (response.status == 200) {
             author.value = response.data;
             authorGender.value = author.value.gender;
-            const inputDate = new Date(author.value.date_of_birth);
-            const day = inputDate.getDate();
-            const month = inputDate.getMonth() + 1; // Lưu ý: Tháng bắt đầu từ 0
-            const year = inputDate.getFullYear();
-            // Sử dụng phương thức toLocaleDateString để định dạng ngày tháng năm
-            authorDOB.value = new Date(year, month - 1, day).toLocaleDateString(
-              "en-GB"
-            );
+            const date = new Date(author.value.date_of_birth);
+            // Lấy các thành phần ngày tháng
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
+            author.value.date_of_birth = year + "-" + month + "-" + day;
+            console.log("AuhtorDOB: ", author.value.date_of_birth);
             // Hiển thị hình ảnh preview
             $(() => {
               $(".file-drop-zone-title").css({
@@ -226,6 +315,11 @@ export default {
       addOrUpdateAuthor,
       genders,
       authorDOB,
+      nameError,
+      dobError,
+      styleError,
+      addressError,
+      descriptionError,
     };
   },
 };

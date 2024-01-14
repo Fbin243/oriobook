@@ -121,6 +121,12 @@ export default {
 
       if (dataPaths.includes(path)){
         let activeSideBar = localStorage.getItem('sidebar') ?? '/account-details';
+
+        if(path === '/account-wallet'){
+          localStorage.setItem('sidebar', path);
+          activeSideBar = path;
+        }
+
         let markedElement = $(`.navigation-link[data-path="${activeSideBar}"]`);
 
         if(markedElement && markedElement.length === 1){

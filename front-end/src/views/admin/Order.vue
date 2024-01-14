@@ -96,13 +96,17 @@
                               >
                                 <td class="product-thumbnail">
                                   <div class="product-cart-info">
-                                    <a
+                                    <!-- <a
                                       href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                                      ><img
+                                      @click.prevent=""
+                                      ></a> -->
+
+                                      <img
                                         :src="productItem.product?.image"
                                         class="product-img"
                                         alt=""
-                                    /></a>
+                                    />
+                                    
                                     <div class="product-name">
                                       <p
                                         class="mb-0"

@@ -41,7 +41,7 @@
       </div>
       <div id="content2" class="tab-pane fade">
         <div class="testimonial-box-container">
-          <template v-for="review in reviews">
+          <template v-for="(review, index) in reviews" :key="index">
             <div class="testimonial-box">
               <!--top------------------------->
               <div class="box-top">
@@ -53,7 +53,7 @@
                   </div>
                   <!--name-and-username-->
                   <div class="name-user">
-                    <strong>Noah Wood</strong>
+                    <strong>{{review.id_account?.firstName}} {{ review.id_account?.lastName }}</strong>
                     <span>{{ convertDateFormat(review.date) }}</span>
                   </div>
                 </div>

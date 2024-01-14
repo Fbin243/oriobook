@@ -62,7 +62,7 @@ const getOath2Client = () => {
   return oauth2;
 };
 
-app.get("/auth/google/callback", async (req, res) => {
+app.get("/auth/google/callback", async (req, res, next) => {
   const { code = null } = req.query;
   if (!code) {
     return res.redirect("https://localhost:8080/login");
@@ -90,10 +90,66 @@ app.get("/auth/google/callback", async (req, res) => {
       newAcc.email = information.email;
       newAcc.firstName = information.given_name;
       newAcc.lastName = information.family_name;
+      
+      // Khi đăng kí tk bên ht chính thì gửi request để tạo tk bên ht phụ kèm xin token
+      let dataSend = {
+        email: newAcc.email,
+      };
 
+      console.log('new acc', newAcc);
+
+      const response = await instance.post(
+        `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      let result2 = data.result;
+
+      if (result2 !== "success") {
+        return next(data.msg);
+      }
+
+      let paymentToken = data.paymentToken;
+
+      newAcc.token = paymentToken;
+
+      await newAcc.save();
       // await newAcc.save();
     } else {
       newAcc = oldAcc;
+
+      let dataSend = {
+        email: newAcc.email,
+      };
+
+      // Khi đăng nhập tài khoản thì xin lại bên ht phụ một token mới
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/generate-token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+        dataSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      let resultStatus = data.result;
+
+      if (resultStatus !== "success") {
+        return next(data.msg);
+      }
+
+      let paymentToken = data.paymentToken;
+
+      oldAcc.token = paymentToken;
+      await oldAcc.save();
     }
 
     const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
@@ -110,37 +166,11 @@ app.get("/auth/google/callback", async (req, res) => {
       accessTokenLife
     );
 
-    // Khi đăng kí tk bên ht chính thì gửi request để tạo tk bên ht phụ kèm xin token
-    let dataSend = {
-      email: newAcc.email,
-    };
-
-    const response = await instance.post(
-      `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
-      dataSend,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    let data = response.data;
-    let result2 = data.result;
-
-    if (result2 !== "success") {
-      return next(data.msg);
-    }
-
-    let paymentToken = data.paymentToken;
-
-    if(oldAcc === null){
-      newAcc.token = paymentToken;
-      await newAcc.save();
-    }else{
-      oldAcc.token = paymentToken;
-      await oldAcc.save();
-    }
+    // if(oldAcc === null){
+    // }else{
+    //   oldAcc.token = paymentToken;
+    //   await oldAcc.save();
+    // }
 
     return res.redirect(`https://localhost:8080/access?token=${access_token}`);
   } catch (err) {

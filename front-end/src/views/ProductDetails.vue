@@ -184,6 +184,9 @@ export default {
         const response = await axios.get(
           `https://localhost:3000/product/detail/${id.value}?page=${page}&perPage=${perPage}`
         );
+
+        console.log(response.data.product);
+
         product.value = response.data.product;
         productRating.value = response.data.productRating;
         product.value.category_name = product.value.id_category.name;

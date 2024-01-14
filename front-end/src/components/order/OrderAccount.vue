@@ -44,21 +44,32 @@
           >
             <td class="product-thumbnail">
               <div class="product-cart-info">
-                <a
-                  href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
+                <a v-if="item.id_product"
+                  :href="'/products/' + item.product?._id"
                   ><img
-                    :src="item.id_product ? item.id_product.image : ''"
+                    :src="item.product?.image"
                     class="product-img"
                     alt=""
                 /></a>
+
+                <img v-if="!item.id_product"
+                    :src="item.product?.image"
+                    class="product-img"
+                    alt=""
+                />
+
                 <div class="product-name">
-                  <a
-                    href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                    >{{ item.id_product ? item.id_product.name : "" }}</a
+                  <a v-if="item.id_product"
+                    :href="'/products/' + item.product?._id"
+                    >{{ item.product ? item.product.name : "" }}</a
                   >
+
+                  <p v-if="!item.id_product" 
+                  class="mb-0">{{ item.product ? item.product.name : "" }}</p>
+
                   <p class="price">
                     <span class="woocommerce-Price-amount amount">
-                      {{ item.id_product ? item.id_product.price : ""
+                      {{ item.product ? item.product.price : ""
                       }}<span class="currency">$</span>
                     </span>
                   </p>
@@ -69,8 +80,11 @@
                   <button
                     type="button"
                     class="btn btn-primary btn-submit"
-                    @click="clickModal(item.id_product._id, order._id, i_item)"
-                    :disabled="item.isReviewed"
+                    @click="clickModal(item.product?._id, order._id, i_item)"
+                    :class="
+                    {'btn-secondary': item.isReviewed || !item.id_product}
+                    "
+                    :disabled="item.isReviewed || !item.id_product"
                   >
                     {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
                   </button>

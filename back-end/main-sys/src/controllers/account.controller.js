@@ -367,6 +367,7 @@ class accountController {
   logout = async (req, res, next) => {
     try {
       let email = req.headers.email;
+      console.log('logout', email);
       let _account = await account.findOne({ email });
 
       // Khi logout thì set token thành rỗng

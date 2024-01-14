@@ -53,7 +53,7 @@ class orderController {
 
       pendingOrder.forEach((item) => {
         let totalSum = item.detail.reduce((sum, item) => {
-          let price = item.id_product ? item.id_product.price : 0;
+          let price = item.product ? item.product.price : 0;
           let quantity = item.quantity;
 
           item.subtotal = roundNumber(price * quantity, 2);
@@ -283,15 +283,58 @@ class orderController {
 
       order = mongooseToObject(order);
 
+      let checkProDelete = order.detail.every((item) => {
+        return item.id_product;
+      });
+
+
+
+      console.log('handle order', 'da qua day', order.detail);
+
+      if(action !== "accept"){
+        const updatedOrder = await Order.findOneAndUpdate(
+          { _id: orderId },
+          { $set: { status: "Cancelled" } },
+          { new: true }
+        );
+
+        // ---------------------------------------------------
+
+        let totalSum = order.detail.reduce((sum, item) => {
+          let price = item.product?.price;
+          let quantity = item.quantity;
+
+          item.subtotal = roundNumber(price * quantity, 2);
+          let total = roundNumber(sum + item.subtotal, 2);
+          return total;
+        }, 0);
+
+        // a new transaction
+        if (order.id_account) {
+          await this.restoreClient(res, order.id_account?.email, totalSum);
+        }
+
+        return res.status(200).json({ result: "success" });
+      }
+
+      if(!checkProDelete){
+        return res
+            .status(200)
+            .json({
+              result: "fail",
+              msg: "Some products don't exists",
+            });
+      }
+
       let boolHolder = order.detail.every((item) => {
-        let bool = item.quantity <= item.id_product.stock;
-        return item.quantity <= item.id_product.stock;
+        // let bool = item.quantity <= item.id_product?.stock;
+        return item.quantity <= item.id_product?.stock;
       });
 
       const updateProductStock = async (order) => {
         try {
           for (const orderDetail of order.detail) {
-            const productId = orderDetail.id_product._id;
+            const productId = orderDetail.id_product?._id;
 
             // Retrieve the product from the database
             const product = await Product.findById(productId);
@@ -323,9 +366,9 @@ class orderController {
             { new: true }
           );
 
-          res.status(200).json({ result: "success" });
+          return res.status(200).json({ result: "success" });
         } else {
-          res
+          return res
             .status(200)
             .json({
               result: "fail",
@@ -342,7 +385,7 @@ class orderController {
         // ---------------------------------------------------
 
         let totalSum = order.detail.reduce((sum, item) => {
-          let price = item.id_product ? item.id_product.price : "";
+          let price = item.product?.price;
           let quantity = item.quantity;
 
           item.subtotal = roundNumber(price * quantity, 2);
@@ -352,10 +395,10 @@ class orderController {
 
         // a new transaction
         if (order.id_account) {
-          await this.restoreClient(res, order.id_account.email, totalSum);
+          await this.restoreClient(res, order.id_account?.email, totalSum);
         }
 
-        res.status(200).json({ result: "success" });
+        return res.status(200).json({ result: "success" });
       }
     } catch (error) {
       next(error);

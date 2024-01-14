@@ -271,7 +271,7 @@ export default {
           "* Place order successfully";
 
         setTimeout(() => {
-          router.push({ name: "MyWallet" });
+          router.push('/account-wallet');
         }, 2000);
       }
     };

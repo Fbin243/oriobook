@@ -86,7 +86,7 @@ export default {
               newquantity.value += response1.data[i].quantities;
             }
             this.eventBus.emit("reload", newquantity.value);
-            toast.success("Wow Success!", {
+            toast.success("Added to cart!", {
               autoClose: 1000,
             });
           }
@@ -94,6 +94,10 @@ export default {
           console.error("Lỗi khi gọi API", error);
           window.location.href = "https://localhost:8080/login";
         }
+      } else {
+        toast.error("Sold out!", {
+          autoClose: 1000,
+        });
       }
     },
   },

@@ -3,6 +3,7 @@ import Home from "@/views/Home.vue";
 import Shop from "@/views/Shop.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
 import AccountOrder from "@/views/AccountOrder.vue";
+import AccountDelete from "@/views/AccountDelete.vue";
 import MyWallet from "@/views/MyWallet.vue";
 import FAQ from "@/views/FAQ.vue";
 import RefundPolicy from "@/views/RefundPolicy.vue";
@@ -86,6 +87,12 @@ const routes = [
         component: ProductDetails,
       },
     ],
+  },
+  {
+    path: "/account-delete",
+    name: "AccountDelete",
+    component: AccountDelete,
+    meta: { requiresUser: true },
   },
   {
     path: "/account-order",
@@ -214,7 +221,6 @@ const routes = [
     ],
   },
 
-  
   {
     path: "/error",
     name: "Error",

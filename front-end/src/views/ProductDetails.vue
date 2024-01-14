@@ -40,7 +40,7 @@
             <button
               class="col"
               @click="changeQuantity('minus')"
-              :disabled="isDisabled(quantity, 0)"
+              :disabled="isDisabled(quantity, 1)"
             >
               <i class="fa-light fa-minus"></i>
             </button>
@@ -214,7 +214,7 @@ export default {
 
     const isDisabled = computed(() => {
       return (quantities, temp) => {
-        return quantities === temp;
+        return quantities === temp || quantities > temp;
       };
     });
 
@@ -257,7 +257,7 @@ export default {
               newquantity.value += response1.data[i].quantities;
             }
             this.eventBus.emit("reload", newquantity.value);
-            toast.success("Wow Success!", {
+            toast.success("Added to cart!", {
               autoClose: 1000,
             });
           }
@@ -265,6 +265,10 @@ export default {
           console.error("Lỗi khi gọi API", error);
           window.location.href = "https://localhost:8080/login";
         }
+      } else {
+        toast.error("Sold out!", {
+          autoClose: 1000,
+        });
       }
     },
 
@@ -290,6 +294,10 @@ export default {
           console.error("Lỗi khi gọi API", error);
           window.location.href = "https://localhost:8080/login";
         }
+      } else {
+        toast.error("Sold out!", {
+          autoClose: 1000,
+        });
       }
     },
   },

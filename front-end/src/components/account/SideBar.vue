@@ -10,50 +10,92 @@
   >
     <nav class="navigation">
       <ul>
-        <li class="navigation-link" data-path="/account-details" @click="directPage( $event.target)">
+        <li
+          class="navigation-link"
+          data-path="/account-details"
+          @click="directPage($event.target)"
+        >
           <!-- <router-link to="/account-details"></router-link> -->
           Account details
         </li>
 
         <template v-if="!admin">
-          <li class="navigation-link" data-path="/account-order" @click="directPage($event.target)">
+          <li
+            class="navigation-link"
+            data-path="/account-order"
+            @click="directPage($event.target)"
+          >
             <!-- <router-link to="/account-order">Orders</router-link> -->
             My orders
           </li>
         </template>
 
         <template v-if="admin">
-          <li class="navigation-link" data-path="/admin/dashboard" @click="directPage($event.target)">
+          <li
+            class="navigation-link"
+            data-path="/admin/dashboard"
+            @click="directPage($event.target)"
+          >
             <!-- <router-link to="/admin/dashboard">Dashboard</router-link> -->
             Dashboard
           </li>
-          <li class="navigation-link" data-path="/admin/manage" @click="directPage($event.target)">
+          <li
+            class="navigation-link"
+            data-path="/admin/manage"
+            @click="directPage($event.target)"
+          >
             <!-- <router-link to="/admin/manage">Manage products</router-link> -->
             Manage products
           </li>
-          <li class="navigation-link" data-path="/admin/manage-author" @click="directPage($event.target)">
+          <li
+            class="navigation-link"
+            data-path="/admin/manage-author"
+            @click="directPage($event.target)"
+          >
             <!-- <router-link to="/admin/manage-author"></router-link> -->
             Manage authors
           </li>
-          <li class="navigation-link" data-path="/admin/manage-category" @click="directPage($event.target)">
+          <li
+            class="navigation-link"
+            data-path="/admin/manage-category"
+            @click="directPage($event.target)"
+          >
             <!-- <router-link to="/admin/manage-category"
               ></router-link -->
-              Manage categories
+            Manage categories
           </li>
-          <li class="navigation-link" data-path="/admin/order" @click="directPage($event.target)">
+          <li
+            class="navigation-link"
+            data-path="/admin/order"
+            @click="directPage($event.target)"
+          >
             <!-- <router-link to="/admin/order"></router-link> -->
             Manage orders
           </li>
         </template>
 
-
-        <li class="navigation-link" data-path="/account-wallet" @click="directPage($event.target)">
+        <li
+          class="navigation-link"
+          data-path="/account-wallet"
+          @click="directPage($event.target)"
+        >
           <!-- <router-link to="/account-wallet"></router-link> -->
           My wallet
         </li>
         <li class="navigation-link" @click="LogOut">
           <router-link to="/">Log out</router-link>
         </li>
+
+        <template v-if="!admin">
+          <li
+            class="navigation-link"
+            data-path="/account-delete"
+            @click="directPage($event.target)"
+          >
+            <!-- <router-link to="/account-order">Orders</router-link> -->
+            Delete account
+          </li>
+        </template>
       </ul>
     </nav>
   </div>
@@ -92,11 +134,11 @@ export default {
     }
 
     function directPage(element) {
-      const dataPath = $(element).data('path');
-      $('.navigation-link').removeClass('active');
+      const dataPath = $(element).data("path");
+      $(".navigation-link").removeClass("active");
 
-      localStorage.setItem('sidebar', dataPath);
-      $(element).addClass('active');
+      localStorage.setItem("sidebar", dataPath);
+      $(element).addClass("active");
 
       router.push(dataPath);
     }
@@ -104,14 +146,13 @@ export default {
     onMounted(async () => {
       await checkAdmin();
 
-      let activeSideBar = localStorage.getItem('sidebar') ?? '/account-details';
+      let activeSideBar = localStorage.getItem("sidebar") ?? "/account-details";
       let markedElement = $(`.navigation-link[data-path="${activeSideBar}"]`);
-      
-      if(markedElement.length === 1){
+
+      if (markedElement.length === 1) {
         directPage(markedElement);
       }
     });
-
 
     return {
       LogOut,

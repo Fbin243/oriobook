@@ -8,6 +8,7 @@ const isAuth = authMiddleware.isAuth;
 // Implement các hàm backend ở đây
 router.post("/signUp", accountController.signUp);
 router.post("/signIn", accountController.signIn);
+router.post("/delete", isAuth, accountController.deleteAccount);
 
 router.post("/logout", isAuth, accountController.logout);
 router.get("/getAccountDetail", isAuth, accountController.getAccountDetail);

@@ -17,7 +17,7 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="password">
@@ -32,13 +32,13 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="button-login">
             <button
               type="button"
-              class="woocommerce-Button button"
+              class="woocommerce-Button button fw-bold"
               name="login"
               value="Login"
               @click="SaveData"
@@ -52,12 +52,16 @@
           </p>
 
           <a
-            class="btn btn-danger rounded-0 text-light d-flex align-items-center justify-content-center"
-            style="width: 100%; height: 50px; font-size: 15px"
+            class="btn btn-danger rounded-0 text-light d-flex align-items-center justify-content-center fw-bold"
+            style="width: 100%; height: 50px; font-size: 13px"
             href="https://localhost:3000/auth/google"
             role="button"
           >
-            <i class="fab fa-google me-2"></i>Login with google
+            <img
+              src="../assets/img/google.png"
+              style="height: 22px; width: 22px"
+              class="m-2"
+            />LOGIN WITH GOOGLE
           </a>
         </form>
       </div>

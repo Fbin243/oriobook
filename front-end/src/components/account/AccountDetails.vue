@@ -15,7 +15,7 @@
         :key="error.$uid"
         style="color: red"
       >
-        {{ error.$message }}
+        {{ error.$message + "." }}<br />
       </span>
     </p>
     <p class="woocommerce-form-row">
@@ -33,7 +33,7 @@
         :key="error.$uid"
         style="color: red"
       >
-        {{ error.$message }}
+        {{ error.$message + "." }}<br />
       </span>
     </p>
     <div class="clear"></div>
@@ -53,7 +53,7 @@
         :key="error.$uid"
         style="color: red"
       >
-        {{ error.$message }}
+        {{ error.$message + "." }}<br />
       </span>
     </p>
     <p class="woocommerce-form-row">
@@ -71,7 +71,7 @@
         :key="error.$uid"
         style="color: red"
       >
-        {{ error.$message }}
+        {{ error.$message + "." }}<br />
       </span>
     </p>
     <div class="clear"></div>

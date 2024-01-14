@@ -152,7 +152,9 @@
             >
               <img :src="item.id_product?.image" style="width: 30%" />
               <div style="position: absolute; top: 0; left: 160px">
-                <p class="mb-0 ellipsis-custom-2">{{ item.id_product?.name }}</p>
+                <p class="mb-0 ellipsis-custom-2">
+                  {{ item.id_product?.name }}
+                </p>
                 <p style="font-weight: 500" class="mb-0 mt-2">
                   ${{ item.id_product?.price }}
                 </p>
@@ -168,17 +170,13 @@
           <br />
           <div>
             <div class="d-flex">
-              <div style="width: 280px;">Subtotal</div>
-              <div style="font-weight: 700;">
-                ${{ accountData.total_price }}
-              </div>
+              <div style="width: 280px">Subtotal</div>
+              <div style="font-weight: 700">${{ accountData.total_price }}</div>
             </div>
 
             <div class="d-flex">
-              <div style="width: 280px;">Current balance</div>
-              <div
-               style="font-weight: 700;" 
-              >
+              <div style="width: 280px">Current balance</div>
+              <div style="font-weight: 700">
                 ${{ parseFloat(accountData.balance).toFixed(2) }}
               </div>
             </div>
@@ -208,7 +206,7 @@
 import VueRouter from "vue-router";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import axios from "../config/axios";
 
 export default {
   name: "checkout",

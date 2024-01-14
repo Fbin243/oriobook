@@ -22,7 +22,7 @@
 <script>
 import HomeProductDeal from "../product/HomeProductDeal.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "../../config/axios";
 import { useRoute } from "vue-router";
 
 export default {

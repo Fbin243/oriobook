@@ -18,7 +18,7 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="firstname">
@@ -35,7 +35,7 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="lastname">
@@ -52,7 +52,7 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="address">
@@ -69,7 +69,7 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="phone">
@@ -86,7 +86,7 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="password">
@@ -102,13 +102,13 @@
               :key="error.$uid"
               style="color: red"
             >
-              {{ error.$message }}
+              {{ error.$message + "." }}<br />
             </span>
           </div>
           <div class="button-register">
             <button
               type="button"
-              class="woocommerce-Button button"
+              class="woocommerce-Button button fw-bold"
               name="register"
               value="Register"
               @click="SaveData"

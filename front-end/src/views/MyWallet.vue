@@ -51,8 +51,12 @@
                           Transaction ID
                         </th>
                         <th class="border-gray-200" scope="col">Date</th>
-                        <th class="border-gray-200" scope="col" width="15%">Change</th>
-                        <th class="border-gray-200" scope="col" width="15%">Amount</th>
+                        <th class="border-gray-200" scope="col" width="15%">
+                          Change
+                        </th>
+                        <th class="border-gray-200" scope="col" width="15%">
+                          Amount
+                        </th>
                         <th
                           class="border-gray-200 text-lg-center"
                           scope="col"
@@ -66,16 +70,24 @@
                       <tr v-for="(item, index) in historyData" :key="index">
                         <td>#{{ item.transID }}</td>
                         <td class="d-flex">
-                          <p class="mb-0 text-start" style="width: 80px;">{{ splitDate(item.timeFormat, 1)}} </p> 
+                          <p class="mb-0 text-start" style="width: 80px">
+                            {{ splitDate(item.timeFormat, 1) }}
+                          </p>
 
-                          <p class="mb-0 text-end">{{ splitDate(item.timeFormat, 2) }}</p>
+                          <p class="mb-0 text-end">
+                            {{ splitDate(item.timeFormat, 2) }}
+                          </p>
                         </td>
                         <td
-                          :class="colorChangeBal(item.action, item.changeBalance)"
+                          :class="
+                            colorChangeBal(item.action, item.changeBalance)
+                          "
                         >
                           {{ formatChangeBal(item.action, item.changeBalance) }}
                         </td>
-                        <td>${{ parseFloat(item.atTimeBalance).toFixed(2) }}</td>
+                        <td>
+                          ${{ parseFloat(item.atTimeBalance).toFixed(2) }}
+                        </td>
                         <td>
                           <span
                             class="badge"
@@ -133,14 +145,13 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import axios from "../config/axios";
 import SideBar from "@/components/account/SideBar.vue";
 
 export default {
@@ -209,22 +220,22 @@ export default {
     };
 
     const formatChangeBal = (action, change) => {
-      if(action === "Pending") return "-";
+      if (action === "Pending") return "-";
       return `${change[0]} $${Math.abs(parseFloat(change))}`;
     };
 
     const colorChangeBal = (action, change) => {
-      if (change[0] === "+") return 'text-success';
-      return 'text-danger';
+      if (change[0] === "+") return "text-success";
+      return "text-danger";
     };
 
     const splitDate = (date, type) => {
-      let split = date.split(' ');
-      if(type == 1){
+      let split = date.split(" ");
+      if (type == 1) {
         return split[0];
       }
       return split[1];
-    }
+    };
 
     onMounted(async () => {
       try {

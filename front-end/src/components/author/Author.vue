@@ -79,7 +79,7 @@ import ShopProduct from "../product/ShopProduct.vue";
 import { convertDateFormat } from "@/helpers/helperFunctions";
 import HomeProductCard from "../product/HomeProductCard.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from "../../config/axios";
 import { useRoute } from "vue-router";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 import Pagination from "@/components/Pagination.vue";

@@ -18,7 +18,7 @@
           :key="error.$uid"
           style="color: red"
         >
-          {{ error.$message }}
+          {{ error.$message + "." }}<br />
         </span>
       </p>
 
@@ -38,7 +38,7 @@
             :key="error.$uid"
             style="color: red"
           >
-            {{ error.$message }}
+            {{ error.$message + "." }}<br />
           </span>
         </span>
       </p>

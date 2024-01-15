@@ -108,6 +108,7 @@ export default {
           },
         })
         .then(() => {
+          localStorage.setItem("activeLink", "/products");
           // Reload the current route
           this.$router.go();
         });

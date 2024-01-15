@@ -36,6 +36,12 @@
             </p>
           </ul>
           <ul class="manage-product-list">
+            <p
+              class="text-center py-4 fs-5"
+              :class="authors.length > 0 ? 'd-none' : ''"
+            >
+              There's no authors.
+            </p>
             <template v-for="author in authors">
               <article class="manage-product-item row gx-0">
                 <input

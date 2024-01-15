@@ -35,6 +35,12 @@
             <p class="manage-product-title text-center mb-0 col-2">Price</p>
           </ul>
           <ul class="manage-product-list">
+            <p
+              class="text-center py-4 fs-5"
+              :class="products.length > 0 ? 'd-none' : ''"
+            >
+              There's no products.
+            </p>
             <template v-for="product in products">
               <article class="manage-product-item row gx-0">
                 <input

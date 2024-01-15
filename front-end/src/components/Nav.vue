@@ -11,12 +11,12 @@
         >
       </li>
       <li class="nav-item">
-        <router-link
-          to="/products"
+        <a
+          href="/products"
           class="nav-link"
           :class="{ active: activeLink === '/products' }"
           @click="handleLinkClick('/products')"
-          ><span>Shop</span></router-link
+          ><span>Shop</span></a
         >
       </li>
       <li class="nav-item">
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "../config/axios";
 
@@ -110,7 +110,15 @@ export default {
     }
 
     // Step 1: Create a ref to store the active link
-    const activeLink = ref("/");
+    const activeLink = ref(localStorage.getItem("activeLink") || "/");
+
+    // Watch for changes in the activeLink value
+    // watch(activeLink, (newVal, oldVal) => {
+    //   if (newVal !== oldVal) {
+    //     console.log("Link mới:", newVal);
+    //     handleLinkClick(newVal);
+    //   }
+    // });
 
     // Step 2: Handle router link click event
     function handleLinkClick(to) {
@@ -125,13 +133,6 @@ export default {
         activeLink.value = storedActiveLink;
       }
     });
-
-    // onMounted(() => {
-    //   // $(".nav-link").click(function () {
-    //   //   $(".nav-link").removeClass("active");
-    //   //   $(this).addClass("active");
-    //   // });
-    // });
 
     return {
       Click,

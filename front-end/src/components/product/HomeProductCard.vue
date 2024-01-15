@@ -1,7 +1,11 @@
 <template>
   <div class="product-card">
     <div class="image-container">
-      <a :href="'/products/' + product._id" class="img-1">
+      <a
+        :href="'/products/' + product._id"
+        class="img-1"
+        @click="handleLinkClick('/products')"
+      >
         <img :src="product.image" :alt="product.name" class="img-1" />
       </a>
       <button
@@ -74,8 +78,13 @@ export default {
   setup() {
     const imgHover = ref(true);
 
+    function handleLinkClick(to) {
+      localStorage.setItem("activeLink", to);
+    }
+
     return {
       imgHover,
+      handleLinkClick,
     };
   },
 };

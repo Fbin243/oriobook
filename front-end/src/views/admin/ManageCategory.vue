@@ -38,6 +38,12 @@
             </p>
           </ul>
           <ul class="manage-product-list">
+            <p
+              class="text-center py-4 fs-5"
+              :class="categories.length > 0 ? 'd-none' : ''"
+            >
+              There's no categories.
+            </p>
             <template v-for="category in categories">
               <article
                 class="manage-product-item row gx-0"

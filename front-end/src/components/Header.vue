@@ -57,6 +57,7 @@ export default {
       this.$router
         .push({ name: "Shop", query: { search: this.searchQuery } })
         .then(() => {
+          localStorage.setItem("activeLink", "/products");
           // Reload the current route
           this.$router.go();
         });

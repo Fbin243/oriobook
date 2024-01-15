@@ -24,7 +24,9 @@
         <form class="edit-product-forms row gx-0" id="edit-form">
           <ul class="edit-product-form">
             <li class="edit-product-form-item mb-3">
-              <label for="product-name">Name</label>
+              <label for="product-name"
+                >Name <span class="text-danger">{{ nameError }}</span></label
+              >
               <input
                 id="product-name"
                 type="text"
@@ -43,7 +45,7 @@
                 ><span>Sub Categories</span>
                 <a
                   data-v-5a43e406=""
-                  class="btn text-uppercase py-2 px-3 ms-2"
+                  class="btn text-uppercase py-2 px-3 mx-2"
                   href="#"
                   role="button"
                   style="width: fit-content"
@@ -52,6 +54,7 @@
                   @click="resetToEmpty"
                   ><i class="fa-solid fa-plus"></i></a
               ></label>
+              <span class="text-danger">{{ nameSubError }}</span>
               <div
                 name="description"
                 id="product-description"
@@ -135,6 +138,7 @@ export default {
     const router = useRouter();
     const id = ref(route.params.id);
     let sub_cate = [];
+    const categories = ref([]);
     const category = ref({
       _id: "",
       name: "",
@@ -142,14 +146,59 @@ export default {
     const isSelected = (option, productOption) => {
       return option == productOption;
     };
+
+    // Refs for validation error messages
+    const nameError = ref("");
+    const nameSubError = ref("");
+
+    const validateSubForm = (name) => {
+      let isValid = true;
+
+      name = name.trim();
+      $("#product-sub").val(name);
+      if (name === "") {
+        nameSubError.value = "cannot be empty.";
+        isValid = false;
+      } else if (name.length > 30) {
+        nameSubError.value = "cannot exceed 30 characters.";
+        isValid = false;
+      } else {
+        nameSubError.value = "";
+      }
+
+      return isValid;
+    };
+
+    const validateMainForm = (values) => {
+      let isValid = true;
+      // Validation for main name
+      values.name = values.name.trim();
+      category.value.name = values.name;
+      if (values.name === "") {
+        nameError.value = "cannot be empty.";
+        isValid = false;
+      } else if (values.name.length > 30) {
+        nameError.value = "cannot exceed 30 characters.";
+        isValid = false;
+      } else {
+        nameError.value = "";
+      }
+      return isValid;
+    };
+
     const resetToEmpty = () => {
       $("#product-sub").val("");
       $("#product-sub-id").val("new-cate");
       $(".js-sub-cate.active").removeClass("active");
     };
+
     const addSubCategory = () => {
       const name = $("#product-sub").val().trim();
       const _id = $("#product-sub-id").val();
+      // Validate before submitting
+      if (!validateSubForm(name)) {
+        return;
+      }
       $("#product-sub").val("");
       $("#product-sub-id").val("");
       if (_id != "new-cate") {
@@ -170,7 +219,8 @@ export default {
           `<span style="border-radius: 4px" class="p-1 bg-primary me-1">
           <span class="js-sub-cate" data-bs-toggle="modal" 
            data-bs-target="#exampleModal" role="button">
-            <span class="sub-cate-title">${name} (0)</span>
+            <span class="sub-cate-title">${name} </span>
+            <span>(0)</span>
             <input type="hidden" value="">
           </span>
           <i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i>
@@ -203,6 +253,12 @@ export default {
         name: $("#product-name").val(),
         sub_cate,
       };
+
+      // Validate before submitting
+      if (!validateMainForm(formData)) {
+        return;
+      }
+
       try {
         const idCategory = category.value._id ? category.value._id : "";
         // Hiển thị hiệu ứng loading
@@ -237,7 +293,8 @@ export default {
                 `<span style="border-radius: 4px" class="p-1 bg-primary me-1">
                   <span class="js-sub-cate" data-bs-toggle="modal"
                   data-bs-target="#exampleModal" role="button">
-                    <span class="sub-cate-title">${subCate._id.name} (${subCate._id.num_product})</span>
+                    <span class="sub-cate-title">${subCate._id.name}</span>
+                    <span> (${subCate._id.num_product})</span>
                     <input type="hidden" value="${subCate._id._id}">
                   </span>
                   <i class="fa-sharp fa-solid fa-circle-xmark ms-2 js-delete-cate" role="button"></i>
@@ -266,6 +323,8 @@ export default {
       addSubCategory,
       removeSubCategory,
       resetToEmpty,
+      nameError,
+      nameSubError,
     };
   },
 };

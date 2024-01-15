@@ -14,6 +14,7 @@ const instance = axios.create({
     rejectUnauthorized: false,
   }),
 });
+const mongoose = require("mongoose");
 const { adjustCategoryOrAuthor } = require("../utils/adjustCategoryOrAuthor");
 const { mongooseToObject, roundNumber } = require("../utils/mongoose");
 async function findAuthorIdByName(authorName) {
@@ -472,6 +473,23 @@ class productController {
     try {
       // Lấy thông tin sản phẩm bị xóa
       const removeProduct = await Product.findOne({ _id: req.params.id });
+      // Xóa sản phẩm khỏi giỏ hàng của tất cả user
+      const users = await Account.find({
+        cart: {
+          $elemMatch: {
+            id_product: removeProduct._id,
+          },
+        },
+      });
+
+      for (let user of users) {
+        await Account.updateOne(
+          { _id: user._id },
+          { $pull: { cart: { id_product: removeProduct._id } } }
+        );
+      }
+
+      console.log("Các user cần phải xóa giỏ hàng: ", users);
       // Trừ số lượng published_book đi 1 của tác giả tương ứng
       await adjustCategoryOrAuthor(removeProduct.id_author, -1, true);
       // Cập nhật num_product của cate tương ứng

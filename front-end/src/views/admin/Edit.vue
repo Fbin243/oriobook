@@ -189,6 +189,9 @@ export default {
       if (isNaN(values.stock)) {
         stockError.value = "cannot be empty.";
         isValid = false;
+      } else if (values.stock % 1 != 0) {
+        stockError.value = "cannot be float.";
+        isValid = false;
       } else if (values.stock < 0) {
         stockError.value = "cannot be negative.";
         isValid = false;

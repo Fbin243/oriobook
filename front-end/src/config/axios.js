@@ -1,8 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 const getTokenInCookie = () => {
-  console.log("ccc", Cookies.get());
-
   return localStorage.getItem("token") ?? "";
 };
 const instances = axios.create();
@@ -38,7 +36,6 @@ instances.interceptors.request.use(
 // Add a response interceptor
 instances.interceptors.response.use(
   function (response) {
-    console.log("response", response);
     const newHeaders = {
       ...response.headers,
       "Access-Control-Allow-Origin": "*",

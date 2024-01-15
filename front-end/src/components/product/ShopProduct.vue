@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import axios from "../../config/axios";
 import HomeProductCard from "./HomeProductCard.vue";
@@ -166,26 +166,26 @@ export default {
       value: "default",
       label: "Default sorting",
     });
+
+    // const routeQuery = ref(route);
+    const searchQuery = ref(route.query.search || "");
+
     const queryObject = {
-      search: route.query.search ? route.query.search : "",
+      search: searchQuery.value,
       category: "",
       author: "",
       sort: sort.value.value,
     };
-    if (route.query.category || route.query.author) {
-      queryObject.category = route.query.category
-        .split(" ")
-        .map(
-          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        )
-        .join(" ");
-      queryObject.author = route.query.author
-        .split(" ")
-        .map(
-          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        )
-        .join(" ");
-    }
+
+    // watch(routeQuery, (newVal, oldVal) => {
+    //   // Check if the route query has changed
+    //   if (newVal.query.search !== oldVal.query.search) {
+    //     // Update the searchQuery value
+    //     searchQuery.value = newVal.query.search || "";
+    //     // Do something when searchQuery changes
+    //     console.log("searchQuery changed:", searchQuery.value);
+    //   }
+    // });
 
     const clickDropdown = () => {
       toggleMenu.value = !toggleMenu.value;

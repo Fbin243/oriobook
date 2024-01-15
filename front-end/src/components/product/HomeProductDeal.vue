@@ -10,6 +10,7 @@
             <a
               :href="'/products/' + item._id"
               class="woocommerce-LoopProduct-link"
+              @click="handleLinkClick('/products')"
             >
               <img
                 loading="lazy"
@@ -30,9 +31,12 @@
         <div class="contents">
           <div class="list-author">
             <span>
-              <a :href="'/authors/' + item.id_author._id" class="item-author">{{
-                item.id_author.name
-              }}</a>
+              <a
+                :href="'/authors/' + item.id_author._id"
+                class="item-author"
+                @click="handleLinkClick('/authors')"
+                >{{ item.id_author.name }}</a
+              >
             </span>
           </div>
           <h3>
@@ -101,8 +105,13 @@ export default {
   setup() {
     const number = ref(2);
 
+    function handleLinkClick(to) {
+      localStorage.setItem("activeLink", to);
+    }
+
     return {
       number,
+      handleLinkClick,
     };
   },
 };

@@ -64,6 +64,7 @@ const routes = [
         path: "/login",
         name: "Login",
         component: Login,
+        meta: { requiresGuest: true },
       },
       {
         path: "/account-details",
@@ -258,6 +259,16 @@ router.beforeEach(async (to, from) => {
     // if not, redirect to login page.
     return {
       path: "/error",
+      // save the location we were at to come back later
+      // query: { redirect: to.fullPath },
+    };
+  }
+
+  if (to.meta.requiresGuest && user) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    return {
+      path: "/account-details",
       // save the location we were at to come back later
       // query: { redirect: to.fullPath },
     };

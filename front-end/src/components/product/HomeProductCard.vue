@@ -71,6 +71,10 @@ export default {
           console.error("Lỗi khi gọi API", error);
           window.location.href = "https://localhost:8080/login";
         }
+      } else {
+        toast.error("Sold out!", {
+          autoClose: 1000,
+        });
       }
     },
   },

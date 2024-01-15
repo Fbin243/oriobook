@@ -141,6 +141,10 @@ export default {
         if (response.data.status == true) {
           await update();
         }
+      } else {
+        toast.error("Sold out!", {
+          autoClose: 1000,
+        });
       }
     }
 

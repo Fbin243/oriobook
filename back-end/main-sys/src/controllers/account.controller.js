@@ -158,6 +158,15 @@ class accountController {
     }
   };
 
+  deleteAccount = async (req, res, next) => {
+    try {
+      const result = await account.deleteOne({ email: req.headers.email });
+      return res.send({ status: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   getAccountDetail = async (req, res, next) => {
     try {
       const Acc = await account.findOne({ email: req.headers.email });

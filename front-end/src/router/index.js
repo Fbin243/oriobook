@@ -3,6 +3,7 @@ import Home from "@/views/Home.vue";
 import Shop from "@/views/Shop.vue";
 import ProductDetails from "@/views/ProductDetails.vue";
 import AccountOrder from "@/views/AccountOrder.vue";
+import AccountDelete from "@/views/AccountDelete.vue";
 import MyWallet from "@/views/MyWallet.vue";
 import FAQ from "@/views/FAQ.vue";
 import RefundPolicy from "@/views/RefundPolicy.vue";
@@ -63,6 +64,7 @@ const routes = [
         path: "/login",
         name: "Login",
         component: Login,
+        meta: { requiresGuest: true },
       },
       {
         path: "/account-details",
@@ -86,6 +88,12 @@ const routes = [
         component: ProductDetails,
       },
     ],
+  },
+  {
+    path: "/account-delete",
+    name: "AccountDelete",
+    component: AccountDelete,
+    meta: { requiresUser: true },
   },
   {
     path: "/account-order",
@@ -214,7 +222,6 @@ const routes = [
     ],
   },
 
-  
   {
     path: "/error",
     name: "Error",
@@ -252,6 +259,16 @@ router.beforeEach(async (to, from) => {
     // if not, redirect to login page.
     return {
       path: "/error",
+      // save the location we were at to come back later
+      // query: { redirect: to.fullPath },
+    };
+  }
+
+  if (to.meta.requiresGuest && user) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    return {
+      path: "/account-details",
       // save the location we were at to come back later
       // query: { redirect: to.fullPath },
     };

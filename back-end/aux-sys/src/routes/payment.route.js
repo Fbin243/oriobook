@@ -27,6 +27,11 @@ function route(app) {
     middlewares.verifyToken,
     paymentController.adjustBalanceOther
   );
+  app.post(
+    "/delete-aux",
+    middlewares.verifyToken,
+    paymentController.deleteAux
+  );
 
   // Hai middlewares này phải để cuối để check lỗi
   app.use((req, res, next) => {

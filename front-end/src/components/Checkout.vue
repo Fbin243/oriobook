@@ -210,6 +210,8 @@ import axios from "../config/axios";
 
 export default {
   name: "checkout",
+  inject: ["eventBus"],
+
   setup() {
     const router = useRouter();
     const accountData = ref({});
@@ -248,31 +250,31 @@ export default {
       fetchData();
     });
 
-    const placeOrder = async () => {
-      let dataSend = {
-        total: accountData.value.total_price,
-        note: note.value,
-      };
+    // const placeOrder = async () => {
+    //   let dataSend = {
+    //     total: accountData.value.total_price,
+    //     note: note.value,
+    //   };
 
-      const response = await axios.post(
-        `https://localhost:3000/order/place`,
-        dataSend
-      );
-      let res = response.data;
+    //   const response = await axios.post(
+    //     `https://localhost:3000/order/place`,
+    //     dataSend
+    //   );
+    //   let res = response.data;
 
-      if (res.result === "fail") {
-        document.getElementById("error-balance").innerHTML =
-          "* " + res.msg + ". Please add more balance";
-      } else {
-        document.getElementById("error-balance").innerHTML = "";
-        document.getElementById("place-success").innerHTML =
-          "* Place order successfully";
+    //   if (res.result === "fail") {
+    //     document.getElementById("error-balance").innerHTML =
+    //       "* " + res.msg + ". Please add more balance";
+    //   } else {
+    //     document.getElementById("error-balance").innerHTML = "";
+    //     document.getElementById("place-success").innerHTML =
+    //       "* Place order successfully";
 
-        setTimeout(() => {
-          router.push({ name: "MyWallet" });
-        }, 2000);
-      }
-    };
+    //     setTimeout(() => {
+    //       router.push({ name: "MyWallet" });
+    //     }, 2000);
+    //   }
+    // };
 
     // You can return data or methods that you want to expose to the template
     return {
@@ -280,9 +282,16 @@ export default {
       applyCoupon,
       toggleContent,
       accountData,
-      placeOrder,
+      // placeOrder,
       note,
     };
+  },
+
+  methods: {
+    // Edit lại hàm placeOrder ở đây nha
+    async placeOrder() {
+      this.eventBus.emit("reload", 0);
+    },
   },
 };
 </script>

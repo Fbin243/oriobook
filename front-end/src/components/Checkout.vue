@@ -111,13 +111,21 @@
           <h6 style="font-weight: 400; font-size: 17px">
             Order notes (optional)
           </h6>
-          <textarea
-            class="form-control"
-            v-model="note"
-            aria-label="With textarea"
-            placeholder="Note about your delivery (eg. free,..)"
-            style="padding-top: 15px; outline: none"
-          ></textarea>
+
+          <!-- Max length -->
+          <div class="block-form">
+            <textarea
+              class="form-control note-form"
+              v-model="note"
+              aria-label="With textarea"
+              placeholder="Note about your delivery (eg. free,..)"
+              style="padding-top: 15px; outline: none; max-height: 80px; min-height: 80px;"
+
+              maxlength="200"
+            ></textarea>
+
+            <span class="note-max">0</span>/ 200 letters
+          </div>
         </div>
       </div>
       <div class="col-4">
@@ -200,6 +208,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -207,6 +216,8 @@ import VueRouter from "vue-router";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "../config/axios";
+
+// import {Maxlength} from "../helpers/Maxlength"
 
 export default {
   name: "checkout",
@@ -232,7 +243,7 @@ export default {
         content.style.display === "block" ? "none" : "block";
     };
 
-    const fetchData = async (link) => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(
           `https://localhost:3000/product/checkout`
@@ -244,8 +255,14 @@ export default {
       }
     };
 
-    onMounted(() => {
-      fetchData();
+    onMounted(async () => {
+      // Max length
+      $('.note-form').keyup(function() {
+        let value = $(this).val()
+        $('.note-max').text(parseInt(value.length))  
+      }).keyup();
+      
+      await fetchData();
     });
 
     const placeOrder = async () => {

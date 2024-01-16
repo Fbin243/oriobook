@@ -173,7 +173,7 @@ export default {
         );
 
         if (response.data.status == true) {
-          toast.success("Wow Success!", {
+          toast.success("Saved successfully!", {
             autoClose: 2000,
           });
           router.push("/account-details");

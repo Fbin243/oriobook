@@ -40,7 +40,9 @@
             </span>
           </div>
           <h3>
-            <a :href="'/products/' + item._id" class="product-title"
+            <a
+              :href="'/products/' + item._id"
+              class="product-title ellipsis-custom-3"
               >{{ item.name }}
             </a>
           </h3>

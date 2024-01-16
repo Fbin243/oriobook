@@ -93,16 +93,6 @@
             </div>
           </li>
         </ul>
-
-        <!-- <div class="safe-checkout">
-          <div class="title-safe-checkout">Guaranteed Checkout</div>
-          <div class="img-safe-checkout">
-            <img
-              src="https://wpbingosite.com/wordpress/oriobook/wp-content/themes/oriobook/images/payment-product.png"
-              alt="Image Checkout"
-            />
-          </div>
-        </div> -->
       </div>
     </div>
     <tabProduct :product="product" />

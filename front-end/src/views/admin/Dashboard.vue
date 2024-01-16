@@ -74,7 +74,7 @@
               </li>
             </ul>
           </section>
-          <div class="row w-100 justify-content-between">
+          <div class="row gx-0 w-100 justify-content-between">
             <div id="chartContainer1" class="col-5" style="height: 370px"></div>
             <div id="chartContainer2" class="col-6" style="height: 370px"></div>
           </div>
@@ -149,7 +149,7 @@ export default {
         const chart1 = new CanvasJS.Chart("chartContainer1", {
           animationEnabled: true,
           title: {
-            text: "Authors",
+            text: `Authors (${AuthorDataPoints.length})`,
             fontFamily: "Jost, sans-serif",
             fontSize: 20,
             fontWeight: 600,
@@ -166,12 +166,13 @@ export default {
         });
         chart1.render();
 
-        // Bar chart
-        const chart2 = new CanvasJS.Chart("chartContainer2", {
-          animationEnabled: true,
+        console.log(CategoryDataPoints);
 
+        // Bar chart
+        var chart2 = new CanvasJS.Chart("chartContainer2", {
+          animationEnabled: true,
           title: {
-            text: "Categories",
+            text: `Categories (${CategoryDataPoints.length})`,
             fontFamily: "Jost, sans-serif",
             fontSize: 20,
             fontWeight: 600,
@@ -179,16 +180,14 @@ export default {
           axisX: {
             interval: 1,
           },
-          axisY2: {
-            interlacedColor: "rgba(1,77,101,.2)",
-            gridColor: "rgba(1,77,101,.1)",
+          axisY: {
+            title: "items",
+            includeZero: true,
           },
           data: [
             {
               type: "bar",
-              name: "companies",
-              axisYType: "secondary",
-              color: "#014D65",
+              toolTipContent: "<b>{label}</b><br>Items: {y}",
               dataPoints: CategoryDataPoints,
             },
           ],

@@ -35,7 +35,7 @@
       <div id="content1" class="tab-pane fade show active">
         <!-- Your content for the 'Active' link goes here -->
         <br /><br />
-        <p style="font-size: 18px; color: #242424cc">
+        <p style="font-size: 18px; color: #242424cc" class="ellipsis-custom-10">
           {{ product.description }}
         </p>
       </div>
@@ -53,7 +53,10 @@
                   </div>
                   <!--name-and-username-->
                   <div class="name-user">
-                    <strong>{{review.id_account?.firstName}} {{ review.id_account?.lastName }}</strong>
+                    <strong
+                      >{{ review.id_account?.firstName }}
+                      {{ review.id_account?.lastName }}</strong
+                    >
                     <span>{{ convertDateFormat(review.date) }}</span>
                   </div>
                 </div>

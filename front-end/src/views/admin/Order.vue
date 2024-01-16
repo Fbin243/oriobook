@@ -2,7 +2,7 @@
   <div class="admin-order-page container">
     <div class="row content">
       <Sidebar></Sidebar>
-      <div class="col-9 order-section" style="margin-top: 1px;">
+      <div class="col-9 order-section mb-0" style="margin-top: 1px">
         <!-- <p class="title">Orders</p> -->
         <div
           class="js-order-container"
@@ -91,7 +91,9 @@
                             <tbody id="tbody-scroll">
                               <tr
                                 class="cart_item"
-                                v-for="(productItem, index_2) in foundObject.detail"
+                                v-for="(
+                                  productItem, index_2
+                                ) in foundObject.detail"
                                 :key="index_2"
                               >
                                 <td class="product-thumbnail">
@@ -101,24 +103,25 @@
                                       @click.prevent=""
                                       ></a> -->
 
-                                      <img
-                                        :src="productItem.product?.image"
-                                        class="product-img"
-                                        alt=""
+                                    <img
+                                      :src="productItem.product?.image"
+                                      class="product-img"
+                                      alt=""
                                     />
-                                    
+
                                     <div class="product-name">
                                       <p
                                         class="mb-0"
                                         href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                       >
-                                        {{productItem.product?.name}}
+                                        {{ productItem.product?.name }}
                                       </p>
                                       <p class="price mb-0">
                                         <span
                                           class="woocommerce-Price-amount amount"
                                         >
-                                          {{productItem.product?.price}}<span class="currency"
+                                          {{ productItem.product?.price
+                                          }}<span class="currency"
                                             >$</span
                                           ></span
                                         >
@@ -170,10 +173,13 @@
                             </tbody>
                           </table>
                           <p
-                            class="text-primary ellipsis-custom-6" :class="formStatus == 'Pending' ? 'mb-2' : 'mb-cus-05'"
-                            style="text-align: left; padding: 0 20px;"
+                            class="text-primary ellipsis-custom-6"
+                            :class="
+                              formStatus == 'Pending' ? 'mb-2' : 'mb-cus-05'
+                            "
+                            style="text-align: left; padding: 0 20px"
                           >
-                          <!--  text-align: justify; -->
+                            <!--  text-align: justify; -->
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>
                           <p
@@ -221,10 +227,9 @@
             There are no orders!
           </p>
         </div>
-
-        <!-- Pagination -->
-        <Pagination :totalPages="totalPages" :curPage="curPage" />
       </div>
+      <!-- Pagination -->
+      <Pagination :totalPages="totalPages" :curPage="curPage" />
     </div>
   </div>
 </template>
@@ -250,7 +255,7 @@ export default {
     const foundObject = ref({});
     const formStatus = ref({});
 
-    const totalPages = ref(null);
+    const totalPages = ref(0);
     let page = 1;
     const curPage = ref(page);
     let perPage = 10;
@@ -299,7 +304,7 @@ export default {
     };
 
     const requestPage = async () => {
-      displayLoading(".js-order-container", -48, 0);
+      displayLoading(".order-section", -50, 0);
       const response = await axios.get(
         `https://localhost:3000/order/manage-order?page=${page}&perPage=${perPage}`
       );

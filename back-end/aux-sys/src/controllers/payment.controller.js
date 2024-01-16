@@ -141,6 +141,19 @@ class accountController {
     }
   };
 
+  deleteAux = async (req, res, next) => {
+    try {
+      let email = req.user.email;
+
+      // console.log('email delete', email);
+      const resDel = await Payment.deleteOne({ email });
+
+      res.json({ result: "success" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   generateAccess = (email) => {
     return jwt.sign(
       {

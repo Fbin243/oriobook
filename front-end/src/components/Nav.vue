@@ -124,6 +124,7 @@ export default {
     function handleLinkClick(to) {
       activeLink.value = to;
       localStorage.setItem("activeLink", to);
+      localStorage.setItem("sidebar", '/account-details');
     }
 
     // Step 3: Check localStorage on component mount

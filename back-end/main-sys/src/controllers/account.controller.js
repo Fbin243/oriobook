@@ -1,6 +1,7 @@
 require("dotenv").config();
 const account = require("../models/account.model");
 const product = require("../models/product.model");
+const order = require("../models/order.model");
 const authMethod = require("../methods/auth.methods");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -160,7 +161,48 @@ class accountController {
 
   deleteAccount = async (req, res, next) => {
     try {
+      let _account = await account.findOne({ email: req.headers.email });
+
+      // Delete orders
+      const deleteResult = await order.deleteMany({ id_account: _account._id });
+
+      if (deleteResult.deletedCount > 0) {
+        console.log("Xóa đơn hàng thành công");
+      } else {
+        console.log("Không có đơn hàng để xóa");
+      }
+
+      // Delete reviews
+      const updateResult = await product.updateMany(
+        {},
+        { $pull: { reviews: { id_account: _account._id } } },
+        { multi: true }
+      );
+
+      // Delete aux account
+      let dataSend = {};
+
+      const response = await instance.post(
+        `https://localhost:${process.env.AUX_PORT}/delete-aux`,
+        dataSend,
+        {
+          headers: {
+            Authorization: `Bearer ${_account.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let data = response.data;
+      let resultStatus = data.result;
+
+      if (resultStatus !== "success") {
+        return res.send({ status: false });
+      }
+
+      // Delete main account
       const result = await account.deleteOne({ email: req.headers.email });
+
       return res.send({ status: true });
     } catch (error) {
       next(error);
@@ -240,7 +282,7 @@ class accountController {
       const Acc = await account.findOne({ email: req.headers.email });
       const promises = Acc.cart.map((_cart) => {
         const { id_product } = _cart;
-        return product.findOne({ _id: id_product.toString() });
+        return product.findOne({ _id: id_product });
       });
 
       const productResult = await Promise.allSettled(promises);
@@ -376,7 +418,7 @@ class accountController {
   logout = async (req, res, next) => {
     try {
       let email = req.headers.email;
-      console.log('logout', email);
+      console.log("logout", email);
       let _account = await account.findOne({ email });
 
       // Khi logout thì set token thành rỗng

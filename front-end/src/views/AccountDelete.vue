@@ -93,6 +93,8 @@ export default {
               localStorage.removeItem("token");
               localStorage.removeItem("sidebar");
               window.location.href = "https://localhost:8080/";
+            }else{
+              console.log(`you cannot delete your account`);
             }
           } catch (error) {
             console.error("Lỗi khi gọi API", error);

@@ -119,8 +119,12 @@
               v-model="note"
               aria-label="With textarea"
               placeholder="Note about your delivery (eg. free,..)"
-              style="padding-top: 15px; outline: none; max-height: 80px; min-height: 80px;"
-
+              style="
+                padding-top: 15px;
+                outline: none;
+                max-height: 80px;
+                min-height: 80px;
+              "
               maxlength="200"
             ></textarea>
 
@@ -208,23 +212,22 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
 import VueRouter from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "../config/axios";
 
-// import {Maxlength} from "../helpers/Maxlength"
-
 export default {
   name: "checkout",
+  // inject: ["eventBus"],
   setup() {
     const router = useRouter();
     const accountData = ref({});
     const note = ref("");
+    const eventBus = inject('eventBus');
 
     const toggleCoupon = () => {
       var content = document.getElementById("coupon-content");
@@ -257,11 +260,13 @@ export default {
 
     onMounted(async () => {
       // Max length
-      $('.note-form').keyup(function() {
-        let value = $(this).val()
-        $('.note-max').text(parseInt(value.length))  
-      }).keyup();
-      
+      $(".note-form")
+        .keyup(function () {
+          let value = $(this).val();
+          $(".note-max").text(parseInt(value.length));
+        })
+        .keyup();
+
       await fetchData();
     });
 
@@ -285,8 +290,10 @@ export default {
         document.getElementById("place-success").innerHTML =
           "* Place order successfully";
 
+        eventBus.emit("reload", 0);
+        
         setTimeout(() => {
-          router.push('/account-wallet');
+          router.push({ name: "MyWallet" });
         }, 2000);
       }
     };
@@ -299,6 +306,7 @@ export default {
       accountData,
       placeOrder,
       note,
+      router,
     };
   },
 };

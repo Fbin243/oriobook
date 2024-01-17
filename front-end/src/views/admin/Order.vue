@@ -69,7 +69,7 @@
                     >
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                          <div class="scroll-bar-custom-2" style="overflow-y: scroll; height: 650px;">
+                          <div class="scroll-bar-custom-2" style="overflow-y: scroll;">
                             <table class="order-table table-bordered ">
                               <thead>
                                 <tr>

@@ -121,7 +121,7 @@
   justify-content: flex-end;
   .modal-content {
     // overflow-y: scroll;
-    height: 670px;
+    max-height: 670px;
     border-radius: 10px;
 
     .img-rv {

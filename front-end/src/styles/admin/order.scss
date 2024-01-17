@@ -27,7 +27,8 @@
   .order-table {
     // width: 100%;
     border-collapse: collapse;
-    // overflow-y: scroll;
+    
+    
     th {
       color: #242424;
       display: table-cell;
@@ -74,8 +75,10 @@
   }
 
   .order-table {
-    width: 915px;
-    margin: 16px 16px 8px;
+    // width: 915px;
+    // margin: 16px 16px 8px;
+    width: 97%;
+    margin: 16px 0 8px 16px;
   }
 
   .product-thumbnail {
@@ -117,8 +120,8 @@
   display: flex;
   justify-content: flex-end;
   .modal-content {
-    overflow-y: scroll;
-    max-height: 710px;
+    // overflow-y: scroll;
+    height: 670px;
     border-radius: 10px;
 
     .img-rv {

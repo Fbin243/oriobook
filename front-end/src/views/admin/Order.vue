@@ -68,114 +68,117 @@
                       aria-hidden="true"
                     >
                       <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content scroll-bar-custom-1">
-                          <table class="order-table table-bordered">
-                            <thead>
-                              <tr>
-                                <th class="product-thumbnail-col" width="50%">
-                                  Product
-                                </th>
-                                <th
-                                  class="product-category-col"
-                                  width="15%"
-                                  style="text-align: center"
+                        <div class="modal-content">
+                          <div class="scroll-bar-custom-2" style="overflow-y: scroll; height: 650px;">
+                            <table class="order-table table-bordered ">
+                              <thead>
+                                <tr>
+                                  <th class="product-thumbnail-col" width="50%">
+                                    Product
+                                  </th>
+                                  <th
+                                    class="product-category-col"
+                                    width="15%"
+                                    style="text-align: center"
+                                  >
+                                    Category
+                                  </th>
+                                  <th class="product-quantity-col" width="20%">
+                                    Quantity
+                                  </th>
+                                  <th class="product-subtotal-col">Subtotal</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tbody-scroll">
+                                <tr
+                                  class="cart_item"
+                                  v-for="(
+                                    productItem, index_2
+                                  ) in foundObject.detail"
+                                  :key="index_2"
                                 >
-                                  Category
-                                </th>
-                                <th class="product-quantity-col" width="20%">
-                                  Quantity
-                                </th>
-                                <th class="product-subtotal-col">Subtotal</th>
-                              </tr>
-                            </thead>
-                            <tbody id="tbody-scroll">
-                              <tr
-                                class="cart_item"
-                                v-for="(
-                                  productItem, index_2
-                                ) in foundObject.detail"
-                                :key="index_2"
-                              >
-                                <td class="product-thumbnail">
-                                  <div class="product-cart-info">
-                                    <!-- <a
-                                      href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                                      @click.prevent=""
-                                      ></a> -->
-
-                                    <img
-                                      :src="productItem.product?.image"
-                                      class="product-img"
-                                      alt=""
-                                    />
-
-                                    <div class="product-name">
-                                      <p
-                                        class="mb-0"
+                                  <td class="product-thumbnail">
+                                    <div class="product-cart-info">
+                                      <!-- <a
                                         href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
-                                      >
-                                        {{ productItem.product?.name }}
-                                      </p>
-                                      <p class="price mb-0">
-                                        <span
-                                          class="woocommerce-Price-amount amount"
+                                        @click.prevent=""
+                                        ></a> -->
+  
+                                      <img
+                                        :src="productItem.product?.image"
+                                        class="product-img"
+                                        alt=""
+                                      />
+  
+                                      <div class="product-name">
+                                        <p
+                                          class="mb-0"
+                                          href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                         >
-                                          {{ productItem.product?.price
-                                          }}<span class="currency"
-                                            >$</span
-                                          ></span
-                                        >
+                                          {{ productItem.product?.name }}
+                                        </p>
+                                        <p class="price mb-0">
+                                          <span
+                                            class="woocommerce-Price-amount amount"
+                                          >
+                                            {{ productItem.product?.price
+                                            }}<span class="currency"
+                                              >$</span
+                                            ></span
+                                          >
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td
+                                    class="product-category"
+                                    data-title="Category"
+                                  >
+                                    <div class="quantity">
+                                      <p class="type mb-2">
+                                        {{
+                                          productItem.product?.id_category?.name
+                                        }}
                                       </p>
                                     </div>
-                                  </div>
-                                </td>
-                                <td
-                                  class="product-category"
-                                  data-title="Category"
-                                >
-                                  <div class="quantity">
-                                    <p class="type mb-2">
-                                      {{
-                                        productItem.product?.id_category?.name
-                                      }}
-                                    </p>
-                                  </div>
-                                </td>
-                                <td
-                                  class="product-quantity"
-                                  data-title="Quantity"
-                                >
-                                  <div class="quantity">
-                                    <p class="number mb-2">
-                                      {{ productItem.quantity }}
-                                    </p>
-                                  </div>
-                                </td>
-                                <td
-                                  class="product-subtotal"
-                                  data-title="Subtotal"
-                                >
-                                  <span
-                                    class="woocommerce-Price-amount amount mb-2"
-                                    ><bdi
-                                      >${{
-                                        roundNumber(
-                                          (productItem.product
-                                            ? productItem.product.price
-                                            : 0) * productItem.quantity,
-                                          2
-                                        )
-                                      }}
-                                    </bdi></span
+                                  </td>
+                                  <td
+                                    class="product-quantity"
+                                    data-title="Quantity"
                                   >
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                                    <div class="quantity">
+                                      <p class="number mb-2">
+                                        {{ productItem.quantity }}
+                                      </p>
+                                    </div>
+                                  </td>
+                                  <td
+                                    class="product-subtotal"
+                                    data-title="Subtotal"
+                                  >
+                                    <span
+                                      class="woocommerce-Price-amount amount mb-2"
+                                      ><bdi
+                                        >${{
+                                          roundNumber(
+                                            (productItem.product
+                                              ? productItem.product.price
+                                              : 0) * productItem.quantity,
+                                            2
+                                          )
+                                        }}
+                                      </bdi></span
+                                    >
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                          </div>
 
                           <!-- ---------------------------- -->
                           <p
-                            class="text-primary ellipsis-custom-2 mb-0"
+                            class="text-primary mb-0"
                             style="text-align: left; padding: 0 20px"
                           >
                             
@@ -188,7 +191,7 @@
                           ></p>
 
                           <p
-                            class="text-primary ellipsis-custom-6"
+                            class="text-primary"
                             :class="
                               formStatus == 'Pending' ? 'mb-2' : 'mb-cus-05'
                             "

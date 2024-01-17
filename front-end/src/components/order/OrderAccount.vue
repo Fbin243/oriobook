@@ -24,92 +24,94 @@
       </h4>
     </div>
     
-    <div class="each-order" v-for="(order, index) in orderData" :key="index" style="">
-      <div class="title-order-section" style="margin-right: 12px;">
-        <p class="order-code">Order code: {{ order._id }}</p>
-        <p class="total">Total price: ${{ order.total_price }}</p>
-      </div>
-      <div :class="{'scroll-bar-custom-3': order.detail?.length >= 2}" 
-        :style="{ 'overflow-y': order.detail?.length >= 2 ? 'scroll' : 'unset', 'max-height': '360px',
-       'margin-right': order.detail?.length >= 2 ? 'unset' : '12px'}">
-        <table class="order-table table-bordered" >
-          <thead>
-            <tr>
-              <th class="product-thumbnail-col" width="60%">Product</th>
-              <th class="product-quantity-col" width="20%">Quantity</th>
-              <th class="product-subtotal-col" width="10%">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="cart_item"
-              v-for="(item, i_item) in order.detail"
-              :key="i_item"
-            >
-              <td class="product-thumbnail">
-                <div class="product-cart-info">
-                  <a v-if="item.id_product"
-                    :href="'/products/' + item.product?._id"
-                    ><img
-                      :src="item.product?.image"
-                      class="product-img"
-                      alt=""
-                  /></a>
-  
-                  <img v-if="!item.id_product"
-                      :src="item.product?.image"
-                      class="product-img"
-                      alt=""
-                  />
-  
-                  <div class="product-name">
+    <div class="order-container">
+      
+      <div class="each-order" v-for="(order, index) in orderData" :key="index" style="">
+        <div class="title-order-section" style="margin-right: 12px;">
+          <p class="order-code">Order code: {{ order._id }}</p>
+          <p class="total">Total price: ${{ order.total_price }}</p>
+        </div>
+        <div :class="{'scroll-bar-custom-3': order.detail?.length >= 2}" 
+          :style="{ 'overflow-y': order.detail?.length >= 2 ? 'scroll' : 'unset', 'max-height': '360px',
+         'margin-right': order.detail?.length >= 2 ? 'unset' : '12px'}">
+          <table class="order-table table-bordered" >
+            <thead>
+              <tr>
+                <th class="product-thumbnail-col" width="60%">Product</th>
+                <th class="product-quantity-col" width="20%">Quantity</th>
+                <th class="product-subtotal-col" width="10%">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="cart_item"
+                v-for="(item, i_item) in order.detail"
+                :key="i_item"
+              >
+                <td class="product-thumbnail">
+                  <div class="product-cart-info">
                     <a v-if="item.id_product"
                       :href="'/products/' + item.product?._id"
-                      >{{ item.product ? item.product.name : "" }}</a
-                    >
-  
-                    <p v-if="!item.id_product" 
-                    class="mb-0">{{ item.product ? item.product.name : "" }}</p>
-  
-                    <p class="price">
-                      <span class="woocommerce-Price-amount amount">
-                        {{ item.product ? item.product.price : ""
-                        }}<span class="currency">$</span>
-                      </span>
-                    </p>
+                      ><img
+                        :src="item.product?.image"
+                        class="product-img"
+                        alt=""
+                    /></a>
+    
+                    <img v-if="!item.id_product"
+                        :src="item.product?.image"
+                        class="product-img"
+                        alt=""
+                    />
+    
+                    <div class="product-name">
+                      <a v-if="item.id_product"
+                        :href="'/products/' + item.product?._id"
+                        >{{ item.product ? item.product.name : "" }}</a
+                      >
+    
+                      <p v-if="!item.id_product" 
+                      class="mb-0">{{ item.product ? item.product.name : "" }}</p>
+    
+                      <p class="price">
+                        <span class="woocommerce-Price-amount amount">
+                          {{ item.product ? item.product.price : ""
+                          }}<span class="currency">$</span>
+                        </span>
+                      </p>
+                    </div>
+    
+                    <div class="evaluate-btn" :class="{ 'no-show': !toggle_2 }">
+                      <!-- <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button> -->
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-submit"
+                        @click="clickModal(item.product?._id, order._id, i_item)"
+                        :class="
+                        {'btn-secondary': item.isReviewed || !item.id_product}
+                        "
+                        :disabled="item.isReviewed || !item.id_product"
+                      >
+                        {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
+                      </button>
+                    </div>
                   </div>
-  
-                  <div class="evaluate-btn" :class="{ 'no-show': !toggle_2 }">
-                    <!-- <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button> -->
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-submit"
-                      @click="clickModal(item.product?._id, order._id, i_item)"
-                      :class="
-                      {'btn-secondary': item.isReviewed || !item.id_product}
-                      "
-                      :disabled="item.isReviewed || !item.id_product"
-                    >
-                      {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
-                    </button>
+                </td>
+    
+                <td class="product-quantity" data-title="Quantity">
+                  <div class="quantity">
+                    <p class="number">{{ item.quantity }}</p>
                   </div>
-                </div>
-              </td>
-  
-              <td class="product-quantity" data-title="Quantity">
-                <div class="quantity">
-                  <p class="number">{{ item.quantity }}</p>
-                </div>
-              </td>
-              <td class="product-subtotal" data-title="Subtotal">
-                <span class="woocommerce-Price-amount amount"
-                  ><bdi>${{ item.subtotal }}</bdi></span
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
+                </td>
+                <td class="product-subtotal" data-title="Subtotal">
+                  <span class="woocommerce-Price-amount amount"
+                    ><bdi>${{ item.subtotal }}</bdi></span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -212,6 +214,7 @@
 <script>
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 import axios from "../../config/axios";
 
 export default {
@@ -234,11 +237,7 @@ export default {
     let page = 1;
     const curPage = ref(page);
     let perPage = 2;
-    let pathRef = ref("");
-
-    // $(document).ready(function () {
-    //   $("#exampleModal").modal('show');
-    // });
+    let pathRef = ref("order/pending");
 
     const clickModal = (_idProduct, _idOrder, _orderIndex) => {
       idProduct.value = _idProduct;
@@ -303,20 +302,6 @@ export default {
       $("#exampleModal").modal("hide");
     };
 
-    // const fetchData = async (link) => {
-    //   try {
-    //     const response = await axios.get(`https://localhost:3000/${link}`);
-    //     orderData.value = response.data;
-    //     // console.log(orderData.value);
-    //   } catch (error) {
-    //     console.error("Error calling API:", error);
-    //   }
-    // };
-
-    // onMounted(() => {
-    //   fetchData('order/pending');
-    // });
-
     const pendingClick = async () => {
       toggle_1.value = true;
       toggle_2.value = false;
@@ -326,7 +311,7 @@ export default {
       pathRef.value = "order/pending";
       page = 1;
       curPage.value = page;
-      await requestPage(pathRef.value);
+      await requestPage();
       init();
     };
 
@@ -338,7 +323,7 @@ export default {
       pathRef.value = "order/successful";
       page = 1;
       curPage.value = page;
-      await requestPage(pathRef.value);
+      await requestPage();
       init();
     };
 
@@ -350,23 +335,20 @@ export default {
       pathRef.value = "order/cancelled";
       page = 1;
       curPage.value = page;
-      await requestPage(pathRef.value);
+      await requestPage();
       init();
     };
 
-    const requestPage = async (path) => {
+    const requestPage = async () => {
+      displayLoading(".order-container", -48);
       const response = await axios.get(
-        `https://localhost:3000/${path}?page=${page}&perPage=${perPage}`
+        `https://localhost:3000/${pathRef.value}?page=${page}&perPage=${perPage}`
       );
 
       curPage.value = page;
       orderData.value = response.data.pendingOrder;
       totalPages.value = response.data.totalPages;
-
-      // console.log(response.data);
-
-      // orderData.value = []
-      // console.log(response.data.pendingOrder, response.data.totalPages);
+      removeLoading();
     };
 
     const init = function () {
@@ -374,23 +356,20 @@ export default {
         if (totalPages.value) {
           $(".js-number-link").click(async function (e) {
             e.preventDefault();
-            console.log("da vo 1", page);
             page = parseInt($(this).text());
-            await requestPage(pathRef.value);
+            await requestPage();
           });
 
           $(".js-prev-link").click(async function (e) {
             e.preventDefault();
-            console.log("da vo 2", page);
             page = page > 1 ? page - 1 : page;
-            await requestPage(pathRef.value);
+            await requestPage();
           });
 
           $(".js-next-link").click(async function (e) {
             e.preventDefault();
-            console.log("da vo 3", page);
             page = page < totalPages.value ? page + 1 : page;
-            await requestPage(pathRef.value);
+            await requestPage();
           });
         }
       });

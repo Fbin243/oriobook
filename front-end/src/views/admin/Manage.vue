@@ -62,11 +62,11 @@
                         class="manage-product-img"
                       />
                     </li>
-                    <li class="manage-product-info text-center col">
+                    <li class="manage-product-info text-center col ellipsis-custom-3">
                       {{ product.name }}
                     </li>
-                    <li class="manage-product-info text-center col-2 me-2">
-                      {{ product.category_name }}
+                    <li class="manage-product-info text-center col-2 me-2 ellipsis-custom-2">
+                      {{ product.category_name }} 
                     </li>
                     <li class="manage-product-info text-center col-2 me-2">
                       {{ product.stock }}

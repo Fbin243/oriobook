@@ -15,7 +15,7 @@
             </h2>
           </div>
           <div class="author-description">
-            <div class="term-description">
+            <div class="term-description ellipsis-custom-6">
               <p>
                 {{ author.description }}
               </p>
@@ -35,28 +35,7 @@
               </li>
             </ul>
           </div>
-          <ul class="social-link">
-            <li>
-              <a href="#" class="facebook"
-                ><i class="fa fa-facebook"></i>Facebook</a
-              >
-            </li>
-            <li>
-              <a href="#" class="twitter"
-                ><i class="fa fa-twitter"></i>Twitter</a
-              >
-            </li>
-            <li>
-              <a href="#" class="google"
-                ><i class="fa fa-google-plus-g"></i>Google</a
-              >
-            </li>
-            <li>
-              <a href="#" class="instagram"
-                ><i class="fa fa-instagram"></i>Instagram</a
-              >
-            </li>
-          </ul>
+
         </div>
       </div>
       <div class="title mt-5 ps-4">Author's books</div>

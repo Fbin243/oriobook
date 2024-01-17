@@ -19,11 +19,11 @@
               /></a>
             </div>
             <div class="content">
-              <h2 class="item-title">
+              <h2 class="item-title ellipsis-custom-3">
                 <a
                   :href="'/authors/' + item._id"
                   @click="handleLinkClick('/authors')"
-                  ><span>{{ item.name }}</span></a
+                  ><p>{{ item.name }}Published Book</p></a
                 >
               </h2>
               <div class="item-count">

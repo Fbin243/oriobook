@@ -30,14 +30,14 @@
       <div class="products-content">
         <div class="contents">
           <div class="list-author">
-            <span>
+            <p>
               <a
                 :href="'/authors/' + item.id_author._id"
                 class="item-author"
                 @click="handleLinkClick('/authors')"
                 >{{ item.id_author.name }}</a
               >
-            </span>
+            </p>
           </div>
           <h3>
             <a
@@ -55,7 +55,7 @@
             </span>
           </span>
           <div class="available-box">
-            <label class="hugry">Hugry Up!</label>
+            <label class="hugry">Hurry Up!</label>
           </div>
         </div>
       </div>

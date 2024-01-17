@@ -23,7 +23,7 @@
                 <a
                   :href="'/authors/' + item._id"
                   @click="handleLinkClick('/authors')"
-                  ><p>{{ item.name }}Published Book</p></a
+                  ><p>{{ item.name }}</p></a
                 >
               </h2>
               <div class="item-count">

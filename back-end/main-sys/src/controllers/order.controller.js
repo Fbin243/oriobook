@@ -47,7 +47,7 @@ class orderController {
         .populate({
           path: "detail.id_product",
           model: Product,
-        });
+        }).sort({ date: -1 });
 
       pendingOrder = mutipleMongooseToObject(pendingOrder);
 

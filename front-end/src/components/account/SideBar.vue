@@ -83,7 +83,7 @@
           My wallet
         </li>
         <li class="navigation-link" @click="LogOut">
-          <router-link to="/">Log out</router-link>
+          Log out
         </li>
 
         <template v-if="!admin">
@@ -125,7 +125,7 @@ export default {
         localStorage.removeItem("token");
         localStorage.removeItem("sidebar");
 
-        window.location.href = "https://localhost:8080/";
+        window.location.href = "https://localhost:8080/login";
       }
     }
 

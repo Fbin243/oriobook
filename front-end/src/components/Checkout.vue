@@ -77,7 +77,10 @@
           />
           <br />
 
-          <h6 style="font-weight: 400; font-size: 17px">Address *</h6>
+          <div class="d-flex">
+            <h6 style="font-weight: 400; font-size: 17px">Address *</h6>
+            <h6 id="address-noti" class="text-danger" style="margin-left: 8px;"></h6>
+          </div>
           <input
             type="text"
             class="form-control"
@@ -86,9 +89,13 @@
             :value="accountData.address"
             disabled
           />
+
           <br />
 
-          <h6 style="font-weight: 400; font-size: 17px">Phone *</h6>
+          <div class="d-flex">
+            <h6 style="font-weight: 400; font-size: 17px">Phone *</h6>
+            <h6 id="phone-noti" class="text-danger" style="margin-left: 8px;"></h6>
+          </div>
           <input
             type="text"
             class="form-control"
@@ -271,6 +278,20 @@ export default {
     });
 
     const placeOrder = async () => {
+      let errorHold = false
+
+      if(accountData.value?.address.trim() === ''){
+        $('#address-noti').text(`(Can't be empty)`)
+        errorHold = true;
+      }
+
+      if(accountData.value?.phone.trim() === ''){
+        $('#phone-noti').text(`(Can't be empty)`)
+        errorHold = true;
+      }
+
+      if(errorHold) return;
+
       let dataSend = {
         total: accountData.value.total_price,
         note: note.value,

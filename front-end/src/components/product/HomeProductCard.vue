@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card">
+  <div class="product-card" style="position: relative;">
     <div class="image-container">
       <a
         :href="'/products/' + product._id"
@@ -30,6 +30,10 @@
         <i class="fas fa-heart"></i>
         <i class="fas fa-search"></i>
       </div>
+    </div>
+
+    <div style="position: absolute; top: -3px; right: 0;" v-if="!product.stock">
+      <span class="badge bg-danger" style="border-radius: 0;">SOLD OUT</span>
     </div>
   </div>
 </template>

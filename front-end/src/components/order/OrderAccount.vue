@@ -23,88 +23,94 @@
         Cancelled
       </h4>
     </div>
-    <div class="each-order" v-for="(order, index) in orderData" :key="index">
-      <div class="title-order-section">
+    
+    <div class="each-order" v-for="(order, index) in orderData" :key="index" style="">
+      <div class="title-order-section" style="margin-right: 12px;">
         <p class="order-code">Order code: {{ order._id }}</p>
         <p class="total">Total price: ${{ order.total_price }}</p>
       </div>
-      <table class="order-table table-bordered">
-        <thead>
-          <tr>
-            <th class="product-thumbnail-col" width="60%">Product</th>
-            <th class="product-quantity-col" width="20%">Quantity</th>
-            <th class="product-subtotal-col" width="10%">Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="cart_item"
-            v-for="(item, i_item) in order.detail"
-            :key="i_item"
-          >
-            <td class="product-thumbnail">
-              <div class="product-cart-info">
-                <a v-if="item.id_product"
-                  :href="'/products/' + item.product?._id"
-                  ><img
-                    :src="item.product?.image"
-                    class="product-img"
-                    alt=""
-                /></a>
-
-                <img v-if="!item.id_product"
-                    :src="item.product?.image"
-                    class="product-img"
-                    alt=""
-                />
-
-                <div class="product-name">
+      <div :class="{'scroll-bar-custom-3': order.detail?.length >= 2}" 
+        :style="{ 'overflow-y': order.detail?.length >= 2 ? 'scroll' : 'unset', 'max-height': '360px',
+       'margin-right': order.detail?.length >= 2 ? 'unset' : '12px'}">
+        <table class="order-table table-bordered" >
+          <thead>
+            <tr>
+              <th class="product-thumbnail-col" width="60%">Product</th>
+              <th class="product-quantity-col" width="20%">Quantity</th>
+              <th class="product-subtotal-col" width="10%">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="cart_item"
+              v-for="(item, i_item) in order.detail"
+              :key="i_item"
+            >
+              <td class="product-thumbnail">
+                <div class="product-cart-info">
                   <a v-if="item.id_product"
                     :href="'/products/' + item.product?._id"
-                    >{{ item.product ? item.product.name : "" }}</a
-                  >
-
-                  <p v-if="!item.id_product" 
-                  class="mb-0">{{ item.product ? item.product.name : "" }}</p>
-
-                  <p class="price">
-                    <span class="woocommerce-Price-amount amount">
-                      {{ item.product ? item.product.price : ""
-                      }}<span class="currency">$</span>
-                    </span>
-                  </p>
+                    ><img
+                      :src="item.product?.image"
+                      class="product-img"
+                      alt=""
+                  /></a>
+  
+                  <img v-if="!item.id_product"
+                      :src="item.product?.image"
+                      class="product-img"
+                      alt=""
+                  />
+  
+                  <div class="product-name">
+                    <a v-if="item.id_product"
+                      :href="'/products/' + item.product?._id"
+                      >{{ item.product ? item.product.name : "" }}</a
+                    >
+  
+                    <p v-if="!item.id_product" 
+                    class="mb-0">{{ item.product ? item.product.name : "" }}</p>
+  
+                    <p class="price">
+                      <span class="woocommerce-Price-amount amount">
+                        {{ item.product ? item.product.price : ""
+                        }}<span class="currency">$</span>
+                      </span>
+                    </p>
+                  </div>
+  
+                  <div class="evaluate-btn" :class="{ 'no-show': !toggle_2 }">
+                    <!-- <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button> -->
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-submit"
+                      @click="clickModal(item.product?._id, order._id, i_item)"
+                      :class="
+                      {'btn-secondary': item.isReviewed || !item.id_product}
+                      "
+                      :disabled="item.isReviewed || !item.id_product"
+                    >
+                      {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
+                    </button>
+                  </div>
                 </div>
-
-                <div class="evaluate-btn" :class="{ 'no-show': !toggle_2 }">
-                  <!-- <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button> -->
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-submit"
-                    @click="clickModal(item.product?._id, order._id, i_item)"
-                    :class="
-                    {'btn-secondary': item.isReviewed || !item.id_product}
-                    "
-                    :disabled="item.isReviewed || !item.id_product"
-                  >
-                    {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
-                  </button>
+              </td>
+  
+              <td class="product-quantity" data-title="Quantity">
+                <div class="quantity">
+                  <p class="number">{{ item.quantity }}</p>
                 </div>
-              </div>
-            </td>
+              </td>
+              <td class="product-subtotal" data-title="Subtotal">
+                <span class="woocommerce-Price-amount amount"
+                  ><bdi>${{ item.subtotal }}</bdi></span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-            <td class="product-quantity" data-title="Quantity">
-              <div class="quantity">
-                <p class="number">{{ item.quantity }}</p>
-              </div>
-            </td>
-            <td class="product-subtotal" data-title="Subtotal">
-              <span class="woocommerce-Price-amount amount"
-                ><bdi>${{ item.subtotal }}</bdi></span
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      </div>
     </div>
 
     <!-- Notify -->

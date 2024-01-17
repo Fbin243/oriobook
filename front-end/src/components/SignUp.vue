@@ -60,7 +60,7 @@
               type="text"
               id="address"
               class="input-text"
-              placeholder="Address*"
+              placeholder="Address"
               name="address"
               v-model="formData.address"
             />
@@ -77,7 +77,7 @@
               type="tel"
               id="phone"
               class="input-text"
-              placeholder="Phone number*"
+              placeholder="Phone number"
               name="phone"
               v-model="formData.phone"
             />
@@ -158,9 +158,8 @@ export default {
         email: { required, minLength: minLength(12), email },
         firstname: { required, minLength: minLength(3) },
         lastname: { required, minLength: minLength(3) },
-        address: { required, minLength: minLength(5) },
+        address: { minLength: minLength(5) },
         phone: {
-          required,
           minLength: minLength(10),
           maxLength: maxLength(10),
           numeric,

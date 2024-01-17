@@ -237,7 +237,7 @@ img {
 
 /* Handle on hover */
 .scroll-bar-custom-1::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
+  background: #9c9b9b;
 }
 
 // Scroll y - version 2
@@ -262,5 +262,30 @@ img {
 
 /* Handle on hover */
 .scroll-bar-custom-2::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
+  background: #9c9b9b;
+}
+
+// Scroll y - version 3
+
+.scroll-bar-custom-3::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+.scroll-bar-custom-3::-webkit-scrollbar-track {
+  // box-shadow: white;
+  background-color: white;
+  // border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.156);
+}
+
+/* Handle */
+.scroll-bar-custom-3::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  // border-radius: 10px;
+}
+
+/* Handle on hover */
+.scroll-bar-custom-3::-webkit-scrollbar-thumb:hover {
+  background: #9c9b9b;
 }

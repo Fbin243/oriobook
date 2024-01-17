@@ -40,7 +40,7 @@
 
     <p class="woocommerce-form-row">
       <label for="account_address"
-        >Address&nbsp;<span class="required">*</span></label
+        >Address&nbsp;<span class="required"></span></label
       >
       <input
         type="text"
@@ -58,7 +58,7 @@
     </p>
     <p class="woocommerce-form-row">
       <label for="account_phone"
-        >Phone number&nbsp;<span class="required">*</span></label
+        >Phone number&nbsp;<span class="required"></span></label
       >
       <input
         type="tel"
@@ -148,10 +148,9 @@ export default {
       return {
         account_first_name: { required, minLength: minLength(3) },
         account_last_name: { required, minLength: minLength(3) },
-        account_address: { required, minLength: minLength(5) },
+        account_address: { minLength: minLength(5) },
         account_email: { required },
         account_phone: {
-          required,
           minLength: minLength(10),
           maxLength: maxLength(10),
           numeric,

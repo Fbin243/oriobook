@@ -47,7 +47,7 @@ em {
 input {
   width: 100%;
   border: 1px solid #e7e7e7;
-  padding: 5px 6px;
+  padding: 6px;
   background: transparent;
   border-radius: 0;
   -webkit-border-radius: 0;
@@ -59,8 +59,8 @@ input {
   -o-appearance: none;
   -webkit-appearance: none;
 
-  padding-block: 1px;
-  padding-inline: 16px;
+  // padding-block: 1px;
+  // padding-inline: 16px;
   color: gray;
 }
 

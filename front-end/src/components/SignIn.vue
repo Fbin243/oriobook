@@ -47,7 +47,7 @@
             </button>
           </div>
 
-          <p class="text-center fw-bold mt-3 text-muted" style="width: 100%">
+          <p class="text-center fw-bold mt-3 text-muted" style="width: 100%; font-size: 14px;">
             OR
           </p>
 

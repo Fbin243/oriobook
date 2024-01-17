@@ -29,7 +29,7 @@
                 :key="index"
               >
                 <td>{{ index + 1 }}</td>
-                <td class="customer-name">
+                <td class="customer-name" style="padding: 15px;">
                   {{ order.id_account ? order.id_account.lastName : "" }}
                   {{ order.id_account ? order.id_account.firstName : "" }}
                 </td>
@@ -313,6 +313,7 @@ export default {
       totalPages.value = response.data.totalPages;
       removeLoading();
     };
+
     const init = function () {
       $(() => {
         if (totalPages.value) {

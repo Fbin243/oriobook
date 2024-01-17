@@ -1,9 +1,9 @@
 <template>
   <div
     class="mt-5"
-    style="display: flex; margin-left: auto; margin-right: auto; color: #cfcfcf"
+    style="display: flex; margin-left: auto; margin-right: auto; color: #cfcfcf; border-bottom: 1px solid #cecece;"
   >
-    _______________________________________________________________________________________________________________________________________________________________________________________________
+  
   </div>
   <br /><br />
   <div class="container">

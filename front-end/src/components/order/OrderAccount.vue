@@ -24,16 +24,16 @@
       </h4>
     </div>
     
-    <div class="order-container">
+    <div class="order-container" style="min-height: 810px;">
       
       <div class="each-order" v-for="(order, index) in orderData" :key="index" style="">
         <div class="title-order-section" style="margin-right: 12px;">
           <p class="order-code">Order code: {{ order._id }}</p>
           <p class="total">Total price: ${{ order.total_price }}</p>
         </div>
-        <div :class="{'scroll-bar-custom-3': order.detail?.length >= 2}" 
-          :style="{ 'overflow-y': order.detail?.length >= 2 ? 'scroll' : 'unset', 'max-height': '360px',
-         'margin-right': order.detail?.length >= 2 ? 'unset' : '12px'}">
+        <div :class="{'scroll-bar-custom-3': order.detail?.length > 2}" 
+          :style="{ 'overflow-y': order.detail?.length > 2 ? 'scroll' : 'unset', 'max-height': '360px',
+         'margin-right': order.detail?.length > 2 ? 'unset' : '12px'}">
           <table class="order-table table-bordered" >
             <thead>
               <tr>

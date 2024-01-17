@@ -29,6 +29,7 @@
       <div class="each-order" v-for="(order, index) in orderData" :key="index" style="">
         <div class="title-order-section" style="margin-right: 12px;">
           <p class="order-code">Order code: {{ order._id }}</p>
+          <p class="order-code">Date: {{ convertDateFormat(order.date) }}</p>
           <p class="total">Total price: ${{ order.total_price }}</p>
         </div>
         <div :class="{'scroll-bar-custom-3': order.detail?.length > 2}" 
@@ -216,6 +217,7 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 import axios from "../../config/axios";
+import { convertDateFormat } from "@/helpers/helperFunctions";
 
 export default {
   name: "OrderAccount",
@@ -397,6 +399,8 @@ export default {
 
       totalPages,
       curPage,
+
+      convertDateFormat: convertDateFormat,
     };
   },
 };

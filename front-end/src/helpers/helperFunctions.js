@@ -1,7 +1,6 @@
 import VueJwtDecode from "vue-jwt-decode";
 
 export function convertDateFormat(inputDate) {
-  // Create a Date object from the input string
   const dateObj = new Date(inputDate);
 
   // Extract year, month, and day from the Date object
@@ -9,8 +8,13 @@ export function convertDateFormat(inputDate) {
   const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are zero-based
   const day = String(dateObj.getDate()).padStart(2, "0");
 
+  // Extract hours, minutes, and seconds from the Date object
+  const hours = String(dateObj.getHours()).padStart(2, "0");
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+  const seconds = String(dateObj.getSeconds()).padStart(2, "0");
+
   // Construct the new date format
-  const formattedDate = `${day}/${month}/${year}`;
+  const formattedDate = `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
 
   return formattedDate;
 }

@@ -2,7 +2,7 @@
   <div class="admin-order-page container">
     <div class="row content">
       <Sidebar></Sidebar>
-      <div class="col-9 order-section mb-0" style="margin-top: 1px">
+      <div class="col-9 order-section mb-2" style="margin-top: 1px">
         <!-- <p class="title">Orders</p> -->
         <div
           class="js-order-container"
@@ -172,6 +172,21 @@
                               </tr>
                             </tbody>
                           </table>
+
+                          <!-- ---------------------------- -->
+                          <p
+                            class="text-primary ellipsis-custom-2 mb-0"
+                            style="text-align: left; padding: 0 20px"
+                          >
+                            
+                            <strong>Address:</strong> {{ order.id_account?.address }}
+                          </p>
+                          <p
+                            id="error-approval"
+                            class="text-danger mb-0"
+                            v-if="formStatus === 'Pending'"
+                          ></p>
+
                           <p
                             class="text-primary ellipsis-custom-6"
                             :class="
@@ -179,7 +194,7 @@
                             "
                             style="text-align: left; padding: 0 20px"
                           >
-                            <!--  text-align: justify; -->
+                            
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>
                           <p
@@ -187,6 +202,8 @@
                             class="text-danger mb-0"
                             v-if="formStatus === 'Pending'"
                           ></p>
+                          <!-- ---------------------------- -->
+
                           <div
                             class="order-btn-section"
                             v-if="formStatus === 'Pending'"
@@ -304,7 +321,7 @@ export default {
     };
 
     const requestPage = async () => {
-      displayLoading(".order-section", -50, 0);
+      displayLoading(".order-section", -48, 0);
       const response = await axios.get(
         `https://localhost:3000/order/manage-order?page=${page}&perPage=${perPage}`
       );

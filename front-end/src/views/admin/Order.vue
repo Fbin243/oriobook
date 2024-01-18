@@ -176,6 +176,19 @@
 
                           </div>
 
+                          <p
+                            class="text-primary mb-0"
+                            style="text-align: left; padding: 0 20px"
+                          >
+                            
+                            <strong>Date:</strong> {{ convertDateFormat(order.date) }}
+                          </p>
+                          <p
+                            id="error-approval"
+                            class="text-danger mb-0"
+                            v-if="formStatus === 'Pending'"
+                          ></p>
+
                           <!-- ---------------------------- -->
                           <p
                             class="text-primary mb-0"
@@ -262,6 +275,7 @@ import axios from "../../config/axios";
 import Sidebar from "@/components/account/SideBar";
 import { displayLoading, removeLoading } from "@/helpers/loadingScreen";
 import Pagination from "@/components/Pagination.vue";
+import { convertDateFormat } from "@/helpers/helperFunctions";
 
 export default {
   name: "Order",
@@ -376,6 +390,8 @@ export default {
 
       totalPages,
       curPage,
+
+      convertDateFormat: convertDateFormat,
     };
   },
 };

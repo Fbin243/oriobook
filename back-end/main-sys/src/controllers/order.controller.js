@@ -186,6 +186,8 @@ class orderController {
       let data3 = response3.data;
       let balance3 = data3.balance;
 
+      console.log(data3);
+
       if (data3.result !== "success") {
         return res.json({
           result: "fail",
@@ -199,6 +201,9 @@ class orderController {
         changeBal: `+${total}`,
       };
 
+      console.log(dataSend4);
+
+
       const response4 = await instance.post(
         `https://localhost:${process.env.AUX_PORT}/adjust-balance-other`,
         dataSend4,
@@ -211,6 +216,8 @@ class orderController {
       );
 
       let data4 = response4.data;
+
+      console.log(data4);
 
       if (data4.result !== "success") {
         return next("Fail to adjust balance of admin");
@@ -358,7 +365,25 @@ class orderController {
 
       if (action == "accept") {
         if (boolHolder) {
-          await updateProductStock(order);
+          // await updateProductStock(order);
+          for (const orderDetail of order.detail) {
+            const productId = orderDetail.id_product?._id;
+
+            // Retrieve the product from the database
+            const product = await Product.findById(productId);
+
+            if (!product) {
+              console.error(`Product with id ${productId} not found.`);
+              continue; // Skip to the next orderDetail if product not found
+            }
+
+            const newStock = product.stock - orderDetail.quantity;
+
+            // Update the product with the new stock value
+            await Product.findByIdAndUpdate(productId, {
+              $set: { stock: newStock },
+            });
+          }
 
           const updatedOrder = await Order.findOneAndUpdate(
             { _id: orderId },

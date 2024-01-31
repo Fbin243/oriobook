@@ -284,7 +284,7 @@ class productController {
       let dataSend = {};
 
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        `${process.env.AUX_URL}/get-balance`,
         dataSend,
         {
           headers: {

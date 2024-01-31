@@ -13,10 +13,10 @@ app.use(cors({ origin: "*" }));
 
 // ROUTES INIT
 route(app);
-// const opts = {
-//   key: fs.readFileSync("src/cert/key.pem", { encoding: "utf-8" }),
-//   cert: fs.readFileSync("src/cert/cert.pem", { encoding: "utf-8" }),
-// };
-// const server = https.createServer(opts, app);
+const opts = {
+  key: fs.readFileSync("src/cert/key.pem", { encoding: "utf-8" }),
+  cert: fs.readFileSync("src/cert/cert.pem", { encoding: "utf-8" }),
+};
+const server = https.createServer(opts, app);
 
-module.exports = app;
+module.exports = server;

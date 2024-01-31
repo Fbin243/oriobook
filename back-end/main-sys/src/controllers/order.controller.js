@@ -84,7 +84,7 @@ class orderController {
 
       // Get balance of client
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        `${process.env.AUX_URL}/get-balance`,
         dataSend,
         {
           headers: {
@@ -143,7 +143,7 @@ class orderController {
       };
 
       const response2 = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/adjust-balance`,
+        `${process.env.AUX_URL}/adjust-balance`,
         dataSend2,
         {
           headers: {
@@ -174,7 +174,7 @@ class orderController {
       };
 
       const response3 = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/get-balance-other`,
+        `${process.env.AUX_URL}/get-balance-other`,
         dataSend3,
         {
           headers: {
@@ -205,7 +205,7 @@ class orderController {
 
 
       const response4 = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/adjust-balance-other`,
+        `${process.env.AUX_URL}/adjust-balance-other`,
         dataSend4,
         {
           headers: {
@@ -439,7 +439,7 @@ class orderController {
 
       // Get balance of admin
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        `${process.env.AUX_URL}/get-balance`,
         dataSend,
         {
           headers: {
@@ -469,7 +469,7 @@ class orderController {
       };
 
       const response2 = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/adjust-balance`,
+        `${process.env.AUX_URL}/adjust-balance`,
         dataSend2,
         {
           headers: {
@@ -501,7 +501,7 @@ class orderController {
       };
 
       const response3 = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/get-balance-other`,
+        `${process.env.AUX_URL}/get-balance-other`,
         dataSend3,
         {
           headers: {
@@ -527,7 +527,7 @@ class orderController {
       };
 
       const response4 = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/adjust-balance-other`,
+        `${process.env.AUX_URL}/adjust-balance-other`,
         dataSend4,
         {
           headers: {

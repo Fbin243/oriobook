@@ -61,7 +61,7 @@ class accountController {
         };
 
         const response = await instance.post(
-          `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+          `${process.env.AUX_URL}/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
           dataSend,
           {
             headers: {
@@ -129,7 +129,7 @@ class accountController {
 
             // Khi đăng nhập tài khoản thì xin lại bên ht phụ một token mới
             const response = await instance.post(
-              `https://localhost:${process.env.AUX_PORT}/generate-token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+              `${process.env.AUX_URL}/generate-token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
               dataSend,
               {
                 headers: {
@@ -183,7 +183,7 @@ class accountController {
       let dataSend = {};
 
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/delete-aux`,
+        `${process.env.AUX_URL}/delete-aux`,
         dataSend,
         {
           headers: {
@@ -453,7 +453,7 @@ class accountController {
 
       // Muốn lấy thông tin ví thì dùng token đã xin được lúc đăng kí hoặc đăng nhập để gửi lên ht phụ
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/get-balance`,
+        `${process.env.AUX_URL}/get-balance`,
         dataSend,
         {
           headers: {

@@ -99,7 +99,7 @@ app.get("/auth/google/callback", async (req, res, next) => {
       console.log('new acc', newAcc);
 
       const response = await instance.post(
-        `https://localhost:4000/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+        `${process.env.AUX_URL}/add-acc?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
         dataSend,
         {
           headers: {
@@ -130,7 +130,7 @@ app.get("/auth/google/callback", async (req, res, next) => {
 
       // Khi đăng nhập tài khoản thì xin lại bên ht phụ một token mới
       const response = await instance.post(
-        `https://localhost:${process.env.AUX_PORT}/generate-token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
+        `${process.env.AUX_URL}/generate-token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}`,
         dataSend,
         {
           headers: {
@@ -181,10 +181,10 @@ app.get("/auth/google/callback", async (req, res, next) => {
 
 // ROUTES INIT
 route(app);
-const opts = {
-  key: fs.readFileSync("src/cert/key.pem", { encoding: "utf-8" }),
-  cert: fs.readFileSync("src/cert/cert.pem", { encoding: "utf-8" }),
-};
-const server = https.createServer(opts, app);
+// const opts = {
+//   key: fs.readFileSync("src/cert/key.pem", { encoding: "utf-8" }),
+//   cert: fs.readFileSync("src/cert/cert.pem", { encoding: "utf-8" }),
+// };
+// const server = https.createServer(opts, app);
 
-module.exports = server;
+module.exports = app;

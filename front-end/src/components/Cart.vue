@@ -57,7 +57,7 @@
           <span>No products in the cart.</span>
           <a
             class="go-shop underline-animation"
-            href="https://localhost:8080/products"
+            href="/products"
           >
             Shop all products
           </a>
@@ -238,7 +238,7 @@ export default {
           this.eventBus.emit("reload", newquantity.value);
         } catch (error) {
           console.error("Lỗi khi gọi API", error);
-          window.location.href = "https://localhost:8080/login";
+          window.location.href = "/login";
         }
       });
       $(".cart-close-btn").click(async () => {
@@ -255,7 +255,7 @@ export default {
           this.eventBus.emit("reload", newquantity.value);
         } catch (error) {
           console.error("Lỗi khi gọi API", error);
-          window.location.href = "https://localhost:8080/login";
+          window.location.href = "/login";
         }
       });
     },

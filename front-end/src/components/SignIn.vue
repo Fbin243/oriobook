@@ -57,7 +57,7 @@
           <a
             class="btn btn-danger rounded-0 text-light d-flex align-items-center justify-content-center fw-bold"
             style="width: 100%; height: 50px; font-size: 13px"
-            :href="`${process.env.MAIN_URL}/auth/google`"
+            :href="`https://oriobook-main-sys.onrender.com/auth/google`"
             role="button"
           >
             <img
@@ -131,7 +131,7 @@ export default {
       }
     }
 
-    return { SaveData, formData, rules, v$, main_url: process.env.MAIN_URL };
+    return { SaveData, formData, rules, v$,};
   },
 };
 </script>

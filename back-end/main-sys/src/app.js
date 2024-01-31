@@ -65,7 +65,7 @@ const getOath2Client = () => {
 app.get("/auth/google/callback", async (req, res, next) => {
   const { code = null } = req.query;
   if (!code) {
-    return res.redirect("https://localhost:8080/login");
+    return res.redirect("https://oriobook.vercel.app/login");
   }
   try {
     const client = getOath2Client();
@@ -172,10 +172,9 @@ app.get("/auth/google/callback", async (req, res, next) => {
     //   await oldAcc.save();
     // }
 
-    return res.redirect(`https://localhost:8080/access?token=${access_token}`);
+    return res.redirect(`https://oriobook.vercel.app/access?token=${access_token}`);
   } catch (err) {
     console.log(err);
-    // return res.redirect("https://localhost:8080/login");
   }
 });
 

@@ -256,7 +256,7 @@ export default {
           }
         } catch (error) {
           console.error("Lỗi khi gọi API", error);
-          window.location.href = "https://localhost:8080/login";
+          window.location.href = "/login";
         }
       } else {
         toast.error("Sold out!", {
@@ -281,11 +281,11 @@ export default {
               newquantity.value += response1.data[i].quantities;
             }
             this.eventBus.emit("reload", newquantity.value);
-            window.location.href = "https://localhost:8080/checkout";
+            window.location.href = "/checkout";
           }
         } catch (error) {
           console.error("Lỗi khi gọi API", error);
-          window.location.href = "https://localhost:8080/login";
+          window.location.href = "/login";
         }
       } else {
         toast.error("Sold out!", {

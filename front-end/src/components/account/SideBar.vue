@@ -123,7 +123,7 @@ export default {
         localStorage.removeItem("token");
         localStorage.removeItem("sidebar");
 
-        window.location.href = "https://localhost:8080/login";
+        window.location.href = "/login";
       }
     }
 

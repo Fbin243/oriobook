@@ -126,7 +126,7 @@ export default {
             position: "top-center",
           });
         } else {
-          window.location.href = "https://localhost:8080/account-details";
+          window.location.href = "/account-details";
         }
       }
     }

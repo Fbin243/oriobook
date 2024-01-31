@@ -92,7 +92,7 @@ export default {
             if (response1.data.status === true) {
               localStorage.removeItem("token");
               localStorage.removeItem("sidebar");
-              window.location.href = "https://localhost:8080/";
+              window.location.href = "/";
             } else {
               console.log(`you cannot delete your account`);
             }

@@ -186,7 +186,7 @@ export default {
 
     const getMyWallet = async () => {
       const response = await axios.get(
-        `https://localhost:3000/account/my-wallet?page=${page}&perPage=${perPage}`
+        `${process.env.MAIN_URL}/account/my-wallet?page=${page}&perPage=${perPage}`
       );
 
       // console.log(response.data);

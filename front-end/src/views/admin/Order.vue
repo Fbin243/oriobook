@@ -29,7 +29,7 @@
                 :key="index"
               >
                 <td>{{ index + 1 }}</td>
-                <td class="customer-name" style="padding: 15px;">
+                <td class="customer-name" style="padding: 15px">
                   {{ order.id_account ? order.id_account.lastName : "" }}
                   {{ order.id_account ? order.id_account.firstName : "" }}
                 </td>
@@ -69,8 +69,11 @@
                     >
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                          <div class="scroll-bar-custom-2" style="overflow-y: scroll;">
-                            <table class="order-table table-bordered ">
+                          <div
+                            class="scroll-bar-custom-2"
+                            style="overflow-y: scroll"
+                          >
+                            <table class="order-table table-bordered">
                               <thead>
                                 <tr>
                                   <th class="product-thumbnail-col" width="50%">
@@ -103,13 +106,13 @@
                                         href="https://wpbingosite.com/wordpress/oriobook/shop/zmats-kempe/"
                                         @click.prevent=""
                                         ></a> -->
-  
+
                                       <img
                                         :src="productItem.product?.image"
                                         class="product-img"
                                         alt=""
                                       />
-  
+
                                       <div class="product-name">
                                         <p
                                           class="mb-0"
@@ -173,15 +176,14 @@
                                 </tr>
                               </tbody>
                             </table>
-
                           </div>
 
                           <p
                             class="text-primary mb-0"
                             style="text-align: left; padding: 0 20px"
                           >
-                            
-                            <strong>Date:</strong> {{ convertDateFormat(order.date) }}
+                            <strong>Date:</strong>
+                            {{ convertDateFormat(order.date) }}
                           </p>
                           <p
                             id="error-approval"
@@ -194,8 +196,8 @@
                             class="text-primary mb-0"
                             style="text-align: left; padding: 0 20px"
                           >
-                            
-                            <strong>Address:</strong> {{ order.id_account?.address }}
+                            <strong>Address:</strong>
+                            {{ order.id_account?.address }}
                           </p>
                           <p
                             id="error-approval"
@@ -210,7 +212,6 @@
                             "
                             style="text-align: left; padding: 0 20px"
                           >
-                            
                             <strong>Note:</strong> {{ foundObject.note }}
                           </p>
                           <p
@@ -321,7 +322,7 @@ export default {
       console.log(_orderId, _action);
 
       const response = await axios.post(
-        `https://localhost:3000/order/handle-manage-order/${_orderId}`,
+        `${process.env.MAIN_URL}/order/handle-manage-order/${_orderId}`,
         data
       );
       let res = response.data;
@@ -340,7 +341,7 @@ export default {
     const requestPage = async () => {
       displayLoading(".order-section", -48, 0);
       const response = await axios.get(
-        `https://localhost:3000/order/manage-order?page=${page}&perPage=${perPage}`
+        `${process.env.MAIN_URL}/order/manage-order?page=${page}&perPage=${perPage}`
       );
       curPage.value = page;
       orderData.value = response.data.orders;

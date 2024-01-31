@@ -82,9 +82,7 @@
           <!-- <router-link to="/account-wallet"></router-link> -->
           My wallet
         </li>
-        <li class="navigation-link" @click="LogOut">
-          Log out
-        </li>
+        <li class="navigation-link" @click="LogOut">Log out</li>
 
         <template v-if="!admin">
           <li
@@ -117,7 +115,7 @@ export default {
     let admin = ref(false);
     async function LogOut() {
       const response = await axios.post(
-        `https://localhost:3000/account/logout`
+        `${process.env.MAIN_URL}/account/logout`
       );
       let res = response.data;
 

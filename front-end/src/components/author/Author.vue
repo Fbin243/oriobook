@@ -35,7 +35,6 @@
               </li>
             </ul>
           </div>
-
         </div>
       </div>
       <div class="title mt-5 ps-4">Author's books</div>
@@ -104,7 +103,7 @@ export default {
       try {
         displayLoading(".js-container-author-product", -50, 0);
         const response = await axios.get(
-          `https://localhost:3000/product/productAuthor/${id.value}?page=${page}&perPage=${perPage}`
+          `${process.env.MAIN_URL}/product/productAuthor/${id.value}?page=${page}&perPage=${perPage}`
         );
         curPage.value = page;
         products.value = response.data.products;

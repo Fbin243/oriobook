@@ -111,7 +111,7 @@ export default {
       if (result) {
         // alert(`Account details changed successfully.`);
         const response = await axios.post(
-          `https://localhost:3000/account/updateAccountPassword`,
+          `${process.env.MAIN_URL}/account/updateAccountPassword`,
           {
             ...formData,
           }

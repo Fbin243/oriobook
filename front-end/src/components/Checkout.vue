@@ -79,7 +79,11 @@
 
           <div class="d-flex">
             <h6 style="font-weight: 400; font-size: 17px">Address *</h6>
-            <h6 id="address-noti" class="text-danger" style="margin-left: 8px;"></h6>
+            <h6
+              id="address-noti"
+              class="text-danger"
+              style="margin-left: 8px"
+            ></h6>
           </div>
           <input
             type="text"
@@ -94,7 +98,11 @@
 
           <div class="d-flex">
             <h6 style="font-weight: 400; font-size: 17px">Phone *</h6>
-            <h6 id="phone-noti" class="text-danger" style="margin-left: 8px;"></h6>
+            <h6
+              id="phone-noti"
+              class="text-danger"
+              style="margin-left: 8px"
+            ></h6>
           </div>
           <input
             type="text"
@@ -234,7 +242,7 @@ export default {
     const router = useRouter();
     const accountData = ref({});
     const note = ref("");
-    const eventBus = inject('eventBus');
+    const eventBus = inject("eventBus");
 
     const toggleCoupon = () => {
       var content = document.getElementById("coupon-content");
@@ -256,7 +264,7 @@ export default {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://localhost:3000/product/checkout`
+          `${process.env.MAIN_URL}/product/checkout`
         );
         accountData.value = response.data;
         console.log(accountData.value);
@@ -278,19 +286,19 @@ export default {
     });
 
     const placeOrder = async () => {
-      let errorHold = false
+      let errorHold = false;
 
-      if(accountData.value?.address.trim() === ''){
-        $('#address-noti').text(`(Can't be empty)`)
+      if (accountData.value?.address.trim() === "") {
+        $("#address-noti").text(`(Can't be empty)`);
         errorHold = true;
       }
 
-      if(accountData.value?.phone.trim() === ''){
-        $('#phone-noti').text(`(Can't be empty)`)
+      if (accountData.value?.phone.trim() === "") {
+        $("#phone-noti").text(`(Can't be empty)`);
         errorHold = true;
       }
 
-      if(errorHold) return;
+      if (errorHold) return;
 
       let dataSend = {
         total: accountData.value.total_price,
@@ -298,7 +306,7 @@ export default {
       };
 
       const response = await axios.post(
-        `https://localhost:3000/order/place`,
+        `${process.env.MAIN_URL}/order/place`,
         dataSend
       );
       let res = response.data;
@@ -312,7 +320,7 @@ export default {
           "* Place order successfully";
 
         eventBus.emit("reload", 0);
-        
+
         setTimeout(() => {
           router.push({ name: "MyWallet" });
         }, 2000);

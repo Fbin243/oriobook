@@ -57,7 +57,7 @@ const getOath2Client = () => {
   const oauth2 = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    "https://localhost:3000/auth/google/callback"
+    `${process.env.MAIN_URL}/auth/google/callback`
   );
   return oauth2;
 };

@@ -39,7 +39,7 @@ export default {
     const productGroups = ref([]);
     onMounted(async () => {
       try {
-        const response = await axios.get(`https://localhost:3000/product/hot`);
+        const response = await axios.get(`${process.env.MAIN_URL}/product/hot`);
         const products = response.data.products; // Access 'products' property
 
         // Ensure products is an array

@@ -36,7 +36,7 @@ export default {
     onMounted(async () => {
       try {
         const response = await axios.get(
-          `https://localhost:3000/account/getCart`
+          `${process.env.MAIN_URL}/account/getCart`
         );
 
         for (let i = 0; i < response.data.length; i++) {

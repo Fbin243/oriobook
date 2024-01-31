@@ -172,7 +172,7 @@ export default {
       try {
         displayLoading(".js-related-product", -50, 0);
         const response = await axios.get(
-          `https://localhost:3000/product/detail/${id.value}?page=${page}&perPage=${perPage}`
+          `${process.env.MAIN_URL}/product/detail/${id.value}?page=${page}&perPage=${perPage}`
         );
 
         console.log(response.data.product);
@@ -239,11 +239,11 @@ export default {
         try {
           console.log(id);
           const response = await axios.post(
-            `https://localhost:3000/account/addToCart/${id}/${quantity}`
+            `${process.env.MAIN_URL}/account/addToCart/${id}/${quantity}`
           );
           if (response.data.status == true) {
             const response1 = await axios.get(
-              `https://localhost:3000/account/getCart`
+              `${process.env.MAIN_URL}/account/getCart`
             );
             let newquantity = ref(0);
             for (let i = 0; i < response1.data.length; i++) {
@@ -270,11 +270,11 @@ export default {
         try {
           console.log(id);
           const response = await axios.post(
-            `https://localhost:3000/account/addToCart/${id}/${quantity}`
+            `${process.env.MAIN_URL}/account/addToCart/${id}/${quantity}`
           );
           if (response.data.status == true) {
             const response1 = await axios.get(
-              `https://localhost:3000/account/getCart`
+              `${process.env.MAIN_URL}/account/getCart`
             );
             let newquantity = ref(0);
             for (let i = 0; i < response1.data.length; i++) {

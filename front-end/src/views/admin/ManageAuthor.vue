@@ -122,7 +122,7 @@ export default {
     const requestPage = async () => {
       try {
         displayLoading(".manage-product-list", -32, -32);
-        let url = `https://localhost:3000/author/manage?page=${page}&perPage=${perPage}`;
+        let url = `${process.env.MAIN_URL}/author/manage?page=${page}&perPage=${perPage}`;
         if (searchQuery) url += `&search=${searchQuery.value}`;
         const response = await axios.get(url);
         curPage.value = page;
@@ -199,7 +199,7 @@ export default {
               displayLoading(".manage-product-list", -32, -32);
               console.log("GỌi hàm delete");
               const response = await axios.delete(
-                `https://localhost:3000/author/delete/${id_author}`
+                `${process.env.MAIN_URL}/author/delete/${id_author}`
               );
               checkbox.parentElement.remove();
               removeLoading();

@@ -1,5 +1,5 @@
 <template>
-  <div class="product-card" style="position: relative;">
+  <div class="product-card" style="position: relative">
     <div class="image-container">
       <a
         :href="'/products/' + product._id"
@@ -32,8 +32,8 @@
       </div>
     </div>
 
-    <div style="position: absolute; top: -3px; right: 0;" v-if="!product.stock">
-      <span class="badge bg-danger" style="border-radius: 0;">SOLD OUT</span>
+    <div style="position: absolute; top: -3px; right: 0" v-if="!product.stock">
+      <span class="badge bg-danger" style="border-radius: 0">SOLD OUT</span>
     </div>
   </div>
 </template>
@@ -56,11 +56,11 @@ export default {
           console.log(id);
           const quantity = 1;
           const response = await axios.post(
-            `https://localhost:3000/account/addToCart/${id}/${quantity}`
+            `${process.env.MAIN_URL}/account/addToCart/${id}/${quantity}`
           );
           if (response.data.status == true) {
             const response1 = await axios.get(
-              `https://localhost:3000/account/getCart`
+              `${process.env.MAIN_URL}/account/getCart`
             );
             let newquantity = ref(0);
             for (let i = 0; i < response1.data.length; i++) {

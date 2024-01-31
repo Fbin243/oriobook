@@ -243,7 +243,7 @@ export default {
           </div>
         `);
         const response = await axios.post(
-          `https://localhost:3000/product/edit/save/${idProduct}`,
+          `${process.env.MAIN_URL}/product/edit/save/${idProduct}`,
           formData,
           {
             headers: {
@@ -268,7 +268,7 @@ export default {
     onMounted(async () => {
       try {
         // Lấy tất cả category
-        let response = await axios.get(`https://localhost:3000/category/all`);
+        let response = await axios.get(`${process.env.MAIN_URL}/category/all`);
         categoryList.value = response.data;
         for (let cate of categoryList.value) {
           console.log(cate);
@@ -285,12 +285,12 @@ export default {
           }
         }
         // Lấy tất cả author
-        response = await axios.get(`https://localhost:3000/author/all`);
+        response = await axios.get(`${process.env.MAIN_URL}/author/all`);
         authors.value = response.data;
 
         if (route.name == "EditForUpdate") {
           response = await axios.get(
-            `https://localhost:3000/product/edit/${id.value}`
+            `${process.env.MAIN_URL}/product/edit/${id.value}`
           );
           if (response.status == 200) {
             product.value = response.data;

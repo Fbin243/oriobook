@@ -232,7 +232,7 @@ export default {
         displayLoading(".js-product-wrapper", -32);
         const params = new URLSearchParams(queryObject).toString();
         const response = await axios.get(
-          `https://localhost:3000/product/shop?page=${page}&perPage=${perPage}&${params}`
+          `${process.env.MAIN_URL}/product/shop?page=${page}&perPage=${perPage}&${params}`
         );
         console.log(page);
         curPage.value = page;
@@ -269,11 +269,11 @@ export default {
 
     onMounted(async () => {
       try {
-        let response = await axios.get(`https://localhost:3000/category/all`);
+        let response = await axios.get(`${process.env.MAIN_URL}/category/all`);
         categories.value = response.data;
 
         // Lấy tất cả tác giả
-        response = await axios.get(`https://localhost:3000/author/all`);
+        response = await axios.get(`${process.env.MAIN_URL}/author/all`);
         authors.value = response.data;
         await requestPage();
         paginationControl();

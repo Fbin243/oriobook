@@ -23,19 +23,28 @@
         Cancelled
       </h4>
     </div>
-    
-    <div class="order-container" style="min-height: 810px;">
-      
-      <div class="each-order" v-for="(order, index) in orderData" :key="index" style="">
-        <div class="title-order-section" style="margin-right: 12px;">
+
+    <div class="order-container" style="min-height: 810px">
+      <div
+        class="each-order"
+        v-for="(order, index) in orderData"
+        :key="index"
+        style=""
+      >
+        <div class="title-order-section" style="margin-right: 12px">
           <p class="order-code">Order code: {{ order._id }}</p>
           <p class="order-code">Date: {{ convertDateFormat(order.date) }}</p>
           <p class="total">Total price: ${{ order.total_price }}</p>
         </div>
-        <div :class="{'scroll-bar-custom-3': order.detail?.length > 2}" 
-          :style="{ 'overflow-y': order.detail?.length > 2 ? 'scroll' : 'unset', 'max-height': '360px',
-         'margin-right': order.detail?.length > 2 ? 'unset' : '12px'}">
-          <table class="order-table table-bordered" >
+        <div
+          :class="{ 'scroll-bar-custom-3': order.detail?.length > 2 }"
+          :style="{
+            'overflow-y': order.detail?.length > 2 ? 'scroll' : 'unset',
+            'max-height': '360px',
+            'margin-right': order.detail?.length > 2 ? 'unset' : '12px',
+          }"
+        >
+          <table class="order-table table-bordered">
             <thead>
               <tr>
                 <th class="product-thumbnail-col" width="60%">Product</th>
@@ -51,29 +60,33 @@
               >
                 <td class="product-thumbnail">
                   <div class="product-cart-info">
-                    <a v-if="item.id_product"
+                    <a
+                      v-if="item.id_product"
                       :href="'/products/' + item.product?._id"
                       ><img
                         :src="item.product?.image"
                         class="product-img"
                         alt=""
                     /></a>
-    
-                    <img v-if="!item.id_product"
-                        :src="item.product?.image"
-                        class="product-img"
-                        alt=""
+
+                    <img
+                      v-if="!item.id_product"
+                      :src="item.product?.image"
+                      class="product-img"
+                      alt=""
                     />
-    
+
                     <div class="product-name">
-                      <a v-if="item.id_product"
+                      <a
+                        v-if="item.id_product"
                         :href="'/products/' + item.product?._id"
                         >{{ item.product ? item.product.name : "" }}</a
                       >
-    
-                      <p v-if="!item.id_product" 
-                      class="mb-0">{{ item.product ? item.product.name : "" }}</p>
-    
+
+                      <p v-if="!item.id_product" class="mb-0">
+                        {{ item.product ? item.product.name : "" }}
+                      </p>
+
                       <p class="price">
                         <span class="woocommerce-Price-amount amount">
                           {{ item.product ? item.product.price : ""
@@ -81,16 +94,18 @@
                         </span>
                       </p>
                     </div>
-    
+
                     <div class="evaluate-btn" :class="{ 'no-show': !toggle_2 }">
                       <!-- <button type="button" class="btn btn-primary btn-submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Evaluate</button> -->
                       <button
                         type="button"
                         class="btn btn-primary btn-submit"
-                        @click="clickModal(item.product?._id, order._id, i_item)"
-                        :class="
-                        {'btn-secondary': item.isReviewed || !item.id_product}
+                        @click="
+                          clickModal(item.product?._id, order._id, i_item)
                         "
+                        :class="{
+                          'btn-secondary': item.isReviewed || !item.id_product,
+                        }"
                         :disabled="item.isReviewed || !item.id_product"
                       >
                         {{ item.isReviewed ? "Evaluated" : "Evaluate" }}
@@ -98,7 +113,7 @@
                     </div>
                   </div>
                 </td>
-    
+
                 <td class="product-quantity" data-title="Quantity">
                   <div class="quantity">
                     <p class="number">{{ item.quantity }}</p>
@@ -283,7 +298,7 @@ export default {
         // console.log(data);
 
         const response = await axios.post(
-          `https://localhost:3000/product/handle-review/${idProduct.value}`,
+          `${process.env.MAIN_URL}/product/handle-review/${idProduct.value}`,
           data
         );
         let res = response.data;
@@ -344,7 +359,7 @@ export default {
     const requestPage = async () => {
       displayLoading(".order-container", -48);
       const response = await axios.get(
-        `https://localhost:3000/${pathRef.value}?page=${page}&perPage=${perPage}`
+        `${process.env.MAIN_URL}/${pathRef.value}?page=${page}&perPage=${perPage}`
       );
 
       curPage.value = page;

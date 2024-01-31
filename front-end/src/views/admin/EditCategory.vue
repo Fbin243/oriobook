@@ -270,7 +270,7 @@ export default {
           </div>
         `);
         const response = await axios.post(
-          `https://localhost:3000/category/edit/save/${idCategory}`,
+          `${process.env.MAIN_URL}/category/edit/save/${idCategory}`,
           formData
         );
         router.push("/admin/manage-category");
@@ -283,7 +283,7 @@ export default {
       onMounted(async () => {
         try {
           const response = await axios.get(
-            `https://localhost:3000/category/edit/${id.value}`
+            `${process.env.MAIN_URL}/category/edit/${id.value}`
           );
           if (response.status == 200) {
             console.log(response.data);

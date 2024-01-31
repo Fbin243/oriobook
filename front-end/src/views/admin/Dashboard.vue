@@ -109,7 +109,7 @@ export default {
       try {
         displayLoading(".js-dashboard-container", -50);
         let response = await axios.get(
-          "https://localhost:3000/product/dashboard"
+          `${process.env.MAIN_URL}/product/dashboard`
         );
         categories.value = response.data.categories;
         authors.value = response.data.authors;

@@ -40,8 +40,8 @@
 
     <p class="woocommerce-form-row">
       <label for="account_address"
-        >Address&nbsp;<span class="required"></span></label
-      >
+        >Address&nbsp;<span class="required"></span
+      ></label>
       <input
         type="text"
         id="account_address"
@@ -58,8 +58,8 @@
     </p>
     <p class="woocommerce-form-row">
       <label for="account_phone"
-        >Phone number&nbsp;<span class="required"></span></label
-      >
+        >Phone number&nbsp;<span class="required"></span
+      ></label>
       <input
         type="tel"
         id="account_phone"
@@ -132,7 +132,7 @@ export default {
     onMounted(async () => {
       try {
         const response = await axios.get(
-          `https://localhost:3000/account/getAccountDetail`
+          `${process.env.MAIN_URL}/account/getAccountDetail`
         );
         formData.account_first_name = response.data.firstName;
         formData.account_last_name = response.data.lastName;
@@ -165,7 +165,7 @@ export default {
       if (result) {
         // alert(`Account details changed successfully.`);
         const response = await axios.post(
-          `https://localhost:3000/account/updateAccountDetail`,
+          `${process.env.MAIN_URL}/account/updateAccountDetail`,
           {
             ...formData,
           }

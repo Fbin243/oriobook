@@ -62,10 +62,10 @@ export default {
     onMounted(async () => {
       try {
         let response = await axios.get(
-          "https://localhost:3000/product/best-seller"
+          `${process.env.MAIN_URL}/product/best-seller`
         );
         bestSeller.value = response.data;
-        response = await axios.get("https://localhost:3000/product/top-rated");
+        response = await axios.get(`${process.env.MAIN_URL}/product/top-rated`);
         topRatedProducts.value = response.data;
         displayBackToTop();
       } catch (error) {

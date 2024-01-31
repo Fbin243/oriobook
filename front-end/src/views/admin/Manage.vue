@@ -62,11 +62,15 @@
                         class="manage-product-img"
                       />
                     </li>
-                    <li class="manage-product-info text-center col ellipsis-custom-3">
+                    <li
+                      class="manage-product-info text-center col ellipsis-custom-3"
+                    >
                       {{ product.name }}
                     </li>
-                    <li class="manage-product-info text-center col-2 me-2 ellipsis-custom-2">
-                      {{ product.category_name }} 
+                    <li
+                      class="manage-product-info text-center col-2 me-2 ellipsis-custom-2"
+                    >
+                      {{ product.category_name }}
                     </li>
                     <li class="manage-product-info text-center col-2 me-2">
                       {{ product.stock }}
@@ -124,7 +128,7 @@ export default {
     const requestPage = async () => {
       try {
         displayLoading(".manage-product-list", -32, -32);
-        let url = `https://localhost:3000/product/manage?page=${page}&perPage=${perPage}`;
+        let url = `${process.env.MAIN_URL}/product/manage?page=${page}&perPage=${perPage}`;
         if (searchQuery) url += `&search=${searchQuery.value}`;
         const response = await axios.get(url);
         console.log(url);
@@ -204,7 +208,7 @@ export default {
               const id_product = $(checkbox).val();
               displayLoading(".manage-product-list", -32, -32);
               const response = await axios.delete(
-                `https://localhost:3000/product/delete/${id_product}`
+                `${process.env.MAIN_URL}/product/delete/${id_product}`
               );
               checkbox.parentElement.remove();
               removeLoading();

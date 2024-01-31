@@ -28,7 +28,7 @@ export default {
     onMounted(async () => {
       try {
         const response = await axios.get(
-          `https://localhost:3000/author/getAuthorListTopRated`
+          `${process.env.MAIN_URL}/author/getAuthorListTopRated`
         );
         // console.log(response.data);
         author.value = response.data;

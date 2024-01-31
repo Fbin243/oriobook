@@ -1,5 +1,6 @@
 const { defineConfig } = require("@vue/cli-service");
 const fs = require('fs')
+const Dotenv = require('dotenv-webpack');
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -10,4 +11,9 @@ module.exports = defineConfig({
       cert: fs.readFileSync('./src/cert/cert.pem'),
     },
   },
+  configureWebpack: {
+    plugins: [
+      new Dotenv()
+    ]
+  }
 });

@@ -28,7 +28,7 @@ export default {
       try {
         console.log(id.value);
         const response = await axios.get(
-          `https://localhost:3000/author/detail/${id.value}`
+          `${process.env.MAIN_URL}/author/detail/${id.value}`
         );
         console.log(response.data);
         author.value = response.data.author;
